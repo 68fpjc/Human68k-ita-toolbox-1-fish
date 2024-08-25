@@ -16,14 +16,14 @@
 
 ****************************************************************
 *  Name
-*       shift - シェル変数をシフトする
+*       shift - 繧ｷ繧ｧ繝ｫ螟画焚繧偵す繝輔ヨ縺吶ｋ
 *
 *  Synopsis
 *       shift
-*            argv をシフトする
+*            argv 繧偵す繝輔ヨ縺吶ｋ
 *
 *       shift var
-*            var をシフトする
+*            var 繧偵す繝輔ヨ縺吶ｋ
 ****************************************************************
 .xdef cmd_shift
 
@@ -46,7 +46,7 @@ shift_var:
 		movea.l	a0,a1
 		subq.w	#1,d0
 		movea.l	a2,a0
-		st	d1				*  export する
+		st	d1				*  export 縺吶ｋ
 		bra	set_shellvar
 
 no_more_words:
@@ -55,7 +55,7 @@ no_more_words:
 ****************************************************************
 .data
 
-msg_no_more_words:	dc.b	'単語はもうありません',0
+msg_no_more_words:	dc.b	'蜊倩ｪ槭�ｯ繧ゅ≧縺ゅｊ縺ｾ縺帙ｓ',0
 
 .end
 

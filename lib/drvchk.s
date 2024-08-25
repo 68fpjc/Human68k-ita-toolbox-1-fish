@@ -8,18 +8,18 @@
 
 .text
 *****************************************************************
-* drvchkp - ƒpƒX–¼‚ÌƒfƒBƒXƒNEƒhƒ‰ƒCƒu‚ª“Ç‚Ýž‚Ý‰Â”\‚©‚Ç‚¤‚©‚ðŒŸ¸‚·‚é
+* drvchkp - ãƒ‘ã‚¹åã®ãƒ‡ã‚£ã‚¹ã‚¯ãƒ»ãƒ‰ãƒ©ã‚¤ãƒ–ãŒèª­ã¿è¾¼ã¿å¯èƒ½ã‹ã©ã†ã‹ã‚’æ¤œæŸ»ã™ã‚‹
 *
 * CALL
-*      A0     ƒpƒX–¼
-*      D0.L   MSB: 1 ‚È‚ç‘‚«ž‚Ý‚É‘Î‚µ‚Ä‚Ìƒ`ƒFƒbƒN‚às‚¤
+*      A0     ãƒ‘ã‚¹å
+*      D0.L   MSB: 1 ãªã‚‰æ›¸ãè¾¼ã¿ã«å¯¾ã—ã¦ã®ãƒã‚§ãƒƒã‚¯ã‚‚è¡Œã†
 *
 * RETURN
-*      D0.L   ƒGƒ‰[EƒR[ƒh
+*      D0.L   ã‚¨ãƒ©ãƒ¼ãƒ»ã‚³ãƒ¼ãƒ‰
 *      CCR    TST.L D0
 *
 * DIAGNOSTIC
-*      ƒGƒ‰[‚È‚ç‚ÎˆÈ‰º‚Ì•‰”ƒR[ƒh‚ð•Ô‚·D
+*      ã‚¨ãƒ©ãƒ¼ãªã‚‰ã°ä»¥ä¸‹ã®è² æ•°ã‚³ãƒ¼ãƒ‰ã‚’è¿”ã™ï¼Ž
 *
 *           EBADDRVNAME
 *           ENODRV
@@ -27,21 +27,21 @@
 *           EBADMEDIA
 *           EDRVNOTREADY
 *
-*      ‚³‚à‚È‚­‚Î 0 ‚ð•Ô‚·D
+*      ã•ã‚‚ãªãã° 0 ã‚’è¿”ã™ï¼Ž
 *****************************************************************
 *****************************************************************
-* drvchk - ƒfƒBƒXƒNEƒhƒ‰ƒCƒu‚ª“Ç‚Ýž‚Ý‰Â”\‚©‚Ç‚¤‚©‚ðŒŸ¸‚·‚é
+* drvchk - ãƒ‡ã‚£ã‚¹ã‚¯ãƒ»ãƒ‰ãƒ©ã‚¤ãƒ–ãŒèª­ã¿è¾¼ã¿å¯èƒ½ã‹ã©ã†ã‹ã‚’æ¤œæŸ»ã™ã‚‹
 *
 * CALL
-*      D0.L   ‰ºˆÊƒoƒCƒg: ƒhƒ‰ƒCƒu–¼
-*             MSB: 1 ‚È‚ç‘‚«ž‚Ý‚É‘Î‚µ‚Ä‚Ìƒ`ƒFƒbƒN‚às‚¤
+*      D0.L   ä¸‹ä½ãƒã‚¤ãƒˆ: ãƒ‰ãƒ©ã‚¤ãƒ–å
+*             MSB: 1 ãªã‚‰æ›¸ãè¾¼ã¿ã«å¯¾ã—ã¦ã®ãƒã‚§ãƒƒã‚¯ã‚‚è¡Œã†
 *
 * RETURN
-*      D0.L   ƒGƒ‰[EƒR[ƒh
+*      D0.L   ã‚¨ãƒ©ãƒ¼ãƒ»ã‚³ãƒ¼ãƒ‰
 *      CCR    TST.L D0
 *
 * DIAGNOSTIC
-*      ƒGƒ‰[‚È‚ç‚ÎˆÈ‰º‚Ì•‰”ƒR[ƒh‚ð•Ô‚·D
+*      ã‚¨ãƒ©ãƒ¼ãªã‚‰ã°ä»¥ä¸‹ã®è² æ•°ã‚³ãƒ¼ãƒ‰ã‚’è¿”ã™ï¼Ž
 *
 *           EBADDRVNAME
 *           ENODRV
@@ -49,7 +49,7 @@
 *           EBADMEDIA
 *           EDRVNOTREADY
 *
-*      ‚³‚à‚È‚­‚Î 0 ‚ð•Ô‚·D
+*      ã•ã‚‚ãªãã° 0 ã‚’è¿”ã™ï¼Ž
 *****************************************************************
 .xdef drvchkp
 .xdef drvchk
@@ -74,20 +74,20 @@ drvchk:
 		move.l	#EBADDRVNAME,d1
 		jsr	toupper
 		sub.b	#'A',d0
-		blo	drvchk_done		* ƒhƒ‰ƒCƒu–¼‚ª–³Œø
+		blo	drvchk_done		* ãƒ‰ãƒ©ã‚¤ãƒ–åãŒç„¡åŠ¹
 
 		cmp.b	#'Z'-'A',d0
-		bhi	drvchk_done		* ƒhƒ‰ƒCƒu–¼‚ª–³Œø
+		bhi	drvchk_done		* ãƒ‰ãƒ©ã‚¤ãƒ–åãŒç„¡åŠ¹
 
 		moveq	#0,d2
-		move.b	d0,d2			* D1.W : ƒhƒ‰ƒCƒu”Ô†iA=0, B=1, ...)
+		move.b	d0,d2			* D1.W : ãƒ‰ãƒ©ã‚¤ãƒ–ç•ªå·ï¼ˆA=0, B=1, ...)
 		DOS	_CURDRV
 		move.w	d0,-(a7)
 		DOS	_CHGDRV
 		addq.l	#2,a7
 		move.l	#ENODRV,d1
 		cmp.w	d0,d2
-		bhs	drvchk_done		* ƒhƒ‰ƒCƒu‚ª–³‚¢
+		bhs	drvchk_done		* ãƒ‰ãƒ©ã‚¤ãƒ–ãŒç„¡ã„
 
 		move.w	d2,d0
 		addq.w	#1,d0
@@ -96,15 +96,15 @@ drvchk:
 		addq.l	#2,a7
 		move.l	#ENOMEDIA,d1
 		btst	#1,d0
-		beq	drvchk_done		* ƒƒfƒBƒA‚ª–³‚¢
+		beq	drvchk_done		* ãƒ¡ãƒ‡ã‚£ã‚¢ãŒç„¡ã„
 
 		move.l	#EBADMEDIA,d1
 		btst	#0,d0
-		bne	drvchk_done		* ƒƒfƒBƒAŒë‘}“ü
+		bne	drvchk_done		* ãƒ¡ãƒ‡ã‚£ã‚¢èª¤æŒ¿å…¥
 
 		move.l	#EDRVNOTREADY,d1
 		btst	#2,d0
-		bne	drvchk_done		* ƒhƒ‰ƒCƒuEƒmƒbƒgEƒŒƒfƒB
+		bne	drvchk_done		* ãƒ‰ãƒ©ã‚¤ãƒ–ãƒ»ãƒŽãƒƒãƒˆãƒ»ãƒ¬ãƒ‡ã‚£
 
 		btst	#31,d3
 		beq	drvchk_ok

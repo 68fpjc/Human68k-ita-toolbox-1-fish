@@ -89,18 +89,18 @@ var_value_a1_ok:
 		movea.l	a0,a1
 		rts
 ****************************************************************
-* getcdd - w’èƒhƒ‰ƒCƒu‚ÌƒJƒŒƒ“ƒgEƒfƒBƒŒƒNƒgƒŠ‚ğ“¾‚é
+* getcdd - æŒ‡å®šãƒ‰ãƒ©ã‚¤ãƒ–ã®ã‚«ãƒ¬ãƒ³ãƒˆãƒ»ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å¾—ã‚‹
 *
 * CALL
-*      D0.B   ƒhƒ‰ƒCƒu–¼ 'A'... ‘å•¶š‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢
-*      A0     Ši”[ƒoƒbƒtƒ@iMAXPATH+1ƒoƒCƒg•K—vj
+*      D0.B   ãƒ‰ãƒ©ã‚¤ãƒ–å 'A'... å¤§æ–‡å­—ã§ãªã‘ã‚Œã°ãªã‚‰ãªã„
+*      A0     æ ¼ç´ãƒãƒƒãƒ•ã‚¡ï¼ˆMAXPATH+1ãƒã‚¤ãƒˆå¿…è¦ï¼‰
 *
 * RETURN
 *      none
 *
 * DESCRIPTION
-*      ƒoƒbƒtƒ@‚É‚Íƒhƒ‰ƒCƒu–¼‚Â‚«‚ÌŠ®‘SƒpƒX–¼‚ªŠi”[‚³‚ê‚éD
-*      ƒfƒBƒŒƒNƒgƒŠ‚Ì‹æØ‚è‚Í /
+*      ãƒãƒƒãƒ•ã‚¡ã«ã¯ãƒ‰ãƒ©ã‚¤ãƒ–åã¤ãã®å®Œå…¨ãƒ‘ã‚¹åãŒæ ¼ç´ã•ã‚Œã‚‹ï¼
+*      ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®åŒºåˆ‡ã‚Šã¯ /
 ****************************************************************
 .xdef getcdd
 
@@ -137,7 +137,7 @@ is_nul_or_slash_or_backslash_return:
 * CALL
 *      A0     pathname
 *      A1     result buffer
-*      D0.L   buffer size - 1iMAXPATHˆÈã•K—vj
+*      D0.L   buffer size - 1ï¼ˆMAXPATHä»¥ä¸Šå¿…è¦ï¼‰
 *
 * RETURN
 *      D0.L   0 if success, otherwise -1.
@@ -148,7 +148,7 @@ is_nul_or_slash_or_backslash_return:
 normalize_pathname:
 		link	a6,#cwdbuf
 		movem.l	d2-d3/a0-a3,-(a7)
-		move.l	d0,d2				*  D2.L : buffer size -1i\0 ‚Ì•ªj
+		move.l	d0,d2				*  D2.L : buffer size -1ï¼ˆ\0 ã®åˆ†ï¼‰
 		lea	cwd(a5),a2
 		bsr	scan_drive_name
 		exg	a0,a2				*  A0 : reference, A2 : expression
@@ -301,20 +301,20 @@ reset_cwd:
 		movea.l	(a7)+,a0
 		rts
 ****************************************************************
-* fish_chdir - ƒJƒŒƒ“ƒgì‹ÆƒfƒBƒŒƒNƒgƒŠ‚ğ•ÏX‚·‚é
+* fish_chdir - ã‚«ãƒ¬ãƒ³ãƒˆä½œæ¥­ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å¤‰æ›´ã™ã‚‹
 *
 * CALL
-*      A0     ƒhƒ‰ƒCƒuEƒfƒBƒŒƒNƒgƒŠ–¼
+*      A0     ãƒ‰ãƒ©ã‚¤ãƒ–ãƒ»ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå
 *
 * RETURN
-*      D0.L   ƒGƒ‰[‚È‚ç‚Î•‰”i‚n‚rƒGƒ‰[EƒR[ƒhj
-*             ¬Œ÷‚È‚ç‚Î 0D
+*      D0.L   ã‚¨ãƒ©ãƒ¼ãªã‚‰ã°è² æ•°ï¼ˆï¼¯ï¼³ã‚¨ãƒ©ãƒ¼ãƒ»ã‚³ãƒ¼ãƒ‰ï¼‰
+*             æˆåŠŸãªã‚‰ã° 0ï¼
 *
 *      CCR    TST.L D0
 *
 * DESCRIPTION
-*      ¬Œ÷‚µ‚½‚È‚ç‚ÎCƒVƒFƒ‹•Ï” oldcwd, cwdCŠÂ‹«•Ï” PWD,
-*      OLDPWD ‚ğƒZƒbƒg‚µC“à•”ƒtƒ‰ƒO cwd_changed ‚ğƒZƒbƒg‚·‚éD
+*      æˆåŠŸã—ãŸãªã‚‰ã°ï¼Œã‚·ã‚§ãƒ«å¤‰æ•° oldcwd, cwdï¼Œç’°å¢ƒå¤‰æ•° PWD,
+*      OLDPWD ã‚’ã‚»ãƒƒãƒˆã—ï¼Œå†…éƒ¨ãƒ•ãƒ©ã‚° cwd_changed ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ï¼
 ****************************************************************
 fish_chdir:
 		tst.b	flag_cdsysroot(a5)
@@ -354,19 +354,19 @@ fish_chdir2:
 fish_chdir_normal:
 		move.b	(a0),d0
 		bsr	is_nul_or_slash_or_backslash
-		beq	fish_chdir_chase_links		*  /* \* ‚Í chase ‚·‚é
+		beq	fish_chdir_chase_links		*  /* \* ã¯ chase ã™ã‚‹
 
 		bsr	scan_drive_name
 		bne	fish_chdir_normal_1
 
 		cmp.b	cwd(a5),d0
-		bne	fish_chdir_chase_links		*  ˆá‚¤ƒhƒ‰ƒCƒu‚Ö‚ÌˆÚ“®‚Í chase ‚·‚é
+		bne	fish_chdir_chase_links		*  é•ã†ãƒ‰ãƒ©ã‚¤ãƒ–ã¸ã®ç§»å‹•ã¯ chase ã™ã‚‹
 
 		move.b	2(a0),d0
 		bsr	is_nul_or_slash_or_backslash
-		beq	fish_chdir_chase_links		*  ?:/* ?:\* ‚Í chase ‚·‚é
+		beq	fish_chdir_chase_links		*  ?:/* ?:\* ã¯ chase ã™ã‚‹
 fish_chdir_normal_1:
-		*  ƒVƒ“ƒ{ƒŠƒbƒNEƒŠƒ“ƒN‚©‚ç‚Ì .. ‚ª‚ ‚é‚È‚ç chase ‚·‚é
+		*  ã‚·ãƒ³ãƒœãƒªãƒƒã‚¯ãƒ»ãƒªãƒ³ã‚¯ã‹ã‚‰ã® .. ãŒã‚ã‚‹ãªã‚‰ chase ã™ã‚‹
 		lea	cwd(a5),a1
 		movea.l	a0,a2
 		lea	cwdbuf(a6),a0
@@ -440,19 +440,19 @@ fish_chdir_fail:
 		moveq	#ENODIR,d0
 		bra	fish_chdir_return
 ****************************************************************
-* test_var - •Ï”‚ğ’²‚×‚é
+* test_var - å¤‰æ•°ã‚’èª¿ã¹ã‚‹
 *
 * CALL
-*      A0     •Ï”–¼
+*      A0     å¤‰æ•°å
 *
 * RETURN
-*      A0     ‚à‚µ‚ ‚ê‚Î•Ï”‚Ì’lD‚³‚à‚È‚­‚Î”j‰ó
+*      A0     ã‚‚ã—ã‚ã‚Œã°å¤‰æ•°ã®å€¤ï¼ã•ã‚‚ãªãã°ç ´å£Š
 *
-*      D0.L   ”j‰ó
+*      D0.L   ç ´å£Š
 *
-*      CCR    NE ‚È‚ç‚Î ƒVƒFƒ‹•Ï”‚ª–³‚¢‚©C’l‚Ì’PŒê‚ª–³‚¢‚©C
-*             Å‰‚Ì’PŒê‚ª‹ó‚©CŠ®‘SƒpƒX–¼‚Å‚È‚¢D
-*             ‚³‚à‚È‚­‚Î EQD
+*      CCR    NE ãªã‚‰ã° ã‚·ã‚§ãƒ«å¤‰æ•°ãŒç„¡ã„ã‹ï¼Œå€¤ã®å˜èªãŒç„¡ã„ã‹ï¼Œ
+*             æœ€åˆã®å˜èªãŒç©ºã‹ï¼Œå®Œå…¨ãƒ‘ã‚¹åã§ãªã„ï¼
+*             ã•ã‚‚ãªãã° EQï¼
 ****************************************************************
 test_var:
 		bsr	get_shellvar
@@ -463,14 +463,14 @@ test_var:
 * chdir_var - Change current working drive/directory to $varname
 *
 * CALL
-*      A0     •Ï”–¼
+*      A0     å¤‰æ•°å
 *
 * RETURN
-*      A0     ‚à‚µ‚ ‚ê‚Î•Ï”‚Ì’lD‚³‚à‚È‚­‚Î”j‰ó
+*      A0     ã‚‚ã—ã‚ã‚Œã°å¤‰æ•°ã®å€¤ï¼ã•ã‚‚ãªãã°ç ´å£Š
 *
-*      D0.L   1 ‚È‚ç‚Î ƒVƒFƒ‹•Ï”‚ª–³‚¢‚©C’l‚Ì’PŒê‚ª–³‚¢‚©C
-*             Å‰‚Ì’PŒê‚ª‹ó‚©CŠ®‘SƒpƒX–¼‚Å‚È‚¢D
-*             ‚³‚à‚È‚­‚ÎC‚n‚r‚ÌƒGƒ‰[ƒR[ƒh
+*      D0.L   1 ãªã‚‰ã° ã‚·ã‚§ãƒ«å¤‰æ•°ãŒç„¡ã„ã‹ï¼Œå€¤ã®å˜èªãŒç„¡ã„ã‹ï¼Œ
+*             æœ€åˆã®å˜èªãŒç©ºã‹ï¼Œå®Œå…¨ãƒ‘ã‚¹åã§ãªã„ï¼
+*             ã•ã‚‚ãªãã°ï¼Œï¼¯ï¼³ã®ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰
 *
 *      CCR    TST.L D0
 ****************************************************************
@@ -488,10 +488,10 @@ chdir_home_return:
 *      none
 *
 * RETURN
-*      A0     ”j‰ó
+*      A0     ç ´å£Š
 *
-*      D0.L   $home[1]‚É chdir ‚Å‚«‚½‚È‚ç‚Î 0
-*             ‚³‚à‚È‚­‚Î”ñ0iƒGƒ‰[EƒƒbƒZ[ƒW‚ğo—Í‚·‚éj
+*      D0.L   $home[1]ã« chdir ã§ããŸãªã‚‰ã° 0
+*             ã•ã‚‚ãªãã°é0ï¼ˆã‚¨ãƒ©ãƒ¼ãƒ»ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å‡ºåŠ›ã™ã‚‹ï¼‰
 *
 *      CCR    TST.L D0
 ****************************************************************
@@ -507,22 +507,22 @@ chdir_home_error:
 * complex_chdir - Change current working directory and/or drive.
 *
 * CALL
-*      A0     ƒhƒ‰ƒCƒuEƒfƒBƒŒƒNƒgƒŠ–¼
+*      A0     ãƒ‰ãƒ©ã‚¤ãƒ–ãƒ»ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå
 *
 * RETURN
-*      D0.L   ƒGƒ‰[‚È‚ç‚Î -1DiƒGƒ‰[EƒƒbƒZ[ƒW‚ğo—Í‚·‚éj
-*             w’è‚ÌƒfƒBƒŒƒNƒgƒŠ‚ÉˆÚ“®‚µ‚½‚È‚ç‚Î 0D
-*             w’è‚Ì–¼‘O‚©‚ç•âŠ®‚³‚ê‚½ƒfƒBƒŒƒNƒgƒŠ‚ÉˆÚ“®‚µ‚½‚È‚ç‚Î 1D
+*      D0.L   ã‚¨ãƒ©ãƒ¼ãªã‚‰ã° -1ï¼ï¼ˆã‚¨ãƒ©ãƒ¼ãƒ»ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å‡ºåŠ›ã™ã‚‹ï¼‰
+*             æŒ‡å®šã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«ç§»å‹•ã—ãŸãªã‚‰ã° 0ï¼
+*             æŒ‡å®šã®åå‰ã‹ã‚‰è£œå®Œã•ã‚ŒãŸãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«ç§»å‹•ã—ãŸãªã‚‰ã° 1ï¼
 *
 *      CCR    TST.L D0
 *
 * DESCRIPTION
-*      name ‚ª‹ó•¶š—ñ‚È‚ç
+*      name ãŒç©ºæ–‡å­—åˆ—ãªã‚‰
 *           chdir($home)
-*      ‚³‚à‚È‚­‚Î
+*      ã•ã‚‚ãªãã°
 *           chdir(name)
-*           ¸”s‚µ‚½‚È‚çiname ‚ªƒhƒ‰ƒCƒu–¼‚ğ‚½‚¸
-*           / ./ ../ ‚Ån‚Ü‚Á‚Ä‚¢‚È‚¢ê‡‚ÉŒÀ‚èj
+*           å¤±æ•—ã—ãŸãªã‚‰ï¼ˆname ãŒãƒ‰ãƒ©ã‚¤ãƒ–åã‚’æŒãŸãš
+*           / ./ ../ ã§å§‹ã¾ã£ã¦ã„ãªã„å ´åˆã«é™ã‚Šï¼‰
 *                chdir(concat($cdpath[1], name))
 *                chdir(concat($cdpath[2], name))
 *                             :
@@ -539,12 +539,12 @@ complex_chdir:
 		bra	complex_chdir_done1
 
 complex_chdir_try:
-		bsr	fish_chdir			*  ƒJƒŒƒ“ƒgEƒfƒBƒŒƒNƒgƒŠ‚ğ•ÏX‚·‚é
+		bsr	fish_chdir			*  ã‚«ãƒ¬ãƒ³ãƒˆãƒ»ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å¤‰æ›´ã™ã‚‹
 		move.l	d0,d2
-		bpl	complex_chdir_done		*  ¬Œ÷‚µ‚½‚È‚ç‹A‚é
+		bpl	complex_chdir_done		*  æˆåŠŸã—ãŸãªã‚‰å¸°ã‚‹
 
-		cmpi.b	#':',1(a0)			*  ƒhƒ‰ƒCƒuw’è‚ª‚ ‚éê‡‚Í
-		beq	complex_chdir_perror		*  ‚±‚êˆÈãƒgƒ‰ƒC‚µ‚È‚¢
+		cmpi.b	#':',1(a0)			*  ãƒ‰ãƒ©ã‚¤ãƒ–æŒ‡å®šãŒã‚ã‚‹å ´åˆã¯
+		beq	complex_chdir_perror		*  ã“ã‚Œä»¥ä¸Šãƒˆãƒ©ã‚¤ã—ãªã„
 
 		movea.l	a0,a1
 		cmpi.b	#'.',(a1)
@@ -557,8 +557,8 @@ complex_chdir_try:
 		addq.l	#1,a1
 complex_chdir_1:
 		move.b	(a1),d0
-		bsr	is_nul_or_slash_or_backslash	*  . .. /* ./* ../* ‚È‚ç‚Î
-		beq	complex_chdir_perror		*  ‚±‚êˆÈãƒgƒ‰ƒC‚µ‚È‚¢
+		bsr	is_nul_or_slash_or_backslash	*  . .. /* ./* ../* ãªã‚‰ã°
+		beq	complex_chdir_perror		*  ã“ã‚Œä»¥ä¸Šãƒˆãƒ©ã‚¤ã—ãªã„
 
 		movea.l	a0,a2				*  A2 : dirname
 		lea	word_cdpath,a0
@@ -567,7 +567,7 @@ complex_chdir_1:
 
 		bsr	get_var_value
 		move.w	d0,d1				*  D1.W : $#cdpath
-		movea.l	a0,a1				*  A1 : cdpath ‚Ì’PŒê•À‚Ñ
+		movea.l	a0,a1				*  A1 : cdpath ã®å˜èªä¸¦ã³
 		lea	pathname_buf,a0
 		bra	try_cdpath_continue
 
@@ -623,23 +623,23 @@ test_return:
 .xdef cmd_cdd
 
 cmd_cdd:
-		move.w	d0,d1			*  D1.W : ˆø”‚Ì”
-		DOS	_CURDRV			*  D0.W : ƒJƒŒƒ“ƒgEƒhƒ‰ƒCƒu”Ô† (A:0, B:1, ...)
-		move.w	d0,d2			*  D2.W : ‘ÎÛƒhƒ‰ƒCƒu”Ô†ib’èj
-		subq.w	#1,d1			*  ˆø”‚ª
-		bhi	too_many_args		*  2‚ÂˆÈã‚ ‚ê‚ÎƒGƒ‰[
-		blo	cdd_print		*  0ŒÂ‚È‚ç‚Î•\¦
+		move.w	d0,d1			*  D1.W : å¼•æ•°ã®æ•°
+		DOS	_CURDRV			*  D0.W : ã‚«ãƒ¬ãƒ³ãƒˆãƒ»ãƒ‰ãƒ©ã‚¤ãƒ–ç•ªå· (A:0, B:1, ...)
+		move.w	d0,d2			*  D2.W : å¯¾è±¡ãƒ‰ãƒ©ã‚¤ãƒ–ç•ªå·ï¼ˆæš«å®šï¼‰
+		subq.w	#1,d1			*  å¼•æ•°ãŒ
+		bhi	too_many_args		*  2ã¤ä»¥ä¸Šã‚ã‚Œã°ã‚¨ãƒ©ãƒ¼
+		blo	cdd_print		*  0å€‹ãªã‚‰ã°è¡¨ç¤º
 
 		tst.b	(a0)
 		beq	cdd_print
 
-		move.w	d0,d1			*  D1.W : ƒJƒŒƒ“ƒgEƒhƒ‰ƒCƒu”Ô†
+		move.w	d0,d1			*  D1.W : ã‚«ãƒ¬ãƒ³ãƒˆãƒ»ãƒ‰ãƒ©ã‚¤ãƒ–ç•ªå·
 		bsr	scan_drive_name
 		bne	cdd_current_drive
 
 		moveq	#0,d2
 		move.b	d0,d2
-		sub.b	#'A',d2			*  D2.W : ‘ÎÛƒhƒ‰ƒCƒu”Ô†
+		sub.b	#'A',d2			*  D2.W : å¯¾è±¡ãƒ‰ãƒ©ã‚¤ãƒ–ç•ªå·
 		bclr	#31,d0
 		bsr	drvchk
 		bmi	perror
@@ -706,19 +706,19 @@ cdd_too_long:
 		lea	msg_too_long_pathname,a0
 		bra	enputs1
 ****************************************************************
-* getopt - cd/pushd/popd/dirs/pwd ‚ÌƒIƒvƒVƒ‡ƒ“‚ğ“¾‚é
+* getopt - cd/pushd/popd/dirs/pwd ã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’å¾—ã‚‹
 *
 * CALL
-*      A0     ˆø”ƒŠƒXƒg‚Ìæ“ª
-*      D0.W   ˆø”‚Ì”
+*      A0     å¼•æ•°ãƒªã‚¹ãƒˆã®å…ˆé ­
+*      D0.W   å¼•æ•°ã®æ•°
 *
 * RETURN
-*      A0     ”ñƒIƒvƒVƒ‡ƒ“ˆø”‚Ìæ“ª
-*      D0.W   ”ñƒIƒvƒVƒ‡ƒ“ˆø”‚Ì”
-*      A3     ƒfƒBƒŒƒNƒgƒŠo—Íƒ‹[ƒ`ƒ“EƒGƒ“ƒgƒŠEƒAƒhƒŒƒX
-*      A4     ƒfƒBƒŒƒNƒgƒŠŠÔ‚ÌƒZƒpƒŒ[ƒ^o—Íƒ‹[ƒ`ƒ“EƒGƒ“ƒgƒŠEƒAƒhƒŒƒX
+*      A0     éã‚ªãƒ—ã‚·ãƒ§ãƒ³å¼•æ•°ã®å…ˆé ­
+*      D0.W   éã‚ªãƒ—ã‚·ãƒ§ãƒ³å¼•æ•°ã®æ•°
+*      A3     ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå‡ºåŠ›ãƒ«ãƒ¼ãƒãƒ³ãƒ»ã‚¨ãƒ³ãƒˆãƒªãƒ»ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      A4     ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªé–“ã®ã‚»ãƒ‘ãƒ¬ãƒ¼ã‚¿å‡ºåŠ›ãƒ«ãƒ¼ãƒãƒ³ãƒ»ã‚¨ãƒ³ãƒˆãƒªãƒ»ã‚¢ãƒ‰ãƒ¬ã‚¹
 *      D4.B   bit0:-l, bit1:-v, bit2:-s
-*      CCR    ˆø”‚ª³‚µ‚¯‚ê‚Î EQ
+*      CCR    å¼•æ•°ãŒæ­£ã—ã‘ã‚Œã° EQ
 ****************************************************************
 getopt:
 		lea	print_directory(pc),a3
@@ -791,10 +791,10 @@ test_arg_plus:
 		cmpi.b	#'+',(a0)
 		bne	arg_name		*  D0.L := -1 .. <name>
 
-		addq.l	#1,a0			*  + ‚É‘±‚­
-		bsr	atou			*  ”’l‚ğƒXƒLƒƒƒ“‚·‚é
-		bmi	dirs_bad_arg		*  ƒGƒ‰[i”š‚ª–³‚¢j .. D0.L := 1 .. error
-		bne	dstack_not_deep		*  ƒGƒ‰[iƒI[ƒo[ƒtƒ[j .. D0.L := 1 .. error
+		addq.l	#1,a0			*  + ã«ç¶šã
+		bsr	atou			*  æ•°å€¤ã‚’ã‚¹ã‚­ãƒ£ãƒ³ã™ã‚‹
+		bmi	dirs_bad_arg		*  ã‚¨ãƒ©ãƒ¼ï¼ˆæ•°å­—ãŒç„¡ã„ï¼‰ .. D0.L := 1 .. error
+		bne	dstack_not_deep		*  ã‚¨ãƒ©ãƒ¼ï¼ˆã‚ªãƒ¼ãƒãƒ¼ãƒ•ãƒ­ãƒ¼ï¼‰ .. D0.L := 1 .. error
 
 		cmpi.b	#'.',(a0)
 		seq	d3			*  D3.B : dextract flag
@@ -805,10 +805,10 @@ get_dstack_arg:
 		tst.b	(a0)
 		bne	dirs_bad_arg		*  D0.L := 1 .. error
 
-		move.l	d1,d0			*  ”’l‚ª 0 ‚È‚ç‚ÎƒGƒ‰[
+		move.l	d1,d0			*  æ•°å€¤ãŒ 0 ãªã‚‰ã°ã‚¨ãƒ©ãƒ¼
 		beq	dirs_bad_arg		*  D0.L := 1 .. error
 
-		bsr	get_dstack_d0		*  D2.L := —v‘f‚ÌƒIƒtƒZƒbƒg
+		bsr	get_dstack_d0		*  D2.L := è¦ç´ ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ
 		bmi	dstack_not_deep		*  D0.L := 1 .. error
 
 		subq.l	#1,d1			*  D1.L := n-1
@@ -823,7 +823,7 @@ cmd_cd_return:
 check_not_empty:
 		moveq	#0,d0
 		movea.l	dirstack(a5),a0
-		tst.w	dirstack_nelement(a0)		*  ƒXƒ^ƒbƒN‚É—v‘f‚ª–³‚¢‚È‚ç‚Î
+		tst.w	dirstack_nelement(a0)		*  ã‚¹ã‚¿ãƒƒã‚¯ã«è¦ç´ ãŒç„¡ã„ãªã‚‰ã°
 		bne	test_return			*  D0 == 0
 
 		bsr	perror_command_name
@@ -849,22 +849,22 @@ cmd_cd:
 		bne	dirs_bad_arg
 
 		subq.w	#1,d0
-		bcs	chdir_home			*  ˆø”‚ª 0ŒÂ‚È‚ç $home ‚É chdir ‚·‚é
-		bne	dirs_too_many_args		*  ˆø”‚ª 2ŒÂˆÈã‚È‚çƒGƒ‰[
+		bcs	chdir_home			*  å¼•æ•°ãŒ 0å€‹ãªã‚‰ $home ã« chdir ã™ã‚‹
+		bne	dirs_too_many_args		*  å¼•æ•°ãŒ 2å€‹ä»¥ä¸Šãªã‚‰ã‚¨ãƒ©ãƒ¼
 
 		bsr	test_arg_minus
 		bmi	cmd_cd_name
 		bne	cmd_cd_return
 *  cd +<n>[.]
 cmd_cd_plus:
-		*  D1.L:n-1, D2.L:—v‘f‚ÌƒIƒtƒZƒbƒg
-		bsr	popd				*  ‚»‚±‚ÉˆÚ“®‚µA¬Œ÷‚µ‚½‚È‚ç—v‘f‚ğíœ‚·‚é
-		bmi	cmd_cd_return			*  ƒGƒ‰[‚È‚ç‚¨‚µ‚Ü‚¢
+		*  D1.L:n-1, D2.L:è¦ç´ ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+		bsr	popd				*  ãã“ã«ç§»å‹•ã—ã€æˆåŠŸã—ãŸãªã‚‰è¦ç´ ã‚’å‰Šé™¤ã™ã‚‹
+		bmi	cmd_cd_return			*  ã‚¨ãƒ©ãƒ¼ãªã‚‰ãŠã—ã¾ã„
 
-		bra	rotate_and_return		*  —v‘f‚ğzŠÂ‘—‚è‚·‚é
+		bra	rotate_and_return		*  è¦ç´ ã‚’å¾ªç’°é€ã‚Šã™ã‚‹
 *  cd <name>
 cmd_cd_name:
-		bsr	complex_chdir			*  w’è‚ÌƒfƒBƒŒƒNƒgƒŠ‚Écomplex_chdir‚·‚é
+		bsr	complex_chdir			*  æŒ‡å®šã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«complex_chdirã™ã‚‹
 		neg.l	d0
 		bpl	cmd_cd_return
 		bra	pushd_popd_done
@@ -886,14 +886,14 @@ cmd_pushd:
 		bne	dirs_bad_arg
 
 		subq.w	#1,d0
-		bcs	cmd_pushd_exchange		*  ˆø”‚ª 0ŒÂ‚È‚çæ“ª—v‘f‚ÆƒJƒŒƒ“ƒg‚ğŒğŠ·
-		bne	dirs_too_many_args		*  ˆø”‚ª 2ŒÂˆÈã‚È‚çƒGƒ‰[
+		bcs	cmd_pushd_exchange		*  å¼•æ•°ãŒ 0å€‹ãªã‚‰å…ˆé ­è¦ç´ ã¨ã‚«ãƒ¬ãƒ³ãƒˆã‚’äº¤æ›
+		bne	dirs_too_many_args		*  å¼•æ•°ãŒ 2å€‹ä»¥ä¸Šãªã‚‰ã‚¨ãƒ©ãƒ¼
 
 		bsr	test_arg_minus
 		bmi	cmd_pushd_name
 		bne	cmd_pushd_return
 *  pushd +<n>[.]
-		*  D1.L:n-1, D2.L:—v‘f‚ÌƒIƒtƒZƒbƒg
+		*  D1.L:n-1, D2.L:è¦ç´ ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ
 		bra	cmd_pushd_exchange_1
 
 *  pushd (no arg)
@@ -905,7 +905,7 @@ cmd_pushd_exchange:
 		moveq	#0,d1
 		move.l	#dirstack_top,d2
 cmd_pushd_exchange_1:
-		bsr	push_cwd			*  Œ³‚ÌƒJƒŒƒ“ƒgEƒfƒBƒŒƒNƒgƒŠ‚ğƒvƒbƒVƒ…‚·‚é
+		bsr	push_cwd			*  å…ƒã®ã‚«ãƒ¬ãƒ³ãƒˆãƒ»ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ãƒ—ãƒƒã‚·ãƒ¥ã™ã‚‹
 		beq	cmd_pushd_error_return
 
 		add.l	d0,d2
@@ -914,21 +914,21 @@ cmd_pushd_exchange_1:
 
 		addq.w	#1,d1
 rotate_and_return:
-		tst.b	d3				*  ’Šoƒ‚[ƒh‚È‚ç
-		bne	pushd_popd_done			*  zŠÂ‘—‚è‚µ‚È‚¢
+		tst.b	d3				*  æŠ½å‡ºãƒ¢ãƒ¼ãƒ‰ãªã‚‰
+		bne	pushd_popd_done			*  å¾ªç’°é€ã‚Šã—ãªã„
 
-		tst.l	d1				*  Šù‚Éæ“ª‚Æ‚È‚Á‚Ä‚¢‚é‚È‚ç‚Î
-		beq	pushd_popd_done			*  zŠÂ‘—‚è‚Ì•K—v‚È‚µ
+		tst.l	d1				*  æ—¢ã«å…ˆé ­ã¨ãªã£ã¦ã„ã‚‹ãªã‚‰ã°
+		beq	pushd_popd_done			*  å¾ªç’°é€ã‚Šã®å¿…è¦ãªã—
 
 		movea.l	dirstack(a5),a0
 		cmp.w	dirstack_nelement(a0),d1
-		bhs	pushd_popd_done			*  zŠÂ‘—‚è‚Ì•K—v‚È‚µ
+		bhs	pushd_popd_done			*  å¾ªç’°é€ã‚Šã®å¿…è¦ãªã—
 
-		lea	(a0,d2.l),a1			*  A1 : æ“ª‚Æ‚È‚é‚×‚«ƒAƒhƒŒƒX
+		lea	(a0,d2.l),a1			*  A1 : å…ˆé ­ã¨ãªã‚‹ã¹ãã‚¢ãƒ‰ãƒ¬ã‚¹
 		move.l	dirstack_bottom(a0),d0
-		lea	(a0,d0.l),a2			*  A2 : Œ»İ‚Ì––”öƒAƒhƒŒƒX(+1)
-		lea	dirstack_top(a0),a0		*  A0 : æ“ª‚Ì—v‘f
-		bsr	rotate				*  —v‘f‚ğzŠÂ‘—‚è‚·‚é
+		lea	(a0,d0.l),a2			*  A2 : ç¾åœ¨ã®æœ«å°¾ã‚¢ãƒ‰ãƒ¬ã‚¹(+1)
+		lea	dirstack_top(a0),a0		*  A0 : å…ˆé ­ã®è¦ç´ 
+		bsr	rotate				*  è¦ç´ ã‚’å¾ªç’°é€ã‚Šã™ã‚‹
 		bra	pushd_popd_done
 *  pushd <name>
 cmd_pushd_name:
@@ -936,14 +936,14 @@ cmd_pushd_name:
 		cmpi.w	#MAXWORDS-1,dirstack_nelement(a1)
 		bhs	pushd_too_many_elements
 
-		bsr	push_cwd			*  Œ³‚ÌƒJƒŒƒ“ƒgEƒfƒBƒŒƒNƒgƒŠ‚ğƒvƒbƒVƒ…‚·‚é
+		bsr	push_cwd			*  å…ƒã®ã‚«ãƒ¬ãƒ³ãƒˆãƒ»ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ãƒ—ãƒƒã‚·ãƒ¥ã™ã‚‹
 		beq	cmd_pushd_error_return
 
-		bsr	complex_chdir			*  w’è‚ÌƒfƒBƒŒƒNƒgƒŠ‚Écomplex_chdir‚·‚é
+		bsr	complex_chdir			*  æŒ‡å®šã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«complex_chdirã™ã‚‹
 		bpl	pushd_popd_done
 cmd_pushd_fail:
-		move.l	#dirstack_top,d2		*  ƒvƒbƒVƒ…‚µ‚½æ“ª‚Ì—v‘f‚ğ
-		bsr	delete_element			*  íœ‚·‚é
+		move.l	#dirstack_top,d2		*  ãƒ—ãƒƒã‚·ãƒ¥ã—ãŸå…ˆé ­ã®è¦ç´ ã‚’
+		bsr	delete_element			*  å‰Šé™¤ã™ã‚‹
 cmd_pushd_error_return:
 		moveq	#1,d0
 cmd_pushd_return:
@@ -957,14 +957,14 @@ pushd_too_many_elements:
 		lea	msg_too_deep,a0
 		bra	enputs1
 ****************************************************************
-* push_cwd -  ƒJƒŒƒ“ƒgEƒfƒBƒŒƒNƒgƒŠ‚ğƒvƒbƒVƒ…‚·‚é
+* push_cwd -  ã‚«ãƒ¬ãƒ³ãƒˆãƒ»ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ãƒ—ãƒƒã‚·ãƒ¥ã™ã‚‹
 *
 * CALL
 *      none
 *
 * RETURN
-*      D0.L  ¬Œ÷‚È‚ç‚ÎAƒvƒbƒVƒ…‚µ‚½ƒJƒŒƒ“ƒgEƒfƒBƒŒƒNƒgƒŠ‚Ì’·‚³(+1)
-*            ƒGƒ‰[‚È‚ç‚Î 0
+*      D0.L  æˆåŠŸãªã‚‰ã°ã€ãƒ—ãƒƒã‚·ãƒ¥ã—ãŸã‚«ãƒ¬ãƒ³ãƒˆãƒ»ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®é•·ã•(+1)
+*            ã‚¨ãƒ©ãƒ¼ãªã‚‰ã° 0
 *
 *      CCR   TST.L D0
 ****************************************************************
@@ -978,16 +978,16 @@ push_cwd:
 		beq	push_cwd_fail
 
 		movea.l	dirstack(a5),a2
-		move.l	dirstack_bottom(a2),d0		*  D0.L : Œ»İ‚ÌƒXƒ^ƒbƒN‚Ì’·‚³
-		lea	(a2,d0.l),a1			*  A1(source) : “]‘—Œ³‚Ì––”ö(+1)
-		lea	(a1,d1.l),a0			*  A0(destination)‚Í‚³‚ç‚É‹ó‚¯‚é•¶š”•ªæ
+		move.l	dirstack_bottom(a2),d0		*  D0.L : ç¾åœ¨ã®ã‚¹ã‚¿ãƒƒã‚¯ã®é•·ã•
+		lea	(a2,d0.l),a1			*  A1(source) : è»¢é€å…ƒã®æœ«å°¾(+1)
+		lea	(a1,d1.l),a0			*  A0(destination)ã¯ã•ã‚‰ã«ç©ºã‘ã‚‹æ–‡å­—æ•°åˆ†å…ˆ
 		subq.l	#dirstack_top,d0
-		jsr	memmovd				*  ƒVƒtƒg‚·‚é
-		lea	cwd(a5),a1			*  ˆÈ‘O‚ÌƒJƒŒƒ“ƒgEƒfƒBƒŒƒNƒgƒŠ‚ğ
-		lea	dirstack_top(a2),a0		*  ƒXƒ^ƒbƒN‚Ìæ“ª‚É
-		bsr	strcpy				*  ’u‚­
-		add.l	d1,dirstack_bottom(a2)		*  ƒoƒCƒg”‚ğXV‚·‚é
-		addq.w	#1,dirstack_nelement(a2)	*  —v‘f”‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚é
+		jsr	memmovd				*  ã‚·ãƒ•ãƒˆã™ã‚‹
+		lea	cwd(a5),a1			*  ä»¥å‰ã®ã‚«ãƒ¬ãƒ³ãƒˆãƒ»ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’
+		lea	dirstack_top(a2),a0		*  ã‚¹ã‚¿ãƒƒã‚¯ã®å…ˆé ­ã«
+		bsr	strcpy				*  ç½®ã
+		add.l	d1,dirstack_bottom(a2)		*  ãƒã‚¤ãƒˆæ•°ã‚’æ›´æ–°ã™ã‚‹
+		addq.w	#1,dirstack_nelement(a2)	*  è¦ç´ æ•°ã‚’ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆã™ã‚‹
 		move.l	d1,d0
 push_cwd_return:
 		movem.l	(a7)+,d1/a0-a2
@@ -1014,14 +1014,14 @@ cmd_popd:
 		bne	dirs_bad_arg
 
 		subq.w	#1,d0
-		bcs	cmd_popd_noarg			*  ˆø”‚ª 0ŒÂ‚È‚çƒ|ƒbƒv
-		bne	dirs_too_many_args		*  ˆø”‚ª 2ŒÂˆÈã‚È‚çƒGƒ‰[
+		bcs	cmd_popd_noarg			*  å¼•æ•°ãŒ 0å€‹ãªã‚‰ãƒãƒƒãƒ—
+		bne	dirs_too_many_args		*  å¼•æ•°ãŒ 2å€‹ä»¥ä¸Šãªã‚‰ã‚¨ãƒ©ãƒ¼
 
 		bsr	test_arg_plus
 		bne	dirs_bad_arg
 *  popd +<n>[.]
-		*  D2.L:”’l‚ª¦‚·—v‘f‚ÌƒIƒtƒZƒbƒg
-		bsr	delete_element			*  —v‘f‚ğíœ‚·‚é
+		*  D2.L:æ•°å€¤ãŒç¤ºã™è¦ç´ ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+		bsr	delete_element			*  è¦ç´ ã‚’å‰Šé™¤ã™ã‚‹
 		bra	pushd_popd_done
 
 *  popd (no arg)
@@ -1029,9 +1029,9 @@ cmd_popd_noarg:
 		bsr	check_not_empty
 		bne	cmd_popd_return
 
-		move.l	#dirstack_top,d2		*  æ“ª‚Ì
-		bsr	popd				*  —v‘f‚ÉˆÚ“®‚µA¬Œ÷‚µ‚½‚È‚ç—v‘f‚ğíœ‚·‚é
-		bmi	cmd_popd_return			*  ƒGƒ‰[
+		move.l	#dirstack_top,d2		*  å…ˆé ­ã®
+		bsr	popd				*  è¦ç´ ã«ç§»å‹•ã—ã€æˆåŠŸã—ãŸãªã‚‰è¦ç´ ã‚’å‰Šé™¤ã™ã‚‹
+		bmi	cmd_popd_return			*  ã‚¨ãƒ©ãƒ¼
 pushd_popd_done:
 		tst.b	flag_pushdsilent(a5)
 		bne	pushd_popd_return_0
@@ -1055,8 +1055,8 @@ cmd_dirs:
 		bsr	getopt
 		bne	dirs_bad_arg
 
-		btst	#2,d4				*  bit2ˆÈã‚Í
-		bne	dirs_bad_arg			*  –³Œø
+		btst	#2,d4				*  bit2ä»¥ä¸Šã¯
+		bne	dirs_bad_arg			*  ç„¡åŠ¹
 
 		tst.w	d0
 		bne	dirs_too_many_args
@@ -1100,11 +1100,11 @@ print_stacklevel:
 		beq	print_stack_level_done
 
 		movem.l	d0-d4,-(a7)
-		move.l	d2,d0					*  ”Ô†‚ğ
-		moveq	#1,d1					*  ¶‹l‚ß‚Å
-		moveq	#1,d3					*  ­‚È‚­‚Æ‚à 1•¶š‚Ì•‚É
-		moveq	#1,d4					*  ­‚È‚­‚Æ‚à 1Œ…‚Ì”š‚ğ
-		bsr	printu					*  •\¦‚·‚é
+		move.l	d2,d0					*  ç•ªå·ã‚’
+		moveq	#1,d1					*  å·¦è©°ã‚ã§
+		moveq	#1,d3					*  å°‘ãªãã¨ã‚‚ 1æ–‡å­—ã®å¹…ã«
+		moveq	#1,d4					*  å°‘ãªãã¨ã‚‚ 1æ¡ã®æ•°å­—ã‚’
+		bsr	printu					*  è¡¨ç¤ºã™ã‚‹
 		movem.l	(a7)+,d0-d4
 		bsr	put_tab
 		addq.l	#1,d2
@@ -1124,8 +1124,8 @@ cmd_pwd:
 		bsr	getopt
 		bne	dirs_bad_arg
 
-		cmp.b	#2,d4				*  bit1ˆÈã‚Í
-		bhs	dirs_bad_arg			*  –³Œø
+		cmp.b	#2,d4				*  bit1ä»¥ä¸Šã¯
+		bhs	dirs_bad_arg			*  ç„¡åŠ¹
 
 		tst.w	d0
 		bne	dirs_too_many_args
@@ -1154,11 +1154,11 @@ print_directory_1:
 * get_dstack_d0
 *
 * CALL
-*      D0.L   —v‘f”Ô†i1ˆÈã‚Å‚ ‚é‚±‚Æj
+*      D0.L   è¦ç´ ç•ªå·ï¼ˆ1ä»¥ä¸Šã§ã‚ã‚‹ã“ã¨ï¼‰
 *
 * RETURN
-*      D2.L   ƒfƒBƒŒƒNƒgƒŠEƒXƒ^ƒbƒN‚Ì D0.L”Ô–Ú‚Ì—v‘fidstack‚Ì n-1 ”Ô–Ú‚Ì’PŒêj‚ÌƒIƒtƒZƒbƒg
-*             D0.L‚ª—v‘f”‚æ‚è‚à‘å‚«‚¢‚È‚ç‚Î -1
+*      D2.L   ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ»ã‚¹ã‚¿ãƒƒã‚¯ã® D0.Lç•ªç›®ã®è¦ç´ ï¼ˆdstackã® n-1 ç•ªç›®ã®å˜èªï¼‰ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+*             D0.LãŒè¦ç´ æ•°ã‚ˆã‚Šã‚‚å¤§ãã„ãªã‚‰ã° -1
 *      CCR    TST.L D2
 ****************************************************************
 .xdef get_dstack_d0
@@ -1170,8 +1170,8 @@ get_dstack_d0:
 		bhi	get_dstack_d0_return
 
 		movea.l	dirstack(a5),a0
-		cmp.w	dirstack_nelement(a0),d0	*  ƒfƒBƒŒƒNƒgƒŠEƒXƒ^ƒbƒN‚Ì—v‘f”‚æ‚è‚à
-		bhi	get_dstack_d0_return		*  ”’l‚ª‘å‚«‚¢‚È‚ç‚ÎƒGƒ‰[D
+		cmp.w	dirstack_nelement(a0),d0	*  ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ»ã‚¹ã‚¿ãƒƒã‚¯ã®è¦ç´ æ•°ã‚ˆã‚Šã‚‚
+		bhi	get_dstack_d0_return		*  æ•°å€¤ãŒå¤§ãã„ãªã‚‰ã°ã‚¨ãƒ©ãƒ¼ï¼
 
 		move.l	a0,-(a7)
 		lea	dirstack_top(a0),a0
@@ -1186,29 +1186,29 @@ get_dstack_d0_return:
 		tst.l	d2
 		rts
 ****************************************************************
-* delete_element - D2.L ‚ªw‚·ƒfƒBƒŒƒNƒgƒŠ—v‘f‚ğíœ‚·‚é
+* delete_element - D2.L ãŒæŒ‡ã™ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªè¦ç´ ã‚’å‰Šé™¤ã™ã‚‹
 *
 * CALL
-*      D2.L   íœ‚·‚éƒfƒBƒŒƒNƒgƒŠ—v‘f‚ÌƒIƒtƒZƒbƒg
+*      D2.L   å‰Šé™¤ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªè¦ç´ ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ
 *
 * RETURN
-*      D0-D1/A0-A2   ”j‰ó
+*      D0-D1/A0-A2   ç ´å£Š
 ****************************************************************
 delete_element:
 		movea.l	dirstack(a5),a2
 		move.l	dirstack_bottom(a2),d0
 		lea	(a2,d0.l),a1
-		move.l	a1,d0				*  D0.L : Œ»İ‚Ì––”öƒAƒhƒŒƒXi‚ÌŸj
+		move.l	a1,d0				*  D0.L : ç¾åœ¨ã®æœ«å°¾ã‚¢ãƒ‰ãƒ¬ã‚¹ï¼ˆã®æ¬¡ï¼‰
 		lea	(a2,d2.l),a0
 		bsr	strfor1
-		movea.l	a0,a1				*  A1 : íœ‚·‚é—v‘f‚ÌŸ‚Ì—v‘f‚ÌƒAƒhƒŒƒX
-		lea	(a2,d2.l),a0			*  A0 : íœ‚·‚é—v‘f‚ÌƒAƒhƒŒƒX
-		sub.l	a1,d0				*  D0 : ˆÚ“®‚·‚éƒoƒCƒg”
+		movea.l	a0,a1				*  A1 : å‰Šé™¤ã™ã‚‹è¦ç´ ã®æ¬¡ã®è¦ç´ ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+		lea	(a2,d2.l),a0			*  A0 : å‰Šé™¤ã™ã‚‹è¦ç´ ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+		sub.l	a1,d0				*  D0 : ç§»å‹•ã™ã‚‹ãƒã‚¤ãƒˆæ•°
 		move.l	a1,d1
-		sub.l	a0,d1				*  D1.L : íœ‚·‚éƒoƒCƒg”
+		sub.l	a0,d1				*  D1.L : å‰Šé™¤ã™ã‚‹ãƒã‚¤ãƒˆæ•°
 		bsr	memmovi
-		sub.l	d1,dirstack_bottom(a2)		*  Œ»İ‚ÌƒoƒCƒg”‚ğXV‚·‚é
-		subq.w	#1,dirstack_nelement(a2)	*  —v‘f”‚ğƒfƒNƒŠƒƒ“ƒg‚·‚é
+		sub.l	d1,dirstack_bottom(a2)		*  ç¾åœ¨ã®ãƒã‚¤ãƒˆæ•°ã‚’æ›´æ–°ã™ã‚‹
+		subq.w	#1,dirstack_nelement(a2)	*  è¦ç´ æ•°ã‚’ãƒ‡ã‚¯ãƒªãƒ¡ãƒ³ãƒˆã™ã‚‹
 		moveq	#0,d0
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 realloc_dirstack:
@@ -1231,20 +1231,20 @@ realloc_dirstack_return:
 		movem.l	(a7)+,a0-a1
 		rts
 ****************************************************************
-* popd - D2.L ‚ªw‚·—v‘f‚ÌƒfƒBƒŒƒNƒgƒŠ‚ÉˆÚ“®‚µC‚»‚Ì—v‘f‚ğíœ‚·‚é
+* popd - D2.L ãŒæŒ‡ã™è¦ç´ ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«ç§»å‹•ã—ï¼Œãã®è¦ç´ ã‚’å‰Šé™¤ã™ã‚‹
 *
 * CALL
-*      D2.L   ˆÚ“®‚·‚éƒfƒBƒŒƒNƒgƒŠ—v‘f‚ÌƒIƒtƒZƒbƒg
+*      D2.L   ç§»å‹•ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªè¦ç´ ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ
 *
 * RETURN
-*      D0.L   ¬Œ÷‚·‚ê‚Î 0DˆÚ“®‚Å‚«‚È‚©‚Á‚½‚È‚ç‚Î•‰
+*      D0.L   æˆåŠŸã™ã‚Œã° 0ï¼ç§»å‹•ã§ããªã‹ã£ãŸãªã‚‰ã°è² 
 *      CCR    TST.L D0
-*      A0     ”j‰ó
+*      A0     ç ´å£Š
 ****************************************************************
 popd:
 		move.l	dirstack(a5),a0
 		lea	(a0,d2.l),a0
-		bsr	fish_chdir		*  ƒfƒBƒŒƒNƒgƒŠ‚ÉˆÚ“®‚·‚éD
+		bsr	fish_chdir		*  ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«ç§»å‹•ã™ã‚‹ï¼
 		bmi	perror
 
 		movem.l	d1/a1-a2,-(a7)
@@ -1259,15 +1259,15 @@ word_upper_oldpwd:	dc.b	'OLD'
 word_upper_pwd:		dc.b	'PWD',0
 word_oldcwd:		dc.b	'old'
 word_cwd:		dc.b	'cwd',0
-msg_cd_pushd_usage:	dc.b	'[-lvs] [<–¼‘O>|+<n>[.]|-]',0
+msg_cd_pushd_usage:	dc.b	'[-lvs] [<åå‰>|+<n>[.]|-]',0
 msg_popd_usage:		dc.b	'[-lvs] [+<n>]',0
 msg_dirs_usage:		dc.b	'[-lv]',0
 msg_pwd_usage:		dc.b	'[-l]',0
-msg_directory_stack:	dc.b	'ƒfƒBƒŒƒNƒgƒŠEƒXƒ^ƒbƒN',0
-msg_dstack_empty:	dc.b	'‚Í‹ó‚Å‚·',0
-msg_too_deep:		dc.b	'‚Ì—v‘f”‚ª§ŒÀˆê”t‚Å‚·',0
-msg_no_home:		dc.b	'ƒVƒFƒ‹•Ï” home ‚Ìİ’è‚ª–³Œø‚Å‚·',0
-msg_illegal_cdd:	dc.b	'ƒŠƒ“ƒN‚Å‚·'
+msg_directory_stack:	dc.b	'ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ»ã‚¹ã‚¿ãƒƒã‚¯',0
+msg_dstack_empty:	dc.b	'ã¯ç©ºã§ã™',0
+msg_too_deep:		dc.b	'ã®è¦ç´ æ•°ãŒåˆ¶é™ä¸€æ¯ã§ã™',0
+msg_no_home:		dc.b	'ã‚·ã‚§ãƒ«å¤‰æ•° home ã®è¨­å®šãŒç„¡åŠ¹ã§ã™',0
+msg_illegal_cdd:	dc.b	'ãƒªãƒ³ã‚¯ã§ã™'
 str_nul:		dc.b	0
 
 .end

@@ -2,7 +2,7 @@
 * This contains built-in command 'history'.
 *
 * Itagaki Fumihiko 23-Dec-90  Create.
-* Itagaki Fumihiko 19-Aug-91  •\¦
+* Itagaki Fumihiko 19-Aug-91  æ™‚åˆ»è¡¨ç¤º
 
 .include ../src/history.h
 
@@ -36,13 +36,13 @@
 *       history - print history list
 *
 *  Synopsis
-*       history [ -rht ] [ <ƒCƒxƒ“ƒg”> ]
+*       history [ -rht ] [ <ã‚¤ãƒ™ãƒ³ãƒˆæ•°> ]
 *
-*       -r   ‹t‡‚Éo—Í‚·‚é
-*       -h   ƒCƒxƒ“ƒg”Ô†‚â–³‚µ‚Åo—Í‚·‚é
-*       -t   –³‚µ‚Åo—Í‚·‚é
+*       -r   é€†é †ã«å‡ºåŠ›ã™ã‚‹
+*       -h   ã‚¤ãƒ™ãƒ³ãƒˆç•ªå·ã‚„æ™‚åˆ»ç„¡ã—ã§å‡ºåŠ›ã™ã‚‹
+*       -t   æ™‚åˆ»ç„¡ã—ã§å‡ºåŠ›ã™ã‚‹
 *
-*       history -x <ŠJn”Ô†>[-<I—¹”Ô†>]
+*       history -x <é–‹å§‹ç•ªå·>[-<çµ‚äº†ç•ªå·>]
 ****************************************************************
 .xdef cmd_history
 .xdef do_print_history
@@ -80,7 +80,7 @@ parse_range_done:
 		or.l	d3,d0
 		bne	b_bad_arg
 
-		moveq	#3,d6				*  ƒCƒxƒ“ƒg”Ô†‚â‚Ío—Í‚µ‚È‚¢
+		moveq	#3,d6				*  ã‚¤ãƒ™ãƒ³ãƒˆç•ªå·ã‚„æ™‚åˆ»ã¯å‡ºåŠ›ã—ãªã„
 		movea.l	history_top(a5),a0
 output_region_loop:
 		cmpa.l	#0,a0
@@ -134,13 +134,13 @@ option_r_found:
 		bra	parse_option_loop2
 
 parse_option_done:
-		cmp.w	#1,d1				*  ˆø”‚ª
-		bhi	b_too_many_args			*    2‚ÂˆÈã‚ ‚ê‚ÎƒGƒ‰[
-		blo	history_default			*    1‚Â‚à–³‚¯‚ê‚Î $history[1] ‚ğQÆ‚·‚é
+		cmp.w	#1,d1				*  å¼•æ•°ãŒ
+		bhi	b_too_many_args			*    2ã¤ä»¥ä¸Šã‚ã‚Œã°ã‚¨ãƒ©ãƒ¼
+		blo	history_default			*    1ã¤ã‚‚ç„¡ã‘ã‚Œã° $history[1] ã‚’å‚ç…§ã™ã‚‹
 do_print_history:
-		bsr	atou				*  ”’l‚ğƒXƒLƒƒƒ“‚·‚é
-		tst.b	(a0)				*  Å‰‚Ì”ñ”š‚ªNUL‚Å‚È‚¯‚ê‚Î
-		bne	badly_formed_number		*    ƒGƒ‰[
+		bsr	atou				*  æ•°å€¤ã‚’ã‚¹ã‚­ãƒ£ãƒ³ã™ã‚‹
+		tst.b	(a0)				*  æœ€åˆã®éæ•°å­—ãŒNULã§ãªã‘ã‚Œã°
+		bne	badly_formed_number		*    ã‚¨ãƒ©ãƒ¼
 
 		tst.l	d0
 		bra	history_check_n
@@ -161,10 +161,10 @@ history_start:
 		cmpa.l	#0,a0
 		beq	history_done
 
-		tst.b	d5				*  ‹t‡‚©H
+		tst.b	d5				*  é€†é †ã‹ï¼Ÿ
 		bne	history_reverse
 
-		* ³‡
+		* æ­£é †
 prhist_for_loop1:
 		subq.l	#1,d0
 		beq	prhist_for_loop2
@@ -182,7 +182,7 @@ prhist_for_loop2:
 		movea.l	HIST_NEXT(a0),a0
 		bra	prhist_for_loop2
 
-		* ‹t‡
+		* é€†é †
 history_reverse:
 prhist_rev_loop:
 		subq.l	#1,d0
@@ -216,48 +216,48 @@ prhist_1line:
 
 		movem.l	d0-d5/a0/a3,-(a7)
 		movea.l	a0,a3
-		move.l	current_eventno(a5),HIST_REFNO(a3)	*  QÆƒ|ƒCƒ“ƒ^‚ğƒZƒbƒg‚·‚é
-		moveq	#0,d1					*  ”’l‚Í‰E‹l‚ß‚Åo—Í
-		moveq	#' ',d2					*  ”’l‚Ì pad ‚ÍƒXƒy[ƒX‚Åo—Í
-		btst	#1,d6					*  ƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ğo—Í‚µ‚È‚¢‚È‚ç
-		bne	prhist_1line_1				*  ƒXƒLƒbƒv
+		move.l	current_eventno(a5),HIST_REFNO(a3)	*  å‚ç…§ãƒã‚¤ãƒ³ã‚¿ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+		moveq	#0,d1					*  æ•°å€¤ã¯å³è©°ã‚ã§å‡ºåŠ›
+		moveq	#' ',d2					*  æ•°å€¤ã® pad ã¯ã‚¹ãƒšãƒ¼ã‚¹ã§å‡ºåŠ›
+		btst	#1,d6					*  ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ã‚’å‡ºåŠ›ã—ãªã„ãªã‚‰
+		bne	prhist_1line_1				*  ã‚¹ã‚­ãƒƒãƒ—
 		*
 		lea	space4,a0
 		bsr	puts
 		*
-		moveq	#1,d3					*  ­‚È‚­‚Æ‚à 1•¶š
-		moveq	#2,d4					*  ­‚È‚­‚Æ‚à 2Œ…
+		moveq	#1,d3					*  å°‘ãªãã¨ã‚‚ 1æ–‡å­—
+		moveq	#2,d4					*  å°‘ãªãã¨ã‚‚ 2æ¡
 		move.l	HIST_TIME(a3),d5
 		move.l	d5,d0
 		lsr.l	#8,d0
 		lsr.l	#8,d0
-		and.l	#%11111,d0				*  ‚ğ
-		bsr	printu					*  o—Í‚·‚é
-		moveq	#':',d0					*  ':' ‚ğ
-		bsr	putc					*  o—Í‚·‚é
+		and.l	#%11111,d0				*  æ™‚ã‚’
+		bsr	printu					*  å‡ºåŠ›ã™ã‚‹
+		moveq	#':',d0					*  ':' ã‚’
+		bsr	putc					*  å‡ºåŠ›ã™ã‚‹
 		move.l	d5,d0
 		lsr.l	#8,d0
-		and.l	#%111111,d0				*  •ª‚ğ
-		bsr	printu					*  o—Í‚·‚é
-		moveq	#':',d0					*  ':' ‚ğ
-		bsr	putc					*  o—Í‚·‚é
+		and.l	#%111111,d0				*  åˆ†ã‚’
+		bsr	printu					*  å‡ºåŠ›ã™ã‚‹
+		moveq	#':',d0					*  ':' ã‚’
+		bsr	putc					*  å‡ºåŠ›ã™ã‚‹
 		move.l	d5,d0
-		and.l	#%111111,d0				*  •b‚ğ
-		bsr	printu					*  o—Í‚·‚é
-		lea	space2,a0				*  ƒXƒy[ƒX‚ğ 2‚Â
-		bsr	puts					*  o—Í‚·‚é
-		bsr	put_tab					*  ƒ^ƒu‚ğo—Í‚·‚é
+		and.l	#%111111,d0				*  ç§’ã‚’
+		bsr	printu					*  å‡ºåŠ›ã™ã‚‹
+		lea	space2,a0				*  ã‚¹ãƒšãƒ¼ã‚¹ã‚’ 2ã¤
+		bsr	puts					*  å‡ºåŠ›ã™ã‚‹
+		bsr	put_tab					*  ã‚¿ãƒ–ã‚’å‡ºåŠ›ã™ã‚‹
 prhist_1line_1:
-		btst	#0,d6					*  ƒCƒxƒ“ƒg”Ô†‚ğo—Í‚µ‚È‚¢‚È‚ç
-		bne	prhist_1line_2				*  ƒXƒLƒbƒv
+		btst	#0,d6					*  ã‚¤ãƒ™ãƒ³ãƒˆç•ªå·ã‚’å‡ºåŠ›ã—ãªã„ãªã‚‰
+		bne	prhist_1line_2				*  ã‚¹ã‚­ãƒƒãƒ—
 
-		moveq	#6,d3					*  ­‚È‚­‚Æ‚à 6•¶š
-		moveq	#1,d4					*  ­‚È‚­‚Æ‚à 1Œ…
-		move.l	HIST_EVENTNO(a3),d0			*  ƒCƒxƒ“ƒg”Ô†‚ğ
-		bsr	printu					*  o—Í‚·‚é
-		bsr	put_tab					*  ƒ^ƒu‚ğo—Í‚·‚é
+		moveq	#6,d3					*  å°‘ãªãã¨ã‚‚ 6æ–‡å­—
+		moveq	#1,d4					*  å°‘ãªãã¨ã‚‚ 1æ¡
+		move.l	HIST_EVENTNO(a3),d0			*  ã‚¤ãƒ™ãƒ³ãƒˆç•ªå·ã‚’
+		bsr	printu					*  å‡ºåŠ›ã™ã‚‹
+		bsr	put_tab					*  ã‚¿ãƒ–ã‚’å‡ºåŠ›ã™ã‚‹
 prhist_1line_2:
-		move.w	HIST_NWORDS(a3),d1			*  D1.W := ‚±‚ÌƒCƒxƒ“ƒg‚ÌŒê”
+		move.w	HIST_NWORDS(a3),d1			*  D1.W := ã“ã®ã‚¤ãƒ™ãƒ³ãƒˆã®èªæ•°
 		subq.w	#1,d1
 		bcs	prhist_1line_done
 
@@ -265,13 +265,13 @@ prhist_1line_2:
 		bra	prhist_1line_start
 
 prhist_1line_loop:
-		bsr	put_space				*  ‹ó”’‚ğo—Í‚·‚é
-		bsr	strfor1					*  Ÿ‚ÌŒê
+		bsr	put_space				*  ç©ºç™½ã‚’å‡ºåŠ›ã™ã‚‹
+		bsr	strfor1					*  æ¬¡ã®èª
 prhist_1line_start:
-		bsr	cputs					*  Œê‚ğo—Í‚·‚é
+		bsr	cputs					*  èªã‚’å‡ºåŠ›ã™ã‚‹
 		dbra	d1,prhist_1line_loop
 prhist_1line_done:
-		bsr	put_newline				*  ‰üs‚·‚é
+		bsr	put_newline				*  æ”¹è¡Œã™ã‚‹
 		movem.l	(a7)+,d0-d5/a0/a3
 		cmpa.l	#0,a0
 prhist_1line_return:
@@ -284,17 +284,17 @@ parse_history_value:
 		bsr	svartol
 		bpl	parse_history_value_1
 
-		*  ƒI[ƒo[ƒtƒ[
+		*  ã‚ªãƒ¼ãƒãƒ¼ãƒ•ãƒ­ãƒ¼
 
 		tst.l	d1
-		bpl	parse_history_value_return_inf	*  ³•ûŒü
+		bpl	parse_history_value_return_inf	*  æ­£æ–¹å‘
 parse_history_value_return_0:
 		moveq	#0,d1
 		bra	parse_history_value_ok
 
 parse_history_value_1:
 		cmp.l	#2,d0
-		bls	parse_history_value_return_0	*  $history[1] ‚Í’è‹`‚³‚ê‚Ä‚¢‚È‚¢
+		bls	parse_history_value_return_0	*  $history[1] ã¯å®šç¾©ã•ã‚Œã¦ã„ãªã„
 
 		cmp.l	#5,d0
 		bne	parse_history_value_return_bad
@@ -330,8 +330,8 @@ hour_ok:
 .data
 
 option_x:	dc.b	'-x',0
-msg_usage:	dc.b	'[-rht] [<ƒCƒxƒ“ƒg”>]',0
-msg_usage2:	dc.b	'        history -x <ŠJn”Ô†>[-<I—¹”Ô†>]',0
+msg_usage:	dc.b	'[-rht] [<ã‚¤ãƒ™ãƒ³ãƒˆæ•°>]',0
+msg_usage2:	dc.b	'        history -x <é–‹å§‹ç•ªå·>[-<çµ‚äº†ç•ªå·>]',0
 space4:		dc.b	'  '
 space2:		dc.b	'  ',0
 ****************************************************************

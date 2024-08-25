@@ -45,7 +45,7 @@ error_return:
 ****************************************************************
 .data
 .if 0
-msg_cannot:	dc.b	'èIóπÇÕ logout',0
+msg_cannot:	dc.b	'ÁµÇ‰∫Ü„ÅØ logout',0
 .endif
 .end
 

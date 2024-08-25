@@ -1,11 +1,11 @@
-MODIFYSTATBIT_ERROR	equ	0	*  ƒGƒ‰[‚ª‚ ‚èAƒƒbƒZ[ƒW‚ð•\Ž¦‚µ‚½
-MODIFYSTATBIT_OVFLO	equ	1	*  ’PŒêƒŠƒXƒg‚ª’·‚­‚È‚è‰ß‚¬‚½iƒƒbƒZ[ƒW‚Í•\Ž¦‚µ‚È‚¢j
-MODIFYSTATBIT_FAILED	equ	2	*  fail‚µ‚½ :s ‚ª‚ ‚Á‚½iƒƒbƒZ[ƒW‚Í•\Ž¦‚µ‚È‚¢j
-MODIFYSTATBIT_X		equ	3	*  :x ‚ª‚ ‚Á‚½
-MODIFYSTATBIT_Q		equ	4	*  :q ‚ª‚ ‚Á‚½
-MODIFYSTATBIT_P		equ	5	*  :p ‚ª‚ ‚Á‚½
-MODIFYSTATBIT_MALLOC	equ	6	*  malloc ‚µ‚½
-MODIFYSTATBIT_NOMEM	equ	7	*  ƒƒ‚ƒŠ‚ª‘«‚è‚È‚¢iƒƒbƒZ[ƒW‚ð•\Ž¦‚·‚éj
-MODIFYSTATBIT_HISTORY	equ	8	*  !’uŠ·‚ÌCü‚Å‚ ‚é
-MODIFYSTATBIT_QUICK	equ	9	*  ^str1^str2^flag^ ‚Å‚ ‚é
+MODIFYSTATBIT_ERROR	equ	0	*  ã‚¨ãƒ©ãƒ¼ãŒã‚ã‚Šã€ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã—ãŸ
+MODIFYSTATBIT_OVFLO	equ	1	*  å˜èªžãƒªã‚¹ãƒˆãŒé•·ããªã‚ŠéŽãŽãŸï¼ˆãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¯è¡¨ç¤ºã—ãªã„ï¼‰
+MODIFYSTATBIT_FAILED	equ	2	*  failã—ãŸ :s ãŒã‚ã£ãŸï¼ˆãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¯è¡¨ç¤ºã—ãªã„ï¼‰
+MODIFYSTATBIT_X		equ	3	*  :x ãŒã‚ã£ãŸ
+MODIFYSTATBIT_Q		equ	4	*  :q ãŒã‚ã£ãŸ
+MODIFYSTATBIT_P		equ	5	*  :p ãŒã‚ã£ãŸ
+MODIFYSTATBIT_MALLOC	equ	6	*  malloc ã—ãŸ
+MODIFYSTATBIT_NOMEM	equ	7	*  ãƒ¡ãƒ¢ãƒªãŒè¶³ã‚Šãªã„ï¼ˆãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã™ã‚‹ï¼‰
+MODIFYSTATBIT_HISTORY	equ	8	*  !ç½®æ›ã®ä¿®é£¾ã§ã‚ã‚‹
+MODIFYSTATBIT_QUICK	equ	9	*  ^str1^str2^flag^ ã§ã‚ã‚‹
 

@@ -30,7 +30,7 @@ cmd_unsetenv:
 unset_loop:
 		movea.l	a0,a1
 		bsr	strfor1
-		exg	a0,a1				*  A0:Œ»İ‚Ì’PŒêCA1:Ÿ‚Ì’PŒê
+		exg	a0,a1				*  A0:ç¾åœ¨ã®å˜èªï¼ŒA1:æ¬¡ã®å˜èª
 		bsr	strip_quotes
 		bsr	fish_unsetenv
 		movea.l	a1,a0
@@ -39,18 +39,18 @@ unset_loop:
 		moveq	#0,d0
 		rts
 *****************************************************************
-* fish_unsetenv - FISH ‚ÌŠÂ‹«•Ï”‚ğíœ‚·‚é
+* fish_unsetenv - FISH ã®ç’°å¢ƒå¤‰æ•°ã‚’å‰Šé™¤ã™ã‚‹
 *
 * CALL
-*      A0     íœ‚·‚é•Ï”–¼‚ğw‚·
+*      A0     å‰Šé™¤ã™ã‚‹å¤‰æ•°åã‚’æŒ‡ã™
 *
 * RETURN
 *      none
 *****************************************************************
 fish_unsetenv:
 		movem.l	d0/a0-a1,-(a7)
-		bsr	fish_getenv		* ŠÂ‹«•Ï” name ‚ğ’T‚·
-		beq	unsetenv_done		* –³‚¯‚ê‚Î‰½‚à‚µ‚È‚¢
+		bsr	fish_getenv		* ç’°å¢ƒå¤‰æ•° name ã‚’æ¢ã™
+		beq	unsetenv_done		* ç„¡ã‘ã‚Œã°ä½•ã‚‚ã—ãªã„
 
 		movea.l	d0,a1
 		movea.l	var_next(a1),a1

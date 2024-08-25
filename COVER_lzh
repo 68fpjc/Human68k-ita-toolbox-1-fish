@@ -1,14 +1,14 @@
 
-�T�v        :  fish v0.8 �ɑ΂�������p�b�`#1
-�K�{��    :  Human68k v2.0�ȍ~�Cfish v0.8.0 �̃Z�b�g�Cpatch ����� Bup
-�f�[�^��    :  FISH08p1.LZH
-����������  :  LHA
-����        :  �_�@�j�F
+概要        :  fish v0.8 に対する公式パッチ#1
+必須環境    :  Human68k v2.0以降，fish v0.8.0 のセット，patch および Bup
+データ名    :  FISH08p1.LZH
+符号化方式  :  LHA
+著者        :  板垣　史彦
 
-���L����    :
+特記事項    :
 
-  * �s�ҏW�@�\ list �̕s����C�����܂����B
+  * 行編集機能 list の不具合を修正しました。
 
-  * ����� fish v0.8.0 �̃Z�b�g�ɓK�p���� fish v0.8.1 �̃Z�b�g�𐶐���
-    �鍷���p�b�P�[�W�ł��B
+  * これは fish v0.8.0 のセットに適用して fish v0.8.1 のセットを生成す
+    る差分パッケージです。
 

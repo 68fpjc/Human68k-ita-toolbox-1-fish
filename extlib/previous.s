@@ -1,7 +1,7 @@
 *************************************************
 *						*
 *   malloc Ext version				*
-*   Copyright 1991 by ÇdÇòÇî(T.Kawamoto)	*
+*   Copyright 1991 by Ôº•ÔΩòÔΩî(T.Kawamoto)	*
 *						*
 *************************************************
 *						*
@@ -31,8 +31,8 @@ is_previous_free:
 *  Z	set if true
 *  a2	pointer to previous pool head
 * destroy
-*  d7	ÉèÅ[ÉNÉåÉWÉXÉ^
-*  a1	ÉèÅ[ÉNÉ|ÉCÉìÉ^
+*  d7	„ÉØ„Éº„ÇØ„É¨„Ç∏„Çπ„Çø
+*  a1	„ÉØ„Éº„ÇØ„Éù„Ç§„É≥„Çø
 *
 	lea	head_pool(a4),a1
 	move.l	a1,a2

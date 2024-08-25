@@ -22,13 +22,13 @@
 .text
 
 ****************************************************************
-* tmpname - ˆêŽžƒtƒ@ƒCƒ‹–¼‚ð¶¬‚·‚é
+* tmpname - ä¸€æ™‚ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ç”Ÿæˆã™ã‚‹
 *
 * CALL
-*      A0     ¶¬‚µ‚½ˆêŽžƒtƒ@ƒCƒ‹–¼‚ðŠi”[‚·‚é—ÌˆæiMAXPATH+1ƒoƒCƒg•K—vj
+*      A0     ç”Ÿæˆã—ãŸä¸€æ™‚ãƒ•ã‚¡ã‚¤ãƒ«åã‚’æ ¼ç´ã™ã‚‹é ˜åŸŸï¼ˆMAXPATH+1ãƒã‚¤ãƒˆå¿…è¦ï¼‰
 *
 * RETURN
-*      D0.L   ¬Œ÷‚µ‚½‚È‚ç‚Î0
+*      D0.L   æˆåŠŸã—ãŸãªã‚‰ã°0
 *      CCR    TST.L D0
 *****************************************************************
 statbuf = -STATBUFSIZE
@@ -52,7 +52,7 @@ tmpname:
 		movea.l	a0,a2
 		bmi	invalid_temp
 
-		*bclr	#31,d0	* D0.L:31 ‚Í 0 ‚É‚È‚Á‚Ä‚¢‚é‚Í‚¸
+		*bclr	#31,d0	* D0.L:31 ã¯ 0 ã«ãªã£ã¦ã„ã‚‹ã¯ãš
 		bsr	drvchkp
 		bmi	invalid_temp
 
@@ -132,14 +132,14 @@ tmpname_return:
 		unlk	a6
 		rts
 ****************************************************************
-* tmpfile - ˆêŽžƒtƒ@ƒCƒ‹‚ð¶¬‚·‚é
+* tmpfile - ä¸€æ™‚ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç”Ÿæˆã™ã‚‹
 *
 * CALL
-*      A0     ¶¬‚µ‚½ˆêŽžƒtƒ@ƒCƒ‹–¼‚ðŠi”[‚·‚é—ÌˆæiMAXPATH+1ƒoƒCƒg•K—vj
+*      A0     ç”Ÿæˆã—ãŸä¸€æ™‚ãƒ•ã‚¡ã‚¤ãƒ«åã‚’æ ¼ç´ã™ã‚‹é ˜åŸŸï¼ˆMAXPATH+1ãƒã‚¤ãƒˆå¿…è¦ï¼‰
 *
 * RETURN
-*      D0.L   ¶¬‚µ‚½ˆêŽžƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹
-*             ƒGƒ‰[‚È‚ç‚Î•‰
+*      D0.L   ç”Ÿæˆã—ãŸä¸€æ™‚ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒãƒ³ãƒ‰ãƒ«
+*             ã‚¨ãƒ©ãƒ¼ãªã‚‰ã°è² 
 *
 *      CCR    TST.L D0
 *****************************************************************
@@ -167,7 +167,7 @@ tmpfile_error:
 
 suffix:				dc.b	'#sh00000.00#',0
 hexa_decimal_table:		dc.b	'0123456789ABCDEF',0
-msg_cannot_create_tmpname:	dc.b	'ˆêŽžƒtƒ@ƒCƒ‹–¼‚ð¶¬‚Å‚«‚Ü‚¹‚ñ',0
-msg_invalid_temp:		dc.b	'ƒVƒFƒ‹•Ï” temp ‚ÌÝ’è‚ª–³Œø‚Å‚·',0
+msg_cannot_create_tmpname:	dc.b	'ä¸€æ™‚ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ç”Ÿæˆã§ãã¾ã›ã‚“',0
+msg_invalid_temp:		dc.b	'ã‚·ã‚§ãƒ«å¤‰æ•° temp ã®è¨­å®šãŒç„¡åŠ¹ã§ã™',0
 
 .end

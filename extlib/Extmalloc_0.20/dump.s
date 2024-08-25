@@ -1,7 +1,7 @@
 *************************************************
 *						*
 *   malloc Ext version Ver 0.10			*
-*   Copyright 1991 by ‚d‚˜‚”(T.Kawamoto)	*
+*   Copyright 1991 by ï¼¥ï½˜ï½”(T.Kawamoto)	*
 *						*
 *************************************************
 *						*
@@ -29,7 +29,7 @@ dumpout_memory_reg_saved:
 * input
 *  a5	pointer to local BSS
 * output
-*  –³‚µ
+*  ç„¡ã—
 *
 	movem.l	d0-d2/d6/a0-a2/a4/a6,-(sp)
 	bsr	dumpout_memory
@@ -41,17 +41,17 @@ dumpout_memory:
 * input
 *  a5	pointer to local BSS
 * output
-*  –³‚µ
+*  ç„¡ã—
 * destroy
-*  a0	ƒ[ƒNƒ|ƒCƒ“ƒ^
-*  a1	ƒ[ƒNƒ|ƒCƒ“ƒ^
-*  d0	ƒ[ƒNƒŒƒWƒXƒ^
-*  d1	ƒ[ƒNƒŒƒWƒXƒ^
-*  d2	ƒ[ƒNƒŒƒWƒXƒ^
-*  d6	ƒ[ƒNƒŒƒWƒXƒ^
-*  a4	lake head ‚Ö‚Ìƒ|ƒCƒ“ƒ^
-*  a6	normal pool ‚Ö‚Ìƒ|ƒCƒ“ƒ^
-*  a2	free pool ‚Ö‚Ìƒ|ƒCƒ“ƒ^
+*  a0	ãƒ¯ãƒ¼ã‚¯ãƒã‚¤ãƒ³ã‚¿
+*  a1	ãƒ¯ãƒ¼ã‚¯ãƒã‚¤ãƒ³ã‚¿
+*  d0	ãƒ¯ãƒ¼ã‚¯ãƒ¬ã‚¸ã‚¹ã‚¿
+*  d1	ãƒ¯ãƒ¼ã‚¯ãƒ¬ã‚¸ã‚¹ã‚¿
+*  d2	ãƒ¯ãƒ¼ã‚¯ãƒ¬ã‚¸ã‚¹ã‚¿
+*  d6	ãƒ¯ãƒ¼ã‚¯ãƒ¬ã‚¸ã‚¹ã‚¿
+*  a4	lake head ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+*  a6	normal pool ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+*  a2	free pool ã¸ã®ãƒã‚¤ãƒ³ã‚¿
 *
 	move.l	lake_top(a5),d6
 	bra	lake_entry
@@ -66,8 +66,8 @@ pool_end:
 lake_loop:
 	move.l	next_lake_ptr(a4),d6
 lake_entry:
-	beq	lake_end	* lake ‚ª‚È‚­‚È‚Á‚½
-	move.l	d6,a4		* lake head ‚Ö‚Ìƒ|ƒCƒ“ƒ^
+	beq	lake_end	* lake ãŒãªããªã£ãŸ
+	move.l	d6,a4		* lake head ã¸ã®ãƒã‚¤ãƒ³ã‚¿
 	move.l	a4,d0
 	bsr	print_long
 	lea	length_string,a0
@@ -75,7 +75,7 @@ lake_entry:
 	move.l	lake_size(a4),d0
 	bsr	print_long
 	tst.w	head_pool+next_pool_offset(a4)
-	beq	large_pool		* large size ‚Ìê‡
+	beq	large_pool		* large size ã®å ´åˆ
 	lea	lake_string,a0
 	bsr	print_string
 	lea	head_pool(a4),a6
@@ -90,7 +90,7 @@ free_skip:
 	lea	(a6,d6.w),a6
 	bsr	print_head
 	tst.w	next_pool_offset(a6)
-	beq	pool_end	* pool ‚ª‚È‚­‚È‚Á‚½
+	beq	pool_end	* pool ãŒãªããªã£ãŸ
 	cmp.l	a6,a2
 	beq	is_free_pool
 is_used_pool:
@@ -107,9 +107,9 @@ is_free_pool:
 large_pool:
 	lea	large_pool_string,a0
 	bsr	print_string
-	bra	lake_loop	* large pool ‚Íˆê‚Â‚¾‚¯
+	bra	lake_loop	* large pool ã¯ä¸€ã¤ã ã‘
 *
-lake_end:			* ÅŒã‚Ü‚ÅƒT[ƒ`I—¹
+lake_end:			* æœ€å¾Œã¾ã§ã‚µãƒ¼ãƒçµ‚äº†
 	rts
 *
 print_head:
@@ -118,8 +118,8 @@ print_head:
 *  a5	pointer to local BSS
 *  a6	pool head
 * destroy
-*  d0	ƒ[ƒNƒŒƒWƒXƒ^
-*  a0	ƒ[ƒNƒ|ƒCƒ“ƒ^
+*  d0	ãƒ¯ãƒ¼ã‚¯ãƒ¬ã‚¸ã‚¹ã‚¿
+*  a0	ãƒ¯ãƒ¼ã‚¯ãƒã‚¤ãƒ³ã‚¿
 *
 	move.l	#9,d0
 	bsr	putchar
@@ -138,10 +138,10 @@ print_contents:
 *  a5	pointer to local BSS
 *  a6	pool head
 * destroy
-*  d0	ƒ[ƒNƒŒƒWƒXƒ^
-*  d1	ƒ[ƒNƒŒƒWƒXƒ^
-*  a0	ƒ[ƒNƒ|ƒCƒ“ƒ^
-*  a1	ƒ[ƒNƒ|ƒCƒ“ƒ^
+*  d0	ãƒ¯ãƒ¼ã‚¯ãƒ¬ã‚¸ã‚¹ã‚¿
+*  d1	ãƒ¯ãƒ¼ã‚¯ãƒ¬ã‚¸ã‚¹ã‚¿
+*  a0	ãƒ¯ãƒ¼ã‚¯ãƒã‚¤ãƒ³ã‚¿
+*  a1	ãƒ¯ãƒ¼ã‚¯ãƒã‚¤ãƒ³ã‚¿
 *
 	move.w	next_pool_offset(a6),d1
 	subq.l	#pool_buffer_head,d1

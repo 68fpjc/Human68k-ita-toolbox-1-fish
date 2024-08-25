@@ -1,22 +1,22 @@
 *****************************************************************
-* EncodeFishArgs - ˆø”•À‚Ñ‚ðƒGƒ“ƒR[ƒh‚µ‚ÄƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚ðì¬‚·‚é
+* EncodeFishArgs - å¼•æ•°ä¸¦ã³ã‚’ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ã—ã¦ã‚³ãƒžãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã‚’ä½œæˆã™ã‚‹
 *
 * CALL
-*      A0     ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚ÌƒAƒhƒŒƒX
-*      D0.W   ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚Ì—e—Ê
-*      A1     ˆø”•À‚Ñ
-*      D1.W   ˆø”‚Ì”
+*      A0     ã‚³ãƒžãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      D0.W   ã‚³ãƒžãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã®å®¹é‡
+*      A1     å¼•æ•°ä¸¦ã³
+*      D1.W   å¼•æ•°ã®æ•°
 *
 * RETURN
-*      A0     ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚ÌŽŸ‚ÌƒAƒhƒŒƒXi‚±‚±‚Å‚Í$00‚Í’u‚©‚È‚¢j
+*      A0     ã‚³ãƒžãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã®æ¬¡ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ï¼ˆã“ã“ã§ã¯$00ã¯ç½®ã‹ãªã„ï¼‰
 *
-*      D0.L   ³ : ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚ÌŽc‚è—e—Ê
-*             •‰ : —e—Ê•s‘«
+*      D0.L   æ­£ : ã‚³ãƒžãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã®æ®‹ã‚Šå®¹é‡
+*             è²  : å®¹é‡ä¸è¶³
 *
 *      CCR    TST.L D0
 *
 * NOTE
-*      ˆø”‚Ì”‚ª 0 ‚Å‚È‚¯‚ê‚ÎAƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚ÌÅ‰‚É‚Í‹ó”’‚ª 1•¶Žš’u‚©‚ê‚é
+*      å¼•æ•°ã®æ•°ãŒ 0 ã§ãªã‘ã‚Œã°ã€ã‚³ãƒžãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã®æœ€åˆã«ã¯ç©ºç™½ãŒ 1æ–‡å­—ç½®ã‹ã‚Œã‚‹
 *****************************************************************
 
 	.TEXT
@@ -33,7 +33,7 @@ encode_loop:
 
 		move.b	#' ',(a0)+
 
-		moveq	#0,d3		* D3 : Œ»Ý‚ÌƒNƒI[ƒg‚Ìó‘Ô
+		moveq	#0,d3		* D3 : ç¾åœ¨ã®ã‚¯ã‚ªãƒ¼ãƒˆã®çŠ¶æ…‹
 		move.b	(a1),d0
 		beq	begin_quote
 encode_one_loop:
@@ -73,7 +73,7 @@ find_quote_character:
 		bra	find_quote_character
 
 begin_quote:
-		*  D0 ‚ª " ‚Å‚È‚¯‚ê‚Î " ‚ÅA‚³‚à‚È‚­‚Î ' ‚ÅƒNƒI[ƒg‚ðŠJŽn‚·‚é
+		*  D0 ãŒ " ã§ãªã‘ã‚Œã° " ã§ã€ã•ã‚‚ãªãã° ' ã§ã‚¯ã‚ªãƒ¼ãƒˆã‚’é–‹å§‹ã™ã‚‹
 		moveq	#'"',d3
 		cmp.b	d0,d3
 		bne	insert_quote_char

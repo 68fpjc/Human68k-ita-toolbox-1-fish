@@ -70,14 +70,14 @@
 .text
 
 ****************************************************************
-* find_function - �֐���T��
+* find_function - 関数を探す
 *
 * CALL
-*      A0     �֐����̐擪�A�h���X�i�擪31�o�C�g�܂ł��L���j
-*      A2     �֐������N�̍��|�C���^�̃A�h���X
+*      A0     関数名の先頭アドレス（先頭31バイトまでが有効）
+*      A2     関数リンクの根ポインタのアドレス
 *
 * RETURN
-*      D0.L   �֐��̃w�b�_�擪�A�h���X�i������Ȃ���� 0�j
+*      D0.L   関数のヘッダ先頭アドレス（見つからなければ 0）
 *      CCR    TST.L D0
 ****************************************************************
 .xdef find_function
@@ -86,7 +86,7 @@ find_function:
 		movem.l	d1/a1-a2,-(a7)
 		bsr	strlen
 		addq.l	#1,d0
-		move.l	d0,d1				*  D1.L : �ƍ����钷��
+		move.l	d0,d1				*  D1.L : 照合する長さ
 		movea.l	(a2),a2
 find_function_loop:
 		cmpa.l	#0,a2
@@ -105,14 +105,14 @@ find_function_done:
 		movem.l	(a7)+,d1/a1-a2
 		rts
 ****************************************************************
-* unlink_function - �֐����폜����
+* unlink_function - 関数を削除する
 *
 * CALL
-*      A0     �֐��̃w�b�_�̐擪�A�h���X
-*      A2     �֐������N�̍��|�C���^�̃A�h���X
+*      A0     関数のヘッダの先頭アドレス
+*      A2     関数リンクの根ポインタのアドレス
 *
 * RETURN
-*      D0.L   �j��
+*      D0.L   破壊
 ****************************************************************
 unlink_function:
 		movem.l	a0-a1,-(a7)
@@ -141,17 +141,17 @@ unlink_function_return:
 		movem.l	(a7)+,a0-a1
 		rts
 ****************************************************************
-* link_function - �֐��v���g�^�C�v���m�ۂ��ă����N����
+* link_function - 関数プロトタイプを確保してリンクする
 *
 * CALL
-*      A1     �֐����̐擪�A�h���X�i31�o�C�g�ȉ��ł��邱�Ɓj
-*      A2     �֐������N�̍��|�C���^�̃A�h���X
-*      D0.B   �֐��^�C�v
-*      D1.L   �֐��{�̂̒����i�o�C�g�j
+*      A1     関数名の先頭アドレス（31バイト以下であること）
+*      A2     関数リンクの根ポインタのアドレス
+*      D0.B   関数タイプ
+*      D1.L   関数本体の長さ（バイト）
 *
 * RETURN
-*      D0     �֐��̃w�b�_�̐擪�A�h���X�D
-*             �������s���Ŋm�ۂł��Ȃ������Ȃ�� 0�D
+*      D0     関数のヘッダの先頭アドレス．
+*             メモリ不足で確保できなかったならば 0．
 *      CCR    TST.L D0
 *****************************************************************
 link_function:
@@ -194,18 +194,18 @@ link_function_return:
 		movem.l	(a7)+,d2/a0/a3
 		rts
 *****************************************************************
-* enter_function - �֐����`����
+* enter_function - 関数を定義する
 *
 * CALL
-*      A0     �֐��{�̂̐擪�A�h���X
-*      A1     �֐����̐擪�A�h���X�i31�o�C�g�ȉ��ł��邱�Ɓj
-*      A2     �֐������N�̍��|�C���^�̃A�h���X
-*      D0.B   �֐��^�C�v
-*      D1.L   �֐��{�̂̒����i�o�C�g�j
+*      A0     関数本体の先頭アドレス
+*      A1     関数名の先頭アドレス（31バイト以下であること）
+*      A2     関数リンクの根ポインタのアドレス
+*      D0.B   関数タイプ
+*      D1.L   関数本体の長さ（バイト）
 *
 * RETURN
-*      D0     �֐��̃w�b�_�̐擪�A�h���X�D
-*             �������s���Œ�`�ł��Ȃ������Ȃ�� 0�D
+*      D0     関数のヘッダの先頭アドレス．
+*             メモリ不足で定義できなかったならば 0．
 *      CCR    TST.L D0
 *****************************************************************
 .xdef enter_function
@@ -225,10 +225,10 @@ enter_function_return:
 		movem.l	(a7)+,a0-a2
 		rts
 ****************************************************************
-* list_1_function - �֐���\������
+* list_1_function - 関数を表示する
 *
 * CALL
-*      A0     �֐��̃w�b�_�̐擪�A�h���X
+*      A0     関数のヘッダの先頭アドレス
 *
 * RETURN
 *      none.
@@ -345,7 +345,7 @@ cmd_undefun:
 undefun_loop:
 		move.l	a0,-(a7)
 		lea	tmpword1,a1
-		bsr	escape_quoted		* A1 : �N�I�[�g���G�X�P�[�v�ɑウ������������
+		bsr	escape_quoted		* A1 : クオートをエスケープに代えた検索文字列
 
 		movea.l	function_root(a5),a2
 undefun_find_loop:
@@ -633,10 +633,10 @@ do_defun_link:
 
 str_beginfunc:	dc.b	' () {',0
 
-msg_too_long_funcname:	dc.b	'�֐��������߂��܂�',0
-msg_bad_funcname:	dc.b	'�֐����������ł�',0
-msg_cannot_defun:	dc.b	'�֐����`�ł��܂���',0
-msg_no_func:		dc.b	'���̊֐��͒�`����Ă��܂���',0
-msg_not_in_funcdef:	dc.b	'�֐���`�͊J�n���Ă��܂���',0
+msg_too_long_funcname:	dc.b	'関数名が長過ぎます',0
+msg_bad_funcname:	dc.b	'関数名が無効です',0
+msg_cannot_defun:	dc.b	'関数を定義できません',0
+msg_no_func:		dc.b	'この関数は定義されていません',0
+msg_not_in_funcdef:	dc.b	'関数定義は開始していません',0
 
 .end

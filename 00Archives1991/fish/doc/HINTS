@@ -1,12 +1,12 @@
-�� make -n | itash
+■ make -n | itash
 
-�� �g�ݍ��݃R�}���h�Ɠ����̊O���R�}���h��
-	�f�B���N�g����t����
-	�g���q��t����
+■ 組み込みコマンドと同名の外部コマンドは
+	ディレクトリを付ける
+	拡張子を付ける
 	alias notbuiltin '`which -O \!:1` \!:2*'
-	�啶���Ń^�C�v����
+	大文字でタイプする
 
-�� home �̓h���C�u�����܂ރ��[�g�f�B���N�g������̐�΃p�X�Ƃ��邱�ƁB�����Ȃ��ƁA
+■ home はドライブ名を含むルートディレクトリからの絶対パスとすること。さもないと、
 
 	% set home=/home
 	% cd
@@ -17,51 +17,51 @@
 	~
 	%
 
-�� #! make -f �Ƃ���΁A�������� make -f mf1 ; make -f mf2 �Ƃ��Ȃ��Ă� mf1 ; mf2 �ł���
+■ #! make -f とすれば、いちいち make -f mf1 ; make -f mf2 としなくても mf1 ; mf2 でいい
 
-�� ��
+■ 式
 
 	~ == A:/usr2/ita
 
-   �̓G���[�ł���B~ ���P�����Z�q�ɂȂ邽�߂ł���B
+   はエラーである。~ が単項演算子になるためである。
 
 	~/ == A:/usr2/ita/
 
-   �Ə����΂n�j
+   と書けばＯＫ
 
-��  �R�}���h�u���� ` ���܂ރR�}���h�����s����ɂ�
+■  コマンド置換で ` を含むコマンドを実行するには
 	set accent=\`
 	emacs `grep -l ${accent}echo *.c`
-    �̂悤�ɂ���Ηǂ��B
+    のようにすれば良い。
 
-��  $path �̒��ɐ�΃p�X�łȂ����̂�����Ȃ�΁A����͊m���Ƀn�b�V��������ቺ�����A
-    �R�}���h�����Ɏ��Ԃ������邱�ƂɂȂ�B
+■  $path の中に絶対パスでないものがあるならば、それは確実にハッシュ効率を低下させ、
+    コマンド検索に時間がかかることになる。
 
-��  �J�����g�E�f�B���N�g�� /usr2/ita �� ~~ �Ƃ����f�B���N�g���������āA���̒��ɂ���
-    �R�}���h�����s�������Ƃ��A~~/command �Ƃ���Ƒg�ݍ��݃R�}���h����������Ă��܂�
-    �̂ŁA./~~/command �Ƃ��邩�A/usr2/ita/~~/commanad �Ƃ���B�J�����g�E�f�B���N�g
-    ���� / �Ȃ�΁AHuman68k �̏ꍇ ./~~/command �Ƃ��邱�Ƃ��ł��Ȃ��̂ŁA
-    /~~/command �Ƃ���B
-    �ȏ�̂��Ƃ̓t�@�C���������@�\�ɂ����Ă����l�B
+■  カレント・ディレクトリ /usr2/ita に ~~ というディレクトリがあって、その中にある
+    コマンドを実行したいとき、~~/command とすると組み込みコマンドが検索されてしまう
+    ので、./~~/command とするか、/usr2/ita/~~/commanad とする。カレント・ディレクト
+    リが / ならば、Human68k の場合 ./~~/command とすることができないので、
+    /~~/command とする。
+    以上のことはファイル名完成機能においても同様。
 
-��  / �Ŏn�܂�������t���O�����ƌ��Ȃ��R�}���h���������݂��邱�Ƃ͑�ύ��������Ƃ�
-    ����B���������R�}���h�ɑ΂��� / �Ŏn�܂�p�X����^����ɂ́A�p�X���Ƀh���C�u��
-    ��������Ή���ł���B�������h���C�u�������߂��Ȃ��R�}���h�ł͂���グ�B
+■  / で始まる引数をフラグ引数と見なすコマンドが多く存在することは大変困ったことで
+    ある。そういうコマンドに対して / で始まるパス名を与えるには、パス名にドライブ名
+    を加えれば回避できる。ただしドライブ名を解釈しないコマンドではお手上げ。
 
-��  $var:gs/foo/&bar/ �ł́A�ϐ��u�����s��������O�ɁA& �R�}���h�s�̕��@���
-    ��ؕ����Ƃ��ĔF������Ă��܂��B���ƌ����� & ���G�X�P�[�v����ƁA& �̓��ʂȈӖ���
-    �����Ă��܂��B���̏ꍇ�ɂ� ${var:gs/foo/&bar/} �Ƃ���B
+■  $var:gs/foo/&bar/ では、変数置換が行われるよりも前に、& コマンド行の文法上の
+    区切文字として認識されてしまう。かと言って & をエスケープすると、& の特別な意味を
+    失ってしまう。この場合には ${var:gs/foo/&bar/} とする。
 
-��  ${var:gs/)/}/} �͐������B�ŏ��� } �� :s/l/r/ �C���ɂ����� r �Ƃ��ĔF�������B
+■  ${var:gs/)/}/} は正しい。最初の } は :s/l/r/ 修飾における r として認識される。
 
-��  �o�C�i���[�E�f�[�^���p�C�v��ʂ����胊�_�C���N�g�ł���B
-    COMMAND.X �ł��ꂪ�ł��Ȃ��̂́A1A(16) ���t�@�C���̏I���Ƃ��ď������Ă��邽�߁B
-    �Ȃ����܂��� CP/M �Ƃ̌݊������K�v�Ȃ̂��H
-    CP/M �̃e�L�X�g�E�t�@�C���������̂Ȃ�A�\�߃t�@�C���� 1A(16) �̈ʒu�� trunc
-    ���Ă����΍ςނ��Ƃł���B
+■  バイナリー・データもパイプを通したりリダイレクトできる。
+    COMMAND.X でそれができないのは、1A(16) をファイルの終わりとして処理しているため。
+    なぜいまさら CP/M との互換性が必要なのか？
+    CP/M のテキスト・ファイルを扱うのなら、予めファイルを 1A(16) の位置で trunc
+    しておけば済むことである。
 
-��  �g�ݍ��݃R�}���h set �� @ �ł́A���̃R�}���h�ƈႢ�A���s�O�ɃV�F���ϐ�
-    status �� 0 �ɃZ�b�g���A���s��ɂ́A�G���[�łȂ���� status �͍Đݒ肵�Ȃ��B
-    �����łȂ��� set �� @ �� status ���Z�b�g�ł��Ȃ��B
+■  組み込みコマンド set と @ では、他のコマンドと違い、実行前にシェル変数
+    status を 0 にセットし、実行後には、エラーでなければ status は再設定しない。
+    そうでないと set や @ で status をセットできない。
 
 

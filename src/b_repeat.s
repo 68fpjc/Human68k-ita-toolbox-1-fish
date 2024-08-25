@@ -89,7 +89,7 @@ start:
 loop:
 		movem.l	d0/d4-d5/a1,-(a7)
 		moveq	#0,d1
-		jsr	DoSimpleCommand_recurse_2	*** 再帰 ***
+		jsr	DoSimpleCommand_recurse_2	*** 蜀榊ｸｰ ***
 		movem.l	(a7)+,d0/d4-d5/a1
 		tst.b	d5
 		bne	loop
@@ -110,6 +110,6 @@ repeat_too_few_args:
 .data
 
 str_oo:		dc.b	'oo',0
-msg_usage:	dc.b	'{<回数>|oo} <コマンド名> [ <引数> ... ]',0
+msg_usage:	dc.b	'{<蝗樊焚>|oo} <繧ｳ繝槭Φ繝牙錐> [ <蠑墓焚> ... ]',0
 
 .end

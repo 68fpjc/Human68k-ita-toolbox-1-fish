@@ -1,9 +1,9 @@
 * getpass.s
 * Itagaki Fumihiko 16-Jun-91  Create.
-* Itagaki Fumihiko 28-Dec-91  FGETC‚ğ‚â‚ßA‘ã‚í‚è‚ÉINKEY‚ğg‚¤
-* Itagaki Fumihiko 26-Jan-92  LF‚àI’[‚Æ‚µ‚Ä”F‚ß‚é
-* Itagaki Fumihiko 31-Jan-92  ƒvƒƒ“ƒvƒg‚Í•W€ƒGƒ‰[o—Í‚Éwrite‚·‚é
-* Itagaki Fumihiko 23-Feb-92  Å‘å“ü—ÍƒoƒCƒg”‚ª“ü—Í‚³‚ê‚Ä‚à•K‚¸I’[‚Ü‚Å“Ç‚Ş
+* Itagaki Fumihiko 28-Dec-91  FGETCã‚’ã‚„ã‚ã€ä»£ã‚ã‚Šã«INKEYã‚’ä½¿ã†
+* Itagaki Fumihiko 26-Jan-92  LFã‚‚çµ‚ç«¯ã¨ã—ã¦èªã‚ã‚‹
+* Itagaki Fumihiko 31-Jan-92  ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆã¯æ¨™æº–ã‚¨ãƒ©ãƒ¼å‡ºåŠ›ã«writeã™ã‚‹
+* Itagaki Fumihiko 23-Feb-92  æœ€å¤§å…¥åŠ›ãƒã‚¤ãƒˆæ•°ãŒå…¥åŠ›ã•ã‚Œã¦ã‚‚å¿…ãšçµ‚ç«¯ã¾ã§èª­ã‚€
 
 .include doscall.h
 .include chrcode.h
@@ -13,15 +13,15 @@
 .text
 
 ****************************************************************
-* getpass - •W€“ü—Í‚©‚çƒGƒR[–³‚µ‚Å1s“ü—Í‚·‚éiCR‚Ü‚½‚ÍLF‚Ü‚Åj
+* getpass - æ¨™æº–å…¥åŠ›ã‹ã‚‰ã‚¨ã‚³ãƒ¼ç„¡ã—ã§1è¡Œå…¥åŠ›ã™ã‚‹ï¼ˆCRã¾ãŸã¯LFã¾ã§ï¼‰
 *
 * CALL
-*      A0     “ü—Íƒoƒbƒtƒ@
-*      D0.L   Å‘å“ü—ÍƒoƒCƒg”iCR‚âLF‚ÍŠÜ‚Ü‚È‚¢j
-*      A1     ƒvƒƒ“ƒvƒg•¶š—ñ‚Ìæ“ªƒAƒhƒŒƒX
+*      A0     å…¥åŠ›ãƒãƒƒãƒ•ã‚¡
+*      D0.L   æœ€å¤§å…¥åŠ›ãƒã‚¤ãƒˆæ•°ï¼ˆCRã‚„LFã¯å«ã¾ãªã„ï¼‰
+*      A1     ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆæ–‡å­—åˆ—ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
 *
 * RETURN
-*      D0.L   “ü—Í•¶š”iCR‚âLF‚ÍŠÜ‚Ü‚È‚¢j
+*      D0.L   å…¥åŠ›æ–‡å­—æ•°ï¼ˆCRã‚„LFã¯å«ã¾ãªã„ï¼‰
 *      CCR    TST.L D0
 ****************************************************************
 .xdef getpass

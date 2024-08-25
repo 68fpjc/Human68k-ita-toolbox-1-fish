@@ -146,7 +146,7 @@ print:
 *		(0000_0000_0000_0000_YYYY_YYYM_MMMD_DDDD)	*
 *								*
 *		example						*
-*			1987-09-28 (Œ)				*
+*			1987-09-28 (æœˆ)				*
 *								*
 *****************************************************************
 date2_out:
@@ -452,7 +452,7 @@ skipnum_end:	movem.l	(a7)+,d0
 *		a0.l	string pointer				*
 *								*
 *		example						*
-*			1987-09-28 (Œ)				*
+*			1987-09-28 (æœˆ)				*
 *								*
 *****************************************************************
 date2_asc:
@@ -625,14 +625,14 @@ itoa_tbl:
 	dc.l	0
 
 date_tbl:
-	dc.b	'“úŒ‰Î…–Ø‹à“yH'
+	dc.b	'æ—¥æœˆç«æ°´æœ¨é‡‘åœŸï¼Ÿ'
 
-msg_datetime1:	dc.b	'Œ»İ‚Ì'
-msg_date:	dc.b	'“ú•t',NUL
-msg_datetime2:	dc.b	'‚Í ',NUL
-msg_datetime3:	dc.b	' ‚Å‚·',CR,LF,NUL
-msg_datetime4:	dc.b	'‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢: ',NUL
-msg_datetime5:	dc.b	'‚Ìw’è‚ªˆá‚¢‚Ü‚·'
+msg_datetime1:	dc.b	'ç¾åœ¨ã®'
+msg_date:	dc.b	'æ—¥ä»˜',NUL
+msg_datetime2:	dc.b	'ã¯ ',NUL
+msg_datetime3:	dc.b	' ã§ã™',CR,LF,NUL
+msg_datetime4:	dc.b	'ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„: ',NUL
+msg_datetime5:	dc.b	'ã®æŒ‡å®šãŒé•ã„ã¾ã™'
 msg_crlf:	dc.b	CR,LF,NUL
 
 .bss

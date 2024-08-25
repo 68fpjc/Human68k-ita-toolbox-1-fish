@@ -54,57 +54,57 @@ is_not_subst_separator:
 is_not_subst_separator_return:
 		rts
 ****************************************************************
-* modify - ’PŒê•À‚Ñ‚ðCü‚·‚é
+* modify - å˜èªžä¸¦ã³ã‚’ä¿®é£¾ã™ã‚‹
 *
 * CALL
-*      A0     ’PŒê•À‚Ñ‚Ìæ“ªƒAƒhƒŒƒX
-*      A1     CüŽq‚ÌƒAƒhƒŒƒX
-*      D0.L   ƒXƒe[ƒ^ƒX
-*             bit 0 :  ƒGƒ‰[EƒƒbƒZ[ƒW‚ð•\Ž¦‚µ‚È‚¢
-*             bit 8 :  !’uŠ·‚ÌCü‚Å‚ ‚é
-*             bit 9 :  ^str1^str2^flag^ ‚Å‚ ‚é
-*      D1.W   ’PŒê”
+*      A0     å˜èªžä¸¦ã³ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      A1     ä¿®é£¾å­ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      D0.L   ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+*             bit 0 :  ã‚¨ãƒ©ãƒ¼ãƒ»ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã—ãªã„
+*             bit 8 :  !ç½®æ›ã®ä¿®é£¾ã§ã‚ã‚‹
+*             bit 9 :  ^str1^str2^flag^ ã§ã‚ã‚‹
+*      D1.W   å˜èªžæ•°
 *
 * RETURN
-*      A0     Cü‚³‚ê‚½’PŒê•À‚Ñ‚Ìæ“ªƒAƒhƒŒƒX
-*      A1     CüŽq‚ÌŽŸ‚ÌƒAƒhƒŒƒX
-*      D0.L   ƒXƒe[ƒ^ƒX
-*             bit 0 :  ƒGƒ‰[‚ª‚ ‚èAƒƒbƒZ[ƒW‚ð•\Ž¦‚µ‚½
-*             bit 1 :  ’PŒêƒŠƒXƒg‚ª’·‚­‚È‚è‰ß‚¬‚½iƒƒbƒZ[ƒW‚Í•\Ž¦‚µ‚È‚¢j
-*             bit 2 :  fail‚µ‚½ :s ‚ª‚ ‚Á‚½iƒƒbƒZ[ƒW‚Í•\Ž¦‚µ‚È‚¢j
-*             bit 3 :  :x ‚ª‚ ‚Á‚½
-*             bit 4 :  :q ‚ª‚ ‚Á‚½
-*             bit 5 :  :p ‚ª‚ ‚Á‚½
-*             bit 6 :  A0 ‚Í malloc ‚µ‚½‚à‚Ì‚Å‚ ‚é
-*             bit 7 :  ƒƒ‚ƒŠ‚ª‘«‚è‚È‚¢iƒƒbƒZ[ƒW‚ð•\Ž¦‚·‚éj
+*      A0     ä¿®é£¾ã•ã‚ŒãŸå˜èªžä¸¦ã³ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      A1     ä¿®é£¾å­ã®æ¬¡ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      D0.L   ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+*             bit 0 :  ã‚¨ãƒ©ãƒ¼ãŒã‚ã‚Šã€ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã—ãŸ
+*             bit 1 :  å˜èªžãƒªã‚¹ãƒˆãŒé•·ããªã‚ŠéŽãŽãŸï¼ˆãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¯è¡¨ç¤ºã—ãªã„ï¼‰
+*             bit 2 :  failã—ãŸ :s ãŒã‚ã£ãŸï¼ˆãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¯è¡¨ç¤ºã—ãªã„ï¼‰
+*             bit 3 :  :x ãŒã‚ã£ãŸ
+*             bit 4 :  :q ãŒã‚ã£ãŸ
+*             bit 5 :  :p ãŒã‚ã£ãŸ
+*             bit 6 :  A0 ã¯ malloc ã—ãŸã‚‚ã®ã§ã‚ã‚‹
+*             bit 7 :  ãƒ¡ãƒ¢ãƒªãŒè¶³ã‚Šãªã„ï¼ˆãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã™ã‚‹ï¼‰
 *
 * DESCRIPTION
 *
-*        :h                    ƒpƒX–¼‚Ìƒhƒ‰ƒCƒu{ƒfƒBƒŒƒNƒgƒŠ•”•ªiÅŒã‚Ì/‚ÍŠÜ‚Ü‚È‚¢j
-*        :t                    ƒpƒX–¼‚Ìƒtƒ@ƒCƒ‹•”•ªiŠg’£Žq‚ðŠÜ‚Þj
-*        :r                    ƒpƒX–¼‚ÌŠg’£ŽqˆÈŠO‚Ì•”•ª
-*        :e                    ƒpƒX–¼‚ÌŠg’£Žq•”•ªi.‚ÍŠÜ‚Ü‚È‚¢j
-*        :d                    ƒpƒX–¼‚Ìƒhƒ‰ƒCƒu–¼•”•ªi:‚ÍŠÜ‚Ü‚È‚¢j
-*        :f                    ƒpƒX–¼‚Ìƒhƒ‰ƒCƒu–¼ˆÈŠO‚Ì•”•ª
-*        :s/<l>/<r>[/<f>]/     l ‚ð r ‚É’uŠ·‚·‚é
-*        :&[<f>]               ˆÈ‘O‚Ì’uŠ·‚ðs‚¤
+*        :h                    ãƒ‘ã‚¹åã®ãƒ‰ãƒ©ã‚¤ãƒ–ï¼‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªéƒ¨åˆ†ï¼ˆæœ€å¾Œã®/ã¯å«ã¾ãªã„ï¼‰
+*        :t                    ãƒ‘ã‚¹åã®ãƒ•ã‚¡ã‚¤ãƒ«éƒ¨åˆ†ï¼ˆæ‹¡å¼µå­ã‚’å«ã‚€ï¼‰
+*        :r                    ãƒ‘ã‚¹åã®æ‹¡å¼µå­ä»¥å¤–ã®éƒ¨åˆ†
+*        :e                    ãƒ‘ã‚¹åã®æ‹¡å¼µå­éƒ¨åˆ†ï¼ˆ.ã¯å«ã¾ãªã„ï¼‰
+*        :d                    ãƒ‘ã‚¹åã®ãƒ‰ãƒ©ã‚¤ãƒ–åéƒ¨åˆ†ï¼ˆ:ã¯å«ã¾ãªã„ï¼‰
+*        :f                    ãƒ‘ã‚¹åã®ãƒ‰ãƒ©ã‚¤ãƒ–åä»¥å¤–ã®éƒ¨åˆ†
+*        :s/<l>/<r>[/<f>]/     l ã‚’ r ã«ç½®æ›ã™ã‚‹
+*        :&[<f>]               ä»¥å‰ã®ç½®æ›ã‚’è¡Œã†
 *
-*      !’uŠ·‚Ì‚Ý
-*        :p                    s‚ðŽÀs‚µ‚È‚¢i‚±‚±‚Å‚Í”FŽ¯‚·‚é‚¾‚¯j
+*      !ç½®æ›ã®ã¿
+*        :p                    è¡Œã‚’å®Ÿè¡Œã—ãªã„ï¼ˆã“ã“ã§ã¯èªè­˜ã™ã‚‹ã ã‘ï¼‰
 *
-*      !’uŠ·ˆÈŠO
-*        :x                    ’PŒê‚ðƒNƒI[ƒg‚·‚éi‚±‚±‚Å‚Í”FŽ¯‚·‚é‚¾‚¯j
-*        :q                    ’PŒê•À‚Ñ‚ðƒNƒI[ƒg‚·‚éi‚±‚±‚Å‚Í”FŽ¯‚·‚é‚¾‚¯j
+*      !ç½®æ›ä»¥å¤–
+*        :x                    å˜èªžã‚’ã‚¯ã‚ªãƒ¼ãƒˆã™ã‚‹ï¼ˆã“ã“ã§ã¯èªè­˜ã™ã‚‹ã ã‘ï¼‰
+*        :q                    å˜èªžä¸¦ã³ã‚’ã‚¯ã‚ªãƒ¼ãƒˆã™ã‚‹ï¼ˆã“ã“ã§ã¯èªè­˜ã™ã‚‹ã ã‘ï¼‰
 *
 ****************************************************************
 .xdef modify
 
 modify:
 		movem.l	d1-d7/a2-a4,-(a7)
-		move.w	d1,d4				* D4.W : ’PŒê”
-		movea.l	a0,a4				* A4 : ’PŒê•À‚Ñ‚ÌƒAƒhƒŒƒX
-		movea.l	a1,a3				* A3 : CüŽq‚ÌƒAƒhƒŒƒX
-		move.l	d0,d5				* D5.L : ƒXƒe[ƒ^ƒX
+		move.w	d1,d4				* D4.W : å˜èªžæ•°
+		movea.l	a0,a4				* A4 : å˜èªžä¸¦ã³ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+		movea.l	a1,a3				* A3 : ä¿®é£¾å­ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+		move.l	d0,d5				* D5.L : ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 		btst	#MODIFYSTATBIT_QUICK,d5
 		bne	modify_subst
 modify_loop:
@@ -269,7 +269,7 @@ search_pointer = time-4
 search_counter = search_pointer-2
 global = search_counter-1
 special_pattern = global-1
-pad = special_pattern			* ‹ô”ƒoƒEƒ“ƒ_ƒŠ‚É‡‚í‚¹‚é
+pad = special_pattern			* å¶æ•°ãƒã‚¦ãƒ³ãƒ€ãƒªã«åˆã‚ã›ã‚‹
 
 modify_redo_subst:
 		link	a6,#pad
@@ -320,9 +320,9 @@ no_prev_sub:
 modify_subst:
 		link	a6,#pad
 		exg	a0,a3
-		*  ‹æØ‚è•¶Žš‚ðE‚¤
+		*  åŒºåˆ‡ã‚Šæ–‡å­—ã‚’æ‹¾ã†
 		movea.l	a0,a1
-		bsr	scanchar2			* D0.W : ‹æØ‚è•¶Žš
+		bsr	scanchar2			* D0.W : åŒºåˆ‡ã‚Šæ–‡å­—
 		bsr	is_not_subst_separator
 		bne	modify_subst_ok
 
@@ -331,20 +331,20 @@ modify_subst:
 		bra	modify_subst_errorp
 
 modify_subst_ok:
-		*  ŒŸõ•¶Žš—ñ‚ðE‚¤
+		*  æ¤œç´¢æ–‡å­—åˆ—ã‚’æ‹¾ã†
 		lea	tmp_search_str(a6),a1
 		moveq	#MAXSEARCHLEN+1,d1
 		bsr	scan_subst_str
 		move.l	d1,d2				* D2.L : MAXSEARCHLEN+1-strlen(l)
-		*  ’uŠ·•¶Žš—ñ‚ðE‚¤
+		*  ç½®æ›æ–‡å­—åˆ—ã‚’æ‹¾ã†
 		lea	tmp_subst_str(a6),a1
 		moveq	#MAXSUBSTLEN+1,d1
 		bsr	scan_subst_str
 		move.l	d1,d3				* D3.L : MAXSUBSTLEN+1-strlen(r)
-		*  ƒIƒvƒVƒ‡ƒ“ƒtƒ‰ƒO‚ðE‚¤
+		*  ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ãƒ©ã‚°ã‚’æ‹¾ã†
 		clr.l	number(a6)
 		clr.b	global(a6)
-		move.w	d0,d1				* D1.W : ‹æØ‚è•¶Žš
+		move.w	d0,d1				* D1.W : åŒºåˆ‡ã‚Šæ–‡å­—
 		movea.l	a0,a1
 		bsr	scanchar2
 		cmp.w	d1,d0
@@ -391,7 +391,7 @@ modify_subst_get_option_done:
 		bsr	hide_escape
 		bsr	strlen
 		exg	a0,a1
-		move.l	d0,d1				* D1.L : ŒŸõ•¶Žš—ñ‚Ì’·‚³
+		move.l	d0,d1				* D1.L : æ¤œç´¢æ–‡å­—åˆ—ã®é•·ã•
 		lea	prev_search,a0
 		bsr	strcpy
 		bra	modify_lhs_ok
@@ -436,7 +436,7 @@ modify_subst_start:
 		beq	modify_modifier_failed		* Modifier failed
 
 		move.w	d0,-(a7)
-		*  ‰½ƒoƒCƒg‘‚¦‚é‚©‚ðD2.L‚É‹‚ß‚é
+		*  ä½•ãƒã‚¤ãƒˆå¢—ãˆã‚‹ã‹ã‚’D2.Lã«æ±‚ã‚ã‚‹
 		moveq	#0,d2
 		move.l	a2,-(a7)
 modify_subst_count_replace:
@@ -468,16 +468,16 @@ modify_subst_count_replace_ampersand:
 
 modify_subst_count_replace_done:
 		movea.l	(a7)+,a2
-		sub.l	d1,d2				* D2.L : ‘‰Á‚·‚é•¶Žš”
+		sub.l	d1,d2				* D2.L : å¢—åŠ ã™ã‚‹æ–‡å­—æ•°
 		move.w	d4,d0
 		exg	a0,a4
 		bsr	wordlistlen
 		exg	a0,a4
-		move.l	d0,d3				* D3.L : Œ»Ý‚Ì’PŒêƒŠƒXƒg‚ÌƒoƒCƒg”
+		move.l	d0,d3				* D3.L : ç¾åœ¨ã®å˜èªžãƒªã‚¹ãƒˆã®ãƒã‚¤ãƒˆæ•°
 		move.w	(a7)+,d0
 		clr.l	time(a6)
 modify_subst_loop:
-		move.l	a0,d6				* D6 : ’uŠ·‚³‚ê‚é‚×‚«êŠ
+		move.l	a0,d6				* D6 : ç½®æ›ã•ã‚Œã‚‹ã¹ãå ´æ‰€
 		move.w	d0,search_counter(a6)
 		adda.l	d1,a0
 		move.l	a0,search_pointer(a6)
@@ -491,16 +491,16 @@ modify_subst_loop:
 		bne	modify_subst_next
 modify_subst_number_ok:
 		tst.l	d2
-		bmi	modify_subst_store		* Œ¸‚é
-		beq	modify_subst_store		* “¯‚¶
+		bmi	modify_subst_store		* æ¸›ã‚‹
+		beq	modify_subst_store		* åŒã˜
 
-		*  ‘‚¦‚é .. ƒLƒƒƒpƒVƒeƒB[‚ðƒ`ƒFƒbƒN‚·‚é
+		*  å¢—ãˆã‚‹ .. ã‚­ãƒ£ãƒ‘ã‚·ãƒ†ã‚£ãƒ¼ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 		move.l	d3,d0
 		add.l	d2,d0
 		cmp.l	#MAXWORDLISTSIZE,d0
 		bhi	modify_overflow			*  ERROR - Subst buf ovflo
 
-		*  ‘‚¦‚é•ª‚¾‚¯’†g‚ð‚¸‚ç‚µ‚Ä‚¨‚¢‚Ä‚©‚ç
+		*  å¢—ãˆã‚‹åˆ†ã ã‘ä¸­èº«ã‚’ãšã‚‰ã—ã¦ãŠã„ã¦ã‹ã‚‰
 		*        D6+D1    .. A4+D3-1
 		*    ->  D6+D1+D2 .. A4+D3-1+D2
 		move.l	a1,-(a7)
@@ -513,7 +513,7 @@ modify_subst_number_ok:
 		movea.l	(a7)+,a1
 ****************
 modify_subst_store:
-		*  ’uŠ·•¶Žš—ñ‚ð’u‚­
+		*  ç½®æ›æ–‡å­—åˆ—ã‚’ç½®ã
 		movea.l	d6,a0
 		move.l	a2,-(a7)
 modify_subst_store_loop:
@@ -550,7 +550,7 @@ modify_subst_store_continue:
 modify_subst_store_done:
 		movea.l	(a7)+,a2
 ****************
-		*  D2.L ‚ª•‰‚È‚ç‚Î -D2.L •¶Žš‹ó‚¢‚Ä‚¢‚é‚Ì‚ÅAØ‚è‹l‚ß‚é
+		*  D2.L ãŒè² ãªã‚‰ã° -D2.L æ–‡å­—ç©ºã„ã¦ã„ã‚‹ã®ã§ã€åˆ‡ã‚Šè©°ã‚ã‚‹
 		move.l	d2,d0
 		bpl	modify_subst_doneone
 
@@ -773,12 +773,12 @@ number_opt_ok:
 .data
 
 str_modifier_rhtedf:	dc.b	'rhtedf',0
-msg_bad_modifier:	dc.b	'–³Œø‚ÈCüŽq :',0
-msg_bad_substitute:	dc.b	':s‚Ì‹æØ‚è•¶Žš‚ª–³Œø‚Å‚·',0
-msg_lhs_too_long:	dc.b	'•¶Žš—ñC³‚ÌŒŸõ•¶Žš—ñ‚ª’·‰ß‚¬‚Ü‚·',0
-msg_rhs_too_long:	dc.b	'•¶Žš—ñC³‚Ì’uŠ·•¶Žš—ñ‚ª’·‰ß‚¬‚Ü‚·',0
-msg_no_prev_sub:	dc.b	'•¶Žš—ñC³‚Ì‹L‰¯‚Í‚ ‚è‚Ü‚¹‚ñ',0
-msg_cannot_modify:	dc.b	':Cü‚ª‚Å‚«‚Ü‚¹‚ñ',0
+msg_bad_modifier:	dc.b	'ç„¡åŠ¹ãªä¿®é£¾å­ :',0
+msg_bad_substitute:	dc.b	':sã®åŒºåˆ‡ã‚Šæ–‡å­—ãŒç„¡åŠ¹ã§ã™',0
+msg_lhs_too_long:	dc.b	'æ–‡å­—åˆ—ä¿®æ­£ã®æ¤œç´¢æ–‡å­—åˆ—ãŒé•·éŽãŽã¾ã™',0
+msg_rhs_too_long:	dc.b	'æ–‡å­—åˆ—ä¿®æ­£ã®ç½®æ›æ–‡å­—åˆ—ãŒé•·éŽãŽã¾ã™',0
+msg_no_prev_sub:	dc.b	'æ–‡å­—åˆ—ä¿®æ­£ã®è¨˜æ†¶ã¯ã‚ã‚Šã¾ã›ã‚“',0
+msg_cannot_modify:	dc.b	':ä¿®é£¾ãŒã§ãã¾ã›ã‚“',0
 ****************************************************************
 
 .end

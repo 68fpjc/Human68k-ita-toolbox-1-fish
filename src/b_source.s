@@ -25,7 +25,7 @@
 
 cmd_source:
 		moveq	#0,d7			*  D7.B : source flag
-		sf	d6			*  D6.B := 0 ... open‚Å‚«‚È‚¯‚ê‚ÎƒGƒ‰[
+		sf	d6			*  D6.B := 0 ... openã§ããªã‘ã‚Œã°ã‚¨ãƒ©ãƒ¼
 		move.w	d0,d1
 		beq	cmd_source_1
 
@@ -44,7 +44,7 @@ cmd_source_1:
 		movea.l	a0,a1
 		bsr	strfor1
 		exg	a0,a1
-		jsr	OpenLoadRun_source		***!! Ä‹A !!***
+		jsr	OpenLoadRun_source		***!! å†å¸° !!***
 		moveq	#0,d0
 		rts
 
@@ -56,6 +56,6 @@ cmd_source_too_few_args:
 .data
 
 str_h:		dc.b	'-h',0
-msg_usage:	dc.b	'[-h] {<ƒtƒ@ƒCƒ‹–¼>|-}',0
+msg_usage:	dc.b	'[-h] {<ãƒ•ã‚¡ã‚¤ãƒ«å>|-}',0
 
 .end

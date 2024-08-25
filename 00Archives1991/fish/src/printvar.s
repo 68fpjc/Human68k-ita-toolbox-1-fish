@@ -4,14 +4,14 @@
 .text
 
 ****************************************************************
-* print_var - •Ï”‚Ì’l‚ğ•\¦‚·‚é
+* print_var - å¤‰æ•°ã®å€¤ã‚’è¡¨ç¤ºã™ã‚‹
 *
 * CALL
-*      A0     •Ï”‚Ì’l‚Ìæ“ªƒAƒhƒŒƒX
-*      D0.W   •Ï”‚Ì—v‘f”
+*      A0     å¤‰æ•°ã®å€¤ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      D0.W   å¤‰æ•°ã®è¦ç´ æ•°
 *
 * RETURN
-*      –³‚µ
+*      ç„¡ã—
 ****************************************************************
 .xdef print_var_value
 
@@ -21,8 +21,8 @@ print_var_value:
 		cmp.w	#1,d1
 		beq	print_var_value_start
 
-		move.b	#'(',d0			* ( ‚ğ
-		bsr	putc			* •\¦‚·‚é
+		move.b	#'(',d0			* ( ã‚’
+		bsr	putc			* è¡¨ç¤ºã™ã‚‹
 print_var_value_start:
 		move.w	d1,d0
 		lea	cputs(pc),a1
@@ -32,19 +32,19 @@ print_var_value_start:
 		cmp.w	#1,d1
 		beq	print_var_value_done
 
-		move.b	#')',d0			* ) ‚ğ
-		bsr	putc			* •\¦‚·‚é
+		move.b	#')',d0			* ) ã‚’
+		bsr	putc			* è¡¨ç¤ºã™ã‚‹
 print_var_value_done:
 		movem.l	(a7)+,d0-d1/a0-a2
 		rts
 ****************************************************************
-* print_var - •Ï”‚ğ•\¦‚·‚é
+* print_var - å¤‰æ•°ã‚’è¡¨ç¤ºã™ã‚‹
 *
 * CALL
-*      A0     •Ï”—Ìˆæ‚Ìæ“ªƒAƒhƒŒƒX
+*      A0     å¤‰æ•°é ˜åŸŸã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
 *
 * RETURN
-*      –³‚µ
+*      ç„¡ã—
 ****************************************************************
 .xdef print_var
 
@@ -53,20 +53,20 @@ print_var:
 		addq.l	#8,a0
 loop:
 		moveq	#0,d0
-		move.w	(a0),d0			* ‚±‚Ì•Ï”‚ªè‚ß‚éƒoƒCƒg”
-		beq	done			* 0‚È‚ç‚¨‚µ‚Ü‚¢
+		move.w	(a0),d0			* ã“ã®å¤‰æ•°ãŒå ã‚ã‚‹ãƒã‚¤ãƒˆæ•°
+		beq	done			* 0ãªã‚‰ãŠã—ã¾ã„
 
-		movea.l	a0,a1			* A1‚É
-		adda.w	d0,a1			* Ÿ‚Ì•Ï”‚ÌƒAƒhƒŒƒX‚ğƒZƒbƒg@i³‚µ‚¢j
+		movea.l	a0,a1			* A1ã«
+		adda.w	d0,a1			* æ¬¡ã®å¤‰æ•°ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ã‚»ãƒƒãƒˆã€€ï¼ˆæ­£ã—ã„ï¼‰
 		addq.l	#2,a0
-		move.w	(a0)+,d0		* D0.W : ‚±‚Ì•Ï”‚Ì—v‘f”
-		bsr	cputs			* •Ï”–¼‚ğ•\¦‚·‚é
-		bsr	put_tab			* …•½ƒ^ƒu‚ğ•\¦‚·‚é
+		move.w	(a0)+,d0		* D0.W : ã“ã®å¤‰æ•°ã®è¦ç´ æ•°
+		bsr	cputs			* å¤‰æ•°åã‚’è¡¨ç¤ºã™ã‚‹
+		bsr	put_tab			* æ°´å¹³ã‚¿ãƒ–ã‚’è¡¨ç¤ºã™ã‚‹
 		bsr	for1str
-		bsr	print_var_value		* •Ï”‚Ì’l‚ğ•\¦‚·‚é
-		bsr	put_newline		* ‰üs‚·‚é
-		movea.l	a1,a0			* Ÿ‚Ì•Ï”‚ÌƒAƒhƒŒƒX
-		bra	loop			* ŒJ‚è•Ô‚·
+		bsr	print_var_value		* å¤‰æ•°ã®å€¤ã‚’è¡¨ç¤ºã™ã‚‹
+		bsr	put_newline		* æ”¹è¡Œã™ã‚‹
+		movea.l	a1,a0			* æ¬¡ã®å¤‰æ•°ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+		bra	loop			* ç¹°ã‚Šè¿”ã™
 
 done:
 		movem.l	(a7)+,d0/a0-a1

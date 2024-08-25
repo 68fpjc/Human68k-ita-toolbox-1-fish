@@ -22,7 +22,7 @@
 *      A1       value
 *
 * RETURN
-*      D0.L	¬Œ÷‚È‚ç 0  —e—Ê‚ª‘«‚è‚È‚¯‚ê‚Î 1
+*      D0.L	æˆåŠŸãªã‚‰ 0  å®¹é‡ãŒè¶³ã‚Šãªã‘ã‚Œã° 1
 *      CCR      TST.L D0
 *****************************************************************
 .xdef setenv
@@ -33,77 +33,77 @@ setenv:
 		movea.l	a1,a2
 		movea.l	a0,a1
 		movea.l	a3,a0
-		bsr	getenv			* name ‚ğ’T‚·
-		bne	change_value		* Œ©‚Â‚©‚ê‚Î change_value
+		bsr	getenv			* name ã‚’æ¢ã™
+		bne	change_value		* è¦‹ã¤ã‹ã‚Œã° change_value
 
-		movea.l	a1,a0			* name‚Ì
-		bsr	strlen			*   ’·‚³
-		move.l	d0,d1			*   {
-		movea.l	a2,a0			*   value‚Ì
-		bsr	strlen			*   ’·‚³
-		add.l	d0,d1			*   {
-		addq.l	#2,d1			*   ‚Qi'='‚ÆNUL‚Ì•ªj‚ğD1‚ÉƒZƒbƒg
+		movea.l	a1,a0			* nameã®
+		bsr	strlen			*   é•·ã•
+		move.l	d0,d1			*   ï¼‹
+		movea.l	a2,a0			*   valueã®
+		bsr	strlen			*   é•·ã•
+		add.l	d0,d1			*   ï¼‹
+		addq.l	#2,d1			*   ï¼’ï¼ˆ'='ã¨NULã®åˆ†ï¼‰ã‚’D1ã«ã‚»ãƒƒãƒˆ
 
-		lea	4(a3),a0		* ŠÂ‹«‚Ì
-		bsr	find_env_bottom		*   ––”ö{‚P‚ğA0‚É
-		move.l	a3,d0			* ŠÂ‹«‚Ì
-		add.l	(a3),d0			*   ’ê{‚P‚ğD0‚É
-		sub.l	a0,d0			* ‹ó‚«—e—Ê‚Í
-		bcs	setenv_full		* ‚È‚¢
+		lea	4(a3),a0		* ç’°å¢ƒã®
+		bsr	find_env_bottom		*   æœ«å°¾ï¼‹ï¼‘ã‚’A0ã«
+		move.l	a3,d0			* ç’°å¢ƒã®
+		add.l	(a3),d0			*   åº•ï¼‹ï¼‘ã‚’D0ã«
+		sub.l	a0,d0			* ç©ºãå®¹é‡ã¯
+		bcs	setenv_full		* ãªã„
 
-		cmp.l	d1,d0			* D1ƒoƒCƒg‚Í
-		blo	setenv_full		* ‚È‚¢
+		cmp.l	d1,d0			* D1ãƒã‚¤ãƒˆã¯
+		blo	setenv_full		* ãªã„
 
-		subq.l	#1,a0			* A0‚ÍŠÂ‹«‚Ì––”ö
-		bsr	stpcpy			* –¼‘O‚ğƒRƒs[
-		move.b	#'=',(a0)+		* = ‚Å‚Â‚È‚°‚Ä
-		movea.l	a2,a1			* ’l‚ğ
-		bsr	strmove			* ƒRƒs[
-		clr.b	(a0)			* ŠÂ‹«‚ÌI‚í‚è‚Ìƒ}[ƒN‚ğƒZƒbƒg
-		bra	setenv_success		* I‚í‚è
+		subq.l	#1,a0			* A0ã¯ç’°å¢ƒã®æœ«å°¾
+		bsr	stpcpy			* åå‰ã‚’ã‚³ãƒ”ãƒ¼
+		move.b	#'=',(a0)+		* = ã§ã¤ãªã’ã¦
+		movea.l	a2,a1			* å€¤ã‚’
+		bsr	strmove			* ã‚³ãƒ”ãƒ¼
+		clr.b	(a0)			* ç’°å¢ƒã®çµ‚ã‚ã‚Šã®ãƒãƒ¼ã‚¯ã‚’ã‚»ãƒƒãƒˆ
+		bra	setenv_success		* çµ‚ã‚ã‚Š
 
 change_value:
-		move.l	a0,d2			* d2 := Šù‘¶‚ÌŠÂ‹«‚Ì–¼‘O‚Ìƒ|ƒCƒ“ƒ^
-		movea.l	d0,a4			* A4 := Œ»İ‚Ì’l‚ğw‚·ƒ|ƒCƒ“ƒ^
-		movea.l	a2,a0			* V‚½‚È’l‚Ì
-		bsr	strlen			* ’·‚³
-		move.l	d0,d1			* ‚©‚ç
-		movea.l	a4,a0			* Œ»İ‚Ì’l‚Ì
-		bsr	strlen			* ’·‚³‚ğ
-		sub.l	d0,d1			* ˆø‚­
-		beq	setenv_just_change_value	* ’·‚³‚ª“¯‚¶‚È‚ç‚Î‘‚«Š·‚¦‚é‚Ì‚İ
-		blo	setenv_change_and_trunc		* —]—T‚ª‚ ‚ê‚Î‘‚«Š·‚¦‚½Œã‚ÉØ‚è‹l‚ß‚é
+		move.l	a0,d2			* d2 := æ—¢å­˜ã®ç’°å¢ƒã®åå‰ã®ãƒã‚¤ãƒ³ã‚¿
+		movea.l	d0,a4			* A4 := ç¾åœ¨ã®å€¤ã‚’æŒ‡ã™ãƒã‚¤ãƒ³ã‚¿
+		movea.l	a2,a0			* æ–°ãŸãªå€¤ã®
+		bsr	strlen			* é•·ã•
+		move.l	d0,d1			* ã‹ã‚‰
+		movea.l	a4,a0			* ç¾åœ¨ã®å€¤ã®
+		bsr	strlen			* é•·ã•ã‚’
+		sub.l	d0,d1			* å¼•ã
+		beq	setenv_just_change_value	* é•·ã•ãŒåŒã˜ãªã‚‰ã°æ›¸ãæ›ãˆã‚‹ã®ã¿
+		blo	setenv_change_and_trunc		* ä½™è£•ãŒã‚ã‚Œã°æ›¸ãæ›ãˆãŸå¾Œã«åˆ‡ã‚Šè©°ã‚ã‚‹
 
-		* D1ƒoƒCƒg‘«‚è‚È‚¢
-		movea.l	d2,a0			* ŠÂ‹«‚ÌŒ»İ‚Ì
-		bsr	find_env_bottom		*   ––”ö{‚P‚ğA0‚ÉƒZƒbƒg
-		move.l	a3,d0			* ŠÂ‹«‚Ì
-		add.l	(a3),d0			*   ’ê{‚P
-		sub.l	a0,d0			* ‹ó‚«—e—Ê‚Í
-		bcs	setenv_full		* ‚È‚¢
+		* D1ãƒã‚¤ãƒˆè¶³ã‚Šãªã„
+		movea.l	d2,a0			* ç’°å¢ƒã®ç¾åœ¨ã®
+		bsr	find_env_bottom		*   æœ«å°¾ï¼‹ï¼‘ã‚’A0ã«ã‚»ãƒƒãƒˆ
+		move.l	a3,d0			* ç’°å¢ƒã®
+		add.l	(a3),d0			*   åº•ï¼‹ï¼‘
+		sub.l	a0,d0			* ç©ºãå®¹é‡ã¯
+		bcs	setenv_full		* ãªã„
 
-		cmp.l	d1,d0			* D1ƒoƒCƒg‚Í
-		blo	setenv_full		* ‚È‚¢
+		cmp.l	d1,d0			* D1ãƒã‚¤ãƒˆã¯
+		blo	setenv_full		* ãªã„
 
-		movea.l	a0,a1			* ŠÂ‹«‚ÌŒ»İ‚Ì––”ö{‚P‚ğA1iƒ\[ƒXj‚É
-		movea.l	d2,a0			* Œ»İ‚ÌŠÂ‹«‚Ì—v‘f‚Ì
-		bsr	for1str			*   Ÿ‚Ì—v‘f‚ÌƒAƒhƒŒƒX‚ğA0‚É
-		move.l	a1,d0			* ŠÂ‹«‚ÌŒ»İ‚Ì––”ö{‚P‚©‚ç
-		sub.l	a0,d0			* A0‚ğˆø‚¯‚ÎA“]‘—‚·‚éƒTƒCƒY
-		movea.l	a1,a0			* ƒ\[ƒX
-		adda.l	d1,a0			*   {D1‚ªƒfƒXƒeƒBƒl[ƒVƒ‡ƒ“
-		bsr	memmove_dec		* Œã•ûƒuƒƒbƒN“]‘—
+		movea.l	a0,a1			* ç’°å¢ƒã®ç¾åœ¨ã®æœ«å°¾ï¼‹ï¼‘ã‚’A1ï¼ˆã‚½ãƒ¼ã‚¹ï¼‰ã«
+		movea.l	d2,a0			* ç¾åœ¨ã®ç’°å¢ƒã®è¦ç´ ã®
+		bsr	for1str			*   æ¬¡ã®è¦ç´ ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’A0ã«
+		move.l	a1,d0			* ç’°å¢ƒã®ç¾åœ¨ã®æœ«å°¾ï¼‹ï¼‘ã‹ã‚‰
+		sub.l	a0,d0			* A0ã‚’å¼•ã‘ã°ã€è»¢é€ã™ã‚‹ã‚µã‚¤ã‚º
+		movea.l	a1,a0			* ã‚½ãƒ¼ã‚¹
+		adda.l	d1,a0			*   ï¼‹D1ãŒãƒ‡ã‚¹ãƒ†ã‚£ãƒãƒ¼ã‚·ãƒ§ãƒ³
+		bsr	memmove_dec		* å¾Œæ–¹ãƒ–ãƒ­ãƒƒã‚¯è»¢é€
 setenv_just_change_value:
-		bsr	setenv_change_value	* ’l‚ğ‘‚«Š·‚¦‚é
-		bra	setenv_success		* I‚í‚è
+		bsr	setenv_change_value	* å€¤ã‚’æ›¸ãæ›ãˆã‚‹
+		bra	setenv_success		* çµ‚ã‚ã‚Š
 
 setenv_change_and_trunc:
-		movea.l	d2,a0			* Œ»İ‚ÌŠÂ‹«‚Ì—v‘f‚Ì
-		bsr	for1str			*   Ÿ‚Ì—v‘f‚ÌƒAƒhƒŒƒX‚ğ
-		move.l	a0,-(a7)		*   ƒZ[ƒu
-		bsr	setenv_change_value	* ’l‚ğ‘‚«Š·‚¦‚é
-		move.l	(a7)+,a1		* Ÿ‚Ì—v‘f‚ÌƒAƒhƒŒƒX
-		bsr	str_blk_copy		* Ø‚è‹l‚ß‚é
+		movea.l	d2,a0			* ç¾åœ¨ã®ç’°å¢ƒã®è¦ç´ ã®
+		bsr	for1str			*   æ¬¡ã®è¦ç´ ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’
+		move.l	a0,-(a7)		*   ã‚»ãƒ¼ãƒ–
+		bsr	setenv_change_value	* å€¤ã‚’æ›¸ãæ›ãˆã‚‹
+		move.l	(a7)+,a1		* æ¬¡ã®è¦ç´ ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+		bsr	str_blk_copy		* åˆ‡ã‚Šè©°ã‚ã‚‹
 setenv_success:
 		moveq	#0,d0
 setenv_return:
@@ -133,7 +133,7 @@ find_env_bottom_done:
 ****************************************************************
 .data
 
-msg_full:	dc.b	'ŠÂ‹«‚Ì—e—Ê‚ª‘«‚è‚Ü‚¹‚ñ',0
+msg_full:	dc.b	'ç’°å¢ƒã®å®¹é‡ãŒè¶³ã‚Šã¾ã›ã‚“',0
 
 .end
 

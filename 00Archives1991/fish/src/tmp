@@ -1,16 +1,16 @@
 ****************************************************************
-* test_directory - ƒpƒX–¼‚ÌƒfƒBƒŒƒNƒgƒŠ‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚é
+* test_directory - ãƒ‘ã‚¹åã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒå­˜åœ¨ã™ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹
 *
 * CALL
-*      A0     ƒpƒX–¼
+*      A0     ãƒ‘ã‚¹å
 *
 * RETURN
-*      D0.L   ‘¶İ‚·‚é‚È‚ç‚Î0
+*      D0.L   å­˜åœ¨ã™ã‚‹ãªã‚‰ã°0
 *      CCR    TST.L D0
 *
 * NOTE
-*      ƒfƒBƒŒƒNƒgƒŠ–¼‚Ì‹æØ‚è•¶š‚Í / ‚Ì‚İ‚ğ”F‚ß‚é
-*      flag_ciglob(B) ‚ªŒø‚­
+*      ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªåã®åŒºåˆ‡ã‚Šæ–‡å­—ã¯ / ã®ã¿ã‚’èªã‚ã‚‹
+*      flag_ciglob(B) ãŒåŠ¹ã
 ****************************************************************
 filebuf = -53
 pathname_buf = filebuf-(MAXPATH+1)
@@ -53,23 +53,23 @@ get_firstdir_root:
 get_firstdir_done:
 		clr.b	(a2)
 		lea	pathname_buf(a6),a0
-		bsr	test_drive_path			* ƒhƒ‰ƒCƒu–¼‚Í—LŒø‚©
-		bne	test_directory_false		* –³Œø .. false
+		bsr	test_drive_path			* ãƒ‰ãƒ©ã‚¤ãƒ–åã¯æœ‰åŠ¹ã‹
+		bne	test_directory_false		* ç„¡åŠ¹ .. false
 test_directory_loop:
 		*
-		*  A2 : ŒŸõ–¼ƒoƒbƒtƒ@‚ÌƒPƒc
-		*  A3 : Œ»İ’…–Ú‚µ‚Ä‚¢‚éƒGƒŒƒƒ“ƒg‚Ìæ“ª
+		*  A2 : æ¤œç´¢åãƒãƒƒãƒ•ã‚¡ã®ã‚±ãƒ„
+		*  A3 : ç¾åœ¨ç€ç›®ã—ã¦ã„ã‚‹ã‚¨ãƒ¬ãƒ¡ãƒ³ãƒˆã®å…ˆé ­
 		*
-		movea.l	a3,a0				* Œ»İ’…–Ú‚µ‚Ä‚¢‚éƒGƒŒƒƒ“ƒg‚ÌŒã‚ë‚É
-		moveq	#'/',d0				* / ‚ª
-		bsr	strchr				* ‚ ‚é‚©H
+		movea.l	a3,a0				* ç¾åœ¨ç€ç›®ã—ã¦ã„ã‚‹ã‚¨ãƒ¬ãƒ¡ãƒ³ãƒˆã®å¾Œã‚ã«
+		moveq	#'/',d0				* / ãŒ
+		bsr	strchr				* ã‚ã‚‹ã‹ï¼Ÿ
 		moveq	#0,d0
 		tst.b	(a0)
-		beq	test_directory_true		* –³‚¢ .. true
+		beq	test_directory_true		* ç„¡ã„ .. true
 
 		move.l	a0,d2
-		sub.l	a3,d2				* D2.L : ƒGƒŒƒƒ“ƒg‚Ì’·‚³
-		move.w	#%010000,-(a7)			* ƒfƒBƒŒƒNƒgƒŠ‚Ì‚İ‚ğŒŸõ
+		sub.l	a3,d2				* D2.L : ã‚¨ãƒ¬ãƒ¡ãƒ³ãƒˆã®é•·ã•
+		move.w	#%010000,-(a7)			* ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ã¿ã‚’æ¤œç´¢
 		pea	pathname_buf(a6)
 		pea	filebuf(a6)
 		movea.l	a2,a0
@@ -79,7 +79,7 @@ test_directory_loop:
 		lea	10(a7),a7
 test_directory_find_loop:
 		tst.l	d0
-		bmi	test_directory_false		* ƒGƒ“ƒgƒŠ‚ª–³‚¢ .. false
+		bmi	test_directory_false		* ã‚¨ãƒ³ãƒˆãƒªãŒç„¡ã„ .. false
 
 		lea	filebuf+30(a6),a0
 		movea.l	a3,a1

@@ -35,7 +35,7 @@ cmd_time:
 		lea	simple_args,a0
 		bsr	copy_wordlist
 		moveq	#1,d1
-		bsr	DoSimpleCommand		*** �ċA ***
+		bsr	DoSimpleCommand		*** 再帰 ***
 cmd_time_done:
 		moveq	#0,d0
 		rts

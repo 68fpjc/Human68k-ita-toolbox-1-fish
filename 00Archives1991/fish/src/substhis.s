@@ -37,35 +37,35 @@
 .xref str_nul
 
 ****************************************************************
-* wordlistmem - �P����т��炠�镶�����T���o��
+* wordlistmem - 単語並びからある文字列を探し出す
 *
 * CALL
-*      A0     �P����т̐擪�A�h���X
-*      D0.W   �P�ꐔ
-*      A1     ����������̐擪�A�h���X
-*      D1.L   ����������̒���
-*      D2.B   0 �ȊO�Ȃ�� ANK�p�����̑啶���Ə���������ʂ��Ȃ�
+*      A0     単語並びの先頭アドレス
+*      D0.W   単語数
+*      A1     検索文字列の先頭アドレス
+*      D1.L   検索文字列の長さ
+*      D2.B   0 以外ならば ANK英文字の大文字と小文字を区別しない
 *
 * RETURN
-*      D0.W   �c��P�ꐔ�i���������P����܂ށj
-*             0 �Ȃ猩����Ȃ�����
-*      A0     ���������A�h���X�D������Ȃ����0
-*      D2.L   ���������P��̔ԍ�
+*      D0.W   残り単語数（見つかった単語も含む）
+*             0 なら見つからなかった
+*      A0     見つかったアドレス．見つからなければ0
+*      D2.L   見つかった単語の番号
 ****************************************************************
 .xdef wordlistmem
 
 wordlistmem:
 		movem.l	d1/d3-d4,-(a7)
-		move.l	d1,d4				* D4.W : ����������̒���
+		move.l	d1,d4				* D4.W : 検索文字列の長さ
 		move.b	d2,d1				* D1.B : case independent flag
-		move.w	d0,d3				* D3.W : �P�ꐔ
-		moveq	#0,d2				* D2.L : �P��ԍ��J�E���^
+		move.w	d0,d3				* D3.W : 単語数
+		moveq	#0,d2				* D2.L : 単語番号カウンタ
 		bra	wordlistmem_continue
 
 wordlistmem_loop:
 		move.l	d4,d0
-		bsr	strmem				* �������T��
-		bne	wordlistmem_done		* ��������
+		bsr	strmem				* 文字列を探す
+		bne	wordlistmem_done		* 見つかった
 
 		bsr	for1str
 		addq.l	#1,d2
@@ -88,7 +88,7 @@ backup_history:
 
 		move.l	d0,-(a7)
 backup_loop:
-		suba.w	-2(a0),a0			* �|�C���^��O�̍s�Ɉړ��@�i�������j
+		suba.w	-2(a0),a0			* ポインタを前の行に移動　（正しい）
 		subq.l	#1,d0
 		bne	backup_loop
 
@@ -96,55 +96,55 @@ backup_loop:
 backup_done:
 		rts
 ****************************************************************
-* parse_word_selecter - �P��I���q����͂���
+* parse_word_selecter - 単語選択子を解析する
 *
 * CALL
-*      A0     ��͂��镶����̃A�h���X
+*      A0     解析する文字列のアドレス
 *
 * RETURN
-*      A0     ��͂��I�����ʒu��Ԃ�
-*      D0.L   �͈͂���ł��G���[�łȂ��P�[�X�Ȃ�� 0�A�����Ȃ��� 1
-*      D1.L   �n�_�P��ԍ�
-*      D2.L   �I�_�P��ԍ�
+*      A0     解析を終えた位置を返す
+*      D0.L   範囲が空でもエラーでないケースならば 0、さもなくば 1
+*      D1.L   始点単語番号
+*      D2.L   終点単語番号
 *      CCR    TST.L D0
 *
-*      D1.L �� D2.L �́A���Ȃ�ΒP��I���q�������Ă���P��ԍ��ł��邪�A
-*      �P��ԍ������l�ŋL�q����Ă���A���̒l�� MAXWORDS-1 �𒴂��Ă���
-*      �ꍇ�ɂ� MAXWORDS ��Ԃ��B
+*      D1.L と D2.L は、正ならば単語選択子が示している単語番号であるが、
+*      単語番号が数値で記述されており、その値が MAXWORDS-1 を超えている
+*      場合には MAXWORDS を返す。
 *
-*      ���Ȃ�Ύ��̒P��������B
-*             -1: �Ō�̒P��
-*             -2: �Ō��1�O�̒P��
-*             -3: ?str? �Ɉ�v�����P��
+*      負ならば次の単語を示す。
+*             -1: 最後の単語
+*             -2: 最後の1つ前の単語
+*             -3: ?str? に一致した単語
 *
 * DESCRIPTION
-*							�͈͂���Ȃ�c
-*	�Ȃ�		�ŏ�(0�Ԗ�)����Ō�܂�		�@�󕶎���
-*	:*		1�Ԗڂ���Ō�܂�		�@�󕶎���
-*	:*-*		1�Ԗڂ���Ō�܂�		�@�󕶎���
-*	:-*		�ŏ�(0�Ԗ�)����Ō�܂�		�@�󕶎���
-*	:<N>*		N�Ԗڂ���Ō�܂�		�@�󕶎���
-*	:<N>-*		N�Ԗڂ���Ō�܂�		�@�󕶎���
-*	:-		�ŏ�(0�Ԗ�)����Ō��1�O�܂�	�@�G���[
-*	:-<N>		�ŏ�(0�Ԗ�)����N�Ԗڂ܂�	�@�G���[
-*	:*-		1�Ԗڂ���Ō��1�O�܂�	�@�G���[
-*	:*-<M>		1�Ԗڂ���M�Ԗڂ܂�		�@�G���[
-*	:<N>		N�Ԗ�				�@�G���[
-*	:<N>-		N�Ԗڂ���Ō��1�O�܂�	�@�G���[
-*	:<N>-<M>	N�Ԗڂ���M�Ԗڂ܂�		�@�G���[
+*							範囲が空なら…
+*	なし		最初(0番目)から最後まで		　空文字列
+*	:*		1番目から最後まで		　空文字列
+*	:*-*		1番目から最後まで		　空文字列
+*	:-*		最初(0番目)から最後まで		　空文字列
+*	:<N>*		N番目から最後まで		　空文字列
+*	:<N>-*		N番目から最後まで		　空文字列
+*	:-		最初(0番目)から最後の1つ前まで	　エラー
+*	:-<N>		最初(0番目)からN番目まで	　エラー
+*	:*-		1番目から最後の1つ前まで	　エラー
+*	:*-<M>		1番目からM番目まで		　エラー
+*	:<N>		N番目				　エラー
+*	:<N>-		N番目から最後の1つ前まで	　エラー
+*	:<N>-<M>	N番目からM番目まで		　エラー
 *
 *	N,M:
-*		<n>	n�Ԗڂ̒P��		(n)
-*		^	1�Ԗڂ̒P��		(1)
-*		$	�Ō�̒P��		(-1)
-*		%	?str? �Ɉ�v�����P��	(-3)
+*		<n>	n番目の単語		(n)
+*		^	1番目の単語		(1)
+*		$	最後の単語		(-1)
+*		%	?str? に一致した単語	(-3)
 *
-*       �P��I���q�� ^, $, *, -, % �Ŏn�܂��Ă���ꍇ�ɂ�
-*       : �͏ȗ����邱�Ƃ��ł���
+*       単語選択子が ^, $, *, -, % で始まっている場合には
+*       : は省略することができる
 ****************************************************************
 parse_word_selecter:
-		moveq	#0,d1				* �n�_�P��ԍ� :=  0 : �ŏ�����
-		moveq	#-1,d2				* �I�_�P��ԍ� := -1 : �Ō�܂�
+		moveq	#0,d1				* 始点単語番号 :=  0 : 最初から
+		moveq	#-1,d2				* 終点単語番号 := -1 : 最後まで
 		moveq	#0,d0
 		move.b	(a0)+,d0
 		bsr	is_special_word_selecter
@@ -174,7 +174,7 @@ get_word_selecter:
 		cmp.b	#'-',d0
 		beq	get_wordno2
 
-		bsr	get_wordno			* �n�_�P��ԍ��𓾂�
+		bsr	get_wordno			* 始点単語番号を得る
 		move.b	(a0)+,d0
 		cmp.b	#'*',d0
 		beq	parse_word_selecter_done_0
@@ -182,12 +182,12 @@ get_word_selecter:
 		cmp.b	#'-',d0
 		beq	get_wordno2
 
-		move.l	d1,d2				* �I�_�P��ԍ� := �n�_�P��ԍ�
+		move.l	d1,d2				* 終点単語番号 := 始点単語番号
 		subq.l	#1,a0
 		bra	parse_word_selecter_done_1
 
 parse_word_selecter_asterisk:
-		moveq	#1,d1				* �n�_�P��ԍ� := 1�Ԗ�
+		moveq	#1,d1				* 始点単語番号 := 1番目
 		move.b	(a0)+,d0
 		cmp.b	#'-',d0
 		beq	get_wordno2
@@ -201,7 +201,7 @@ get_wordno2:
 		beq	parse_word_selecter_done_0
 
 		exg	d1,d2
-		bsr	get_wordno			* �I�_�P��ԍ��𓾂�
+		bsr	get_wordno			* 終点単語番号を得る
 		exg	d1,d2
 parse_word_selecter_done_1:
 		moveq	#1,d0
@@ -223,7 +223,7 @@ fix_wordno:
 
 		move.l	d4,d0
 fix_wordno_test:
-		cmp.l	d3,d0			* hs (D0 >= D3 || D0 < 0) �Ȃ�΃G���[
+		cmp.l	d3,d0			* hs (D0 >= D3 || D0 < 0) ならばエラー
 		rts
 
 fix_wordno_last_word:
@@ -236,42 +236,42 @@ fix_wordno_last_of_last:
 		subq.l	#2,d0
 		bra	fix_wordno_test
 *****************************************************************
-* expand_history - ! �W�J���s��
+* expand_history - ! 展開を行う
 *
 * CALL
-*      A0     �C�x���g�̒P�����
-*      D0.W   �C�x���g�̒P�ꐔ
-*      A1     �W�J�o�b�t�@�̃A�h���X
-*      D1.W   �W�J�o�b�t�@�̗e��
-*      A2     �P��I���q�ƒP��C���q���n�܂�A�h���X
-*      D2.L   �P��I���q % �̒P��ԍ��i-1:�Y���Ȃ��j
-*      D3.L   �u���X�e�[�^�X
-*             bit1 : �G���[�E���b�Z�[�W��\�����Ȃ�
-*             bit4 : ^str1^str2^flag^ �̓W�J�ł���
+*      A0     イベントの単語並び
+*      D0.W   イベントの単語数
+*      A1     展開バッファのアドレス
+*      D1.W   展開バッファの容量
+*      A2     単語選択子と単語修飾子が始まるアドレス
+*      D2.L   単語選択子 % の単語番号（-1:該当なし）
+*      D3.L   置換ステータス
+*             bit1 : エラー・メッセージを表示しない
+*             bit4 : ^str1^str2^flag^ の展開である
 *
 * RETURN
-*      A1     �i�[�����������i��
-*      A2     �P��C���q�̎��ɐi��
-*      D1.W   �W�J�o�b�t�@�̎c��e��
-*      D0.L   �u���X�e�[�^�X
-*             bit0 : ���s���Ȃ�
-*             bit1 : �\�������s�����Ȃ�
-*             bit2 : �o�^���\�������s�����Ȃ�
+*      A1     格納した分だけ進む
+*      A2     単語修飾子の次に進む
+*      D1.W   展開バッファの残り容量
+*      D0.L   置換ステータス
+*             bit0 : 実行しない
+*             bit1 : 表示も実行もしない
+*             bit2 : 登録も表示も実行もしない
 *****************************************************************
 expand_history:
 		movem.l	d2-d5/d7/a0,-(a7)
-		move.l	d3,d7				*  D7.L : �u���X�e�[�^�X
+		move.l	d3,d7				*  D7.L : 置換ステータス
 		btst	#4,d7
 		bne	expand_history_modify
 
 		move.l	d1,-(a7)
 		moveq	#0,d3
-		move.l	d0,d3				*  D3.L : ���̃C�x���g�̒P�ꐔ
-		move.l	d2,d4				*  D4.L : % �̒P��ԍ��i-1:�Y���Ȃ��j
+		move.l	d0,d3				*  D3.L : このイベントの単語数
+		move.l	d2,d4				*  D4.L : % の単語番号（-1:該当なし）
 		exg	a0,a2
-		bsr	parse_word_selecter		*  D1.L : �n�_�ԍ�  D2.L : �I�_�ԍ�
+		bsr	parse_word_selecter		*  D1.L : 始点番号  D2.L : 終点番号
 		exg	a0,a2
-		move.b	d0,d5				*  D5.B : �u�͈͂���ł��n�j�v�t���O
+		move.b	d0,d5				*  D5.B : 「範囲が空でもＯＫ」フラグ
 		move.l	d1,d0
 		bsr	fix_wordno
 		bhs	expand_history_word_range_empty
@@ -300,23 +300,23 @@ expand_history_empty_range:
 		moveq	#0,d0
 		moveq	#-1,d1
 expand_history_word_range_ok:
-		addq.w	#1,d1				*  D1.W : �擾�P�ꐔ
-		bsr	fornstrs			*  A0 : �擾�P�����
-		move.w	d1,d0				*  D0.W : �擾�P�ꐔ
+		addq.w	#1,d1				*  D1.W : 取得単語数
+		bsr	fornstrs			*  A0 : 取得単語並び
+		move.w	d1,d0				*  D0.W : 取得単語数
 		move.l	(a7)+,d1
 ****************
 *
-*  A0     �P�����
-*  D0.W   �P�ꐔ
-*  A1     �W�J�o�b�t�@�̃A�h���X
-*  D1.W   �o�b�t�@�e��
-*  A2     �P��C���q���n�܂�A�h���X
-*  D7     �u���X�e�[�^�X
+*  A0     単語並び
+*  D0.W   単語数
+*  A1     展開バッファのアドレス
+*  D1.W   バッファ容量
+*  A2     単語修飾子が始まるアドレス
+*  D7     置換ステータス
 *
 expand_history_modify:
 		moveq	#0,d4
-		move.w	d1,d4				*  D4.L : �o�b�t�@�e��
-		move.w	d0,d1				*  D1.W : �擾�P�ꐔ
+		move.w	d1,d4				*  D4.L : バッファ容量
+		move.w	d0,d1				*  D1.W : 取得単語数
 		exg	a1,a2
 		move.w	#%100000000,d0
 		btst	#1,d7
@@ -330,8 +330,8 @@ expand_history_modify_1:
 		bset	#MODIFYSTATBIT_QUICK,d0
 expand_history_modify_2:
 		bsr	modify
-		move.l	a0,d3				*  D3.L : �C�����ꂽ�P����т̐擪�A�h���X
-		move.l	d0,d2				*  D2.L : �C���X�e�[�^�X
+		move.l	a0,d3				*  D3.L : 修飾された単語並びの先頭アドレス
+		move.l	d0,d2				*  D2.L : 修飾ステータス
 		btst	#MODIFYSTATBIT_ERROR,d2
 		beq	expand_history_modify_noerror
 
@@ -360,7 +360,7 @@ expand_history_loop:
 		subq.w	#1,d4
 		bcs	expand_history_over
 
-		move.b	#' ',(a1)+			* �󔒂ŋ�؂�
+		move.b	#' ',(a1)+			* 空白で区切る
 expand_history_start:
 		bsr	strlen
 		tst.l	d0
@@ -425,14 +425,14 @@ get_histchar:
 get_histchar_return:
 		rts
 ****************************************************************
-* get_histchars - ���s�� !^ �u�������𓾂�
+* get_histchars - 現行の !^ 置換文字を得る
 *
 * CALL
 *      none
 *
 * RETURN
-*      D0.L   ���ʃ��[�h�� ! �u�������P
-*             ��ʃ��[�h�� ^ �u�������Q
+*      D0.L   下位ワードは ! 置換文字１
+*             上位ワードは ^ 置換文字２
 ****************************************************************
 get_histchars:
 		move.l	a0,-(a7)
@@ -469,24 +469,24 @@ compare_histchar:
 		cmp.w	d1,d0
 		rts
 *****************************************************************
-* subst_history - ! �u�����s��
+* subst_history - ! 置換を行う
 *
 * CALL
-*      A0     �\�[�X������A�h���X
-*      A1     �W�J�o�b�t�@�̐擪�A�h���X
-*      A2     �Q�Ƃ���P����т̃A�h���X�D0 �Ȃ�Η����C�x���g���Q�Ƃ���
-*      D1.W   �W�J�o�b�t�@�̗e��
-*      D2.W   �Q�Ƃ���P����т̒P�ꐔ�iA2 �� 0 �łȂ��Ƃ��j
+*      A0     ソース文字列アドレス
+*      A1     展開バッファの先頭アドレス
+*      A2     参照する単語並びのアドレス．0 ならば履歴イベントを参照する
+*      D1.W   展開バッファの容量
+*      D2.W   参照する単語並びの単語数（A2 が 0 でないとき）
 *
 * RETURN
-*      A0     �\�[�X������̍Ō�� NUL �̎����w��
-*      A1     �o�b�t�@�̎��̊i�[�ʒu���w��
-*      D1.W   �W�J�o�b�t�@�̎c��e��
-*      D0.B   �u���X�e�[�^�X
-*             bit0 : ���s���Ȃ�
-*             bit1 : �\�������s�����Ȃ�
-*             bit2 : �o�^���\�������s�����Ȃ�
-*             bit3 : �u�����s��ꂽ
+*      A0     ソース文字列の最後の NUL の次を指す
+*      A1     バッファの次の格納位置を指す
+*      D1.W   展開バッファの残り容量
+*      D0.B   置換ステータス
+*             bit0 : 実行しない
+*             bit1 : 表示も実行もしない
+*             bit2 : 登録も表示も実行もしない
+*             bit3 : 置換が行われた
 *****************************************************************
 .xdef subst_history
 
@@ -501,10 +501,10 @@ pad = subst_status
 subst_history:
 		link	a6,#pad
 		movem.l	d2-d7/a2-a4,-(a7)
-		movea.l	a2,a4				* A4 : �Q�ƒP�����
-		move.w	d2,d4				* D4.W : �Q�ƒP�ꐔ
-		movea.l	a0,a2				* A2 : �\�[�X
-		move.w	d1,d7				* D7.W : �W�J�o�b�t�@�̗e��
+		movea.l	a2,a4				* A4 : 参照単語並び
+		move.w	d2,d4				* D4.W : 参照単語数
+		movea.l	a0,a2				* A2 : ソース
+		move.w	d1,d7				* D7.W : 展開バッファの容量
 		clr.b	subst_status(a6)
 
 		bsr	get_histchars
@@ -587,7 +587,7 @@ subst_hist_nobrace:
 **
 search_str:
 		clr.b	istr_flag(a6)
-		movea.l	a2,a0				* A0 : str �̐擪
+		movea.l	a2,a0				* A0 : str の先頭
 find_str_loop:
 		moveq	#0,d0
 		move.b	(a2)+,d0
@@ -614,9 +614,9 @@ find_str_loop:
 		move.b	(a2)+,d0
 		bne	find_str_loop
 find_str_done:
-		subq.l	#1,a2				* A2 : ���̃|�C���g
+		subq.l	#1,a2				* A2 : 次のポイント
 		move.l	a2,d0
-		sub.l	a0,d0				* D0.L : str�̒���
+		sub.l	a0,d0				* D0.L : strの長さ
 		beq	default_event_1
 		bra	set_search_str
 **
@@ -624,13 +624,13 @@ find_str_done:
 **
 search_istr:
 		move.b	#1,istr_flag(a6)
-		addq.l	#1,a2				* �P�߂� ? ���X�L�b�v
-		movea.l	a2,a0				* A0 : str �̐擪
+		addq.l	#1,a2				* １つめの ? をスキップ
+		movea.l	a2,a0				* A0 : str の先頭
 		moveq	#'?',d0
 		bsr	strchr
-		exg	a0,a2				* A2 : ���̃|�C���g
+		exg	a0,a2				* A2 : 次のポイント
 		move.l	a2,d0
-		sub.l	a0,d0				* D0.L : str�̒���
+		sub.l	a0,d0				* D0.L : strの長さ
 		cmpi.b	#'?',(a2)
 		bne	set_search_str
 
@@ -651,30 +651,30 @@ put_hist_search_str_len_ok:
 		movea.l	(a7)+,a1
 		clr.b	(a0)
 get_hist_search_str:
-		lea	prev_search,a0			* A0 : ����������
+		lea	prev_search,a0			* A0 : 検索文字列
 		bsr	strlen
-		move.l	d0,d3				* D3 : ����������̒���
+		move.l	d0,d3				* D3 : 検索文字列の長さ
 		beq	no_prev_search
 
-		move.l	his_nlines_now,d6		* D6.L : ���݂̗����̍s��
-		beq	fail_str			* 0�s�Ȃ�Βu�����s
+		move.l	his_nlines_now,d6		* D6.L : 現在の履歴の行数
+		beq	fail_str			* 0行ならば置換失敗
 
-		move.l	a1,-(a7)			* A1��Ҕ�
+		move.l	a1,-(a7)			* A1を待避
 		movea.l	a0,a1
 		movea.l	hiswork,a3
-		adda.l	his_end,a3			* A3 : �����̃|�C���^
-		moveq	#-1,d2				* D2.L = -1 .. :%�͖���
+		adda.l	his_end,a3			* A3 : 履歴のポインタ
+		moveq	#-1,d2				* D2.L = -1 .. :%は無効
 search_search_str_loop:
-		suba.w	-2(a3),a3			* �|�C���^��O�̍s�Ɉړ��@�i�������j
+		suba.w	-2(a3),a3			* ポインタを前の行に移動　（正しい）
 		lea	2(a3),a0
-		move.w	(a0)+,d5			* D5 : ���̍s�̌ꐔ
+		move.w	(a0)+,d5			* D5 : この行の語数
 		beq	search_search_str_next
 
 		tst.b	istr_flag(a6)
 		bne	search_search_istr
 
-		move.l	d3,d0				* ������̒�������
-		bsr	memcmp				* ��r����
+		move.l	d3,d0				* 文字列の長さ分を
+		bsr	memcmp				* 比較する
 		beq	search_search_str_done
 		bra	search_search_str_next
 
@@ -692,7 +692,7 @@ search_search_str_next:
 		bne	search_search_str_loop
 search_search_str_done:
 		move.l	(a7)+,a1
-		tst.l	d6				* �s���J�E���^
+		tst.l	d6				* 行数カウンタ
 		beq	fail_str
 
 		movea.l	a3,a0
@@ -754,7 +754,7 @@ search_n:
 		beq	fail_n
 		bmi	fail_n
 
-		sub.l	his_toplineno,d3	* �����̐擪�̍s�̍s�ԍ�������
+		sub.l	his_toplineno,d3	* 履歴の先頭の行の行番号を引く
 		bmi	fail_n
 
 		sub.l	his_nlines_now,d3
@@ -765,19 +765,19 @@ search_n:
 		movea.l	hiswork,a0
 		adda.l	his_end,a0
 		bsr	backup_history
-		moveq	#-1,d2			* D2.L = -1 .. :%�͖���
+		moveq	#-1,d2			* D2.L = -1 .. :%は無効
 subst_hist_do_expand_1:
 		addq.l	#2,a0
-		move.w	(a0)+,d0		* D0.W : ���̃C�x���g�̒P�ꐔ
+		move.w	(a0)+,d0		* D0.W : このイベントの単語数
 subst_hist_do_expand_2:
 		*
-		* �����ŁA
-		*      A0     �C�x���g�̒P�����
-		*      A1     �W�J�o�b�t�@�̃A�h���X
-		*      A2     �P��I���q�ƒP��C���q���n�܂�A�h���X
-		*      D0.W   �C�x���g�̒P�ꐔ
-		*      D2.L   �P��I���q % �̒P��ԍ��i-1:�Y���Ȃ��j
-		*      D7.W   �W�J�o�b�t�@�̗e��
+		* ここで、
+		*      A0     イベントの単語並び
+		*      A1     展開バッファのアドレス
+		*      A2     単語選択子と単語修飾子が始まるアドレス
+		*      D0.W   イベントの単語数
+		*      D2.L   単語選択子 % の単語番号（-1:該当なし）
+		*      D7.W   展開バッファの容量
 		*
 		move.b	subst_status(a6),d3
 		bset	#3,d3
@@ -953,11 +953,11 @@ get_wordno_no_wordno:
 special_word_selecters:		dc.b	'%'
 special_word_selecters_2:	dc.b	'-*^$',0
 word_histchars:			dc.b	'histchars',0
-msg_event_not_found:		dc.b	'�C�x���g����������܂���',0
-msg_subst:			dc.b	'!�u����',0
-msg_bad_word_selecter:		dc.b	'�P��I���q�������ł�',0
-msg_no_prev_search:		dc.b	'����������̋L���͂���܂���',0
-msg_modifier_failed:		dc.b	'������C���͋N����܂���ł���',0
+msg_event_not_found:		dc.b	'イベントが見当たりません',0
+msg_subst:			dc.b	'!置換の',0
+msg_bad_word_selecter:		dc.b	'単語選択子が無効です',0
+msg_no_prev_search:		dc.b	'検索文字列の記憶はありません',0
+msg_modifier_failed:		dc.b	'文字列修正は起こりませんでした',0
 ****************************************************************
 
 .end

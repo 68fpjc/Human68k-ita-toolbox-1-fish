@@ -18,15 +18,15 @@
 .text
 
 ****************************************************************
-* stat - ƒtƒ@ƒCƒ‹‚Ìî•ñ‚ğ“¾‚é
+* stat - ãƒ•ã‚¡ã‚¤ãƒ«ã®æƒ…å ±ã‚’å¾—ã‚‹
 *
 * CALL
-*      A0     ƒtƒ@ƒCƒ‹–¼‚Ìæ“ªƒAƒhƒŒƒX
+*      A0     ãƒ•ã‚¡ã‚¤ãƒ«åã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
 *      A1     statbuf
 *
 * RETURN
-*      (A1)   î•ñ‚ª‘‚«‚Ü‚ê‚é
-*      D0.L   ¬Œ÷‚·‚ê‚Î³C‚³‚à‚È‚­‚Î•‰
+*      (A1)   æƒ…å ±ãŒæ›¸ãè¾¼ã¾ã‚Œã‚‹
+*      D0.L   æˆåŠŸã™ã‚Œã°æ­£ï¼Œã•ã‚‚ãªãã°è² 
 *      CCR    TST.L D0
 *****************************************************************
 .xdef stat
@@ -43,8 +43,8 @@ stat:
 		bsr	drvchkp
 		bmi	stat_return
 
-		bsr	contains_dos_wildcard		*  Human68k ‚ÌƒƒCƒ‹ƒhƒJ[ƒh‚ğŠÜ‚ñ‚Å
-		bne	stat_fail			*  ‚¢‚é‚È‚ç‚Î–³Œø
+		bsr	contains_dos_wildcard		*  Human68k ã®ãƒ¯ã‚¤ãƒ«ãƒ‰ã‚«ãƒ¼ãƒ‰ã‚’å«ã‚“ã§
+		bne	stat_fail			*  ã„ã‚‹ãªã‚‰ã°ç„¡åŠ¹
 
 		bsr	headtail
 		cmp.l	#MAXHEAD,d0
@@ -61,7 +61,7 @@ stat:
 
 		tst.b	2(a1)
 		bne	stat_normal
-		*  . ‚Æ .. ‚Í *.* ‚ÅŒŸõ‚·‚éi‚³‚à‚È‚­‚ÎŒŸõ‚³‚ê‚È‚¢j
+		*  . ã¨ .. ã¯ *.* ã§æ¤œç´¢ã™ã‚‹ï¼ˆã•ã‚‚ãªãã°æ¤œç´¢ã•ã‚Œãªã„ï¼‰
 stat_special:
 		movea.l	a1,a2				*  A2 : tail part of search pathname
 		movea.l	a0,a1				*  A1 : top of search pathname
@@ -70,7 +70,7 @@ stat_special:
 		bsr	memmovi
 		lea	dos_allfile,a1
 		bsr	strcpy
-		move.w	#MODEVAL_ALL,-(a7)		*  ‚·‚×‚Ä‚ÌƒGƒ“ƒgƒŠ‚ğŒŸõ‚·‚é
+		move.w	#MODEVAL_ALL,-(a7)		*  ã™ã¹ã¦ã®ã‚¨ãƒ³ãƒˆãƒªã‚’æ¤œç´¢ã™ã‚‹
 		pea	searchnamebuf(a6)
 		move.l	a3,-(a7)
 		DOS	_FILES
@@ -91,7 +91,7 @@ stat_loop:
 		bra	stat_loop
 
 stat_normal:
-		move.w	#MODEVAL_ALL,-(a7)		*  ‚·‚×‚Ä‚ÌƒGƒ“ƒgƒŠ‚ğŒŸõ‚·‚é
+		move.w	#MODEVAL_ALL,-(a7)		*  ã™ã¹ã¦ã®ã‚¨ãƒ³ãƒˆãƒªã‚’æ¤œç´¢ã™ã‚‹
 		move.l	a0,-(a7)
 		move.l	a3,-(a7)
 		DOS	_FILES
@@ -105,18 +105,18 @@ stat_return:
 		tst.l	d0
 		rts
 ****************************************************************
-* lgetmode - ƒtƒ@ƒCƒ‹‚Ì‘®«‚ğ“¾‚é
+* lgetmode - ãƒ•ã‚¡ã‚¤ãƒ«ã®å±æ€§ã‚’å¾—ã‚‹
 *
 * CALL
-*      A0     ƒtƒ@ƒCƒ‹–¼‚Ìæ“ªƒAƒhƒŒƒX
+*      A0     ãƒ•ã‚¡ã‚¤ãƒ«åã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
 *
 * RETURN
-*      D0.L   •‰‚È‚ç‚ÎƒGƒ‰[D³‚È‚ç‚Î‰ºˆÊƒoƒCƒg‚Í‘®«D
+*      D0.L   è² ãªã‚‰ã°ã‚¨ãƒ©ãƒ¼ï¼æ­£ãªã‚‰ã°ä¸‹ä½ãƒã‚¤ãƒˆã¯å±æ€§ï¼
 *      CCR    TST.L D0
 *
 * DESCRIPTION
-*      ƒtƒ@ƒCƒ‹‚ªƒVƒ“ƒ{ƒŠƒbƒNEƒŠƒ“ƒN‚Å‚ ‚éê‡‚É‚ÍƒŠƒ“ƒN©‘Ì‚Ì
-*      ‘®«‚ğ•Ô‚·D
+*      ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚·ãƒ³ãƒœãƒªãƒƒã‚¯ãƒ»ãƒªãƒ³ã‚¯ã§ã‚ã‚‹å ´åˆã«ã¯ãƒªãƒ³ã‚¯è‡ªä½“ã®
+*      å±æ€§ã‚’è¿”ã™ï¼
 *****************************************************************
 .xdef lgetmode
 

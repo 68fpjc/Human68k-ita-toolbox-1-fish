@@ -78,7 +78,7 @@ rd_bad_arg:
 
 .data
 
-msg_notdir:	dc.b	'ディレクトリではありません',0
+msg_notdir:	dc.b	'繝�繧｣繝ｬ繧ｯ繝医Μ縺ｧ縺ｯ縺ゅｊ縺ｾ縺帙ｓ',0
 
 .end
 

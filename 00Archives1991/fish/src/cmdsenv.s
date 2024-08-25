@@ -17,29 +17,29 @@
 .xdef	cmd_setenv
 
 cmd_setenv:
-		tst.w	d0			* ˆø”‚ª‚È‚¯‚ê‚Î
-		beq	printenv		* ŠÂ‹«•Ï”‚ğ•\¦‚·‚é
+		tst.w	d0			* å¼•æ•°ãŒãªã‘ã‚Œã°
+		beq	printenv		* ç’°å¢ƒå¤‰æ•°ã‚’è¡¨ç¤ºã™ã‚‹
 
 		lea	str_nul,a1
 		cmp.w	#2,d0
 		blo	cmd_setenv_set
-		bhi	too_many_args		* ƒGƒ‰[
+		bhi	too_many_args		* ã‚¨ãƒ©ãƒ¼
 
-		movea.l	a0,a2			* A2 : •Ï”–¼
+		movea.l	a0,a2			* A2 : å¤‰æ•°å
 		bsr	for1str
-		movea.l	a0,a1			* A1 : ’l
+		movea.l	a0,a1			* A1 : å€¤
 		move.l	a1,-(a7)
-		lea	tmpargs,a0		* tmpargs ‚É
+		lea	tmpargs,a0		* tmpargs ã«
 		moveq	#1,d0
-		bsr	expand_wordlist		* ’l‚ğ’uŠ·“WŠJ‚·‚é
+		bsr	expand_wordlist		* å€¤ã‚’ç½®æ›å±•é–‹ã™ã‚‹
 		movea.l	(a7)+,a1
 		bmi	return_1
 
 		cmp.w	#1,d0
 		bhi	setenv_ambiguous
 
-		movea.l	a0,a1			* A1 : ’uŠ·“WŠJ‚³‚ê‚½’l
-		movea.l	a2,a0			* A0 : •Ï”–¼
+		movea.l	a0,a1			* A1 : ç½®æ›å±•é–‹ã•ã‚ŒãŸå€¤
+		movea.l	a2,a0			* A0 : å¤‰æ•°å
 cmd_setenv_set:
 		bsr	strip_quotes
 		bra	setenv
@@ -48,8 +48,8 @@ printenv:
 		movea.l	envwork,a0
 		addq.l	#4,a0
 printenv_loop:
-		tst.b	(a0)			* Å‰‚Ì•¶š‚ªNUL‚È‚ç‚Î
-		beq	return_0		* I‚í‚è
+		tst.b	(a0)			* æœ€åˆã®æ–‡å­—ãŒNULãªã‚‰ã°
+		beq	return_0		* çµ‚ã‚ã‚Š
 
 		bsr	nputs
 		bsr	for1str

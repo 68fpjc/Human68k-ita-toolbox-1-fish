@@ -37,16 +37,16 @@
 .text
 
 ****************************************************************
-* set_shellvar - ƒVƒFƒ‹•Ï”‚ğ’è‹`‚·‚é
+* set_shellvar - ã‚·ã‚§ãƒ«å¤‰æ•°ã‚’å®šç¾©ã™ã‚‹
 *
 * CALL
-*      A0     •Ï”–¼‚Ìæ“ªƒAƒhƒŒƒX
-*      A1     ’l‚ÌŒê•À‚Ñ‚Ìæ“ªƒAƒhƒŒƒX
-*      D0.W   ’l‚ÌŒê”
-*      D1.B   0 : export‚µ‚È‚¢
+*      A0     å¤‰æ•°åã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      A1     å€¤ã®èªä¸¦ã³ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      D0.W   å€¤ã®èªæ•°
+*      D1.B   0 : exportã—ãªã„
 *
 * RETURN
-*      D0.L   0:¬Œ÷  1:¸”s
+*      D0.L   0:æˆåŠŸ  1:å¤±æ•—
 *      CCR    TST.L D0
 ****************************************************************
 .xdef set_shellvar
@@ -54,16 +54,16 @@
 set_shellvar:
 		movem.l	d1-d3/a0-a3,-(a7)
 		move.b	d1,d2				*  D2.B : export flag
-		movea.l	a1,a2				*  A2 : ƒZƒbƒg‚·‚é’li’PŒêƒŠƒXƒgj
-		movea.l	a0,a1				*  A1 : ƒVƒFƒ‹•Ï”–¼
-		move.w	d0,d1				*  D1.W : ’PŒê”
+		movea.l	a1,a2				*  A2 : ã‚»ãƒƒãƒˆã™ã‚‹å€¤ï¼ˆå˜èªãƒªã‚¹ãƒˆï¼‰
+		movea.l	a0,a1				*  A1 : ã‚·ã‚§ãƒ«å¤‰æ•°å
+		move.w	d0,d1				*  D1.W : å˜èªæ•°
 		lea	shellvar_top(a5),a0
 		bsr	setvar
 		beq	no_space_in_shellvar
 
 		bsr	get_var_value
-		movea.l	a0,a2				*  A2 : ƒZƒbƒg‚µ‚½•Ï”‚ÌÅ‰‚Ì’l‚ÌƒAƒhƒŒƒX
-		movea.l	a1,a0				*  A0 : •Ï”–¼
+		movea.l	a0,a2				*  A2 : ã‚»ãƒƒãƒˆã—ãŸå¤‰æ•°ã®æœ€åˆã®å€¤ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+		movea.l	a1,a0				*  A0 : å¤‰æ•°å
 		movea.l	a2,a1
 		st	d0
 		bsr	set_flagvar
@@ -105,8 +105,8 @@ set_wordchars:
 		bra	set_svar_return0
 ****************
 not_wordchars:
-		tst.b	d2				*  ƒGƒNƒXƒ|[ƒg‚ª‹Ö~‚³‚ê‚Ä‚¢‚é‚È‚ç‚Î
-		beq	set_svar_return0		*  Š®—¹
+		tst.b	d2				*  ã‚¨ã‚¯ã‚¹ãƒãƒ¼ãƒˆãŒç¦æ­¢ã•ã‚Œã¦ã„ã‚‹ãªã‚‰ã°
+		beq	set_svar_return0		*  å®Œäº†
 
 		lea	word_path,a1
 		bsr	strcmp
@@ -114,8 +114,8 @@ not_wordchars:
 
 		bsr	rehash
 
-		movea.l	a2,a0				*  A0 : ƒVƒFƒ‹•Ï” path ‚Ì’l
-		movea.l	tmpargs(a5),a2			*  A2 : ƒoƒbƒtƒ@
+		movea.l	a2,a0				*  A0 : ã‚·ã‚§ãƒ«å¤‰æ•° path ã®å€¤
+		movea.l	tmpargs(a5),a2			*  A2 : ãƒãƒƒãƒ•ã‚¡
 		clr.b	(a2)
 		st	d2				*  D2.B : first flag
 		bra	export_build_path_continue
@@ -155,19 +155,19 @@ compare_export_loop:
 		bsr	strcmp
 		bne	compare_export_loop
 
-		movea.l	tmpargs(a5),a0			*  A0 : ƒoƒbƒtƒ@
+		movea.l	tmpargs(a5),a0			*  A0 : ãƒãƒƒãƒ•ã‚¡
 		clr.b	(a0)
 		tst.w	d1
 		beq	do_export
 
-		movea.l	a2,a1				*  A1 : ƒVƒFƒ‹•Ï”‚Ì’l
+		movea.l	a2,a1				*  A1 : ã‚·ã‚§ãƒ«å¤‰æ•°ã®å€¤
 		bsr	strcpy
 		tst.w	4(a3)
 		beq	do_export
 
 		bsr	sltobsl
 do_export:
-		movea.l	(a3),a1				*  A1 : ŠÂ‹«•Ï”–¼
+		movea.l	(a3),a1				*  A1 : ç’°å¢ƒå¤‰æ•°å
 set_svar_setenv:
 		exg	a0,a1
 		bsr	fish_setenv
@@ -184,13 +184,13 @@ set_svar_return1:
 		moveq	#1,d0
 		bra	set_svar_return
 ****************************************************************
-* set_shellvar_nul - ƒVƒFƒ‹•Ï”‚É‹ó•¶š—ñ‚ğƒZƒbƒg‚·‚éDexport‚Í‚µ‚È‚¢
+* set_shellvar_nul - ã‚·ã‚§ãƒ«å¤‰æ•°ã«ç©ºæ–‡å­—åˆ—ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ï¼exportã¯ã—ãªã„
 *
 * CALL
-*      A0     •Ï”–¼‚Ìæ“ªƒAƒhƒŒƒX
+*      A0     å¤‰æ•°åã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
 *
 * RETURN
-*      D0.L   0:¬Œ÷  1:¸”s
+*      D0.L   0:æˆåŠŸ  1:å¤±æ•—
 *      CCR    TST.L D0
 ****************************************************************
 .xdef set_shellvar_nul
@@ -204,12 +204,12 @@ set_shellvar_nul:
 		movem.l	(a7)+,d1/a1
 		rts
 ****************************************************************
-* set_shellvar_num - ƒVƒFƒ‹•Ï”‚É”’l‚ğ’è‹`‚·‚é
+* set_shellvar_num - ã‚·ã‚§ãƒ«å¤‰æ•°ã«æ•°å€¤ã‚’å®šç¾©ã™ã‚‹
 *
 * CALL
-*      A0     •Ï”–¼‚Ìæ“ªƒAƒhƒŒƒX
-*      D0.L   ”’l
-*      D1.B   0 : export‚µ‚È‚¢
+*      A0     å¤‰æ•°åã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      D0.L   æ•°å€¤
+*      D1.B   0 : exportã—ãªã„
 *
 * RETURN
 *      none
@@ -222,7 +222,7 @@ set_shellvar_num:
 
 		movem.l	d1/a0,-(a7)
 		lea	-12(a6),a0
-		moveq	#0,d1				*  ®”‚É•„†‚âƒXƒy[ƒX‚Í‚Â‚¯‚È‚¢
+		moveq	#0,d1				*  æ•´æ•°ã«ç¬¦å·ã‚„ã‚¹ãƒšãƒ¼ã‚¹ã¯ã¤ã‘ãªã„
 		bsr	itoa
 		movea.l	a0,a1
 		movem.l	(a7)+,d1/a0

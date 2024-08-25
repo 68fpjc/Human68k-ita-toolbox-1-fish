@@ -14,7 +14,7 @@
 * RETURN
 *      A0     points first non-digit point
 *      D0.L   0:success, 1:overflow, -1:no digits
-*      D1.L   ’lDD0.L==-1‚Ì‚Æ‚«‚É‚Í0D
+*      D1.L   å€¤ï¼D0.L==-1ã®ã¨ãã«ã¯0ï¼
 *      CCR    TST.L D0
 *****************************************************************
 .xdef atoi

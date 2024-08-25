@@ -1,45 +1,45 @@
-*  Revision 2 : 24 Jan 1993   �R�����g�C��
+*  Revision 2 : 24 Jan 1993   コメント修正
 
 *****************************************************************
 *  EncHUPAIR.s
 *
 *  Copyright(C)1991-93 by Itagaki Fumihiko
 *
-*  �{���W���[���́C��L�̔Ō��\�����܂ޑS�̂���؉��ς��Ȃ���
-*  �Ƃ������ɁC�g�p�C�g�ݍ��݁C�����C���J�C�Ĕz�z���邱�Ƃ��C
-*  ���ꂪ�����Ȃ�ړI�ł����Ă��F�߂܂��B����������҂͖@�̒�
-*  �߂�ق��͖{���W���[���ɂ��Ĉ�ؕۏ؂��܂���B�{���W���[
-*  ���͌���̂܂ܖ��ۏ؂ɂĒ񋟂���C�{���W���[���ɂ����郊�X
-*  �N�͂��ׂĎg�p�҂����畉�����̂Ƃ��܂��B����҂́C�{���W���[
-*  �����g�p���C���邢�͎g�p�ł��Ȃ��������Ƃɂ�钼�ړI���邢
-*  �͊ԐړI�ȑ��Q�╴���ɂ��Ĉ�؊֒m�����C�{���W���[���Ɍ�
-*  �ׁC�s�s���C��肪�����Ă�������C������`���𕉂��܂���B
+*  本モジュールは，上記の版権表示を含む全体を一切改変しないこ
+*  とを条件に，使用，組み込み，複製，公開，再配布することを，
+*  それがいかなる目的であっても認めます。ただし著作者は法の定
+*  めるほかは本モジュールについて一切保証しません。本モジュー
+*  ルは現状のまま無保証にて提供され，本モジュールにかかるリス
+*  クはすべて使用者が自ら負うものとします。著作者は，本モジュー
+*  ルを使用し，あるいは使用できなかったことによる直接的あるい
+*  は間接的な損害や紛争について一切関知せず，本モジュールに欠
+*  陥，不都合，誤りがあってもそれを修正する義務を負いません。
 *****************************************************************
 
 
-*  ���̃��W���[���Ɋ܂܂�Ă��� 2�̃T�u���[�`��
-*  EncodeHUPAIR �� SetHUPAIR �́CHUPAIR�ɏ]���Ĉ�������R�}��
-*  �h���C����ɃG���R�[�h������̂ł��D
+*  このモジュールに含まれている 2つのサブルーチン
+*  EncodeHUPAIR と SetHUPAIR は，HUPAIRに従って引数列をコマン
+*  ドライン上にエンコードするものです．
 *
-*  �ȉ��ɗ�������܂��D
+*  以下に例を示します．
 *
-*	*  A0 �ɃR�}���h���C���̐擪�A�h���X���CD0.L �ɃR�}
-*	*  ���h���C���̗e�ʁi�o�C�g���j���Z�b�g����D
+*	*  A0 にコマンドラインの先頭アドレスを，D0.L にコマ
+*	*  ンドラインの容量（バイト数）をセットする．
 *
 *		lea	cmdline,a0
 *		move.l	#CMDLINE_SIZE,d0
 *
-*	*  A1 �ɃG���R�[�h������������̐擪�A�h���X���CD1.L
-*	*  �ɂ��̒P�ꐔ���Z�b�g���āCEncodeHUPAIR ���Ăяo���D
+*	*  A1 にエンコードしたい引数列の先頭アドレスを，D1.L
+*	*  にその単語数をセットして，EncodeHUPAIR を呼び出す．
 *
 *		lea	wordlist_1,a1
 *		move.l	nwords_1,d1
 *		bsr	EncodeHUPAIR
-*		bmi	too_long	*  �����Ԃ�����G���[
+*		bmi	too_long	*  負が返ったらエラー
 *
-*	*  ���̑���͘A�����ČJ��Ԃ��s�����Ƃ��ł���D��
-*	*  ��C�G���R�[�h������������͕����̗̈�ɕ�������
-*	*  �Ă��Ă��ǂ��D
+*	*  この操作は連続して繰り返し行うことができる．つま
+*	*  り，エンコードしたい引数列は複数の領域に分割され
+*	*  ていても良い．
 *
 *		lea	wordlist_2,a1
 *		move.l	nwords_2,d1
@@ -49,30 +49,30 @@
 *			.
 *			.
 *
-*	*  EncodeHUPAIR �̌J��Ԃ����I������C�Ō��
-*	*  SetHUPAIR ���Ăяo���ăR�}���h���C��������������D
-*	*  �����܂ł̊ԁCA0 �� D0.L ��j�󂵂Ă͂Ȃ�Ȃ��D
+*	*  EncodeHUPAIR の繰り返しを終えたら，最後に
+*	*  SetHUPAIR を呼び出してコマンドラインを完成させる．
+*	*  ここまでの間，A0 と D0.L を破壊してはならない．
 *
 *		lea	cmdline,a1
 *		lea	cmdname,a2
 *		move.l	#CMDLINE_SIZE,d1
 *		bsr	SetHUPAIR
-*		bmi	too_long	*  �����Ԃ�����G���[
+*		bmi	too_long	*  負が返ったらエラー
 *
-*	*  �����ŁCD0.L �̓R�}���h���C���̕�����̒����CD1.L
-*	*  �͎��ۂɃR�}���h���C���� 1�o�C�g�ڂɃZ�b�g�����l
-*	*  �ł���D�R�}���h���C���̕�����255�o�C�g�𒴂���
-*	*  ���Ƃ����m����ɂ́C
+*	*  ここで，D0.L はコマンドラインの文字列の長さ，D1.L
+*	*  は実際にコマンドラインの 1バイト目にセットした値
+*	*  である．コマンドラインの文字列が255バイトを超えた
+*	*  ことを検知するには，
 *
 *		cmp.l	#255,d0
 *		bhi	huge_arg
 *
-*		* ���邢��
+*		* あるいは
 *
 *		cmp.l	d1,d0
 *		bne	huge_arg
 *
-*	*  �Ƃ���Ηǂ��D
+*	*  とすれば良い．
 *
 *		.data
 *	cmdname:	dc.b	'cmd',0
@@ -89,27 +89,27 @@
 *			dc.b	'arg5',0
 *
 *		.bss
-*			ds.b	8		*  �����ɂ� '#HUPAIR',0 ���������܂��D
+*			ds.b	8		*  ここには '#HUPAIR',0 が書き込まれる．
 *	cmdline:	ds.b	CMDLINE_SIZE
 
 
 
 *****************************************************************
-* EncodeHUPAIR - �������HUPAIR�ɏ]���ăo�b�t�@�ɃG���R�[�h����
+* EncodeHUPAIR - 引数列をHUPAIRに従ってバッファにエンコードする
 *
 * CALL
-*      A0     �o�b�t�@�̃A�h���X
-*      D0.L   �o�b�t�@�̗e�ʁi�o�C�g���j�i�����t���D�����ł��邱�Ɓj
-*      A1     �G���R�[�h���������
-*      D1.L   �G���R�[�h��������̐��i�������j
+*      A0     バッファのアドレス
+*      D0.L   バッファの容量（バイト数）（符号付き．正数であること）
+*      A1     エンコードする引数列
+*      D1.L   エンコードする引数の数（無符号）
 *
 * RETURN
-*      A0     ������EncodeHUPAIR�܂���SetHUPAIR���Ăяo���ۂ�
-*             �n���ׂ�A0�̒l�i�o�b�t�@�̏������݃|�C���^�j�D
+*      A0     続いてEncodeHUPAIRまたはSetHUPAIRを呼び出す際に
+*             渡すべきA0の値（バッファの書き込みポインタ）．
 *
-*      D0.L   �����Ȃ�΁C������EncodeHUPAIR�܂���SetHUPAIR��
-*             �Ăяo���ۂɓn���ׂ�D0.L�̒l�i�o�b�t�@�̎c��e�ʁj�D
-*             �����Ȃ�΃G���[�i�e�ʕs���j�D
+*      D0.L   正数ならば，続いてEncodeHUPAIRまたはSetHUPAIRを
+*             呼び出す際に渡すべきD0.Lの値（バッファの残り容量）．
+*             負数ならばエラー（容量不足）．
 *
 *      CCR    TST.L D0
 *
@@ -117,26 +117,26 @@
 *      20 Bytes
 *
 * DESCRIPTION
-*      $00 �ŏI�[���ꂽ������ D1.L�������Ԗ�������ł����
-*      ������G���R�[�h���ăo�b�t�@�ɏ������ށD�������ސ擪��
-*      �u�͌Ăяo������ A0���W�X�^�Ŏw�肵�C���̈ʒu����̗e��
-*      �� D0.L���W�X�^�Ŏ����D���^�[������ A0���W�X�^�� D0.L��
-*      �W�X�^�̒l�́C������ EncodeHUPAIR �܂��� SetHUPAIR ����
-*      �ԍۂɎg�p�����D
-*      ���^�[������ D0.L���W�X�^�̒l�������ɂȂ��Ă���Ȃ�΁C
-*      ����̓o�b�t�@�̗e�ʂ��s���������Ƃ������Ă���D
+*      $00 で終端された文字列が D1.L個だけ隙間無く並んでいる引
+*      数列をエンコードしてバッファに書き込む．書き込む先頭位
+*      置は呼び出し時に A0レジスタで指定し，その位置からの容量
+*      を D0.Lレジスタで示す．リターン時の A0レジスタと D0.Lレ
+*      ジスタの値は，続けて EncodeHUPAIR または SetHUPAIR を呼
+*      ぶ際に使用される．
+*      リターン時に D0.Lレジスタの値が負数になっているならば，
+*      それはバッファの容量が不足したことを示している．
 *
 * NOTE
-*      �G���R�[�h��������̐��� 0 �łȂ���΁C�ŏ��ɋ󔒁i$20�j
-*      �� 1�����u�����D
+*      エンコードする引数の数が 0 でなければ，最初に空白（$20）
+*      が 1文字置かれる．
 *
 * AUTHOR
-*      �_ �j�F
+*      板垣 史彦
 *
 * REVISION
-*      12 Mar. 1991   �_ �j�F         �쐬
-*       2 Nov. 1991   �_ �j�F         �N�I�[�g�͈͂��Œ��Ƃ���
-*       3 Jan. 1992   �_ �j�F         ���̐���������
+*      12 Mar. 1991   板垣 史彦         作成
+*       2 Nov. 1991   板垣 史彦         クオート範囲を最長とする
+*       3 Jan. 1992   板垣 史彦         数の制限を除去
 *****************************************************************
 
 	.text
@@ -144,7 +144,7 @@
 
 EncodeHUPAIR:
 		movem.l	d1-d3/a1-a2,-(a7)
-		move.l	d0,d2			*  D2.L : �o�b�t�@�̎c��e��
+		move.l	d0,d2			*  D2.L : バッファの残り容量
 		bmi	encode_return
 encode_continue:
 		subq.l	#1,d1
@@ -158,43 +158,43 @@ encode_loop:
 		subq.l	#1,d2
 		bmi	encode_return
 
-		move.b	#' ',(a0)+		*  �P�����̃X�y�[�X��u���āA�����P�����؂�
+		move.b	#' ',(a0)+		*  １文字のスペースを置いて、続く単語を区切る
 
-		move.b	(a1),d0			*  �P�ꂪ��Ȃ�
-		beq	begin_quote		*  �N�I�[�g����
+		move.b	(a1),d0			*  単語が空なら
+		beq	begin_quote		*  クオートする
 encode_one_loop:
-		*  ��ǂ݂��ăN�I�[�g���ׂ�������T��
+		*  先読みしてクオートすべき文字を探す
 		movea.l	a1,a2
-		sf	d3			*  D3.B : �󔒕��������������Ƃ��o����t���O
+		sf	d3			*  D3.B : 空白文字を見つけたことを覚えるフラグ
 prescan:
 		move.b	(a2)+,d0
-		beq	prescan_done		*  �� ��ǂݏI��
+		beq	prescan_done		*  → 先読み終了
 
-		cmp.b	#'"',d0			*  " ����������
-		beq	begin_quote		*  ' �ŃN�I�[�g���J�n����
+		cmp.b	#'"',d0			*  " を見つけたら
+		beq	begin_quote		*  ' でクオートを開始する
 
-		cmp.b	#"'",d0			*  ' ����������
-		beq	begin_quote		*  " �ŃN�I�[�g���J�n����
+		cmp.b	#"'",d0			*  ' を見つけたら
+		beq	begin_quote		*  " でクオートを開始する
 
 		cmp.b	#' ',d0
-		beq	found_white_space	*  �� �󔒕�����������
+		beq	found_white_space	*  → 空白文字を見つけた
 
-		cmp.b	#$09,d0			*  �{�� HUPAIR �ł� $09�`$0d�iht, nl(lf), vt,
-		blo	prescan			*  ff, cr�j�̓N�I�[�g�s�v�����CHUPAIR �ɏ���
-						*  ���Ă��Ȃ��v���O�����ɑ΂��Ă�����������
-		cmp.b	#$0d,d0			*  ���`��邱�Ƃ������ł������Ȃ邱�Ƃ�����
-		bhi	prescan			*  ���ăN�I�[�g����D
+		cmp.b	#$09,d0			*  本来 HUPAIR では $09〜$0d（ht, nl(lf), vt,
+		blo	prescan			*  ff, cr）はクオート不要だが，HUPAIR に準拠
+						*  していないプログラムに対しても引数がうま
+		cmp.b	#$0d,d0			*  く伝わることが少しでも多くなることを期待
+		bhi	prescan			*  してクオートする．
 found_white_space:
-	*  �󔒕�����������
-		st	d3			*  �󔒕��������������Ƃ��o���Ă�����
-		bra	prescan			*  ��ǂ݂𑱂���
+	*  空白文字を見つけた
+		st	d3			*  空白文字を見つけたことを覚えておいて
+		bra	prescan			*  先読みを続ける
 
 prescan_done:
-	*  ��ǂݏI��
-		tst.b	d3			*  �󔒕������������Ȃ��
-		bne	begin_quote		*  " �ŃN�I�[�g���J�n����
+	*  先読み終了
+		tst.b	d3			*  空白文字があったならば
+		bne	begin_quote		*  " でクオートを開始する
 
-	*  �����N�I�[�g���ׂ������͖����̂ŁC�P��̎c�����C�ɃR�s�[����
+	*  もうクオートすべき文字は無いので，単語の残りを一気にコピーする
 dup_loop:
 		move.b	(a1)+,d0
 		beq	encode_continue
@@ -206,7 +206,7 @@ dup_loop:
 		bra	dup_loop
 
 begin_quote:
-	*  D0.B �� " �Ȃ�� ' �ŁC�����łȂ���� " �ŃN�I�[�g���J�n����
+	*  D0.B が " ならば ' で，そうでなければ " でクオートを開始する
 		moveq	#'"',d3
 		cmp.b	d0,d3
 		bne	insert_quote_char
@@ -218,10 +218,10 @@ insert_quote_char:
 
 quoted_loop:
 		move.b	(a1),d0
-		beq	close_quote		*  �P��̏I���Ȃ�N�I�[�g�����
+		beq	close_quote		*  単語の終わりならクオートを閉じる
 
-		cmp.b	d3,d0			*  �N�I�[�g����������ꂽ�Ȃ�
-		beq	close_quote		*  �N�I�[�g����U����
+		cmp.b	d3,d0			*  クオート文字が現われたなら
+		beq	close_quote		*  クオートを一旦閉じる
 
 		addq.l	#1,a1
 quoted_insert:
@@ -239,31 +239,31 @@ close_quote:
 		bra	encode_one_loop
 
 *****************************************************************
-* SetHUPAIR - �R�}���h���C������������
+* SetHUPAIR - コマンドラインを完成する
 *
 * CALL
-*      A0     �Ō�� EncodeHUPAIR �Ăяo����� A0 �̒l
-*             �i�o�b�t�@�̏������݃|�C���^�j
+*      A0     最後の EncodeHUPAIR 呼び出し後の A0 の値
+*             （バッファの書き込みポインタ）
 *
-*      D0.L   �Ō�� EncodeHUPAIR �Ăяo����� D0.L �̒l
-*             �i�o�b�t�@�̎c��e�ʁj
+*      D0.L   最後の EncodeHUPAIR 呼び出し後の D0.L の値
+*             （バッファの残り容量）
 *
-*      A1     �ŏ��� EncodeHUPAIR �Ăяo�����ɓn���� A0 �̒l
-*             �i�R�}���h���C���̐擪�A�h���X�j
+*      A1     最初の EncodeHUPAIR 呼び出し時に渡した A0 の値
+*             （コマンドラインの先頭アドレス）
 *
-*      D1.L   �ŏ��� EncodeHUPAIR �Ăяo�����ɓn���� D0.L �̒l
-*             �i�R�}���h���C���̑S�e�ʁj
+*      D1.L   最初の EncodeHUPAIR 呼び出し時に渡した D0.L の値
+*             （コマンドラインの全容量）
 *
-*      A2     arg0 �̐擪�A�h���X
+*      A2     arg0 の先頭アドレス
 *
 * RETURN
-*      D0.L   �����Ȃ�΁C�R�}���h���C���̕�����̒����i�o�C�g
-*             ���j�D�����Ȃ�Ηe�ʕs���������D
+*      D0.L   正数ならば，コマンドラインの文字列の長さ（バイト
+*             数）．負数ならば容量不足を示す．
 *
-*      D1.L   �R�}���h���C���� 1�o�C�g�ڂɃZ�b�g�����C�������
-*             �����D������ D0.L �������̂Ƃ��ɂ͕s��D
+*      D1.L   コマンドラインの 1バイト目にセットした，文字列の
+*             長さ．ただし D0.L が負数のときには不定．
 *
-*      A0     �o�b�t�@�� arg0 + $00 ���Z�b�g�������̎��̃A�h���X
+*      A0     バッファに arg0 + $00 をセットしたその次のアドレス
 *
 *      CCR    TST.L D0
 *
@@ -271,23 +271,23 @@ close_quote:
 *      8 Bytes
 *
 * DESCRIPTION
-*      EncodeHUPAIR �̌J��Ԃ����I������ɌĂяo���ăR�}���h
-*      ���C����������������̂ł���D
+*      EncodeHUPAIR の繰り返しを終えた後に呼び出してコマンド
+*      ラインを完成させるものである．
 *
-*      �R�}���h���C���̌��ɂ� A2���W�X�^�Ŏ������ arg0 ��
-*      �i�[�����D
+*      コマンドラインの後ろには A2レジスタで示される arg0 が
+*      格納される．
 *
-*      A1���W�X�^�ŗ^������R�}���h���C���̑O�ɂ�8�o�C�g��
-*      �]�����Ȃ���΂Ȃ�Ȃ��D����8�o�C�g�̗]���ɂ� '#HUPAIR',0
-*      ���������܂��D
+*      A1レジスタで与えられるコマンドラインの前には8バイトの
+*      余白がなければならない．この8バイトの余白には '#HUPAIR',0
+*      が書き込まれる．
 *
 * AUTHOR
-*      �_ �j�F
+*      板垣 史彦
 *
 * REVISION
-*      11 Aug. 1991   �_ �j�F         �쐬
-*      24 Nov. 1991   �_ �j�F         '#HUPAIR',0 ���Z�b�g
-*       3 Jan. 1992   �_ �j�F         ���̐����������Carg0 ���Z�b�g
+*      11 Aug. 1991   板垣 史彦         作成
+*      24 Nov. 1991   板垣 史彦         '#HUPAIR',0 をセット
+*       3 Jan. 1992   板垣 史彦         数の制限を除去，arg0 をセット
 *****************************************************************
 
 	.text

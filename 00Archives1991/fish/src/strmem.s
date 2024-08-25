@@ -4,32 +4,32 @@
 .text
 
 ****************************************************************
-* strmem - �����񂩂炠��p�^�[����T���o��
+* strmem - 文字列からあるパターンを探し出す
 *
 * CALL
-*      A0     ��������w���|�C���^
-*      A1     �����p�^�[���̐擪�A�h���X
-*      D0.L   �����p�^�[���̃o�C�g��
-*      D1.B   0 �ȊO�Ȃ�΁AANK�p�����̑啶���Ə���������ʂ��Ȃ�
+*      A0     文字列を指すポインタ
+*      A1     検索パターンの先頭アドレス
+*      D0.L   検索パターンのバイト数
+*      D1.B   0 以外ならば、ANK英文字の大文字と小文字を区別しない
 *
 * RETURN
-*      D0.L   ���������A�h���X�D������Ȃ����0
+*      D0.L   見つかったアドレス．見つからなければ0
 *      CCR    TST.L D0
 *
 * DESCRIPTION
-*      �����񒆂̃V�t�g�i�h�r�������l�����Ă���
+*      文字列中のシフトＪＩＳ文字も考慮している
 *****************************************************************
 .xdef strmem
 
 strmem:
 		movem.l	d2-d3/a0/a2,-(a7)
-		move.l	d0,d2		* D2.L : �ƍ��p�^�[���̒���
-		beq	strmem_found	* 0 �Ȃ�Ε�����̐擪��Ԃ�
+		move.l	d0,d2		* D2.L : 照合パターンの長さ
+		beq	strmem_found	* 0 ならば文字列の先頭を返す
 
 		bsr	strlen
-		move.l	d0,d3		* ������̒�������
-		sub.l	d2,d3		* �ƍ��p�^�[���̒���������
-		bcs	strmem_fail	* �ƍ��p�^�[����蕶���񂪒Z���Ȃ猩����킯�͂Ȃ�
+		move.l	d0,d3		* 文字列の長さから
+		sub.l	d2,d3		* 照合パターンの長さを引く
+		bcs	strmem_fail	* 照合パターンより文字列が短いなら見つかるわけはない
 strmem_loop:
 		move.l	d2,d0
 		bsr	memxcmp

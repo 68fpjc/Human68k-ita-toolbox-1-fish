@@ -16,14 +16,14 @@
 .text
 
 ****************************************************************
-* tailptr - �p�X���̃t�@�C�����̈ʒu
+* tailptr - パス名のファイル部の位置
 *
 * CALL
-*      A0     �p�X���̐擪�A�h���X
+*      A0     パス名の先頭アドレス
 *
 * RETURN
-*      A0     �t�@�C�����̃A�h���X
-*      D0.L   �h���C�u�{�f�B���N�g�����̒����i�Ō�� / �̕����܂ށj
+*      A0     ファイル部のアドレス
+*      D0.L   ドライブ＋ディレクトリ部の長さ（最後の / の分を含む）
 *      CCR    TST.L D0
 *****************************************************************
 .xdef tailptr
@@ -68,36 +68,36 @@ tailptr_fin:
 		movem.l	(a7)+,a1-a2
 		rts
 ****************************************************************
-* test_pathname - �p�X���𒲂ׂ�
+* test_pathname - パス名を調べる
 *
 * CALL
-*      A0     �p�X���̐擪�A�h���X
+*      A0     パス名の先頭アドレス
 *
 * RETURN
-*      A1     �f�B���N�g�����̃A�h���X
-*      A2     �t�@�C�����̃A�h���X
-*      A3     �g���q���̃A�h���X�i. ����B.��������΍Ō��NUL���w���j
-*      D0.L   �h���C�u�{�f�B���N�g�����̒����i�Ō�� / �̕����܂ށj
-*      D1.L   �f�B���N�g�����̒����i�Ō�� / �̕����܂ށj
-*      D2.L   �t�@�C�����i�g���q���͊܂܂Ȃ��j�̒���
-*      D3.L   �g���q���̒����i. �̕����܂ށj
-*      CCR    �e���̒������K�@�Ȃ�� "ls"
+*      A1     ディレクトリ部のアドレス
+*      A2     ファイル部のアドレス
+*      A3     拡張子部のアドレス（. から。.が無ければ最後のNULを指す）
+*      D0.L   ドライブ＋ディレクトリ部の長さ（最後の / の分を含む）
+*      D1.L   ディレクトリ部の長さ（最後の / の分を含む）
+*      D2.L   ファイル部（拡張子部は含まない）の長さ
+*      D3.L   拡張子部の長さ（. の分を含む）
+*      CCR    各部の長さが適法ならば "ls"
 *****************************************************************
 .xdef test_pathname
 
 test_pathname:
-	*  A2 �Ƀt�@�C�����̐擪�A�h���X��
-	*  D0 �Ƀh���C�u�{�f�B���N�g�����̒����i�Ō�� / �̕����܂ށj�𓾂�
+	*  A2 にファイル部の先頭アドレスを
+	*  D0 にドライブ＋ディレクトリ部の長さ（最後の / の分を含む）を得る
 
 		movea.l	a0,a2
 		bsr	tailptr
 		exg	a0,a2
 
-	*  A1 �Ƀf�B���N�g�����̐擪�A�h���X
-	*  D1 �Ƀf�B���N�g�����̒����i�Ō�� / �̕����܂ށj�𓾂�
+	*  A1 にディレクトリ部の先頭アドレス
+	*  D1 にディレクトリ部の長さ（最後の / の分を含む）を得る
 
 		movea.l	a0,a1
-		movem.l	d0/a0,-(a7)		*  D0 �� A0 ���Z�[�u����
+		movem.l	d0/a0,-(a7)		*  D0 と A0 をセーブする
 		move.l	d0,d1
 		cmp.l	#2,d1
 		blo	test_pathname_1
@@ -109,8 +109,8 @@ test_pathname:
 		subq.l	#2,d1
 test_pathname_1:
 
-	*  A3 �Ɋg���q���̃A�h���X�i. ����j��
-	*  D3 �Ɋg���q���̒����i. ���܂ށj�𓾂�
+	*  A3 に拡張子部のアドレス（. から）を
+	*  D3 に拡張子部の長さ（. を含む）を得る
 
 		moveq	#'.',d0
 		movea.l	a2,a0
@@ -125,14 +125,14 @@ test_pathname_2:
 test_pathname_3:
 		movea.l	a3,a0
 		bsr	strlen
-		move.l	d0,d3			* D3.L : �g���q���̒���
+		move.l	d0,d3			* D3.L : 拡張子部の長さ
 
-	*  D2 �Ƀt�@�C�����i�g���q���͊܂܂Ȃ��j�̒��������߂�
+	*  D2 にファイル部（拡張子部は含まない）の長さを求める
 
 		move.l	a3,d2
-		sub.l	a2,d2			* D2.L : �t�@�C�����̒���
+		sub.l	a2,d2			* D2.L : ファイル部の長さ
 
-	*  �e�����̒������e�X�g����
+	*  各部分の長さをテストする
 
 		cmp.l	#MAXDIR,d1
 		bhi	test_pathname_return
@@ -143,7 +143,7 @@ test_pathname_3:
 		cmp.l	#MAXEXT,d3
 		bhi	test_pathname_return
 test_pathname_return:
-		movem.l	(a7)+,d0/a0		*  D0 �� A0 �����߂�
+		movem.l	(a7)+,d0/a0		*  D0 と A0 を取り戻す
 		rts
 ****************************************************************
 * copyhead

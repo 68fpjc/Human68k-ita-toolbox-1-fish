@@ -27,16 +27,16 @@
 .text
 
 ****************************************************************
-* set_svar - �V�F���ϐ����`����
+* set_svar - シェル変数を定義する
 *
 * CALL
-*      A0     �ϐ����̐擪�A�h���X
-*      A1     �l�̌���т̐擪�A�h���X
-*      D0.W   �l�̌ꐔ
-*      D1.B   0 : export���Ȃ�
+*      A0     変数名の先頭アドレス
+*      A1     値の語並びの先頭アドレス
+*      D0.W   値の語数
+*      D1.B   0 : exportしない
 *
 * RETURN
-*      D0.L   0:����  1:���s
+*      D0.L   0:成功  1:失敗
 *      CCR    TST.L D0
 ****************************************************************
 .xdef set_svar
@@ -64,14 +64,14 @@ set_svar:
 		bra	set_svar_return0
 
 not_flagvar:
-		tst.b	d1			* �G�N�X�|�[�g���֎~����Ă���Ȃ��
-		beq	set_svar_return0	* ����
+		tst.b	d1			* エクスポートが禁止されているならば
+		beq	set_svar_return0	* 完了
 
 		lea	tmpargs,a3		*  A3 : temporaly
 		*
-		*  �V�F���ϐ� path ���Đݒ肳�ꂽ�Ȃ�΁A
-		*  �n�b�V���\���X�V���A
-		*  ���ϐ� path �ɃG�N�X�|�[�g����B
+		*  シェル変数 path が再設定されたならば、
+		*  ハッシュ表を更新し、
+		*  環境変数 path にエクスポートする。
 		*
 		lea	word_path,a4
 		movea.l	a4,a0
@@ -84,28 +84,28 @@ not_flagvar:
 
 not_path:
 		*
-		*  �V�F���ϐ� temp ���Đݒ肳�ꂽ�Ȃ�΁A���ϐ� temp �ɃG�N�X�|�[�g����
+		*  シェル変数 temp が再設定されたならば、環境変数 temp にエクスポートする
 		*
 		lea	word_temp,a4
 		movea.l	a4,a0
 		bsr	strcmp
 		beq	export
 		*
-		*  �V�F���ϐ� user ���Đݒ肳�ꂽ�Ȃ�΁A���ϐ� USER �ɃG�N�X�|�[�g����
+		*  シェル変数 user が再設定されたならば、環境変数 USER にエクスポートする
 		*
 		lea	word_upper_user,a4
 		lea	word_user,a0
 		bsr	strcmp
 		beq	export
 		*
-		*  �V�F���ϐ� term ���Đݒ肳�ꂽ�Ȃ�΁A���ϐ� TERM �ɃG�N�X�|�[�g����
+		*  シェル変数 term が再設定されたならば、環境変数 TERM にエクスポートする
 		*
 		lea	word_upper_term,a4
 		lea	word_term,a0
 		bsr	strcmp
 		beq	export
 		*
-		*  �V�F���ϐ� home ���Đݒ肳�ꂽ�Ȃ�΁A���ϐ� HOME �ɃG�N�X�|�[�g����
+		*  シェル変数 home が再設定されたならば、環境変数 HOME にエクスポートする
 		*
 		lea	word_upper_home,a4
 		lea	word_home,a0
@@ -168,7 +168,7 @@ no_space_in_shellvar:
 ****************************************************************
 .data
 
-msg_no_space:	dc.b	'�V�F���ϐ��L���̈�̗e�ʂ�����܂���',0
+msg_no_space:	dc.b	'シェル変数記憶領域の容量が足りません',0
 
 .end
 

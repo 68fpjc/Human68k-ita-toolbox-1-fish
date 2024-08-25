@@ -19,8 +19,8 @@
 * RETURN
 *      A0     next point of buffer
 *      D0.L   remain buffer size
-*      D1.L   bit0 : / ‚Ü‚½‚Í \ ‚ÅI‚í‚Á‚Ä‚¢‚é‚È‚ç‚Î 1
-*             bit1 : ƒhƒ‰ƒCƒu–¼‚Ì‚İ‚È‚ç‚Î 1
+*      D1.L   bit0 : / ã¾ãŸã¯ \ ã§çµ‚ã‚ã£ã¦ã„ã‚‹ãªã‚‰ã° 1
+*             bit1 : ãƒ‰ãƒ©ã‚¤ãƒ–åã®ã¿ãªã‚‰ã° 1
 *****************************************************************
 .xdef copyhead
 
@@ -76,7 +76,7 @@ copyhead_return:
 * cat_pathname - concatinate head and tail
 *
 * CALL
-*      A0     result buffer (MAXPATH+1ƒoƒCƒg•K—v)
+*      A0     result buffer (MAXPATH+1ãƒã‚¤ãƒˆå¿…è¦)
 *      A1     points head
 *      A2     points tail
 *

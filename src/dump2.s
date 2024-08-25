@@ -1,7 +1,7 @@
 *************************************************
 *						*
 *   malloc Ext version Ver 0.01			*
-*   Copyright 1991 by ÇdÇòÇî(T.Kawamoto)	*
+*   Copyright 1991 by Ôº•ÔΩòÔΩî(T.Kawamoto)	*
 *						*
 *************************************************
 *						*
@@ -32,7 +32,7 @@ lake_entry:
 		beq	lake_end
 
 		move.l	d6,a4
-		move.l	lake_size(a4),d3		*  D3 : Ç±ÇÃ lake ÇÃÉTÉCÉY
+		move.l	lake_size(a4),d3		*  D3 : „Åì„ÅÆ lake „ÅÆ„Çµ„Ç§„Ç∫
 		move.l	d3,d4
 		tst.w	head_pool+next_pool_offset(a4)
 		beq	pool_end

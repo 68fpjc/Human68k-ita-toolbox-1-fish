@@ -1,66 +1,66 @@
-* irandom.s  -  �����̈�l����
+* irandom.s  -  整数の一様乱数
 
 *
 *  Itagaki Fumihiko   26 Mar 1989
-*  Itagaki Fumihiko   19 Oct 1991   �����̎󂯓n���ƃA�N�Z�X���@��ύX
+*  Itagaki Fumihiko   19 Oct 1991   引数の受け渡しとアクセス方法を変更
 *
 
 *
 *  Description
 *
-*          �{�p�b�P�[�W�́C�^������(pseudo random numbers)�𔭐�������̂�
-*  ����D�����ɂ͂��낢��Ȏ�ނ����邪�C�Ȃ��ł���Ԋ�{�I�Ȃ��͈̂�l��
-*  �z�̗����C���Ȃ킿��l�����ł���D����́C�^����ꂽ�͈͂̂����C�ǂ̒l
-*  ���Ƃ�m�����������D
+*          本パッケージは，疑似乱数(pseudo random numbers)を発生するもので
+*  ある．乱数にはいろいろな種類があるが，なかでも一番基本的なものは一様分
+*  布の乱数，すなわち一様乱数である．これは，与えられた範囲のうち，どの値
+*  をとる確率も等しい．
 *
-*          �{�p�b�P�[�W�̊֐� _irandom �́C�Ăяo���x�� 0�ȏ� 32768������
-*  �����̈�l������Ԃ��D
+*          本パッケージの関数 _irandom は，呼び出す度に 0以上 32768未満の
+*  整数の一様乱数を返す．
 *
-*      �֐� _irandom �̃A���S���Y����
+*      関数 _irandom のアルゴリズムは
 *
 *                   X[n] = (X[n-55] - X[n-24]) mod m
 *
-*  �Ƃ����u�����Z�@�v(subtractive method)�ł��邪�C���ۂɂ� m �� 2�̗ݏ��
-*  ���� 32768 ��I�сC
+*  という「引き算法」(subtractive method)であるが，実際には m に 2の累乗で
+*  ある 32768 を選び，
 *
-*     �@              X[n] = X[n-55] XOR X[n-24]
+*     　              X[n] = X[n-55] XOR X[n-24]
 *
-*  �Ƃ��Ă���D�܂�C55��O�ɔ������������� 24��O�ɔ������������Ƃ̔r��
-*  �I�_���a�����߂�D�ŉ��ʃr�b�g (X[n] mod 2) �̎����͐��m��
-*  (2 pow 55) - 1 �ł���C���ꂪ X[n] �̎����̉����ɂȂ�D
+*  としている．つまり，55回前に発生した乱数と 24回前に発生した乱数との排他
+*  的論理和を求める．最下位ビット (X[n] mod 2) の周期は正確に
+*  (2 pow 55) - 1 であり，これが X[n] の周期の下限になる．
 *
-*          �֐� _irandom �͊m���Ɉ�l�����𔭐����C���̗����̕��z��
-*  �����͂Ȃ��D�������Ȃ���C�������闐���ɖ��炩�ȋK�������F�߂��邩��
-*  �m��Ȃ��D�����ł�������ǂ����̂��֐� irandom �ł���D�֐� irandom �́C
-*  �֐� _irandom �𗘗p���Ȃ���K������������x��������������Ԃ��D������
-*  �����闐���ɋK�����������Ă��\��Ȃ��Ȃ�Ί֐� _irandom ���g�p���Ă���
-*  ���킯�����C�֐� irandom �̃I�[�o�[�w�b�h�͂����͂��Ȃ̂ŁC�ǂ̂悤�ȏ�
-*  ���ɂ��֐� irandom ���g�p����̂��ǂ����낤�D
+*          関数 _irandom は確かに一様乱数を発生し，一つ一つの乱数の分布は
+*  悪くはない．しかしながら，発生する乱数に明らかな規則性が認められるかも
+*  知れない．そこでこれを改良したのが関数 irandom である．関数 irandom は，
+*  関数 _irandom を利用しながら規則性をある程度解消した乱数を返す．もし発
+*  生する乱数に規則性があっても構わないならば関数 _irandom を使用しても良
+*  いわけだが，関数 irandom のオーバーヘッドはごく僅かなので，どのような場
+*  合にも関数 irandom を使用するのが良いだろう．
 *
-*          �v���O�������ŗ����̏����ς������ꍇ�ɂ́C0�ȏ� 1�����̎�����
-*  ��l�����𔭐�����֐� random �𗘗p����
+*          プログラム中で乱数の上限を変えたい場合には，0以上 1未満の実数の
+*  一様乱数を発生する関数 random を利用して
 *
-*�@ �@                    (int)trunc(random() * m)
+*　 　                    (int)trunc(random() * m)
 *
-*  �̂悤�ɂ��邩�C���̃p�b�P�[�W�̊֐� irandom �𗘗p����
+*  のようにするか，このパッケージの関数 irandom を利用して
 *
 *                          (irandom() * m) >> 15
 *
-*  �̂悤�ɂ���D�O�҂̕��������傫���ݒ肷�邱�Ƃ��ł��邪�C�������Z��
-*  �����Ȃ��v�Z�@�ł͌�҂̕������x�̓_�ł����ƗL���ł���D
+*  のようにする．前者の方が上限を大きく設定することができるが，実数演算が
+*  速くない計算機では後者の方が速度の点でずっと有利である．
 *
-*          �֐� irandom ����� _irandom ���g�p����ɂ́C�ŏ��Ɉ�񂾂�����
-*  ���̎葱�� init_irandom(seed,poolsize) �����s���Ă����D������ seed �͗�
-*  ���́u��v�� 0�ȏ� 32768�����̐����Ƃ���D���� seed �̒l�ɂ���ė�����
-*  �n�񂪈قȂ邱�ƂɂȂ�Dpoolsize �͊֐� irandom ���g�p����z��
-*  irandom_pool �̗e��(�v�f��)�������D
+*          関数 irandom および _irandom を使用するには，最初に一回だけ初期
+*  化の手続き init_irandom(seed,poolsize) を実行しておく．ここで seed は乱
+*  数の「種」で 0以上 32768未満の整数とする．この seed の値によって乱数の
+*  系列が異なることになる．poolsize は関数 irandom が使用する配列
+*  irandom_pool の容量(要素数)を示す．
 *
-*          �{�p�b�P�[�W�𗘗p����ɂ́C�{�p�b�P�[�W�̑���
+*          本パッケージを利用するには，本パッケージの他に
 *
 *          .BSS
 *          irandom_struct:      ds.b    IRANDOM_STRUCT_HEADER_SIZE+(2*POOLSIZE)
 *
-*  ���K�v�ł���DIRANDOM_STRUCT_HEADER_SIZE �� irandom.h �Œ�`����Ă���D
+*  が必要である．IRANDOM_STRUCT_HEADER_SIZE は irandom.h で定義されている．
 *
 
 .include irandom.h
@@ -71,7 +71,7 @@
 * randomize
 *
 * CALL
-*      A0     �����\���̂̐擪�A�h���X
+*      A0     乱数構造体の先頭アドレス
 *
 * RETURN
 *      none
@@ -94,13 +94,13 @@ randomize_loop2:
 		movem.l	(a7)+,d0-d1/a0
 		rts
 ****************************************************************
-* _irandom - �ȒP�ȋ^����l��������
+* _irandom - 簡単な疑似一様乱数整数
 *
 * CALL
-*      A0     �����\���̂̐擪�A�h���X
+*      A0     乱数構造体の先頭アドレス
 *
 * RETURN
-*      D0.L   �ȈՋ^����l�������� (0..32767)
+*      D0.L   簡易疑似一様乱数整数 (0..32767)
 ****************************************************************
 .xdef _irandom
 
@@ -118,13 +118,13 @@ _irandom_1:
 		move.w	irandom_table(a0,d0.w),d0
 		rts
 ****************************************************************
-* irandom - ���ǔŋ^����l��������
+* irandom - 改良版疑似一様乱数整数
 *
 * CALL
-*      A0     �����\���̂̐擪�A�h���X
+*      A0     乱数構造体の先頭アドレス
 *
 * RETURN
-*      D0.L   ���ǔŋ^����l�������� (0..32767)
+*      D0.L   改良版疑似一様乱数整数 (0..32767)
 ****************************************************************
 .xdef irandom
 
@@ -152,18 +152,18 @@ irandom:
 		movem.l	(a7)+,d1-d2
 		rts
 ****************************************************************
-* init_irandom - ���ǔŋ^����l��������������������
+* init_irandom - 改良版疑似一様乱数整数を初期化する
 *
 * CALL
-*      A0     �����\���̂̐擪�A�h���X
-*      D0.W   (signed) seed (�����̎�) (0..32767)
+*      A0     乱数構造体の先頭アドレス
+*      D0.W   (signed) seed (乱数の種) (0..32767)
 *      D1.B   (unsigned) poolsize (0..255)
 *
 * RETURN
 *      none
 *
 * NOTE
-*      D0.W �� MSB �� CLR �����D
+*      D0.W の MSB は CLR される．
 ****************************************************************
 .xdef init_irandom
 

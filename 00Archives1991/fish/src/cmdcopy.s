@@ -78,7 +78,7 @@ cmd_copy:
 		move.w	#-1,to_fhd(a6)
 		move.w	d0,d1
 	**
-	**  ƒIƒvƒVƒ‡ƒ“ƒtƒ‰ƒO‚ğ‰ğß‚·‚é
+	**  ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ãƒ©ã‚°ã‚’è§£é‡ˆã™ã‚‹
 	**
 sw_lp:
 		tst.w	d1
@@ -114,7 +114,7 @@ b_switch:
 		bra	sw_lp1
 copy_n:
 	**
-	**  ˆø”1 ‚ğ copy_from ‚ÉƒRƒs[
+	**  å¼•æ•°1 ã‚’ copy_from ã«ã‚³ãƒ”ãƒ¼
 	**
 		tst.w	d1
 		beq	cmd_copy_too_few_args
@@ -126,7 +126,7 @@ copy_n:
 		lea	copy_from(a6),a0
 		bsr	strmove
 	**
-	**  ˆø”2 ‚ğ copy_to ‚ÉƒRƒs[
+	**  å¼•æ•°2 ã‚’ copy_to ã«ã‚³ãƒ”ãƒ¼
 	**
 		lea	copy_to(a6),a0
 		clr.b	(a0)
@@ -136,7 +136,7 @@ copy_n:
 		bsr	strmove
 cmd_copy_1:
 	**
-	**  copy_from ‚Ì + ‚ğ NUL ‚É•Ï‚¦‚Ä copy_from_list ‚ÉƒRƒs[
+	**  copy_from ã® + ã‚’ NUL ã«å¤‰ãˆã¦ copy_from_list ã«ã‚³ãƒ”ãƒ¼
 	**
 		lea	copy_from(a6),a1
 		lea	copy_from_list(a6),a0
@@ -167,18 +167,18 @@ list_make_sjis:
 list_make_end:
 		clr.b	(a0)
 	**
-	**  ˆø”1 ‚ª + ‚Ån‚Ü‚Á‚Ä‚¢‚½‚È‚ç‚ÎƒGƒ‰[
+	**  å¼•æ•°1 ãŒ + ã§å§‹ã¾ã£ã¦ã„ãŸãªã‚‰ã°ã‚¨ãƒ©ãƒ¼
 	**
 		lea	copy_from_list(a6),a0
 		tst.b	(a0)
 		beq	cmd_copy_bad_arg
 	**
-	**  copy_from_list ‚ª•¡”ƒtƒ@ƒCƒ‹‚È‚ç‚Î append_flag ‚ğ ”ñƒ[ƒ ‚É‚·‚é
+	**  copy_from_list ãŒè¤‡æ•°ãƒ•ã‚¡ã‚¤ãƒ«ãªã‚‰ã° append_flag ã‚’ éã‚¼ãƒ­ ã«ã™ã‚‹
 	**
 		bsr	for1str
 		move.b	(a0),append_flag(a6)
 	**
-	**  copy_from_list ‚©‚ç copy_from ‚É‡‚®‚è‚ÉƒRƒs[‚µ‚ÄAƒRƒs[‚·‚é
+	**  copy_from_list ã‹ã‚‰ copy_from ã«é †ãã‚Šã«ã‚³ãƒ”ãƒ¼ã—ã¦ã€ã‚³ãƒ”ãƒ¼ã™ã‚‹
 	**
 		lea	copy_from_list(a6),a4
 copy_apnd_loop:
@@ -187,7 +187,7 @@ copy_apnd_loop:
 		bsr	strmove
 		exg	a1,a4
 	**
-	**  ƒRƒs[Œ³ƒtƒ@ƒCƒ‹–¼‚ğŒˆ’è‚·‚é
+	**  ã‚³ãƒ”ãƒ¼å…ƒãƒ•ã‚¡ã‚¤ãƒ«åã‚’æ±ºå®šã™ã‚‹
 	**
 		lea	copy_from(a6),a0
 		bsr	makenaxt
@@ -235,7 +235,7 @@ files_dir_chke:
 		bpl	source_file_not_found
 copy_ok_file:
 	**
-	**  ƒRƒs[æƒtƒ@ƒCƒ‹–¼‚ğŒˆ’è‚·‚é
+	**  ã‚³ãƒ”ãƒ¼å…ˆãƒ•ã‚¡ã‚¤ãƒ«åã‚’æ±ºå®šã™ã‚‹
 	**
 		lea	copy_to(a6),a1
 		lea	chkname2(a6),a0
@@ -290,7 +290,7 @@ no_drv:
 		move.b	#1,append_flag(a6)
 no_to_wild:
 	**
-	**  ƒxƒŠƒtƒ@ƒCƒtƒ‰ƒO‚ği‚à‚µw¦‚³‚ê‚½‚È‚ç‚Îjİ’è‚·‚é
+	**  ãƒ™ãƒªãƒ•ã‚¡ã‚¤ãƒ•ãƒ©ã‚°ã‚’ï¼ˆã‚‚ã—æŒ‡ç¤ºã•ã‚ŒãŸãªã‚‰ã°ï¼‰è¨­å®šã™ã‚‹
 	**
 		tst.b	verify_sw(a6)
 		beq	copy_no_vrfy
@@ -302,7 +302,7 @@ no_to_wild:
 		addq.l	#2,a7
 copy_no_vrfy:
 	**
-	**  ƒRƒs[Œ³‚ªƒtƒ@ƒCƒ‹‚©ƒfƒoƒCƒX‚©‚ğ’²‚×‚é
+	**  ã‚³ãƒ”ãƒ¼å…ƒãŒãƒ•ã‚¡ã‚¤ãƒ«ã‹ãƒ‡ãƒã‚¤ã‚¹ã‹ã‚’èª¿ã¹ã‚‹
 	**
 		movea.l	work_area,a0
 		tst.b	(a0)
@@ -350,7 +350,7 @@ copy_dev_ok:
 		DOS	_CLOSE
 		addq.l	#2,a7
 ********************************
-*  ƒfƒoƒCƒX‚©‚ç‚ÌƒRƒs[
+*  ãƒ‡ãƒã‚¤ã‚¹ã‹ã‚‰ã®ã‚³ãƒ”ãƒ¼
 ********************************
 		move.l	a0,-(a7)
 		lea	copy_from(a6),a0
@@ -367,7 +367,7 @@ copy_dev_ok:
 
 		bra	copy_end
 ********************************
-*  ƒtƒ@ƒCƒ‹‚©‚ç‚ÌƒRƒs[
+*  ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã®ã‚³ãƒ”ãƒ¼
 ********************************
 copy_lp0:
 		tst.b	(a0)
@@ -388,7 +388,7 @@ copy_lp0:
 		lea	copy_to0(a6),a2
 		bsr	make_dest
 	**
-	**  ƒRƒs[Œ³‚ÆƒRƒs[æ‚ª“¯ˆêƒtƒ@ƒCƒ‹‚Å‚È‚¢‚©‚Ç‚¤‚©’²‚×‚é
+	**  ã‚³ãƒ”ãƒ¼å…ƒã¨ã‚³ãƒ”ãƒ¼å…ˆãŒåŒä¸€ãƒ•ã‚¡ã‚¤ãƒ«ã§ãªã„ã‹ã©ã†ã‹èª¿ã¹ã‚‹
 	**
 		movem.l	a0-a2,-(a7)
 		lea	copy_to(a6),a1
@@ -612,7 +612,7 @@ filecopy:
 		move.w	#-1,to_fhd(a6)
 skip_tofhd_clr:
 	**
-	**  Šm•Û‰Â”\‚ÈÅ‘åƒƒ‚ƒŠ‚ğŠm•Û‚·‚é
+	**  ç¢ºä¿å¯èƒ½ãªæœ€å¤§ãƒ¡ãƒ¢ãƒªã‚’ç¢ºä¿ã™ã‚‹
 	**
 		move.l	#$00ffffff,-(a7)
 		DOS	_MALLOC
@@ -627,7 +627,7 @@ skip_tofhd_clr:
 
 		move.l	d1,worksize(a6)
 	**
-	**  ƒRƒs[‚·‚éŒ´ƒtƒ@ƒCƒ‹‚ğƒI[ƒvƒ“‚·‚é
+	**  ã‚³ãƒ”ãƒ¼ã™ã‚‹åŸãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚ªãƒ¼ãƒ—ãƒ³ã™ã‚‹
 	**
 		move.w	#0,-(a7)
 		pea	copy_from(a6)
@@ -638,7 +638,7 @@ skip_tofhd_clr:
 
 		move.w	d0,from_fhd(a6)
 	**
-	**  ƒRƒs[æƒtƒ@ƒCƒ‹‚ğì¬‚·‚é
+	**  ã‚³ãƒ”ãƒ¼å…ˆãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã™ã‚‹
 	**
 		tst.w	to_fhd(a6)
 		bpl	skip_dest_open
@@ -821,7 +821,7 @@ read_bttm_lop:
 
 copy_complete:
 	**
-	**  ƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ğƒZƒbƒg‚·‚é
+	**  ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 	**
 		move.w	to_fhd(a6),-(a7)
 		clr.w	-(a7)
@@ -951,9 +951,9 @@ ext_add_2:
 *****************************************************************
 .data
 
-msg_copy_ask:	dc.b	'‚ğƒRƒs[‚µ‚Ü‚·‚©H ',0
-msg_copyequ:	dc.b	'ƒRƒs|Œ³‚ÆƒRƒs|æ‚ª“¯ˆê‚Å‚·',0
-msg_ropen_err:	dc.b	'ƒRƒs|Œ³ƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ',0
+msg_copy_ask:	dc.b	'ã‚’ã‚³ãƒ”ãƒ¼ã—ã¾ã™ã‹ï¼Ÿ ',0
+msg_copyequ:	dc.b	'ã‚³ãƒ”âˆ’å…ƒã¨ã‚³ãƒ”âˆ’å…ˆãŒåŒä¸€ã§ã™',0
+msg_ropen_err:	dc.b	'ã‚³ãƒ”âˆ’å…ƒãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“',0
 
 .end
 

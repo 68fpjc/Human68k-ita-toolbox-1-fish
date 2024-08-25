@@ -1,72 +1,72 @@
-*  Revision 2 : 24 Jan 1993   �R�����g�C��
+*  Revision 2 : 24 Jan 1993   コメント修正
 
 *****************************************************************
 *  DecHUPAIR.s
 *
 *  Copyright(C)1991-93 by Itagaki Fumihiko
 *
-*  �{���W���[���́C��L�̔Ō��\�����܂ޑS�̂���؉��ς��Ȃ���
-*  �Ƃ������ɁC�g�p�C�g�ݍ��݁C�����C���J�C�Ĕz�z���邱�Ƃ��C
-*  ���ꂪ�����Ȃ�ړI�ł����Ă��F�߂܂��B����������҂͖@�̒�
-*  �߂�ق��͖{���W���[���ɂ��Ĉ�ؕۏ؂��܂���B�{���W���[
-*  ���͌���̂܂ܖ��ۏ؂ɂĒ񋟂���C�{���W���[���ɂ����郊�X
-*  �N�͂��ׂĎg�p�҂����畉�����̂Ƃ��܂��B����҂́C�{���W���[
-*  �����g�p���C���邢�͎g�p�ł��Ȃ��������Ƃɂ�钼�ړI���邢
-*  �͊ԐړI�ȑ��Q�╴���ɂ��Ĉ�؊֒m�����C�{���W���[���Ɍ�
-*  �ׁC�s�s���C��肪�����Ă�������C������`���𕉂��܂���B
+*  本モジュールは，上記の版権表示を含む全体を一切改変しないこ
+*  とを条件に，使用，組み込み，複製，公開，再配布することを，
+*  それがいかなる目的であっても認めます。ただし著作者は法の定
+*  めるほかは本モジュールについて一切保証しません。本モジュー
+*  ルは現状のまま無保証にて提供され，本モジュールにかかるリス
+*  クはすべて使用者が自ら負うものとします。著作者は，本モジュー
+*  ルを使用し，あるいは使用できなかったことによる直接的あるい
+*  は間接的な損害や紛争について一切関知せず，本モジュールに欠
+*  陥，不都合，誤りがあってもそれを修正する義務を負いません。
 *****************************************************************
 
 
-*  ���̃��W���[���Ɋ܂܂�Ă��� �T�u���[�`�� DecodeHUPAIR �́C
-*  HUPAIR �ɏ]���ăR�}���h���C����ɃG���R�[�h���ꂽ�������
-*  �f�R�[�h������̂ł��D
+*  このモジュールに含まれている サブルーチン DecodeHUPAIR は，
+*  HUPAIR に従ってコマンドライン上にエンコードされた引数列を
+*  デコードするものです．
 *
-*  �ȉ��ɗ�������܂��D
+*  以下に例を示します．
 *
 *		.text
 *
-*	start:				*  start : ���s�J�n�A�h���X
+*	start:				*  start : 実行開始アドレス
 *		bra.s	start1		*  2 Byte
-*		dc.b	'#HUPAIR',0	*  ���s�J�n�A�h���X+2 �ɂ��̃f�[�^��u�����Ƃɂ��C
-*					*  HUPAIR�K���R�}���h�ł��邱�Ƃ��������Ƃ��ł���D
+*		dc.b	'#HUPAIR',0	*  実行開始アドレス+2 にこのデータを置くことにより，
+*					*  HUPAIR適合コマンドであることを示すことができる．
 *	start1:
 *		lea	stack_bottom,a7
 *
-*	*  ������i�[�̈���m�ۂ���
+*	*  引数列格納領域を確保する
 *
-*		movea.l	a0,a5		*  A5 := �v���O�����̃������Ǘ��|�C���^�̃A�h���X
-*		movea.l	a7,a1		*  A1 := ��������i�[����̈�̐擪�A�h���X
-*		lea	1(a2),a0	*  A0 := �R�}���h���C���̕�����̐擪�A�h���X
-*		bsr	strlen		*  D0.L �� A0 ������������̒����i$00 �̒��O�܂ł̃o
-*					*  �C�g���j�����߁C
-*		add.l	a1,d0		*    �i�[�G���A�̗e�ʂ�
+*		movea.l	a0,a5		*  A5 := プログラムのメモリ管理ポインタのアドレス
+*		movea.l	a7,a1		*  A1 := 引数列を格納する領域の先頭アドレス
+*		lea	1(a2),a0	*  A0 := コマンドラインの文字列の先頭アドレス
+*		bsr	strlen		*  D0.L に A0 が示す文字列の長さ（$00 の直前までのバ
+*					*  イト数）を求め，
+*		add.l	a1,d0		*    格納エリアの容量を
 *		bcs	insufficient_memory
-*		cmp.l	8(a5),d0	*    �`�F�b�N����D
+*		cmp.l	8(a5),d0	*    チェックする．
 *		bhs	insufficient_memory
 *
-*			*  ���̗�ł́C�v���Z�X�N�����ɍő僁�����E�u���b�N�����蓖�Ă��Ă�
-*			*  �邱�Ƃ𗘗p���āC���̒��Ɉ����i�[�̈�������Ă���D��U�������E�u
-*			*  ���b�N�� setblock�Ő؂�l�߂Ă��� malloc ����̂��ǂ����낤�D
+*			*  この例では，プロセス起動時に最大メモリ・ブロックが割り当てられてい
+*			*  ることを利用して，その中に引数格納領域を割いている．一旦メモリ・ブ
+*			*  ロックを setblockで切り詰めてから malloc するのも良いだろう．
 *
-*		*  �����ŁC
-*		*       A0 : �R�}���h���C���̕�����̐擪�A�h���X
-*		*       A1 : ��������i�[����̈�̐擪�A�h���X
+*		*  ここで，
+*		*       A0 : コマンドラインの文字列の先頭アドレス
+*		*       A1 : 引数列を格納する領域の先頭アドレス
 *
-*	*  �R�}���h���C�����f�R�[�h���Ĉ�����𓾂�
+*	*  コマンドラインをデコードして引数列を得る
 *
 *		bsr	DecodeHUPAIR
 *
-*		*  �����ŁCD0.L �͈����̐��DA1 ���w���̈�ɂ́CD0.L �������������C�P��̈���
-*		*  �i$00�ŏI�[���ꂽ������j�����Ԗ�������ł���D
+*		*  ここで，D0.L は引数の数．A1 が指す領域には，D0.L が示す個数だけ，単一の引数
+*		*  （$00で終端された文字列）が隙間無く並んでいる．
 *
-*	*  ���Ƃ��΁C������ 1�s�� 1���\������ɂ́C
+*	*  たとえば，引数を 1行に 1つずつ表示するには，
 *
 *		move.l	d0,d1
 *		bra	print_args_continue
 *
 *	print_args_loop:
 *		*
-*		*  ������ 1�\������
+*		*  引数を 1つ表示する
 *		*
 *		move.l	a1,-(a7)
 *		DOS	_PRINT
@@ -77,13 +77,13 @@
 *		DOS	_PUTCHAR
 *		addq.l	#2,a7
 *		*
-*		*  �|�C���^�����̈����ɐi�߂�
+*		*  ポインタを次の引数に進める
 *		*
 *	skip_1_arg:
 *		tst.b	(a1)+
 *		bne	skip_1_arg
 *		*
-*		*  �����̐������J��Ԃ�
+*		*  引数の数だけ繰り返す
 *		*
 *	print_args_continue:
 *               subq.l	#1,d1
@@ -102,46 +102,46 @@
 
 
 *****************************************************************
-* DecodeHUPAIR - HUPAIR�ɏ]���ăR�}���h���C�����f�R�[�h���C����
-*                ��𓾂�
+* DecodeHUPAIR - HUPAIRに従ってコマンドラインをデコードし，引数
+*                列を得る
 *
 * CALL
-*      A0     HUPAIR�ɏ]���ăG���R�[�h���ꂽ�����̐擪�A�h���X
-*             �i�R�}���h���C���̐擪�A�h���X + 1�j
+*      A0     HUPAIRに従ってエンコードされた引数の先頭アドレス
+*             （コマンドラインの先頭アドレス + 1）
 *
-*      A1     �f�R�[�h������������������ރG���A�̐擪�A�h���X
+*      A1     デコードした引数列を書き込むエリアの先頭アドレス
 *
 * RETURN
-*      A0     �R�}���h���C���̕�����̍Ō�� $00 �̎��̃A�h���X
-*      D0.L   �����̐��i�������j
+*      A0     コマンドラインの文字列の最後の $00 の次のアドレス
+*      D0.L   引数の数（無符号）
 *      CCR    TST.L D0
 *
 * STACK
 *      12 Bytes
 *
 * DESCRIPTION
-*      A0���W�X�^���w���A�h���X����n�܂镶����isource�j��
-*      HUPAIR �ɏ]���ăf�R�[�h���Ĉ�����𓾁CA1���W�X�^���w��
-*      �A�h���X����n�܂�G���A�idestination�j�Ɋi�[����D
+*      A0レジスタが指すアドレスから始まる文字列（source）を
+*      HUPAIR に従ってデコードして引数列を得，A1レジスタが指す
+*      アドレスから始まるエリア（destination）に格納する．
 *
-*      destination �ɂ́C�߂�lD0.L�������������C�P��̈���
-*      �i$00�ŏI�[���ꂽ������j�����ԂɌ��Ԗ������ԁD
+*      destination には，戻り値D0.Lが示す個数だけ，単一の引数
+*      （$00で終端された文字列）が順番に隙間無く並ぶ．
 *
-*      destination �ɂ͍ő� source �̒��������̗e�ʂ��K�v�ł���D
+*      destination には最大 source の長さだけの容量が必要である．
 *
-*      �����R�}���h���C���̐擪-8�����8�o�C�g�� '#HUPAIR',0
-*      �ł���Ȃ�΁C���^�[������ A0 ���w���Ă���A�h���X�ɂ�
-*      arg0 ������D���������̃T�u���[�`���ł� '#HUPAIR',0 ��
-*      �`�F�b�N���Ȃ��D
+*      もしコマンドラインの先頭-8からの8バイトが '#HUPAIR',0
+*      であるならば，リターン時の A0 が指しているアドレスには
+*      arg0 がある．ただしこのサブルーチンでは '#HUPAIR',0 は
+*      チェックしない．
 *
 * AUTHOR
-*      �_ �j�F
+*      板垣 史彦
 *
 * REVISION
-*      12 Mar. 1991   �_ �j�F         �쐬
-*       7 Oct. 1991   �_ �j�F         source��destination�𕪗�
-*       3 Jan. 1992   �_ �j�F         A0��߂�u�Ƃ��ĉ�����
-*                                       �߂�u D0.W �� D0.L �ɕύX
+*      12 Mar. 1991   板垣 史彦         作成
+*       7 Oct. 1991   板垣 史彦         sourceとdestinationを分離
+*       3 Jan. 1992   板垣 史彦         A0を戻り置として加える
+*                                       戻り置 D0.W を D0.L に変更
 *****************************************************************
 
 	.text
@@ -161,7 +161,7 @@ skip_loop:
 		tst.b	d1
 		beq	done
 
-		addq.l	#1,d0				*  �I�[�o�[�t���[�͗L�蓾�Ȃ�
+		addq.l	#1,d0				*  オーバーフローは有り得ない
 dup_loop:
 		tst.b	d2
 		beq	not_in_quote

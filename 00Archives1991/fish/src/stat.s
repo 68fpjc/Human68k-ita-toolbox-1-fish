@@ -15,15 +15,15 @@
 .text
 
 ****************************************************************
-* stat - ƒtƒ@ƒCƒ‹‚Ìî•ñ‚ğ“¾‚é
+* stat - ãƒ•ã‚¡ã‚¤ãƒ«ã®æƒ…å ±ã‚’å¾—ã‚‹
 *
 * CALL
-*      A0     ƒtƒ@ƒCƒ‹–¼‚Ìæ“ªƒAƒhƒŒƒX
+*      A0     ãƒ•ã‚¡ã‚¤ãƒ«åã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
 *      A1     statbuf
 *
 * RETURN
-*      (A1)   î•ñ‚ª‘‚«‚Ü‚ê‚é
-*      D0.L   ¬Œ÷‚·‚ê‚Î³C‚³‚à‚È‚­‚Î•‰
+*      (A1)   æƒ…å ±ãŒæ›¸ãè¾¼ã¾ã‚Œã‚‹
+*      D0.L   æˆåŠŸã™ã‚Œã°æ­£ï¼Œã•ã‚‚ãªãã°è² 
 *      CCR    TST.L D0
 *****************************************************************
 .xdef stat
@@ -38,8 +38,8 @@ stat:
 		bsr	test_drive_path
 		bne	stat_fail
 
-		bsr	includes_dos_wildcard	* Human68k ‚ÌƒƒCƒ‹ƒhƒJ[ƒh‚ğŠÜ‚ñ‚Å
-		bne	stat_fail		* ‚¢‚é‚È‚ç‚Î–³Œø
+		bsr	includes_dos_wildcard	* Human68k ã®ãƒ¯ã‚¤ãƒ«ãƒ‰ã‚«ãƒ¼ãƒ‰ã‚’å«ã‚“ã§
+		bne	stat_fail		* ã„ã‚‹ãªã‚‰ã°ç„¡åŠ¹
 
 		movea.l	a0,a1			* A1 : top of search filename
 		bsr	tailptr
@@ -51,7 +51,7 @@ stat:
 		bsr	memmove_inc
 		lea	dos_allfile,a1
 		bsr	strcpy
-		move.w	#$3f,-(a7)		* ‚·‚×‚Ä‚ÌƒGƒ“ƒgƒŠ‚ğŒŸõ‚·‚é
+		move.w	#$3f,-(a7)		* ã™ã¹ã¦ã®ã‚¨ãƒ³ãƒˆãƒªã‚’æ¤œç´¢ã™ã‚‹
 		pea	searchnamebuf(a6)
 		move.l	a3,-(a7)
 		DOS	_FILES

@@ -89,7 +89,7 @@ getcharbuf = lastchar-1
 pad = getcharbuf-0
 
 cmd_xargs:
-		move.l	d0,d3				*  D3.W : ˆø”‚Ì”
+		move.l	d0,d3				*  D3.W : å¼•æ•°ã®æ•°
 		move.l	#MAXWORDLEN+1,d2
 		bsr	alloc_new_argbuf
 		beq	cannot_run_command_because_no_memory
@@ -267,9 +267,9 @@ flag_x_ok:
 
 		move.w	d0,input(a6)
 xargs_loop_1:
-		clr.w	-(a7)				*  •W€“ü—Í‚Í
-		DOS	_CLOSE				*  ƒNƒ[ƒY‚µ‚Ä‚¨‚­D
-		addq.l	#2,a7				*  ‚»‚¤‚µ‚È‚¢‚Æ ^C ‚â ^S ‚ªŒø‚©‚È‚¢D
+		clr.w	-(a7)				*  æ¨™æº–å…¥åŠ›ã¯
+		DOS	_CLOSE				*  ã‚¯ãƒ­ãƒ¼ã‚ºã—ã¦ãŠãï¼
+		addq.l	#2,a7				*  ãã†ã—ãªã„ã¨ ^C ã‚„ ^S ãŒåŠ¹ã‹ãªã„ï¼
 xargs_loop_2:
 		clr.w	argc(a5)
 		clr.w	fixed_argc(a6)
@@ -294,9 +294,9 @@ get_args_loop:
 		tst.b	eof(a6)
 		bne	get_args_eof
 
-		sf	d2				*  D2.B : “ü—Í—Lƒtƒ‰ƒO
-		clr.b	d3				*  D3.B : ƒNƒH[ƒgƒtƒ‰ƒO
-		sf	d4				*  D4.B : \ ƒtƒ‰ƒO
+		sf	d2				*  D2.B : å…¥åŠ›æœ‰ãƒ•ãƒ©ã‚°
+		clr.b	d3				*  D3.B : ã‚¯ã‚©ãƒ¼ãƒˆãƒ•ãƒ©ã‚°
+		sf	d4				*  D4.B : \ ãƒ•ãƒ©ã‚°
 		move.l	#MAXWORDLEN,d6
 getarg_loop:
 		bsr	getarg_getchar
@@ -428,7 +428,7 @@ getarg_word_separator:
 		exg	a0,a2
 		bne	check_add_one_arg
 
-		*  CON‘Îô
+		*  CONå¯¾ç­–
 		move.b	lastchar(a6),d0
 getarg_drop_inpline:
 		cmp.b	#LF,d0
@@ -449,7 +449,7 @@ get_args_eof:
 check_add_one_arg:
 		*cmpi.b	#2,mode(a6)
 		*bhs	add_one_arg
-		*  mode(a6)>=2 ‚È‚ç•K‚¸ flag_x(a6)!=0
+		*  mode(a6)>=2 ãªã‚‰å¿…ãš flag_x(a6)!=0
 
 		tst.b	flag_x(a6)
 		bne	add_one_arg
@@ -564,7 +564,7 @@ do_command:
 		move.l	command_name(a5),-(a7)
 		lea	simple_args(a5),a0
 		moveq	#0,d1
-		jsr	DoSimpleCommand_recurse		*!! Ä‹A !!*
+		jsr	DoSimpleCommand_recurse		*!! å†å¸° !!*
 		move.l	(a7)+,command_name(a5)
 		tst.l	undup_input(a5)
 		bmi	xargs_loop_2
@@ -643,9 +643,9 @@ ask_yes:
 		tst.l	undup_output(a5)
 		bmi	ask_yes_output_ok
 
-		*  •W€o—Í‚ªØ‚èŠ·‚¦‚ç‚ê‚Ä‚¢‚éD
-		*  ‚±‚Ì‚Ü‚Ü‚¾‚ÆƒGƒR[ƒoƒbƒN‚ªØ‚èŠ·‚¦æ‚É—¬‚ê‚Ä‚µ‚Ü‚¤‚Ì‚ÅC
-		*  ˆê“I‚É unredirect ‚µ‚Ä‚¨‚­D
+		*  æ¨™æº–å‡ºåŠ›ãŒåˆ‡ã‚Šæ›ãˆã‚‰ã‚Œã¦ã„ã‚‹ï¼
+		*  ã“ã®ã¾ã¾ã ã¨ã‚¨ã‚³ãƒ¼ãƒãƒƒã‚¯ãŒåˆ‡ã‚Šæ›ãˆå…ˆã«æµã‚Œã¦ã—ã¾ã†ã®ã§ï¼Œ
+		*  ä¸€æ™‚çš„ã« unredirect ã—ã¦ãŠãï¼
 		move.l	save_stdout(a5),d0
 		move.w	#1,-(a7)
 		move.w	d0,-(a7)
@@ -663,7 +663,7 @@ ask_yes_output_ok:
 		move.l	undup_output(a5),d0
 		bmi	ask_yes_redirect_ok
 
-		*  redirect ‚ğŒ³‚É–ß‚·D
+		*  redirect ã‚’å…ƒã«æˆ»ã™ï¼
 		move.w	#1,-(a7)
 		move.w	d0,-(a7)
 		DOS	_DUP2
@@ -692,12 +692,12 @@ default_command:	dc.b	'~~/echo',0,'-',0
 default_replstr:	dc.b	'{}',0
 default_eofword:	dc.b	'_',0
 
-msg_usage:	dc.b	'[-n<’PŒê”>|-l[<s”>]|-i[<”í’uŠ·•¶š—ñ>]] [-tpx] [-s<ƒTƒCƒY>] [-e[<EOF’PŒê>]]',CR,LF
-		dc.b	'          [ <ƒRƒ}ƒ“ƒh–¼> [ <ˆø”> ... ] ]',CR,LF,0
+msg_usage:	dc.b	'[-n<å˜èªæ•°>|-l[<è¡Œæ•°>]|-i[<è¢«ç½®æ›æ–‡å­—åˆ—>]] [-tpx] [-s<ã‚µã‚¤ã‚º>] [-e[<EOFå˜èª>]]',CR,LF
+		dc.b	'          [ <ã‚³ãƒãƒ³ãƒ‰å> [ <å¼•æ•°> ... ] ]',CR,LF,0
 
-msg_bad_size:		dc.b	'<ƒTƒCƒY>‚Í4096ˆÈ‰º‚Å‚È‚¯‚ê‚Î‚È‚è‚Ü‚¹‚ñ',0
-msg_size_over:		dc.b	'ƒRƒ}ƒ“ƒhs‚Ì’·‚³‚ªƒTƒCƒY‚ÌŒÀ“x‚ğ’´‚¦‚Ü‚µ‚½',0
-msg_missing_quote:	dc.b	'ƒNƒI[ƒg‚ª•Â‚¶‚Ä‚¢‚È‚¢H: ',0
+msg_bad_size:		dc.b	'<ã‚µã‚¤ã‚º>ã¯4096ä»¥ä¸‹ã§ãªã‘ã‚Œã°ãªã‚Šã¾ã›ã‚“',0
+msg_size_over:		dc.b	'ã‚³ãƒãƒ³ãƒ‰è¡Œã®é•·ã•ãŒã‚µã‚¤ã‚ºã®é™åº¦ã‚’è¶…ãˆã¾ã—ãŸ',0
+msg_missing_quote:	dc.b	'ã‚¯ã‚ªãƒ¼ãƒˆãŒé–‰ã˜ã¦ã„ãªã„ï¼Ÿ: ',0
 ask_yes_prompt:		dc.b	' ?... ',0
 
 .end

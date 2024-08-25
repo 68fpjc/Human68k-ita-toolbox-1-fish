@@ -44,7 +44,7 @@ cputs_near:
 		jmp	cputs
 ****************************************************************
 *  Name
-*       which - ƒRƒ}ƒ“ƒh‚ÌÀ‘Ì‚ğ•\¦‚·‚é
+*       which - ã‚³ãƒãƒ³ãƒ‰ã®å®Ÿä½“ã‚’è¡¨ç¤ºã™ã‚‹
 *
 *  Synopsis
 *       which [ -o | -O ] [ -t ] [ -a ] command ...
@@ -113,7 +113,7 @@ parse_option_done:
 loop:
 		sf	d7
 	*
-	*  •Ê–¼‚©H
+	*  åˆ¥åã‹ï¼Ÿ
 	*
 		tst.b	flag_noalias(a5)
 		bne	not_alias
@@ -125,14 +125,14 @@ loop:
 		bsr	findvar
 		beq	not_alias
 		*
-		*  •Ê–¼‚Å‚ ‚é
+		*  åˆ¥åã§ã‚ã‚‹
 		*
 		bsr	answer_alias
 		btst	#2,d2
 		beq	continue
 not_alias:
 	*
-	*  ŠÖ”‚©H
+	*  é–¢æ•°ã‹ï¼Ÿ
 	*
 		btst	#1,d2
 		bne	not_function
@@ -142,18 +142,18 @@ not_alias:
 		bsr	find_function
 		beq	not_function
 		*
-		*  ŠÖ”‚Å‚ ‚é
+		*  é–¢æ•°ã§ã‚ã‚‹
 		*
 		bsr	answer_function
 		btst	#2,d2
 		beq	continue
 not_function:
 	*
-	*  path ŒŸõ
+	*  path æ¤œç´¢
 	*
 		moveq	#0,d0
 		move.b	d2,d0
-		lsr.b	#1,d0				*  bit 0 : ~~–³‹ƒtƒ‰ƒO
+		lsr.b	#1,d0				*  bit 0 : ~~ç„¡è¦–ãƒ•ãƒ©ã‚°
 		btst	#2,d2
 		bne	search_all_path
 
@@ -175,7 +175,7 @@ not_a_file:
 		tst.b	d7
 		bne	continue
 		*
-		*  Œ©‚Â‚©‚ç‚È‚¢
+		*  è¦‹ã¤ã‹ã‚‰ãªã„
 		*
 		tst.b	d3
 		bne	continue
@@ -232,7 +232,7 @@ answer_path:
 		btst	#31,d0
 		beq	print_path
 
-		*  ‘g‚İ‚İƒRƒ}ƒ“ƒh‚Å‚ ‚é
+		*  çµ„ã¿è¾¼ã¿ã‚³ãƒãƒ³ãƒ‰ã§ã‚ã‚‹
 		tst.b	d3
 		bmi	return
 
@@ -244,7 +244,7 @@ answer_path:
 		bra	nputs_near
 
 print_path:
-		*  ƒtƒ@ƒCƒ‹‚Å‚ ‚é
+		*  ãƒ•ã‚¡ã‚¤ãƒ«ã§ã‚ã‚‹
 		tst.b	d3
 		bmi	nputs_near
 
@@ -268,19 +268,19 @@ which_too_few_args:
 .data
 
 msg_usage:
-	dc.b	'[-a] [-o|-O] [-t|-p] [-] <ƒRƒ}ƒ“ƒh–¼> ...',CR,LF
-	dc.b	'     -a   Œ©‚Â‚©‚Á‚Ä‚à‚È‚¨ŒŸõ‚ğ‘±s‚µ‚ÄŒ©‚Â‚©‚Á‚½‚à‚Ì‚·‚×‚Ä‚ğo—Í‚·‚é',CR,LF
-	dc.b	'     -o   •Ê–¼‚ğœŠO‚·‚é',CR,LF
-	dc.b	'     -O   •Ê–¼CŠÖ”C‘g‚İ‚İƒRƒ}ƒ“ƒh‚ğœŠO‚µAƒtƒ@ƒCƒ‹‚Ì‚İ‚ğŒŸõ‚·‚é',CR,LF
-	dc.b	'     -t   ƒVƒ“ƒvƒ‹‚È’PŒêiealiasfefunctionfebuiltinfefilef‚ ‚é‚¢‚Íefj‚Å“š‚¦‚é',CR,LF
-	dc.b	'     -p   ƒtƒ@ƒCƒ‹‚È‚ç‚ÎƒpƒX–¼‚ğ“š‚¦A‚»‚êˆÈŠO‚È‚ç‚Î“š‚¦‚È‚¢',0
+	dc.b	'[-a] [-o|-O] [-t|-p] [-] <ã‚³ãƒãƒ³ãƒ‰å> ...',CR,LF
+	dc.b	'     -a   è¦‹ã¤ã‹ã£ã¦ã‚‚ãªãŠæ¤œç´¢ã‚’ç¶šè¡Œã—ã¦è¦‹ã¤ã‹ã£ãŸã‚‚ã®ã™ã¹ã¦ã‚’å‡ºåŠ›ã™ã‚‹',CR,LF
+	dc.b	'     -o   åˆ¥åã‚’é™¤å¤–ã™ã‚‹',CR,LF
+	dc.b	'     -O   åˆ¥åï¼Œé–¢æ•°ï¼Œçµ„ã¿è¾¼ã¿ã‚³ãƒãƒ³ãƒ‰ã‚’é™¤å¤–ã—ã€ãƒ•ã‚¡ã‚¤ãƒ«ã®ã¿ã‚’æ¤œç´¢ã™ã‚‹',CR,LF
+	dc.b	'     -t   ã‚·ãƒ³ãƒ—ãƒ«ãªå˜èªï¼ˆâ€˜aliasâ€™â€˜functionâ€™â€˜builtinâ€™â€˜fileâ€™ã‚ã‚‹ã„ã¯â€˜â€™ï¼‰ã§ç­”ãˆã‚‹',CR,LF
+	dc.b	'     -p   ãƒ•ã‚¡ã‚¤ãƒ«ãªã‚‰ã°ãƒ‘ã‚¹åã‚’ç­”ãˆã€ãã‚Œä»¥å¤–ãªã‚‰ã°ç­”ãˆãªã„',0
 
-msg_is:			dc.b	' ‚Í',0
-msg_is_aliased:		dc.b	' ‚Ì•Ê–¼'
-msg_desu:		dc.b	'‚Å‚·',0
-msg_is_function:	dc.b	'ŠÖ”‚Å‚·',0
-msg_is_builtin:		dc.b	' fish‘g‚İ‚İƒRƒ}ƒ“ƒh‚Å‚·',0
-msg_not_found:		dc.b	'Œ©“–‚½‚è‚Ü‚¹‚ñ',0
+msg_is:			dc.b	' ã¯',0
+msg_is_aliased:		dc.b	' ã®åˆ¥å'
+msg_desu:		dc.b	'ã§ã™',0
+msg_is_function:	dc.b	'é–¢æ•°ã§ã™',0
+msg_is_builtin:		dc.b	' fishçµ„ã¿è¾¼ã¿ã‚³ãƒãƒ³ãƒ‰ã§ã™',0
+msg_not_found:		dc.b	'è¦‹å½“ãŸã‚Šã¾ã›ã‚“',0
 word_builtin:		dc.b	'builtin',0
 word_file:		dc.b	'file',0
 

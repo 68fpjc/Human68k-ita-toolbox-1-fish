@@ -29,7 +29,7 @@
 .xref cannot_because_no_memory
 
 .xref save_sourceptr
-.xref loop_status	*  -2:end‘Ò‚¿(‹U), -1:end‘Ò‚¿(^), 1:Às’†, 2:ÀsŠJn, 3:continue
+.xref loop_status	*  -2:endå¾…ã¡(å½), -1:endå¾…ã¡(çœŸ), 1:å®Ÿè¡Œä¸­, 2:å®Ÿè¡Œé–‹å§‹, 3:continue
 .xref loop_level
 .xref forward_loop_level
 .xref loop_stack
@@ -50,12 +50,12 @@
 * foreach
 *
 * loop_status
-*	-2		ƒ‹[ƒv‚Ì[‚³‚Ìƒ`ƒFƒbƒN‚Ì‚İ
-*	-1		ƒ‹[ƒv‚Ì[‚³‚Ìƒ`ƒFƒbƒN‚Ì‚İ
-*	 0		ˆø”‚ğ‰ğß‚µ‚Ä dup ‚·‚é
-*	 1		ˆø”‚ğ‰ğß‚µ‚Ä dup ‚·‚é
-*	 2		Å‰‚Ì’PŒê‚ğ set ‚µCloop_status ‚ğ 1 ‚É‚·‚é
-*	 3		Ÿ‚Ì’PŒê‚ª–³‚¯‚ê‚Î break, ‚ ‚ê‚Î set ‚µ‚ÄCloop_status ‚ğ 1 ‚É‚·‚éD
+*	-2		ãƒ«ãƒ¼ãƒ—ã®æ·±ã•ã®ãƒã‚§ãƒƒã‚¯ã®ã¿
+*	-1		ãƒ«ãƒ¼ãƒ—ã®æ·±ã•ã®ãƒã‚§ãƒƒã‚¯ã®ã¿
+*	 0		å¼•æ•°ã‚’è§£é‡ˆã—ã¦ dup ã™ã‚‹
+*	 1		å¼•æ•°ã‚’è§£é‡ˆã—ã¦ dup ã™ã‚‹
+*	 2		æœ€åˆã®å˜èªã‚’ set ã—ï¼Œloop_status ã‚’ 1 ã«ã™ã‚‹
+*	 3		æ¬¡ã®å˜èªãŒç„¡ã‘ã‚Œã° break, ã‚ã‚Œã° set ã—ã¦ï¼Œloop_status ã‚’ 1 ã«ã™ã‚‹ï¼
 *****************************************************************
 .xdef state_foreach
 
@@ -69,10 +69,10 @@ state_foreach:
 		bsr	while_foreach_init
 		bne	return
 
-		movea.l	a0,a2				*  A2 : •Ï”–¼‚Ìæ“ª
+		movea.l	a0,a2				*  A2 : å¤‰æ•°åã®å…ˆé ­
 		bsr	skip_varname
 		move.l	a0,d2
-		sub.l	a2,d2				*  D2.L : •Ï”–¼‚Ì’·‚³
+		sub.l	a2,d2				*  D2.L : å¤‰æ•°åã®é•·ã•
 		beq	bad_varname
 
 		tst.b	(a0)+
@@ -87,8 +87,8 @@ state_foreach:
 		tst.b	1(a0)
 		bne	word_not_parened
 
-		lea	2(a0),a1			*  A1 : ’PŒê•À‚Ñi“WŠJ‘Oj‚Ìæ“ª
-		move.w	d7,d3				*  D3.W : ( ˆÈ~‚Ì’PŒê”
+		lea	2(a0),a1			*  A1 : å˜èªä¸¦ã³ï¼ˆå±•é–‹å‰ï¼‰ã®å…ˆé ­
+		move.w	d7,d3				*  D3.W : ( ä»¥é™ã®å˜èªæ•°
 		move.w	d3,d0
 		bsr	skip_paren
 		beq	word_not_parened
@@ -104,8 +104,8 @@ state_foreach:
 		bsr	expand_wordlist
 		bmi	return
 
-		move.w	d0,d3				*  D3.W : ( ) “à‚Ì’uŠ·“WŠJŒã‚Ì’PŒê”
-		movea.l	a0,a3				*  A3 : ( ) “à‚Ì’uŠ·“WŠJŒã‚Ì’PŒê•À‚Ñ
+		move.w	d0,d3				*  D3.W : ( ) å†…ã®ç½®æ›å±•é–‹å¾Œã®å˜èªæ•°
+		movea.l	a0,a3				*  A3 : ( ) å†…ã®ç½®æ›å±•é–‹å¾Œã®å˜èªä¸¦ã³
 		bsr	wordlistlen
 		add.l	d0,d2
 		addq.l	#5,d2
@@ -162,12 +162,12 @@ word_not_parened:
 * while
 *
 * loop_status
-*	-2		ƒ‹[ƒv‚Ì[‚³‚Ìƒ`ƒFƒbƒN‚Ì‚İ
-*	-1		ƒ‹[ƒv‚Ì[‚³‚Ìƒ`ƒFƒbƒN‚Ì‚İ
-*	 0		ˆø”‚ğ•]‰¿‚µCend ‘Ò‚¿ƒ‚[ƒh‚É
-*	 1		ˆø”‚ğ•]‰¿‚µCend ‘Ò‚¿ƒ‚[ƒh‚É
-*	 2		‰½‚à‚¹‚¸Cloop_status ‚ğ 1 ‚É‚·‚é‚Ì‚İ
-*	 3		ˆø”‚ğ•]‰¿‚µC‹U‚È‚ç breakC^‚È‚ç‚Î loop_status ‚ğ 1 ‚É‚·‚é
+*	-2		ãƒ«ãƒ¼ãƒ—ã®æ·±ã•ã®ãƒã‚§ãƒƒã‚¯ã®ã¿
+*	-1		ãƒ«ãƒ¼ãƒ—ã®æ·±ã•ã®ãƒã‚§ãƒƒã‚¯ã®ã¿
+*	 0		å¼•æ•°ã‚’è©•ä¾¡ã—ï¼Œend å¾…ã¡ãƒ¢ãƒ¼ãƒ‰ã«
+*	 1		å¼•æ•°ã‚’è©•ä¾¡ã—ï¼Œend å¾…ã¡ãƒ¢ãƒ¼ãƒ‰ã«
+*	 2		ä½•ã‚‚ã›ãšï¼Œloop_status ã‚’ 1 ã«ã™ã‚‹ã®ã¿
+*	 3		å¼•æ•°ã‚’è©•ä¾¡ã—ï¼Œå½ãªã‚‰ breakï¼ŒçœŸãªã‚‰ã° loop_status ã‚’ 1 ã«ã™ã‚‹
 *****************************************************************
 .xdef state_while
 
@@ -426,11 +426,11 @@ clear_loop_stack:
 *****************************************************************
 .data
 
-msg_too_many_loops:		dc.b	'while/foreach ‚ÌƒlƒXƒg‚ª[‰ß‚¬‚Ü‚·',0
-msg_not_in_while_or_foreach:	dc.b	'while/foreach ‚ÍŠJn‚µ‚Ä‚¢‚Ü‚¹‚ñ',0
-msg_bad_varname:		dc.b	'•Ï”–¼‚ª–³Œø‚Å‚·',0
-msg_word_not_parened:		dc.b	'’PŒê•À‚Ñ‚ª()‚ÅˆÍ‚í‚ê‚Ä‚¢‚Ü‚¹‚ñ',0
+msg_too_many_loops:		dc.b	'while/foreach ã®ãƒã‚¹ãƒˆãŒæ·±éãã¾ã™',0
+msg_not_in_while_or_foreach:	dc.b	'while/foreach ã¯é–‹å§‹ã—ã¦ã„ã¾ã›ã‚“',0
+msg_bad_varname:		dc.b	'å¤‰æ•°åãŒç„¡åŠ¹ã§ã™',0
+msg_word_not_parened:		dc.b	'å˜èªä¸¦ã³ãŒ()ã§å›²ã‚ã‚Œã¦ã„ã¾ã›ã‚“',0
 msg_cannot_while_foreach:	dc.b	' while /'
-msg_cannot_foreach:		dc.b	' foreach ‚ğÀs‚Å‚«‚Ü‚¹‚ñ',0
+msg_cannot_foreach:		dc.b	' foreach ã‚’å®Ÿè¡Œã§ãã¾ã›ã‚“',0
 
 .end

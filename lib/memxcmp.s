@@ -18,7 +18,7 @@
 *      D1.B   0 : case dependent, otherwise : case independent
 *
 * RETURN
-*      D0.B   (A0)-(A1)   è„à ÇÕ0
+*      D0.B   (A0)-(A1)   ‰∏ä‰Ωç„ÅØ0
 *      CCR    result of SUB.B (A1),(A0)
 ****************************************************************
 .xdef memxcmp

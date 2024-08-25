@@ -1,5 +1,5 @@
 *----------------------------------------------------------------------------
-*�V�e�b�a�̍\��
+*新ＦＣＢの構造
 
 fcbhct		equ	0	*	dc.b	handoru use count(0 no use)
 fcbflag		equ	1	*	dc.b	flags
@@ -15,16 +15,16 @@ fcbflag		equ	1	*	dc.b	flags
 *				*	bit1=1..console output
 *				*	bit0=1..console input
 fcbdevadr	equ	2	*	dc.l	devadr(device driver or DPB)
-fcbseekpos	equ	6	*	dc.l	seek data pos���݂̃V�[�N�ʒu
-fcb_share_pos	equ	10	*	dc.l	share_pos�V�F�A�Ǘ��̈�̃A�h���X
+fcbseekpos	equ	6	*	dc.l	seek data pos現在のシーク位置
+fcb_share_pos	equ	10	*	dc.l	share_posシェア管理領域のアドレス
 fcbopenmd	equ	14	*	dc.b	open_mode
-fcbdirno	equ	15	*	dc.b	�f�B���N�g���Z�N�^�[�����Ԗ�
-fcbsecfat	equ	16	*	dc.b	�f�[�^�e�`�s���Z�N�^�[�I�t�Z�b�g
-fcbfatsec	equ	17	*	dc.b	�e�`�s�擪����̃Z�N�^�[�I�t�Z�b�g
-fcbfatpos	equ	18	*	dc.w	data �̂e�`�s�ԍ�
-fcbdatasec	equ	20	*	dc.l	���݂̃f�[�^�̃Z�N�^�[�ʒu
-fcbdataadr	equ	24	*	dc.l	���݂̃f�[�^�̂����������A�h���X
-fcbdirsec	equ	28	*	dc.l	�f�B���N�g���̃Z�N�^�[�ʒu
+fcbdirno	equ	15	*	dc.b	ディレクトリセクター内何番目
+fcbsecfat	equ	16	*	dc.b	データＦＡＴ内セクターオフセット
+fcbfatsec	equ	17	*	dc.b	ＦＡＴ先頭からのセクターオフセット
+fcbfatpos	equ	18	*	dc.w	data のＦＡＴ番号
+fcbdatasec	equ	20	*	dc.l	現在のデータのセクター位置
+fcbdataadr	equ	24	*	dc.l	現在のデータのｉｏｂｕｆアドレス
+fcbdirsec	equ	28	*	dc.l	ディレクトリのセクター位置
 fcbnextpos	equ	32	*	dc.l	next data pos
 fcbnm1		equ	36	*	ds.b	8	name1
 fcbext		equ	44	*	ds.b	3	ext
@@ -35,183 +35,183 @@ fcbdat		equ	60	*	dc.w	date
 fcbfat		equ	62	*	dc.w	start fat
 fcblen		equ	64	*	dc.l	filelen
 fcb_fat_buff	equ	68
-				*	dc.w	�f�B�X�N���������ԍ�1
-				*	dc.w	�t�@�C�����������ԍ�1
-				*	dc.w	�f�B�X�N���������ԍ�2
-				*	dc.w	�t�@�C�����������ԍ�2
-				*	dc.w	�f�B�X�N���������ԍ�3
-				*	dc.w	�t�@�C�����������ԍ�3
-				*	dc.w	�f�B�X�N���������ԍ�4
-				*	dc.w	�t�@�C�����������ԍ�4
-				*	dc.w	�f�B�X�N���������ԍ�5
-				*	dc.w	�t�@�C�����������ԍ�5
-				*	dc.w	�f�B�X�N���������ԍ�6
-				*	dc.w	�t�@�C�����������ԍ�6
-				*	dc.w	�f�B�X�N���������ԍ�7
-				*	dc.w	�t�@�C�����������ԍ�7
+				*	dc.w	ディスク内ｆａｔ番号1
+				*	dc.w	ファイル内ｆａｔ番号1
+				*	dc.w	ディスク内ｆａｔ番号2
+				*	dc.w	ファイル内ｆａｔ番号2
+				*	dc.w	ディスク内ｆａｔ番号3
+				*	dc.w	ファイル内ｆａｔ番号3
+				*	dc.w	ディスク内ｆａｔ番号4
+				*	dc.w	ファイル内ｆａｔ番号4
+				*	dc.w	ディスク内ｆａｔ番号5
+				*	dc.w	ファイル内ｆａｔ番号5
+				*	dc.w	ディスク内ｆａｔ番号6
+				*	dc.w	ファイル内ｆａｔ番号6
+				*	dc.w	ディスク内ｆａｔ番号7
+				*	dc.w	ファイル内ｆａｔ番号7
 fcb_buff_end	equ	96
 fcb_length	equ	96
 *----------------------------------------------------------------------------
-*�V�h�n�a�t�e�̍\��
+*新ＩＯＢＵＦの構造
 **Disk I/O Buffer
-iobnext	equ	0	*DC.L	���̃o�b�t�@�̃|�C���^�i-1�łd�m�c�j
-iob_drv	equ	4	*DC.B	�h���C�u
-iob_sec	equ	4	*DC.L	�Z�N�^�[�ԍ��擪�{�h���C�u*1000000
-iobback	equ	8	*DC.L	�O�̃o�b�t�@�̃|�C���^�i-1�łd�m�c�j
-iob_flg	equ	12	*DC.B	�t���O
-iob_dpb	equ	12	*DC.L	�c�o�a�̃|�C���^�{�t���O*1000000
-iob_dat	equ	16	*DS.B	128*N�i�P�Z�N�^�[�̍ő�o�C�g�����j
+iobnext	equ	0	*DC.L	次のバッファのポインタ（-1でＥＮＤ）
+iob_drv	equ	4	*DC.B	ドライブ
+iob_sec	equ	4	*DC.L	セクター番号先頭＋ドライブ*1000000
+iobback	equ	8	*DC.L	前のバッファのポインタ（-1でＥＮＤ）
+iob_flg	equ	12	*DC.B	フラグ
+iob_dpb	equ	12	*DC.L	ＤＰＢのポインタ＋フラグ*1000000
+iob_dat	equ	16	*DS.B	128*N（１セクターの最大バイト数分）
 
-*�h���C�u�����W�O�ȏ�̏ꍇ���g�p�o�b�t�@�Ƃ���
+*ドライブが＄８０以上の場合未使用バッファとする
 
-*�t���O�̎��
-FRE_PRI	EQU     0		* �g�p����
-DATAPRI	EQU	$10		* �f�[�^�p�o�b�t�@
-DIR_PRI	EQU	$20		* �f�B���N�g���p�o�b�t�@
-FAT_PRI	EQU	$40		* �e�`�s�p�o�b�t�@
-WRT_PRI	EQU	$80		* �������񂾃o�b�t�@�i�c�`�s�`�C�c�h�q�C�e�`�s�j
+*フラグの種類
+FRE_PRI	EQU     0		* 使用ずみ
+DATAPRI	EQU	$10		* データ用バッファ
+DIR_PRI	EQU	$20		* ディレクトリ用バッファ
+FAT_PRI	EQU	$40		* ＦＡＴ用バッファ
+WRT_PRI	EQU	$80		* 書き込んだバッファ（ＤＡＴＡ，ＤＩＲ，ＦＡＴ）
 *----------------------------------------------------------------------------
-*�V�����c�o�a�̍\���i�O���c�o�a�͂��P�D�O�O�Ɠ����Adpb_fat_shift�͂��̂܂܃R�s�[�j
+*新内部ＤＰＢの構造（外部ＤＰＢはｖ１．００と同じ、dpb_fat_shiftはそのままコピー）
 **drive parameter block(DPB)
-dpb_drv		equ	0	*dc.b	���u�ԍ��@0=a: 1=b:
-dpb_unit	equ	1	*dc.b	���u�h���C�o�Ŏg�����j�b�g�ԍ�
-dpb_job		equ	2	*dc.l	���u�h���C�o�ւ̃|�C���^
-dpb_next	equ	6	*dc.l	���̂c�o�a�̃|�C���^(-1�ł�����)
-dpb_sect_bytes	equ	10	*dc.w	�P�Z�N�^������̃o�C�g��(0,128,256,512,1024,2048���32768)
-**					�O�͓���u���b�N�f�o�C�X�h���C�o�[�̏ꍇ
-dpb_min_len	equ	12	***bpb�������Ȃ��h���C�u�͂����܂�
-dpb_fat_sect	equ	12	*dc.b	�P�N���X�^������̃Z�N�^���\�P(0,1,3,7,15,31,63,127)
-dpb_fat_shift	equ	13	*dc.b	�N���X�^�����Z�N�^�̃V�t�g�J�E���g(0,1,2,3,4,5,6,7)
-				*bit7=on�Ȃ�Q�o�C�g�e�`�s�ł��l�r�|�c�n�r�R���p�`��low/high���[�h
-dpb_fat_pos	equ	14	*dc.w	�e�`�s�̐擪�Z�N�^�ԍ��i�U�T�T�R�T�ȉ��j
-dpb_fat_count	equ	16	*dc.b	�e�`�s�̈�̌�(1,2)
-dpb_fat_length	equ	17	*dc.b	�e�`�s�̂��߂�Z�N�^���i�P�Q�W�ȉ��R�s�[�̕��͕ʁj
-dpb_dir_count	equ	18	*dc.w	���[�g�f�B���N�g���̌��i�Q�O�S�W�ȉ��j
-dpb_data_pos	equ	20	*dc.w	�f�[�^���̐擪�Z�N�^�ԍ��i�U�T�T�R�T�ȉ��j
-dpb_fat_max	equ	22	*dc.w	���N���X�^���{�P
-dpb_dir_pos	equ	24	*dc.w	���[�g�f�B���N�g���̐擪�Z�N�^�ԍ��i�U�T�T�R�T�ȉ��j
-dpb_media_id	equ	26	*dc.b	���f�B�A�o�C�g
-dpb_sect_shift	equ	27	*dc.b	�Z�N�^�����o�C�g�̃V�t�g�J�E���g(7,8,9,10,11,12,13,14,15)
-dpb_new_fat	equ	28	*dc.w	���ɐV�K�쐬�\�Ȃe�`�s�l�H
+dpb_drv		equ	0	*dc.b	装置番号　0=a: 1=b:
+dpb_unit	equ	1	*dc.b	装置ドライバで使うユニット番号
+dpb_job		equ	2	*dc.l	装置ドライバへのポインタ
+dpb_next	equ	6	*dc.l	次のＤＰＢのポインタ(-1でｅｎｄ)
+dpb_sect_bytes	equ	10	*dc.w	１セクタあたりのバイト数(0,128,256,512,1024,2048･･･32768)
+**					０は特殊ブロックデバイスドライバーの場合
+dpb_min_len	equ	12	***bpbを持たないドライブはここまで
+dpb_fat_sect	equ	12	*dc.b	１クラスタあたりのセクタ数―１(0,1,3,7,15,31,63,127)
+dpb_fat_shift	equ	13	*dc.b	クラスタ＜＞セクタのシフトカウント(0,1,2,3,4,5,6,7)
+				*bit7=onなら２バイトＦＡＴでもＭＳ−ＤＯＳコンパチのlow/highモード
+dpb_fat_pos	equ	14	*dc.w	ＦＡＴの先頭セクタ番号（６５５３５以下）
+dpb_fat_count	equ	16	*dc.b	ＦＡＴ領域の個数(1,2)
+dpb_fat_length	equ	17	*dc.b	ＦＡＴのしめるセクタ数（１２８以下コピーの分は別）
+dpb_dir_count	equ	18	*dc.w	ルートディレクトリの個数（２０４８以下）
+dpb_data_pos	equ	20	*dc.w	データ部の先頭セクタ番号（６５５３５以下）
+dpb_fat_max	equ	22	*dc.w	総クラスタ数＋１
+dpb_dir_pos	equ	24	*dc.w	ルートディレクトリの先頭セクタ番号（６５５３５以下）
+dpb_media_id	equ	26	*dc.b	メディアバイト
+dpb_sect_shift	equ	27	*dc.b	セクタ＜＞バイトのシフトカウント(7,8,9,10,11,12,13,14,15)
+dpb_new_fat	equ	28	*dc.w	次に新規作成可能なＦＡＴ値？
 dpb_len		equ	30
 *----------------------------------------------------------------------------
-*�V�a�o�a�̍\��
+*新ＢＰＢの構造
 **bios parameter block(BPB)
-bpbssz equ  0	*dc.w	�P�Z�N�^������̃o�C�g��(128,256,512,1024,2048���32768)
-bpbclm equ  2	*dc.b	�P�N���X�^������̃Z�N�^��(1,2,4,8,16,32,64,128)
-bpbftc equ  3	*dc.b	�e�`�s�̈�̌�(1,2)
-		*bit7=on�Ȃ�Q�o�C�g�e�`�s�ł��l�r�|�c�n�r�R���p�`��low/high���[�h
-bpbfts equ  4	*dc.w	�\��̈�̃Z�N�^���i�U�T�T�R�T�ȉ��j
-bpbdrc equ  6	*dc.w	���[�g�f�B���N�g���ɂ͂���t�@�C�����i�Q�O�S�W�ȉ��j
-bpbmax equ  8	*dc.w	�S�̈�̃Z�N�^���i�O�̏ꍇ��bpb_mx���L���j
-bpbmid equ 10	*dc.b	���f�B�A���ʃR�[�h($fe,$f8,$f9)
-bpbfsz equ 11	*dc.b	�P�̂e�`�s�̈�Ɏg�p����Z�N�^���i�P�Q�W�ȉ��j
-bpb_mx equ 12	*dc.l	�S�̈�̃Z�N�^���ibpbmax���O�̎��̂ݗL���j
+bpbssz equ  0	*dc.w	１セクタあたりのバイト数(128,256,512,1024,2048･･･32768)
+bpbclm equ  2	*dc.b	１クラスタあたりのセクタ数(1,2,4,8,16,32,64,128)
+bpbftc equ  3	*dc.b	ＦＡＴ領域の個数(1,2)
+		*bit7=onなら２バイトＦＡＴでもＭＳ−ＤＯＳコンパチのlow/highモード
+bpbfts equ  4	*dc.w	予約領域のセクタ数（６５５３５以下）
+bpbdrc equ  6	*dc.w	ルートディレクトリにはいるファイル数（２０４８以下）
+bpbmax equ  8	*dc.w	全領域のセクタ数（０の場合はbpb_mxが有効）
+bpbmid equ 10	*dc.b	メディア識別コード($fe,$f8,$f9)
+bpbfsz equ 11	*dc.b	１個のＦＡＴ領域に使用するセクタ数（１２８以下）
+bpb_mx equ 12	*dc.l	全領域のセクタ数（bpbmaxが０の時のみ有効）
 *----------------------------------------------------------------------------
-*�V�K�b�g�c�h�q�a�t�e�e�̍\��
+*新規ＣＨＤＩＲＢＵＦＦの構造
 *
-*JOIN C: D:\TEST	[D:\TEST\*.*]��[C:\*.*]���A�N�Z�X����B
-*			������[D:\TEST]�ȊO�̃t�@�C���͂��̂܂�[D:]���A�N�Z�X�B
-*SUBST C: D:\TEST	[C:\*.*]��[D:\TEST\*.*]���A�N�Z�X����B
+*JOIN C: D:\TEST	[D:\TEST\*.*]は[C:\*.*]をアクセスする。
+*			ただし[D:\TEST]以外のファイルはそのまま[D:]をアクセス。
+*SUBST C: D:\TEST	[C:\*.*]は[D:\TEST\*.*]をアクセスする。
 *
-cd_buff		equ	0	*ds.b	69	'A:\TEST',0�i���݂̕����p�X���j
-cd_mode		equ	69	*dc.b	$40=CHDIR /$50=SUBST /$60=JOIN�@0�Ŗ��g�p
-cd_dpb		equ	70	*dc.l	DPB�̃A�h���X
-cd_cur_dir	equ	74	*dc.w	�J�����g�f�B���N�g���̃N���X�^�ԍ�
-cd_rute_pos	equ	76	*dc.w	���[�g�f�B���N�g����cd_buff���I�t�Z�b�g
+cd_buff		equ	0	*ds.b	69	'A:\TEST',0（現在の物理パス名）
+cd_mode		equ	69	*dc.b	$40=CHDIR /$50=SUBST /$60=JOIN　0で未使用
+cd_dpb		equ	70	*dc.l	DPBのアドレス
+cd_cur_dir	equ	74	*dc.w	カレントディレクトリのクラスタ番号
+cd_rute_pos	equ	76	*dc.w	ルートディレクトリのcd_buff内オフセット
 
 *a:
-*	dc.b	'A:',9,'BIN',0,������		�h���C�u���͕K���啶��
+*	dc.b	'A:',9,'BIN',0,･･････		ドライブ名は必ず大文字
 *	dc.b	$40
 *	dc.l	dpba
 *	dc.w	$ffff
 *	dc.w	2
 *b:
-*	dc.b	'B:',9,'TEMP',9,'BIN',0,������
+*	dc.b	'B:',9,'TEMP',9,'BIN',0,･･････
 *	dc.b	$40
 *	dc.l	dpbb
 *	dc.w	$ffff
 *	dc.w	2
 *c:
-*	dc.b	'C:',9,0,������
+*	dc.b	'C:',9,0,･･････
 *	dc.b	$40
 *	dc.l	dpbc
 *	dc.w	$ffff
 *	dc.w	2
 *d:
-*	dc.b	'B:',9,'TEMP',0,������
+*	dc.b	'B:',9,'TEMP',0,･･････
 *	dc.b	$60
 *	dc.l	dpbd
 *	dc.w	$ffff
 *	dc.w	7
 *e:
-*	dc.b	'C:',9,'TEST',0,������
+*	dc.b	'C:',9,'TEST',0,･･････
 *	dc.b	$50
 *	dc.l	dpbc
 *	dc.w	$ffff
 *	dc.w	7
 *
 *----------------------------------------------------------------------------
-*�������������D�������̒ǉ�����
+*ｃｏｎｆｉｇ．ｓｙｓの追加項目
 *
 *files     = 16			/5-93
 *buffers   = 20 1024		/2-99 / 1024-32768
 *lastdrive = z			/a-z
-*title     = \title.vs		/�^�C�g���t�@�C���̃p�X��
-*key       = \key.sys		/�L�[�t�@�C���̃p�X��
-*uskcg     = \uskcg.sys		/���[�U�[��`�����t�@�C���̃p�X��
-*bell      = a:\sys\beep.sys	/���������p�����������f�[�^�t�@�C����
-*device    = a:\ramdisk.sys #g	/�f�o�C�X�h���C�o�[���@�p�����[�^�[
-*device	   = [rom$??????]	/�P�U�i���ł������u�[�g�A�h���X���w�肷��
-*				/[rom0]~[rom9]���\�m�f�o�C�X�`���̂q�n�l�n
-*share     = 16 20		/�t�@�C����/���b�N����̈搔
-*common    = 64k		/common�t�@���N�V�����p�o�b�t�@�̃o�C�g��
+*title     = \title.vs		/タイトルファイルのパス名
+*key       = \key.sys		/キーファイルのパス名
+*uskcg     = \uskcg.sys		/ユーザー定義文字ファイルのパス名
+*bell      = a:\sys\beep.sys	/ｂｅｌｌ用ａｄｐｃｍデータファイル名
+*device    = a:\ramdisk.sys #g	/デバイスドライバー名　パラメーター
+*device	   = [rom$??????]	/１６進数でｒｏｍブートアドレスを指定する
+*				/[rom0]~[rom9]も可能［デバイス形式のＲＯＭ］
+*share     = 16 20		/ファイル数/ロックする領域数
+*common    = 64k		/commonファンクション用バッファのバイト数
 *break on			/off /kill
 *verify on			/off
-*process   = max level cnt	/���s���s�\�ȃX���b�h�����w��
-*envset    = 1024 a:\env.dat	/���G���A�̃o�C�g���@���t�@�C���p�X��
-*program   = subst z: a:\bin /�N���v���O�����p�X���@�p�����[�^�[
-*shell     = \command.x /p	/�ŏI�v���O�����p�X���@�p�����[�^�[
+*process   = max level cnt	/平行実行可能なスレッド数を指定
+*envset    = 1024 a:\env.dat	/環境エリアのバイト数　環境ファイルパス名
+*program   = subst z: a:\bin /起動プログラムパス名　パラメーター
+*shell     = \command.x /p	/最終プログラムパス名　パラメーター
 *
 *----------------------------------------------------------------------------
-env.dat�̍\��
-���O�Ƃ��̒l���Ȃ��m���n�̑O��̓X�y�[�X��s�`�a�����Ă͂Ȃ�Ȃ��B
-�P�̎w��̏I���͕K�����s�m���O���C���O���n�ł��邱�ƁB
-�t�@�C���̏I���͕K���d�n�e�m���P���n�ł��邱�ƁB
-�m��n
+env.datの構造
+名前とその値をつなぐ［＝］の前後はスペースやＴＡＢを入れてはならない。
+１つの指定の終わりは必ず改行［＄０ｄ，＄０ａ］であること。
+ファイルの終わりは必ずＥＯＦ［＄１ａ］であること。
+［例］
 path=a:\;a:\bin
 temp=e:\
 [eof]
 *----------------------------------------------------------------------------
-*share�̊Ǘ����@
+*shareの管理方法
 *sharestart/sharefile.w/sharecnt.w
-*�̃��[�N�ɂ��Ǘ�����擪�P�o�C�g���g�p�t���O���p
+*のワークにより管理する先頭１バイトが使用フラグ兼用
 *
-*sharefile*(92+(12*shearcnt))�o�C�g�K�v
+*sharefile*(92+(12*shearcnt))バイト必要
 *
-*	ds.b	1		���̂��������g�p���Ă��邩���[�N�i�O�Ŗ��g�p�j
-*	ds.b	1		�V�F�A�����O���[�h
-*	dc.w	pos_len		seek lock�̌�
-*	ds.b	88		namebf.h�̓��e
-*	dc.l	seekpos		seek lock�擪�ʒu
+*	ds.b	1		何個のｆｃｂが使用しているかワーク（０で未使用）
+*	ds.b	1		シェアリングモード
+*	dc.w	pos_len		seek lockの個数
+*	ds.b	88		namebf.hの内容
+*	dc.l	seekpos		seek lock先頭位置
 *	dc.l	locklen		seek lock length
-*	dc.l	id		seek lock�����������̃|�C���^�[
-*	dc.l	seekpos		seek lock�擪�ʒu
+*	dc.l	id		seek lockしたｆｃｂのポインター
+*	dc.l	seekpos		seek lock先頭位置
 *	dc.l	locklen		seek lock length
-*	dc.l	id		seek lock�����������̃|�C���^�[
+*	dc.l	id		seek lockしたｆｃｂのポインター
 *	dc.l
 *	dc.l
 *	dc.l
-*	ds.b	1		���̂��������g�p���Ă��邩���[�N�i�O�Ŗ��g�p�j
-*	ds.b	1		�V�F�A�����O���[�h
-*	dc.w	pos_len		seek lock�̌�
-*	ds.b	88		namebf.h�̓��e
-*	dc.l	seekpos		seek lock�擪�ʒu
+*	ds.b	1		何個のｆｃｂが使用しているかワーク（０で未使用）
+*	ds.b	1		シェアリングモード
+*	dc.w	pos_len		seek lockの個数
+*	ds.b	88		namebf.hの内容
+*	dc.l	seekpos		seek lock先頭位置
 *	dc.l	locklen		seek lock length
-*	dc.l	id		seek lock�����������̃|�C���^�[
-*	dc.l	seekpos		seek lock�擪�ʒu
+*	dc.l	id		seek lockしたｆｃｂのポインター
+*	dc.l	seekpos		seek lock先頭位置
 *	dc.l	locklen		seek lock length
-*	dc.l	id		seek lock�����������̃|�C���^�[
+*	dc.l	id		seek lockしたｆｃｂのポインター
 *	dc.l
 *	dc.l
 *	dc.l
@@ -232,24 +232,24 @@ temp=e:\
 ********************************
 *close		lock_close
 ********************************
-*bit 6-4 �V�F�A�����O���[�h
-*cmp	$0?	000.�R���p�`�u��
-*drw	$1?	001.���[�h�^���C�g�s��
-*dw	$2?	010.���C�g�s��
-*dr	$3?	011.���[�h�s��
-*dn	$4?	100.�s�Ȃ�
-*bit 1-0 �A�N�Z�X���[�h
-*r	$?0	00.�ǂݍ���
-*w	$?1	01.��������
-*rw	$?2	10.�ǂݏ���
+*bit 6-4 シェアリングモード
+*cmp	$0?	000.コンパチブル
+*drw	$1?	001.リード／ライト不可
+*dw	$2?	010.ライト不可
+*dr	$3?	011.リード不可
+*dn	$4?	100.不可なし
+*bit 1-0 アクセスモード
+*r	$?0	00.読み込み
+*w	$?1	01.書き込み
+*rw	$?2	10.読み書き
 
-*c	$03	11.�ǂݏ����i���������������̓����f�[�^�j
+*c	$03	11.読み書き（ｃｒｅａｔｅ時の内部データ）
 
 ------------------------------------------------------
-  �Q���|  cmp   |  drw   |  dw    |  dr    |  dn    |
+  ２回目|  cmp   |  drw   |  dw    |  dr    |  dn    |
         |        |        |        |        |        |
         |r w r c |r w r c |r w r c |r w r c |r w r c |
-�P���  |    w   |    w   |    w   |    w   |    w   |
+１回目  |    w   |    w   |    w   |    w   |    w   |
 ------------------------------------------------------
 cmp r	|Y N N N |N N N N |N N N N |N N N N |N N N N |
     w	|N N N N |N N N N |N N N N |N N N N |N N N N |
@@ -278,216 +278,216 @@ dn  r	|N N N N |N N N N |Y Y Y Y |N N N N |Y Y Y Y |
 ------------------------------------------------------
 
 *----------------------------------------------------------------------------
-*common�̊Ǘ����@
-*com_start/com_pos/com_end�̃��[�N�ɂ��Ǘ����郁�����[�𒼐ړ]������
+*commonの管理方法
+*com_start/com_pos/com_endのワークにより管理するメモリーを直接転送する
 *
-*	dc.l	���̃u���b�N�̃o�C�g���i���̂S�o�C�g�͊܂܂Ȃ��j
-*	dc.b	'�Ǘ�name12����'
-*	dc.l	���[�U�[�f�[�^�̃o�C�g��
-*	dc.l	���b�N�o�n�r
-*	dc.l	���b�N�k�d�m
-*	dc.l	���b�N�h�c
-*	ds.b	??	���[�U�[�f�[�^
+*	dc.l	このブロックのバイト数（この４バイトは含まない）
+*	dc.b	'管理name12文字'
+*	dc.l	ユーザーデータのバイト数
+*	dc.l	ロックＰＯＳ
+*	dc.l	ロックＬＥＮ
+*	dc.l	ロックＩＤ
+*	ds.b	??	ユーザーデータ
 *
-*	dc.l	���̃u���b�N�̃o�C�g���i���̂S�o�C�g�͊܂܂Ȃ��j
-*	dc.b	'�Ǘ�name12����'
-*	dc.l	���[�U�[�f�[�^�̃o�C�g��
-*	dc.l	���b�N�o�n�r
-*	dc.l	���b�N�k�d�m
-*	dc.l	���b�N�h�c
-*	ds.b	??	���[�U�[�f�[�^
+*	dc.l	このブロックのバイト数（この４バイトは含まない）
+*	dc.b	'管理name12文字'
+*	dc.l	ユーザーデータのバイト数
+*	dc.l	ロックＰＯＳ
+*	dc.l	ロックＬＥＮ
+*	dc.l	ロックＩＤ
+*	ds.b	??	ユーザーデータ
 *----------------------------------------------------------------------------
-*���G���A�̍\��
+*環境エリアの構造
 *
-*	dc.l	���G���A�̒����i���̂S�o�C�g���܂ރo�C�g���j
-*	dc.b	'path=a:\',0	(0�łP�̕�����̏I���j
-*	dc.b	�f�[�^������{�O
-*	������
-*	dc.b	0	�S�Ă̕�����̏I���
-*	ds.b	??	�c��͉��������Ă��邩�킩��Ȃ�
+*	dc.l	環境エリアの長さ（この４バイトも含むバイト数）
+*	dc.b	'path=a:\',0	(0で１つの文字列の終わり）
+*	dc.b	データ文字列＋０
+*	･･････
+*	dc.b	0	全ての文字列の終わり
+*	ds.b	??	残りは何が入っているかわからない
 *----------------------------------------------------------------------------
-*�ǉ��n�r�b�`�k�k�̎d�l
+*追加ＯＳＣＡＬＬの仕様
 *
 *$ff0f	drvctrl(md*256+drive.w [,?,?])
-*	����u���b�N�f�o�C�X�ɑ΂��Ă��������P�U�̂Ƃ��͔C�ӂ̃p�����[�^��ǉ��ł��܂�
-*	�T���������X�͎w�肵�Ȃ��ŉ������B�P�P����P�T�܂ł̓��T�[�u�ł��B
+*	特殊ブロックデバイスに対してｍｄ＞＝１６のときは任意のパラメータを追加できます
+*	５＜ｍｄ＜９は指定しないで下さい。１１から１５まではリサーブです。
 
-*	�������X�ł��̃h���C�u���g�p���Ă���n���h���͂�������������o�b�t�@��
-*	�������݁E�̂Ă��E�p�X�̓��[�g�ɂȂ�A�T�[�`�e�`�s���擪����ɂȂ�܂��B
-*	�������Q�D�O�O�p�� FORMAT.X �Ŏg�p����Ă��܂��B
+*	ｍｄ＝９でそのドライブを使用しているハンドラはｃｌｏｓｅされバッファは
+*	書き込み・捨てられ・パスはルートになり、サーチＦＡＴも先頭からになります。
+*	ｖｅｒ２．００用の FORMAT.X で使用されています。
 
-*	�������P�O�ł��̃h���C�u�́A�T�[�`�e�`�s���擪����ɂȂ�܂��B
-*	�������Q�D�O�O�p�� SYS.X �Ŏg�p����Ă��܂��B
+*	ｍｄ＝１０でそのドライブの、サーチＦＡＴが先頭からになります。
+*	ｖｅｒ２．００用の SYS.X で使用されています。
 *
 *$ff14
-*	�l�b�g���[�N�̈ꕔ���T�|�[�g����b�`�k�k
-*	�f�o�C�X�h���C�o�[�ŃT�|�[�g�����i�n�r�N�����|�P�q�d�s�t�q�m�j
+*	ネットワークの一部をサポートするＣＡＬＬ
+*	デバイスドライバーでサポートされる（ＯＳ起動時−１ＲＥＴＵＲＮ）
 *$ff15
-*	�l�b�g���[�N�̈ꕔ���T�|�[�g����b�`�k�k
-*	�f�o�C�X�h���C�o�[�ŃT�|�[�g�����i�n�r�N�����|�P�q�d�s�t�q�m�j
+*	ネットワークの一部をサポートするＣＡＬＬ
+*	デバイスドライバーでサポートされる（ＯＳ起動時−１ＲＥＴＵＲＮ）
 *$ff16	session(SCB)
-*	�l�b�g���[�N�̃Z�b�V�����w���T�|�[�g����b�`�k�k
-*	�f�o�C�X�h���C�o�[�ŃT�|�[�g�����i�n�r�N�����|�P�q�d�s�t�q�m�j
+*	ネットワークのセッション層をサポートするＣＡＬＬ
+*	デバイスドライバーでサポートされる（ＯＳ起動時−１ＲＥＴＵＲＮ）
 *
 *$ff17	fatchk(file , buffer)
 *	fatchk(file , buffer+0x80000000,buf_len.w)
-*	buffer�����̐��Ȃ�A���Ƀo�b�t�@�̃o�C�g�������[�h�Ŏw�肳��Ă���
-*	���̂Ƃ��Ď��̏����ŃZ�N�^�[�����Z�b�g����B
+*	bufferが負の数なら、次にバッファのバイト数がワードで指定されている
+*	ものとして次の書式でセクター情報をセットする。
 *
 *	dc.w	drive no
 *
-*	dc.l	�擪�Z�N�^�[
-*	dc.l	�Z�N�^�[��
+*	dc.l	先頭セクター
+*	dc.l	セクター数
 *
-*	dc.l	���̃Z�N�^�[
-*	dc.l	�Z�N�^�[��
+*	dc.l	次のセクター
+*	dc.l	セクター数
 *
 *	dc.l
 *	dc.l
 *
-*	dc.l	�I����\�킷�O
+*	dc.l	終わりを表わす０
 *
 *$ff33	breakck(FLG)
-*	FLG=0 / 1 / -1�@�Ɂ@2=�S�Ẵt�@���N�V�����Ń`�F�b�N���Ȃ���ǉ�
+*	FLG=0 / 1 / -1　に　2=全てのファンクションでチェックしないを追加
 *
 *$ff34	drvxchg(old.w,new.w)
-*	old/new�Ƃ��Ɂ|�P�̎��S�Ẵh���C�u�ύX�����ɖ߂��@�\�ǉ�
-*	���^�[���l�Ƃ��ăJ�����g�h���C�u�̐V�����h���C�u�ԍ����Ԃ�(a:=0)
+*	old/newともに−１の時全てのドライブ変更を元に戻す機能追加
+*	リターン値としてカレントドライブの新しいドライブ番号が返る(a:=0)
 
 *$ff3d	open(file,md.w)
-*	md bit 6-4	�V�F�A�����O���[�h
-*			000.�R���p�`�u��
-*			001.���[�h�^���C�g�s��
-*			010.���C�g�s��
-*			011.���[�h�s��
-*			100.�s�Ȃ�
+*	md bit 6-4	シェアリングモード
+*			000.コンパチブル
+*			001.リード／ライト不可
+*			010.ライト不可
+*			011.リード不可
+*			100.不可なし
 *
 *$ff44	ioctrl(md.w,???)
-*	����܂ł̂l�c���O�`�V�Ɏ��̃t�@���N�V�������ǉ�����܂�
-*	(9,drive.w)�@�w��h���C�u�����[�J���������[�g����Ԃ��܂�
-*	(10,fileno.w)�w��n���h�������[�J���������[�g����Ԃ��܂�
-*	���[�J���̏ꍇ�̓f�o�C�X�h���C�o�[��devtyp���Ԃ�
-*	�����[�g�̏ꍇ��BIT 12���n�m�ɂȂ�
-*	(11,count.w,time.w)���g���C�̃J�E���^�[�Z�b�g�i�f�t�H���g�R��j
-*	���������n�r�ł͂��̕ύX�ɂ�艽���ς��Ȃ�
-*	�f�o�C�X�h���C�o�[�ŃT�|�[�g����\��
-*	(12,fileno.w,f_code.w,buffer.l)�n���h���ɂ�����R���g���[��
-*	(13,drive.w,f_code.w,buffer.l)�h���C�u�ɂ�����R���g���[��
+*	これまでのＭＤ＝０〜７に次のファンクションが追加されます
+*	(9,drive.w)　指定ドライブがローカルかリモートかを返します
+*	(10,fileno.w)指定ハンドラがローカルかリモートかを返します
+*	ローカルの場合はデバイスドライバーのdevtypが返る
+*	リモートの場合はBIT 12がＯＮになる
+*	(11,count.w,time.w)リトライのカウンターセット（デフォルト３回）
+*	ただし現ＯＳではこの変更により何も変わらない
+*	デバイスドライバーでサポートする予定
+*	(12,fileno.w,f_code.w,buffer.l)ハンドラによる特殊コントロール
+*	(13,drive.w,f_code.w,buffer.l)ドライブによる特殊コントロール
 *
 *$ff4b	exec(md.w , file.l , comline.l , env.l)
 
-*	md.w�̏�ʂW�r�b�g�Ƀ��W���[���ԍ����w��\�ɂ��āA�I�[�o�[���C�w
-*	�t�@�C���̃��[�h���\�ɂȂ�܂����B
+*	md.wの上位８ビットにモジュール番号を指定可能にして、オーバーレイＸ
+*	ファイルのロードが可能になりました。
 
-*	�܂��V���ȃt�@���N�V�����Ƃ��āA�t�@�C�������烂�W���[���ԍ������߂�
-*	md=5��ǉ��A���̃t�@���N�V�����R�[�����@�͎��̒ʂ�B
+*	また新たなファンクションとして、ファイル名からモジュール番号を求める
+*	md=5を追加、そのファンクションコール方法は次の通り。
 *		md=exec(5,file1,file2,0)
-*	�mfile1�n�͎��t�@�C�����A�mfile2�n�̓��W���[���̃t�@�C�����ŁA
-*	���^�[���l�́mmd�n�͂������W�|�P�T�Ƀ��W���[���ԍ��A����ȊO��
-*	�O���Ԃ�܂��A�G���[�̏ꍇ���̐����Ԃ�܂��B
+*	［file1］は実ファイル名、［file2］はモジュールのファイル名で、
+*	リターン値の［md］はｂｉｔ８−１５にモジュール番号、それ以外は
+*	０が返ります、エラーの場合負の数が返ります。
 
-*	���W���[���ԍ��w��̃��[�h�ɑΉ����āA�o�r�o���ɂ��̃��W���[���ԍ�
-*	���Z�b�g����悤�ɂȂ�܂����B�i�v���O�����Ǘ����@�@�Q�Ɓj
+*	モジュール番号指定のロードに対応して、ＰＳＰ内にそのモジュール番号
+*	をセットするようになりました。（プログラム管理方法　参照）
 
-*	�w�t�@�C���̐擪����S�o�C�g�ڂ̃I�v�V�����r�b�g�ɂ�胁�����[�m�ە��@
-*	���ύX�ł���悤�ɂȂ����B�@
-*	bit 0 �����Ă���ƁA�K�v�ŏ��u���b�N�����蓖�Ă�
-*	bit 1 �����Ă���ƁA�������[�̏�ʂ���T���A���蓖�Ă�
-*	�����Ƃ����Ă��Ȃ����A�ő僁�����[�̈�����蓖�Ă�
+*	Ｘファイルの先頭から４バイト目のオプションビットによりメモリー確保方法
+*	が変更できるようになった。　
+*	bit 0 がついていると、必要最小ブロックを割り当てる
+*	bit 1 がついていると、メモリーの上位から探し、割り当てる
+*	両方ともついていない時、最大メモリー領域を割り当てる
 
 *$ff55	common(md.w,name.l,pos.l,buffer.l,len.l)
 *	len=common(0,name)
-*		name�����݂��邩�`�F�b�N
-*		return=���݂����ꍇ�̓o�C�g���A���݂��Ȃ��ꍇ�̓G���[�R�[�h
+*		nameが存在するかチェック
+*		return=存在した場合はバイト数、存在しない場合はエラーコード
 *	len=common(1,name,pos,buffer,len)
-*		name��pos����buffer��len�o�C�g����ǂݍ���
-*		return=�ǂݍ��񂾃o�C�g���A�G���[�R�[�h
+*		nameのposからbufferへlenバイト数を読み込む
+*		return=読み込んだバイト数、エラーコード
 *	len=common(2,name,pos,buffer,len)
-*		name��pos��buffer����len�o�C�g������������
-*		name�����݂��Ȃ��ꍇ�͐V�������
-*		len=0�Ő؂�l�߂�
-*		return=�������񂾃o�C�g���A�G���[�R�[�h
+*		nameのposへbufferからlenバイト数を書き込む
+*		nameが存在しない場合は新しく作る
+*		len=0で切り詰める
+*		return=書き込んだバイト数、エラーコード
 *	err=common(3,name,pos,id_psp,len)
-*		name��pos����len�o�C�g����id��t���ă��b�N����
-*		return=�G���[�R�[�h
+*		nameのposからlenバイト数をidを付けてロックする
+*		return=エラーコード
 *	err=common(4,name,pos,id_psp,len)
-*		name��pos����len�o�C�g����id��t���ă��b�N��������
-*		return=�G���[�R�[�h
+*		nameのposからlenバイト数をidを付けてロック解除する
+*		return=エラーコード
 *	err=common(5,name)
-*		name����������
-*		return=�G���[�R�[�h
+*		nameを消去する
+*		return=エラーコード
 *
 *$ff58	malloc2(md.w,length)
-*	�������������t�@���N�V�����̃��[�h�w��\�o�[�W����
-*	md=0	���ʂ���T���A���蓖�Ă�
-*	md=1	�K�v�ŏ��u���b�N�����蓖�Ă�
-*	md=2	��ʂ���T���A���蓖�Ă�
+*	ｍａｌｌｏｃファンクションのモード指定可能バージョン
+*	md=0	下位から探し、割り当てる
+*	md=1	必要最小ブロックを割り当てる
+*	md=2	上位から探し、割り当てる
 *
 *$ff5a	maketmp(nameptr,atr.w)
-*	�w��p�X�Ƀe���|�����[�t�@�C�����쐬���A���̃n���h���ƁA
-*	�t�@�C�����inameptr�������ς��j��Ԃ��܂�
-*	nameptr�ɂ͎w��p�X���̎���file????.txt�̗l�ɂǂ̂悤��
-*	�e���|�����[�t�@�C������邩�w�肵�܂��B?�̈ʒu�ɐ�����
-*	���Ă͂߂��A0000~9999�܂ŕω����܂��B
-*	?�̂����ɐ������������ꍇ�A���̔ԍ����猟�����܂��B
+*	指定パスにテンポラリーファイルを作成し、そのハンドラと、
+*	ファイル名（nameptrが書き変わる）を返します
+*	nameptrには指定パス名の次にfile????.txtの様にどのような
+*	テンポラリーファイルを作るか指定します。?の位置に数字が
+*	あてはめられ、0000~9999まで変化します。
+*	?のかわりに数字をかいた場合、その番号から検索します。
 *
 *$ff5b	newfile(nameptr,atr.w)
-*	$ff3c create�ƂقƂ�Ǔ����ŁA�t�@�C�������݂����ꍇ�A
-*	�G���[(-80)��Ԃ��Ƃ��낾���Ⴂ�܂��B
+*	$ff3c createとほとんど同じで、ファイルが存在した場合、
+*	エラー(-80)を返すところだけ違います。
 *
 *$ff5c	lock(md.w,??)
-*	lock(0,fileno.w,offset,len)	�t�@�C���A�N�Z�X�̃��b�N
-*	lock(1,fileno.w,offset,len)	�t�@�C���A�N�Z�X�̃��b�N����
+*	lock(0,fileno.w,offset,len)	ファイルアクセスのロック
+*	lock(1,fileno.w,offset,len)	ファイルアクセスのロック解除
 *
 *$ff5e	netinf(md,??)
-*	�l�b�g���[�N�̈ꕔ���T�|�[�g����b�`�k�k
-*	�f�o�C�X�h���C�o�[�ŃT�|�[�g�����i�n�r�N�����|�P�q�d�s�t�q�m�j
+*	ネットワークの一部をサポートするＣＡＬＬ
+*	デバイスドライバーでサポートされる（ＯＳ起動時−１ＲＥＴＵＲＮ）
 *
 *$ff5f	assign(md,??)
-*	mode=assign(0,buff1,buff2)	���蓖�ă��X�g�̃G���g���𓾂�
-*	   assign(1,buff1,buff2,mode)	���蓖�ă��X�g�̃G���g���̍쐬
-*	   assign(4,buff1)	���蓖�ă��X�g�̃G���g���̃L�����Z��
+*	mode=assign(0,buff1,buff2)	割り当てリストのエントリを得る
+*	   assign(1,buff1,buff2,mode)	割り当てリストのエントリの作成
+*	   assign(4,buff1)	割り当てリストのエントリのキャンセル
 *
 
 *$ff7d	s_malloc(md.w,length)
-*	���C���̃������[�Ǘ����烁�����[���m�ۂ��Ă��̃|�C���^�[��Ԃ�
-*	md=0	���ʂ���T���A���蓖�Ă�
-*	md=1	�K�v�ŏ��u���b�N�����蓖�Ă�
-*	md=2	��ʂ���T���A���蓖�Ă�
+*	メインのメモリー管理からメモリーを確保してそのポインターを返す
+*	md=0	下位から探し、割り当てる
+*	md=1	必要最小ブロックを割り当てる
+*	md=2	上位から探し、割り当てる
 *
 *$ff7e	s_mfree(ptr)
-*	���C���̃������[�Ǘ��̃|�C���^�[���w�肵�ă������[��������܂�
-*	s_process�Ŏw�肵�Ă���A�h���X�ŁA���J�����g�h�c�Ȃ��kill_pr���܂�
-*	kill_pr�܂ł���ꍇ�A�����̃������[�Ǘ��ŏ풓�I�����Ă�����̓���
-*	���C���̃������[�Ǘ��ɂȂ���܂��B
+*	メインのメモリー管理のポインターを指定してメモリーを解放します
+*	s_processで指定しているアドレスで、かつカレントＩＤならばkill_prします
+*	kill_prまでする場合、内部のメモリー管理で常駐終了しているもの等は
+*	メインのメモリー管理につながれます。
 *
 *$ff7f	s_process(id.w,start,length,i_len)
-*	�T�u�̃������[�Ǘ��̐擪�A�h���X�Ƃ��̃o�C�g�����w�肵�܂�
-*	����Ȍ�A�w��h�c�̃X���b�h�ł̃������[�Ǘ��͂��͈͓̔��ƂȂ�܂�
-*	i_len�͐V�����������[�Ǘ��̐擪�u���b�N�i�K���m�ۂ����j�̃o�C�g��
-*	start����̂P�U�o�C�g�͐擪�̃������[�Ǘ��̂��߂ɉ󂳂�܂��B
-*	id=0�i���C���X���b�h�j�͕ύX�ł��܂���
-*	���^�[���l	i_len�o�C�g�m�ۂ����|�C���^�[
-*			$ffff00??	�h�c�G���[
+*	サブのメモリー管理の先頭アドレスとそのバイト数を指定します
+*	これ以後、指定ＩＤのスレッドでのメモリー管理はこの範囲内となります
+*	i_lenは新しいメモリー管理の先頭ブロック（必ず確保される）のバイト数
+*	startからの１６バイトは先頭のメモリー管理のために壊されます。
+*	id=0（メインスレッド）は変更できません
+*	リターン値	i_lenバイト確保したポインター
+*			$ffff00??	ＩＤエラー
 *			-14		length < i_len+16
 *
 *$fff3	diskred(adr.l , drv.w , sect.w , len.w )
 *	diskred(adr.l+0x80000000 , drv.w , sect.l , len.l )
-*	�������D�������̐��Ȃ炓�������^�����������������w��ɂȂ�
-*	��e�ʃh���C�u�E����h���C�u�Ή�
+*	ａｄｒ．ｌが負の数ならｓｅｃｔ／ｌｅｎがｌｏｎｇ指定になる
+*	大容量ドライブ・特殊ドライブ対応
 *
 *$fff4	diskwrt(adr.l , drv.w , sect.w , len.w )
 *	diskwrt(adr.l+0x80000000 , drv.w , sect.l , len.l )
-*	�������D�������̐��Ȃ炓�������^�����������������w��ɂȂ�
-*	��e�ʃh���C�u�E����h���C�u�Ή�
+*	ａｄｒ．ｌが負の数ならｓｅｃｔ／ｌｅｎがｌｏｎｇ指定になる
+*	大容量ドライブ・特殊ドライブ対応
 *
 *$fff5	indosflg()
-*	�n�r���[�N���̃|�C���^�[��Ԃ��܂��B�X�[�p�[�o�C�U�[�̈�Ȃ̂�
-*	���[�U�[���[�h�ł̓A�N�Z�X�ł��܂���̂Œ��ӂ��ĉ������B
-*	���̃|�C���^�[������ɂ͂h�m�c�n�r�Q�e�k�f�ȊO�ɂ��d�v�ȃ��[�N��
-*	����܂��̂ŁA�ǂނ̂͂��܂��܂��񂪁A��΂��������Ȃ��ŉ������B
-*	ver1.99�ȏォ��T�|�[�g
-*	���̃R�[���͂h�m�s�u�b�r�ŏ��������ł��܂���B
+*	ＯＳワーク内のポインターを返します。スーパーバイザー領域なので
+*	ユーザーモードではアクセスできませんので注意して下さい。
+*	このポインターから後ろにはＩＮＤＯＳ＿ＦＬＧ以外にも重要なワークが
+*	ありますので、読むのはかまいませんが、絶対かき直さないで下さい。
+*	ver1.99以上からサポート
+*	このコールはＩＮＴＶＣＳで書き換えできません。
 indosf:		ds.w	1	* OS INDOS FLG
 doscmd:		ds.b	1	* OS ff?? flg
 fat_flg:	ds.b	1	* new fat search flg(0=current/nz=2)
@@ -496,118 +496,118 @@ retry_time:	ds.w	1	*time= n/100second(100)
 verifyf:	ds.w	1	* verify flg(off=0)
 breakf:		ds.b	1	* break on=1/off=0
 ctrlpf:		ds.b	1	* ctrlp mode
-cng_flg:	ds.b	1	*dos exit ���� change check flg
+cng_flg:	ds.b	1	*dos exit 時の change check flg
 wkcurdrv:	ds.b	1	* curdrv work(a=0)
 brkflg:		ds.b	1	* BREAK ACTIVE FLG=$80+MODE KEY(bit0-6)
 rstflg:		ds.b	1	* RESET ACTIVE FLG=$01
 rstmod:		ds.l	1	* RESET D0 BUFFER
-dvedwk:		ds.l	1	* �n�r�œo�^�����f�o�C�X�h���C�o�[�̂d�m�c
+dvedwk:		ds.l	1	* ＯＳで登録したデバイスドライバーのＥＮＤ
 
 *$fff6	super_jsr(adr)
-*	�X�[�p�[�o�C�U�[�̈�̃v���O�������i�r�q���������Ɏg�p���܂�
-*	d0-d7/a0-a6�͎w��v���O�����ɓn����A�v���O��������̃��^�[�����
-*	��d0-d7/a0-a6���Ԃ�܂��Bsr�͕ω����܂���B
-*	usp/ssp�͂ǂ̂悤�ɓn����邩�s��Ȃ̂ŁA�Ă΂ꂽ�v���O�����ł�
-*	�X�^�b�N����p�����[�^�[���󂯎�邱�Ƃ͂ł��܂���B
-*	�i�r�q�������ʁA�\��������A�o�X�G���[���o�Ă��������Ă܂���
-*	���̃R�[���͂h�m�s�u�b�r�ŏ��������ł��܂���B
+*	スーパーバイザー領域のプログラムをＪＳＲしたい時に使用します
+*	d0-d7/a0-a6は指定プログラムに渡され、プログラムからのリターン状態
+*	のd0-d7/a0-a6が返ります。srは変化しません。
+*	usp/sspはどのように渡されるか不定なので、呼ばれたプログラムでは
+*	スタックからパラメーターを受け取ることはできません。
+*	ＪＳＲした結果、暴走したり、バスエラーが出ても処理してません
+*	このコールはＩＮＴＶＣＳで書き換えできません。
 *
 *$fff7	bus_err(s_adr,d_adr,mode.w)
-*	�X�[�p�[�o�C�U�[�̈��o�X�G���[���o�邩������Ȃ��̈悪�ǂݏ���
-*	�ł��邩�`�F�b�N���āA���̌��ʂ�Ԃ��܂��B
-*	���̃R�[���͂h�m�s�u�b�r�ŏ��������ł��܂���B
+*	スーパーバイザー領域やバスエラーが出るかもしれない領域が読み書き
+*	できるかチェックして、その結果を返します。
+*	このコールはＩＮＴＶＣＳで書き換えできません。
 *
-*	s_adr	�ǂރf�[�^�̃|�C���^�[
-*	d_adr	�������ރ|�C���^�[
-*	mode.w	1	�o�C�g�œǂݏ���
-*		2	���[�h�œǂݏ���
-*		4	�����O�œǂݏ���
-*	����	d0.l	2		s_adr�Ńo�X�G���[
-*			1		d_adr�Ńo�X�G���[
-*			0		�ǂݏ����\
-*			-1		�p�����[�^�[�G���[
-*					�imode.w�̃G���[�A��A�h���X�j
+*	s_adr	読むデータのポインター
+*	d_adr	書き込むポインター
+*	mode.w	1	バイトで読み書き
+*		2	ワードで読み書き
+*		4	ロングで読み書き
+*	結果	d0.l	2		s_adrでバスエラー
+*			1		d_adrでバスエラー
+*			0		読み書き可能
+*			-1		パラメーターエラー
+*					（mode.wのエラー、奇数アドレス）
 *
-*$fff8-$ffff	�o�b�N�O�����h�^�X�N�p�t�@���N�V�����R�[��
-*		�ڂ����́i�o�b�N�O�����h�^�X�N�ɂ��āj�Q��
-*		�����̃R�[���͂h�m�s�u�b�r�ŏ��������ł��܂���B
+*$fff8-$ffff	バックグランドタスク用ファンクションコール
+*		詳しくは（バックグランドタスクについて）参照
+*		これらのコールはＩＮＴＶＣＳで書き換えできません。
 *----------------------------------------------------------------------------
-*�v���O�����Ǘ����@
-*���������t�@���N�V�����R�[���ŋN�����ꂽ�v���O�����̓������Ǘ�
-*�|�C���^�i�P�U�o�C�g�j�̌�ɁA���̂Q�S�O�o�C�g������A�v���Z�X
-*�̊Ǘ��̂��߂̃��[�N�G���A�Ƃ��Ďg�p�����B
-***�������Ǘ��|�C���^�i�P�U�o�C�g�j
-*000 dc.l	?	�P�O�̃������Ǘ��|�C���^
-*004 dc.l	?	���̃��������m�ۂ����v���Z�X�̃������Ǘ��|�C���^
-*008 dc.l	?	���̃������u���b�N�̏I���{�P�̃A�h���X
-*00c dc.l	?	���̃������Ǘ��|�C���^�i�O�Ȃ�I���j
-***�v���Z�X�Ǘ��|�C���^�i�Q�S�O�o�C�g�j
-*010 dc.l	?	�����ɗ^����ꂽ���̃A�h���X
-*014 dc.l	?	�����̏I���A�h���X
-*018 dc.l	?	�����́O�b�A�h���X
-*01c dc.l	?	�����̃G���[���~�A�h���X
-*020 dc.l	?	�����ɗ^����ꂽ�R�}���h���C���̃A�h���X
-*024 dc.l	?,?,?	�����̃t�@�C���n���h���̎g�p�󋵁iver1.00�ƈႤ�j
-*030 dc.l	?	�����̂������̐擪�A�h���X
-*034 dc.l	?	�����̂��������̐擪�A�h���X�i�������Ɠ����j
-*038 dc.l	?	�����̏��������������A�h���X�i���������̏I���j
-*03c dc.l	?	�q�v���Z�X���s���̎����̂t�r�o���W�X�^�̒l
-*040 dc.l	?	�q�v���Z�X���s���̎����̂r�r�o���W�X�^�̒l
-*044 dc.w	?	�q�v���Z�X���s���̎����̂r�q���W�X�^�̒l
-*046 dc.w	?	�A�{�[�g�i���~�j�̂Ƃ��̂r�q���W�X�^�̒l
-*048 dc.l	?	�A�{�[�g�i���~�j�̂Ƃ��̂r�r�o���W�X�^�̒l
-*04c dc.l	?	trap10�iCTRL+OPT.1+DEL�L�[�ɂ�郊�Z�b�g�����j
-*050 dc.l	?	trap11�iSTOP�L�[�ɂ��g�c�n�e�e�����A���̑��j
-*054 dc.l	?	trap12�iCOPY�L�[�ɂ��g�b�n�o�x�����A���̑��j
-*058 dc.l	?	trap13�iCTRL+C�L�[�ɂ����ڰ������׸ނ̃Z�b�g�j
-*05c dc.l	?	trap14�i�G���[�\���ƁA���~�E�Ď��s�E�����̑I�������j
-*060 dc.l	0	�n�r����N�������t���O�i�|�P���n�r�@�^�O�����������j
-*064 dc.b	0	���W���[���ԍ��iver2.00�ŐV�K�ǉ��j
-*065 dc.b	0,0,0	���U�[�u
-*068 dc.l	0	�q�v���Z�X�̂o�r�o�A�h���X�i�Ȃ���΂O�j�iver2.00�ŐV�K�ǉ��j
-*06c			���U�[�u
+*プログラム管理方法
+*ｅｘｅｃファンクションコールで起動されたプログラムはメモリ管理
+*ポインタ（１６バイト）の後に、次の２４０バイトがあり、プロセス
+*の管理のためのワークエリアとして使用される。
+***メモリ管理ポインタ（１６バイト）
+*000 dc.l	?	１つ前のメモリ管理ポインタ
+*004 dc.l	?	このメモリを確保したプロセスのメモリ管理ポインタ
+*008 dc.l	?	このメモリブロックの終わり＋１のアドレス
+*00c dc.l	?	次のメモリ管理ポインタ（０なら終わり）
+***プロセス管理ポインタ（２４０バイト）
+*010 dc.l	?	自分に与えられた環境のアドレス
+*014 dc.l	?	自分の終了アドレス
+*018 dc.l	?	自分の＾Ｃアドレス
+*01c dc.l	?	自分のエラー中止アドレス
+*020 dc.l	?	自分に与えられたコマンドラインのアドレス
+*024 dc.l	?,?,?	自分のファイルハンドラの使用状況（ver1.00と違う）
+*030 dc.l	?	自分のｂｓｓの先頭アドレス
+*034 dc.l	?	自分のｈｅｅｐの先頭アドレス（ｂｓｓと同じ）
+*038 dc.l	?	自分の初期ｓｔａｃｋアドレス（ｈｅｅｐの終わり）
+*03c dc.l	?	子プロセス実行時の自分のＵＳＰレジスタの値
+*040 dc.l	?	子プロセス実行時の自分のＳＳＰレジスタの値
+*044 dc.w	?	子プロセス実行時の自分のＳＲレジスタの値
+*046 dc.w	?	アボート（中止）のときのＳＲレジスタの値
+*048 dc.l	?	アボート（中止）のときのＳＳＰレジスタの値
+*04c dc.l	?	trap10（CTRL+OPT.1+DELキーによるリセット処理）
+*050 dc.l	?	trap11（STOPキーによるＨＤＯＦＦ処理、その他）
+*054 dc.l	?	trap12（COPYキーによるＨＣＯＰＹ処理、その他）
+*058 dc.l	?	trap13（CTRL+Cキーによるﾌﾞﾚｰｸﾁｪｯｸﾌﾗｸﾞのセット）
+*05c dc.l	?	trap14（エラー表示と、中止・再実行・無視の選択処理）
+*060 dc.l	0	ＯＳから起動したフラグ（−１＝ＯＳ　／０＝ｕｓｅｒ）
+*064 dc.b	0	モジュール番号（ver2.00で新規追加）
+*065 dc.b	0,0,0	リザーブ
+*068 dc.l	0	子プロセスのＰＳＰアドレス（なければ０）（ver2.00で新規追加）
+*06c			リザーブ
 *080 dc.b	'a:'
 *082 dc.b	'\bin\',0
 *0c4 dc.b	'command.x',0
-*0dc 			���U�[�u
-*100			�v���O�����擪
+*0dc 			リザーブ
+*100			プログラム先頭
 *----------------------------------------------------------------------------
-*�V�f�o�C�X�h���C�o�[�̍\��
+*新デバイスドライバーの構造
 *
-*�P�̃t�@�C�����ɕ����̃f�o�C�X�h���C�o�[�����ꍇ�Adevnxt���Ȃ���
-*�Ō�Ɂ|�P���w�肷��Ηǂ����A���ӂ��ׂ����Ƃ��Q����܂��B
-*�܂��Adv_init���邢��dv_init2�͂P�t�@�C���P��A�擪�̃h���C�o�[�ɑ΂���
-*�Ă΂�܂��B�擪�̃h���C�o�[�̏������őS�Ă̏����������ĉ������B
-*�܂�devend�͑S�Ẵh���C�o�[�̏I�����w�肵�ĉ������B
-*����ɏ������R�[���ła�o�a�̃|�C���^�[�����炤�֌W��A�u���b�N�f�o�C�X��
-*�P�t�@�C���P�����A������擪�ɂ��邱�Ƃ��]�܂����A����ȊO�͌듮�삷��
-*�ꍇ������܂��B
+*１つのファイル内に複数のデバイスドライバーを作る場合、devnxtをつないで
+*最後に−１を指定すれば良いが、注意すべきことが２つあります。
+*まず、dv_initあるいはdv_init2は１ファイル１回、先頭のドライバーに対して
+*呼ばれます。先頭のドライバーの初期化で全ての初期化をして下さい。
+*またdevendは全てのドライバーの終わりを指定して下さい。
+*さらに初期化コールでＢＰＢのポインターをもらう関係上、ブロックデバイスは
+*１ファイル１個だけ、それも先頭にあることが望ましく、それ以外は誤動作する
+*場合があります。
 *
-**�f�o�C�X�h���C�o�[�̐擪�Q�Q�o�C�g�̓��e
-devnxt	equ	0	*dc.l	���̃h���C�o�[�ւ̃|�C���^�[(-1�ł�����)
-devtyp	equ	4	*dc.w	�h���C�o�[�̃^�C�v
-devstr	equ	6	*dc.l	�h���C�o�[�Ƀp�����[�^�ݒ�
-devent	equ	10	*dc.l	�h���C�o�[�Ɏ��s���w��
-devnam	equ	14	*ds.b 8	�h���C�o�[��
+**デバイスドライバーの先頭２２バイトの内容
+devnxt	equ	0	*dc.l	次のドライバーへのポインター(-1でｅｎｄ)
+devtyp	equ	4	*dc.w	ドライバーのタイプ
+devstr	equ	6	*dc.l	ドライバーにパラメータ設定
+devent	equ	10	*dc.l	ドライバーに実行を指示
+devnam	equ	14	*ds.b 8	ドライバー名
 
-**devtyp�̏ڍ�
-**bit	15	=0 �u���b�N�f�o�C�X	=1 �L�����N�^�f�o�C�X
-**	14	=0 ioctrl�T�|�[�g�Ȃ�	=1 ioctrl�T�|�[�g����
-**	13	=1 ����u���b�N�f�o�C�X�h���C�o�[�i�V�K�j
-**	12	����u���b�N�f�o�C�X�h���C�o�[�̎��݈̂Ӗ�������
-**		=1 �l�b�g���[�N�h���C�o�[ =0���̑��̓���h���C�o�[
-**	11~7	=0 �\��
-**	 6	=0			=1 ���ꂉ�����������T�|�[�g
-**	 5	=0 cooked���[�h		=1 raw���[�h
-**	 4	=0			=1 ����f�o�C�X
-**	 3	=0			=1 �J�����gCLOCK�f�o�C�X
-**	 2	=0			=1 �J�����gNUL�f�o�C�X
-**	 1	=0			=1 �J�����g�W���o�̓f�o�C�X
-**	 0	=0			=1 �J�����g�W�����̓f�o�C�X
+**devtypの詳細
+**bit	15	=0 ブロックデバイス	=1 キャラクタデバイス
+**	14	=0 ioctrlサポートなし	=1 ioctrlサポートあり
+**	13	=1 特殊ブロックデバイスドライバー（新規）
+**	12	特殊ブロックデバイスドライバーの時のみ意味を持つ
+**		=1 ネットワークドライバー =0その他の特殊ドライバー
+**	11~7	=0 予約
+**	 6	=0			=1 特殊ｉｏｃｔｒｌサポート
+**	 5	=0 cookedモード		=1 rawモード
+**	 4	=0			=1 特殊デバイス
+**	 3	=0			=1 カレントCLOCKデバイス
+**	 2	=0			=1 カレントNULデバイス
+**	 1	=0			=1 カレント標準出力デバイス
+**	 0	=0			=1 カレント標準入力デバイス
 
 
 *---------------------------------------------
-**comcod�̓��e�i����u���b�N�f�o�C�X�h���C�o�[�łȂ��ꍇ�j
+**comcodの内容（特殊ブロックデバイスドライバーでない場合）
 dv_init		equ	0
 dv_medai	equ	1
 dv_build	equ	2
@@ -625,57 +625,57 @@ dv_ctlout	equ	12
 dv_sp_ctrl	equ	19
 
 
-**�e�p�����[�^�̓��e
+**各パラメータの内容
 
 *----------------
-**�e�R�}���h����(6,7,10,11�͂���̂�)
-reqlen	equ	0	*dc.b	�p�����[�^�̑��o�C�g��
-unitcd	equ	1	*dc.b	�h���C�u�����������ԍ�
-comcod	equ	2	*dc.b	�R�}���h
-errlow	equ	3	*dc.b	�G���[�R�[�h�i���ʁj
-erhigh	equ	4	*dc.b	�G���[�R�[�h�i��ʁj
+**各コマンド共通(6,7,10,11はこれのみ)
+reqlen	equ	0	*dc.b	パラメータの総バイト数
+unitcd	equ	1	*dc.b	ドライブ内ｕｎｉｔ番号
+comcod	equ	2	*dc.b	コマンド
+errlow	equ	3	*dc.b	エラーコード（下位）
+erhigh	equ	4	*dc.b	エラーコード（上位）
 ***8byte
 
 *----------------
-**init�R�}���h(0)
-mxunit	equ	13	*dc.b	�h���C�o�[���g�p�\������������Ԃ����[�N
-devend	equ	14	*dc.l	�h���C�o�[�g�p�������[�̏I����Ԃ����[�N
-bpbpoi	equ	18	*dc.l	bpb�̃|�C���^�[�z��̃A�h���X��Ԃ����[�N
-			*config.sys��device=�̌�̃|�C���^��m�点�郏�[�N
-			*dc.b	'ramdisk.sys',0,'/gm720',0,0	�̐擪
-bdevno	equ	22	*dc.b	�h���C�o�[�Ƀh���C�u�ԍ���m�点�郏�[�N
-			*	�f�o�C�X���̃J�����g�h���C�u��Ԃ�
+**initコマンド(0)
+mxunit	equ	13	*dc.b	ドライバー内使用可能ｕｎｉｔ数を返すワーク
+devend	equ	14	*dc.l	ドライバー使用メモリーの終わりを返すワーク
+bpbpoi	equ	18	*dc.l	bpbのポインター配列のアドレスを返すワーク
+			*config.sysのdevice=の後のポインタを知らせるワーク
+			*dc.b	'ramdisk.sys',0,'/gm720',0,0	の先頭
+bdevno	equ	22	*dc.b	ドライバーにドライブ番号を知らせるワーク
+			*	デバイス中のカレントドライブを返す
 *----------------
-**media check�R�}���h(1)
-diskid	equ	13	*dc.b	���f�B�A�o�C�g
-diskfg	equ	14	*dc.b	�i-1=�ύX,0=�s��,1=�ύX���j���Z�b�g���郏�[�N
+**media checkコマンド(1)
+diskid	equ	13	*dc.b	メディアバイト
+diskfg	equ	14	*dc.b	（-1=変更,0=不明,1=変更無）をセットするワーク
 
 *----------------
-**build bpb�R�}���h(2)
-*diskid	equ	13	*dc.b	���f�B�A�o�C�g
+**build bpbコマンド(2)
+*diskid	equ	13	*dc.b	メディアバイト
 dmaadr	equ	14	*dc.l	???
-*bpbpoi	equ	18	*dc.l	bpb�̃|�C���^�[�A�h���X��Ԃ����[�N
+*bpbpoi	equ	18	*dc.l	bpbのポインターアドレスを返すワーク
 
 *----------------
-**read/write�R�}���h(3,4,8,9,12)
-*diskid	equ	13	*dc.b	���f�B�A�o�C�g
-*dmaadr	equ	14	*dc.l	�f�[�^�A�h���X�擪
-dmalen	equ	18	*dc.l	�f�[�^�̃o�C�g���i�u���b�N�f�o�C�X�̓Z�N�^���j
-sta_rec	equ	22	*dc.l	�擪�Z�N�^��
+**read/writeコマンド(3,4,8,9,12)
+*diskid	equ	13	*dc.b	メディアバイト
+*dmaadr	equ	14	*dc.l	データアドレス先頭
+dmalen	equ	18	*dc.l	データのバイト数（ブロックデバイスはセクタ数）
+sta_rec	equ	22	*dc.l	先頭セクタ数
 
 *----------------
-**get�R�}���h(5)
-getdat	equ	13	*dc.b	�h���C�u�i�h���C�u�R���g���[���R�}���h�j
-			*	�f�o�C�X�i��ǂ݂����L�[�R�[�h�p���[�N�j
+**getコマンド(5)
+getdat	equ	13	*dc.b	ドライブ（ドライブコントロールコマンド）
+			*	デバイス（先読みしたキーコード用ワーク）
 *----------------
-**spc_ctrl�R�}���h(19)
-*dmaadr	equ	14	*dc.l	�f�[�^�A�h���X�擪
-f_code	equ	18	*dc.w	�t�@���N�V�����ԍ���ʁE����
+**spc_ctrlコマンド(19)
+*dmaadr	equ	14	*dc.l	データアドレス先頭
+f_code	equ	18	*dc.w	ファンクション番号上位・下位
 
 *---------------------------------------------
-**comcod�̓��e�i����u���b�N�f�o�C�X�h���C�o�[�̏ꍇ�j
-*�e�R�}���h���@�������������@�����̎��́{�P�Q�W�̒l���Ƃ�
-*�������������@�������̎��̃R�}���h�͎��̂Q�P��
+**comcodの内容（特殊ブロックデバイスドライバーの場合）
+*各コマンド共　ｖｅｒｉｆｙ　ｏｎの時は＋１２８の値をとる
+*ｖｅｒｉｆｙ　ｏｆｆの時のコマンドは次の２１個
 dv_init2	equ	64
 dv_chdir	equ	65
 dv_mkdir	equ	66
@@ -702,250 +702,250 @@ dv_fflush	equ	86
 dv_medchk	equ	87
 dv_lock		equ	88
 
-**�e�p�����[�^�̓��e
-oserror	equ	18	*dc.l	�����̃G���[�R�[�h�p���[�N
-			*�y�т����̃��^�[���l�p���[�N
-			*errlow���O�ɂ��ă��g���C���Ȃ��ł����G���[�Ƃ���
-			*init2�ȊO�̑S�ẴR�[���ŗL��
+**各パラメータの内容
+oserror	equ	18	*dc.l	ｏｓのエラーコード用ワーク
+			*及びｏｓのリターン値用ワーク
+			*errlowを０にしてリトライしないでｏｓエラーとする
+			*init2以外の全てのコールで有効
 *----------------
-**init2�R�}���h(64)
-*mxunit	equ	13	*dc.b	�h���C�o�[���g�p�\������������Ԃ����[�N
-*devend	equ	14	*dc.l	�h���C�o�[�g�p�������[�̏I����Ԃ����[�N
-*bpbpoi	equ	18	*dc.l	*config.sys��device=�̌�̃|�C���^��m�点�郏�[�N
-				*dc.b	'ramdisk.sys',0,'/gm720',0,0	�̐擪
-*bdevno	equ	22	*dc.b	�h���C�o�[�Ƀh���C�u�ԍ���m�点�郏�[�N
+**init2コマンド(64)
+*mxunit	equ	13	*dc.b	ドライバー内使用可能ｕｎｉｔ数を返すワーク
+*devend	equ	14	*dc.l	ドライバー使用メモリーの終わりを返すワーク
+*bpbpoi	equ	18	*dc.l	*config.sysのdevice=の後のポインタを知らせるワーク
+				*dc.b	'ramdisk.sys',0,'/gm720',0,0	の先頭
+*bdevno	equ	22	*dc.b	ドライバーにドライブ番号を知らせるワーク
 
 *----------------
-**chdir�R�}���h(65)
-pathad	equ	14	*dc.l	�p�X���擪�A�h���X
+**chdirコマンド(65)
+pathad	equ	14	*dc.l	パス名先頭アドレス
 **
-**	cd \bin\test	�̏ꍇ
+**	cd \bin\test	の場合
 **pathad:	dc.b	0
-**	+1	dc.b	drive no		�h���C�u�ԍ�(0=a)
-**	+2	dc.b	9,'bin',9,'test',9,0	�p�X���{�t�@�C�����{�g���q
-**		�i88�o�C�g�j
+**	+1	dc.b	drive no		ドライブ番号(0=a)
+**	+2	dc.b	9,'bin',9,'test',9,0	パス名＋ファイル名＋拡張子
+**		（88バイト）
 **
 *----------------
-**mkdir�R�}���h(66)
-*pathad	equ	14	*dc.l	�p�X���擪�A�h���X
+**mkdirコマンド(66)
+*pathad	equ	14	*dc.l	パス名先頭アドレス
 **
-**	md \bin\test	�̏ꍇ
+**	md \bin\test	の場合
 **pathad:	dc.b	0
-**	+1	dc.b	drive no		�h���C�u�ԍ�(0=a)
-**	+2	dc.b	9,'bin',9,0		�p�X��
-**	+67	dc.b	'test    '		�t�@�C����
-**	+75	dc.b	'   '			�g���q
-**	+78	dc.b	0,0,0,0,0,0,0,0,0,0	�t�@�C�����̎c��P�O�o�C�g
-**		�i88�o�C�g�j
-**	(67-85)��pathad/pathold/pathnew������Ɠ����`��
+**	+1	dc.b	drive no		ドライブ番号(0=a)
+**	+2	dc.b	9,'bin',9,0		パス名
+**	+67	dc.b	'test    '		ファイル名
+**	+75	dc.b	'   '			拡張子
+**	+78	dc.b	0,0,0,0,0,0,0,0,0,0	ファイル名の残り１０バイト
+**		（88バイト）
+**	(67-85)のpathad/pathold/pathnewもこれと同じ形式
 *----------------
-**rmdir�R�}���h(67)
-*pathad	equ	14	*dc.l	�p�X���擪�A�h���X
+**rmdirコマンド(67)
+*pathad	equ	14	*dc.l	パス名先頭アドレス
 **
 **
 *----------------
-**rename�R�}���h(68)
-pathold	equ	14	*dc.l	�ύX�O�p�X���擪�A�h���X
-pathnew	equ	18	*dc.l	�ύX��p�X���擪�A�h���X
+**renameコマンド(68)
+pathold	equ	14	*dc.l	変更前パス名先頭アドレス
+pathnew	equ	18	*dc.l	変更後パス名先頭アドレス
 
 *----------------
-**delete�R�}���h(69)
-*pathad	equ	14	*dc.l	�p�X���擪�A�h���X
+**deleteコマンド(69)
+*pathad	equ	14	*dc.l	パス名先頭アドレス
 
 *----------------
-**chmod�R�}���h(70)
-chatr	equ	13	*dc.b	�`�s�q�i�|�P�œǂݏo���̂݁j
-*pathad	equ	14	*dc.l	�p�X���擪�A�h���X
-*oserror equ	18	*dc.l	�����̃G���[�R�[�h�p���[�N
-				*�y�т`�s�q�̃��^�[���l�p���[�N
+**chmodコマンド(70)
+chatr	equ	13	*dc.b	ＡＴＲ（−１で読み出しのみ）
+*pathad	equ	14	*dc.l	パス名先頭アドレス
+*oserror equ	18	*dc.l	ｏｓのエラーコード用ワーク
+				*及びＡＴＲのリターン値用ワーク
 
 *----------------
-**files�R�}���h(71)
-*chatr	equ	13	*dc.b	�`�s�q
-*pathad	equ	14	*dc.l	�p�X���擪�A�h���X
-filbuf	equ	18	*dc.l	files,nfiles�p�o�b�t�@
+**filesコマンド(71)
+*chatr	equ	13	*dc.b	ＡＴＲ
+*pathad	equ	14	*dc.l	パス名先頭アドレス
+filbuf	equ	18	*dc.l	files,nfiles用バッファ
 				*dc.b	search atr---------+
-				*dc.b	drive no (�g�p�s��)|�h���C�o�[
-				*ds.b	8(work)------------+�C�ӎg�p��
-				*ds.b	8(search filename)-+(20�o�C�g)
-				*ds.b	3(search ext)------+�ꉞ�ݒ肸��
+				*dc.b	drive no (使用不可)|ドライバー
+				*ds.b	8(work)------------+任意使用可
+				*ds.b	8(search filename)-+(20バイト)
+				*ds.b	3(search ext)------+一応設定ずみ
 				*dc.b	atr
 				*dc.w	time
 				*dc.w	date
 				*dc.l	file_len
 				*ds.b	23("file.ext",0)
 *----------------
-**nfiles�R�}���h(72)
-*filbuf	equ	18	*dc.l	files,nfiles�p�o�b�t�@
+**nfilesコマンド(72)
+*filbuf	equ	18	*dc.l	files,nfiles用バッファ
 
 *----------------
-**create�R�}���h(73)
-*chatr	equ	13	*dc.b	�`�s�q
-*pathad	equ	14	*dc.l	�p�X���擪�A�h���X
-newfile	equ	18	*dc.l	0=create / 1=newfile�@�̃t���O
-fcbadr	equ	22	*dc.l	�e�b�a�ւ̃|�C���^�[
+**createコマンド(73)
+*chatr	equ	13	*dc.b	ＡＴＲ
+*pathad	equ	14	*dc.l	パス名先頭アドレス
+newfile	equ	18	*dc.l	0=create / 1=newfile　のフラグ
+fcbadr	equ	22	*dc.l	ＦＣＢへのポインター
 				*dc.b	handoru use count
 				*dc.b	flag
 				*dc.l	devadr
-				*dc.l	seek data pos���݂̃V�[�N�ʒu
-				*dc.l	share_pos�V�F�A�Ǘ��̈�̃A�h���X
+				*dc.l	seek data pos現在のシーク位置
+				*dc.l	share_posシェア管理領域のアドレス
 				*dc.b	open_mode
-				*dc.b	(�f�B���N�g���Z�N�^�[�����Ԗ�)
-				*dc.b	(�f�[�^�e�`�s���Z�N�^�[�I�t�Z�b�g)
-				*dc.b	(�e�`�s�擪����̃Z�N�^�[�I�t�Z�b�g)
-				*dc.w	(data �̂e�`�s�ԍ�)
-				*dc.l	(���݂̃f�[�^�̃Z�N�^�[�ʒu)
-				*dc.l	(���݂̃f�[�^�̂����������A�h���X)
-				*dc.l	(�f�B���N�g���̃Z�N�^�[�ʒu)
+				*dc.b	(ディレクトリセクター内何番目)
+				*dc.b	(データＦＡＴ内セクターオフセット)
+				*dc.b	(ＦＡＴ先頭からのセクターオフセット)
+				*dc.w	(data のＦＡＴ番号)
+				*dc.l	(現在のデータのセクター位置)
+				*dc.l	(現在のデータのｉｏｂｕｆアドレス)
+				*dc.l	(ディレクトリのセクター位置)
 				*dc.l	(next data pos)
-				*ds.b	8(name1)�ꉞ�ݒ肳��Ă���
-				*ds.b	3(ext)�ꉞ�ݒ肳��Ă���
-				*dc.b	(atr)�ꉞ�ݒ肳��Ă���
-				*ds.b	10(name2)�ꉞ�ݒ肳��Ă���
-				*dc.w	(time)�ꉞ�ݒ肳��Ă���
-				*dc.w	(date)�ꉞ�ݒ肳��Ă���
+				*ds.b	8(name1)一応設定されている
+				*ds.b	3(ext)一応設定されている
+				*dc.b	(atr)一応設定されている
+				*ds.b	10(name2)一応設定されている
+				*dc.w	(time)一応設定されている
+				*dc.w	(date)一応設定されている
 				*dc.w	(start fat)
 				*dc.l	(file len)
-				*dc.w	(�f�B�X�N���������ԍ�1)
-				*dc.w	(�t�@�C�����������ԍ�1)
-				*dc.w	(�f�B�X�N���������ԍ�2)
-				*dc.w	(�t�@�C�����������ԍ�2)
-				*dc.w	(�f�B�X�N���������ԍ�3)
-				*dc.w	(�t�@�C�����������ԍ�3)
-				*dc.w	(�f�B�X�N���������ԍ�4)
-				*dc.w	(�t�@�C�����������ԍ�4)
-				*dc.w	(�f�B�X�N���������ԍ�5)
-				*dc.w	(�t�@�C�����������ԍ�5)
-				*dc.w	(�f�B�X�N���������ԍ�6)
-				*dc.w	(�t�@�C�����������ԍ�6)
-				*dc.w	(�f�B�X�N���������ԍ�7)
-				*dc.w	(�t�@�C�����������ԍ�7)
-				*()�\���̓h���C�o�[�C�ӎg�p��(81�o�C�g)
+				*dc.w	(ディスク内ｆａｔ番号1)
+				*dc.w	(ファイル内ｆａｔ番号1)
+				*dc.w	(ディスク内ｆａｔ番号2)
+				*dc.w	(ファイル内ｆａｔ番号2)
+				*dc.w	(ディスク内ｆａｔ番号3)
+				*dc.w	(ファイル内ｆａｔ番号3)
+				*dc.w	(ディスク内ｆａｔ番号4)
+				*dc.w	(ファイル内ｆａｔ番号4)
+				*dc.w	(ディスク内ｆａｔ番号5)
+				*dc.w	(ファイル内ｆａｔ番号5)
+				*dc.w	(ディスク内ｆａｔ番号6)
+				*dc.w	(ファイル内ｆａｔ番号6)
+				*dc.w	(ディスク内ｆａｔ番号7)
+				*dc.w	(ファイル内ｆａｔ番号7)
+				*()表示はドライバー任意使用可(81バイト)
 *----------------
-**open	�R�}���h(74)
-*pathad	equ	14	*dc.l	�p�X���擪�A�h���X
-*fcbadr	equ	22	*dc.l	�e�b�a�ւ̃|�C���^�[
-				*���[�h��fcb��open mode���Q��(0,1,2)
+**open	コマンド(74)
+*pathad	equ	14	*dc.l	パス名先頭アドレス
+*fcbadr	equ	22	*dc.l	ＦＣＢへのポインター
+				*モードはfcbのopen modeを参照(0,1,2)
 *----------------
-**close�R�}���h(75)
-*fcbadr	equ	22	*dc.l	�e�b�a�ւ̃|�C���^�[
+**closeコマンド(75)
+*fcbadr	equ	22	*dc.l	ＦＣＢへのポインター
 
 *----------------
-**read	�R�}���h(76)
-*dmaadr	equ	14	*dc.l	�o�b�t�@�擪�A�h���X
-*dmalen	equ	18	*dc.l	�f�[�^�̃o�C�g���i�ǂݍ��񂾃o�C�g����Ԃ��j
-*fcbadr	equ	22	*dc.l	�e�b�a�ւ̃|�C���^�[
+**read	コマンド(76)
+*dmaadr	equ	14	*dc.l	バッファ先頭アドレス
+*dmalen	equ	18	*dc.l	データのバイト数（読み込んだバイト数を返す）
+*fcbadr	equ	22	*dc.l	ＦＣＢへのポインター
 
 *----------------
-**write�R�}���h(77)
-*dmaadr	equ	14	*dc.l	�o�b�t�@�擪�A�h���X
-*dmalen	equ	18	*dc.l	�f�[�^�̃o�C�g���i�������񂾃o�C�g����Ԃ��j
-*fcbadr	equ	22	*dc.l	�e�b�a�ւ̃|�C���^�[
+**writeコマンド(77)
+*dmaadr	equ	14	*dc.l	バッファ先頭アドレス
+*dmalen	equ	18	*dc.l	データのバイト数（書き込んだバイト数を返す）
+*fcbadr	equ	22	*dc.l	ＦＣＢへのポインター
 
 *----------------
-**seek�R�}���h(78)
-seekmd	equ	13	*dc.b	���[�h�i�O�C�P�C�Q�j
-seekps	equ	18	*dc.l	�V�[�N�l�i���݂̃V�[�N��������Ԃ��j
-*fcbadr	equ	22	*dc.l	�e�b�a�ւ̃|�C���^�[
+**seekコマンド(78)
+seekmd	equ	13	*dc.b	モード（０，１，２）
+seekps	equ	18	*dc.l	シーク値（現在のシークｐｏｓを返す）
+*fcbadr	equ	22	*dc.l	ＦＣＢへのポインター
 
 *----------------
-**filedate�R�}���h(79)
-fildate	equ	18	*dc.l	���������F���������i�O�œǂݍ��݂����ɕԂ��j
-*fcbadr	equ	22	*dc.l	�e�b�a�ւ̃|�C���^�[
+**filedateコマンド(79)
+fildate	equ	18	*dc.l	ｄａｔｅ：ｔｉｍｅ（０で読み込みここに返す）
+*fcbadr	equ	22	*dc.l	ＦＣＢへのポインター
 
 *----------------
-**dskfree�R�}���h(80)
-*dmaadr	equ	14	*dc.l	�o�b�t�@�擪�A�h���X�i�S�����������j
-				*dc.w	�g�p�\�ȃN���X�^��
-				*dc.w	���N���X�^��
-				*dc.w	�P�N���X�^������̃Z�N�^��
-				*dc.w	�P�Z�N�^������̃o�C�g��
-*dmalen	equ	18	*dc.l	�g�p�\�ȃo�C�g���p���[�N
+**dskfreeコマンド(80)
+*dmaadr	equ	14	*dc.l	バッファ先頭アドレス（４ｗｏｒｄ分）
+				*dc.w	使用可能なクラスタ数
+				*dc.w	総クラスタ数
+				*dc.w	１クラスタあたりのセクタ数
+				*dc.w	１セクタあたりのバイト数
+*dmalen	equ	18	*dc.l	使用可能なバイト数用ワーク
 *----------------
-**drvctrl�R�}���h(81)
-*getdat	equ	13	*dc.b	�h���C�u�R���g���[���R�}���h
-*dmaadr	equ	14	*dc.l	��Q�p�����[�^�̂����A�h���X
-			*����͂��������������̂��������������i�ǉ��d�l�j�ɂ��
-			*�v�����ꂽ���̂ŁA���̂܂܃��[�U�[�ɕԂ����B
-			*�T�|�[�g�ł��Ȃ��ꍇoserror�Ɂ|�P�S��Ԃ��Ηǂ��B
+**drvctrlコマンド(81)
+*getdat	equ	13	*dc.b	ドライブコントロールコマンド
+*dmaadr	equ	14	*dc.l	第２パラメータのｓｐアドレス
+			*これはｄｏｓｃａｌｌのｄｒｖｃｔｒｌ（追加仕様）により
+			*要求されたもので、そのままユーザーに返される。
+			*サポートできない場合oserrorに−１４を返せば良い。
 *----------------
-**drvdpb�R�}���h(82)
-*dmaadr	equ	14	*dc.l	�o�b�t�@�擪�A�h���X�i8�����������j
-			*����͂��������������̂������������ɂ��
-			*�v�����ꂽ���̂ŁA���̂܂܃��[�U�[�ɕԂ����B
-			*�T�|�[�g�ł��Ȃ��ꍇoserror�Ɂ|�P�S��Ԃ��Ηǂ��B
-		*dc.w	�P�Z�N�^������̃o�C�g��(0,128,256,512,1024,2048���32768)
-		*dc.b	�P�N���X�^������̃Z�N�^���\�P(0,1,3,7,15,31,63,127)
-		*dc.b	�N���X�^�����Z�N�^�̃V�t�g�J�E���g(0,1,2,3,4,5,6,7)
-		*dc.w	�e�`�s�̐擪�Z�N�^�ԍ��i�U�T�T�R�T�ȉ��j
-		*dc.b	�e�`�s�̈�̌�(1,2)
-		*dc.b	�e�`�s�̂��߂�Z�N�^���i�P�Q�W�ȉ��R�s�[�̕��͕ʁj
-		*dc.w	���[�g�f�B���N�g���̌��i�Q�O�S�W�ȉ��j
-		*dc.w	�f�[�^���̐擪�Z�N�^�ԍ��i�U�T�T�R�T�ȉ��j
-		*dc.w	���N���X�^���{�P
-		*dc.w	���[�g�f�B���N�g���̐擪�Z�N�^�ԍ��i�U�T�T�R�T�ȉ��j
+**drvdpbコマンド(82)
+*dmaadr	equ	14	*dc.l	バッファ先頭アドレス（8ｗｏｒｄ分）
+			*これはｄｏｓｃａｌｌのｇｅｔｄｐｂにより
+			*要求されたもので、そのままユーザーに返される。
+			*サポートできない場合oserrorに−１４を返せば良い。
+		*dc.w	１セクタあたりのバイト数(0,128,256,512,1024,2048･･･32768)
+		*dc.b	１クラスタあたりのセクタ数―１(0,1,3,7,15,31,63,127)
+		*dc.b	クラスタ＜＞セクタのシフトカウント(0,1,2,3,4,5,6,7)
+		*dc.w	ＦＡＴの先頭セクタ番号（６５５３５以下）
+		*dc.b	ＦＡＴ領域の個数(1,2)
+		*dc.b	ＦＡＴのしめるセクタ数（１２８以下コピーの分は別）
+		*dc.w	ルートディレクトリの個数（２０４８以下）
+		*dc.w	データ部の先頭セクタ番号（６５５３５以下）
+		*dc.w	総クラスタ数＋１
+		*dc.w	ルートディレクトリの先頭セクタ番号（６５５３５以下）
 
 *----------------
-**drvread/drvwrite�R�}���h(83,84)
-*dmaadr		equ	14	*dc.l	�f�[�^�A�h���X�擪
-*dmalen		equ	18	*dc.l	�f�[�^�̃Z�N�^��
-*sta_rec	equ	22	*dc.l	�擪�Z�N�^��
-			*�����doscall��diskred/diskwrt(�ǉ��d�l)�ɂ��
-			*�v�����ꂽ���̂ŁA���̂܂܃��[�U�[�ɕԂ����B
-			*�T�|�[�g�ł��Ȃ��ꍇoserror�Ɂ|�P�S��Ԃ��Ηǂ��B
+**drvread/drvwriteコマンド(83,84)
+*dmaadr		equ	14	*dc.l	データアドレス先頭
+*dmalen		equ	18	*dc.l	データのセクタ数
+*sta_rec	equ	22	*dc.l	先頭セクタ数
+			*これはdoscallのdiskred/diskwrt(追加仕様)により
+			*要求されたもので、そのままユーザーに返される。
+			*サポートできない場合oserrorに−１４を返せば良い。
 *----------------
-**spc_ctrl�R�}���h(85)
-*dmaadr	equ	14	*dc.l	�f�[�^�A�h���X�擪
-*f_code	equ	18	*dc.w	�t�@���N�V�����ԍ���ʁE����
+**spc_ctrlコマンド(85)
+*dmaadr	equ	14	*dc.l	データアドレス先頭
+*f_code	equ	18	*dc.w	ファンクション番号上位・下位
 
 *----------------
-**fflush�R�}���h(86)
-			*ctrl-c�^reset�^������fflush�t�@���N�V�����ŃR�[��
-			*�����i���������o�b�t�@���̂Ă�j
+**fflushコマンド(86)
+			*ctrl-c／reset／ｏｓのfflushファンクションでコール
+			*される（ｒｅａｄバッファを捨てる）
 *----------------
-**medchk�R�}���h(87)
-			*oserror�Ɂ|�P��Ԃ��΃J�����g�f�B���N�g���́�
-			*�i���[�g�j�ɂȂ�B�O�Ȃ炻�̂܂܎g���B
-			*�n�r���h���C�o�[�Ƀt�@�C������n���O�ɕK���Ă΂��
-**lock�R�}���h(88)
-			*�l�b�g���[�N�h���C�u�̂��߂ɂ��������Ń��b�N����
-			*�ƂƂ��Ƀf�o�C�X�h���C�o�[�ɂ��m�点��̂ŁA�T�[�o�[
-			*�ɑ����ăT�[�o�[���̃t�@�C���ɂ����b�N�������ĉ������B
+**medchkコマンド(87)
+			*oserrorに−１を返せばカレントディレクトリは￥
+			*（ルート）になる。０ならそのまま使う。
+			*ＯＳがドライバーにファイル名を渡す前に必ず呼ばれる
+**lockコマンド(88)
+			*ネットワークドライブのためにｏｓ内部でロックする
+			*とともにデバイスドライバーにも知らせるので、サーバー
+			*に送ってサーバー側のファイルにもロックをかけて下さい。
 *seekmd	equ	13	*dc.b	lock mode(0=lock 1=unlock)
-locklen	equ	14	*dc.l	���b�N�^���b�N��������t�@�C���o�C�g��
-*seekps	equ	18	*dc.l	���b�N�^���b�N�������邓�������擪�ʒu
-*fcbadr	equ	22	*dc.l	�������ւ̃|�C���^�[
+locklen	equ	14	*dc.l	ロック／ロック解除するファイルバイト数
+*seekps	equ	18	*dc.l	ロック／ロック解除するｓｅｅｋ先頭位置
+*fcbadr	equ	22	*dc.l	ｆｃｂへのポインター
 *----------------------------------------------------------------------------
-*�����l�b�g���[�N�h���C�o�[�̈���
-*���̃h���C�o�[�͂b�n�m�e�h�f���A����h���C�u�i�Ⴆ�΂c�F�j�Ƃ��Đݒ肳��A
-*�t�@�C�����̓��Ɂ��R���s���[�^������ǉ����Ȃ���A�N�Z�X������̂Ƃ���B
-*���R�A�b�c�@�c�F���R���s���[�^�����s�d�l�o�Ƃ��Ă����΁A�c�F�s�d�r�s��
-*�l�b�g���[�N��̂s�d�l�o�f�B���N�g���[�̂s�d�r�s�t�@�C�����A�N�Z�X�\�����A
-*�r�t�a�r�s�@�y�F�@�c�F���R���s���[�^�����s�d�l�o�Ƃ��Ă����΁A�y�F���s�d�r�s
-*�ŃA�N�Z�X�\�ɂȂ�B
-*�h���C�o�[�ƃA�v���P�[�V�����Ԃׂ̍��ȃC���^�t�F�[�X�͂��������������ōs�Ȃ�
-*�܂��A���̎�̃h���C�o�[�͌����Ƃ��āA�����̒��ɃZ�b�V�����w�ȉ����������A
-*�r�d�r�r�h�n�m�@�c�n�r�b�`�k�k�i���e�e�P�U�j���g�p���ē������̂Ƃ���B
-*���̎�̃h���C�o�[�Ƃ��āA�W���g���|�m�d�s�i�l�r�|�m�d�s�Ɠ����j���T�|�[�g����
-*�m�e�r�̓I�v�V�����Ƃ��ėp�ӂ����B
-*�Z�b�V�����w�ȉ��͕ʂ̃f�o�C�X�h���C�o�[���邢�͏풓�I���v���O�����ɂ��B
-*----------------------------------------------------------------------------
-*----------------------------------------------------------------------------
+*＊＊ネットワークドライバーの扱い
+*このドライバーはＣＯＮＦＩＧ時、あるドライブ（例えばＤ：）として設定され、
+*ファイル名の頭に￥コンピュータ名￥を追加しながらアクセスするものとする。
+*当然、ＣＤ　Ｄ：￥コンピュータ名￥ＴＥＭＰとしておけば、Ｄ：ＴＥＳＴで
+*ネットワーク上のＴＥＭＰディレクトリーのＴＥＳＴファイルをアクセス可能だし、
+*ＳＵＢＳＴ　Ｚ：　Ｄ：￥コンピュータ名￥ＴＥＭＰとしておけば、Ｚ：￥ＴＥＳＴ
+*でアクセス可能になる。
+*ドライバーとアプリケーション間の細かなインタフェースはｄｒｖｃｔｒｌで行なう
+*また、この種のドライバーは原則として、自分の中にセッション層以下を持たず、
+*ＳＥＳＳＩＯＮ　ＤＯＳＣＡＬＬ（＄ＦＦ１６）を使用して動くものとする。
+*この種のドライバーとして、標準Ｈｕ−ＮＥＴ（ＭＳ−ＮＥＴと同じ）がサポートされ
+*ＮＦＳはオプションとして用意される。
+*セッション層以下は別のデバイスドライバーあるいは常駐終了プログラムによる。
 *----------------------------------------------------------------------------
 *----------------------------------------------------------------------------
-*�o�b�N�O�����h�^�X�N�ɂ���
 *----------------------------------------------------------------------------
-*config.sys�ŁA���s���s�\�ȃX���b�h�����w��
+*----------------------------------------------------------------------------
+*バックグランドタスクについて
+*----------------------------------------------------------------------------
+*config.sysで、平行実行可能なスレッド数を指定
 *process = max level cnt
-*	MAX 2-32 �X���b�h��
-*	LEVEL 2-255 ���C���X���b�h�̎��s�Ԋu�i�����������Ԋu���Z���j
-*	CNT�͉������ɂP�񊄂荞�ނ��P�|�P�O�O�̒l
-*�i���w��P�A�ŏ��Q�^�ő�R�Q�j�P�Ƃ������Ƃ̓X���b�h�̐؂�ւ������Ȃ�
-*�Ƃ������ƂŁA�Ǘ��e�[�u��������Ȃ��̂ŁA�o�b�N�O�����h�����͂ł��Ȃ�
-*�X���b�h�؂�ւ��̂��߂̊��荞�݂́A�l�e�o�̂s�h�l�d�q�|�c���g�p���܂��B
-*�A�v���P�[�V������ TIMER-D ���荞�݂��g�p���邱�Ƃ͂ł��Ȃ��Ȃ�܂��B
+*	MAX 2-32 スレッド数
+*	LEVEL 2-255 メインスレッドの実行間隔（小さい方が間隔が短い）
+*	CNTは何ｍｓに１回割り込むか１−１００の値
+*（無指定１、最小２／最大３２）１ということはスレッドの切り替えをしない
+*ということで、管理テーブルも作られないので、バックグランド処理はできない
+*スレッド切り替えのための割り込みは、ＭＦＰのＴＩＭＥＲ−Ｄを使用します。
+*アプリケーションで TIMER-D 割り込みを使用することはできなくなります。
 *----------------------------------------------------------------------------
-*�V�K�����R�[��
+*新規ｏｓコール
 *$fff8	*id=open_process(name ,cnt.w ,usp ,ssp ,sr.w ,pc ,buff ,sleep_time)
 *$fff9	*error=kill_process()
 *$fffa	*id=get_process(id.w ,buff)
@@ -954,74 +954,74 @@ locklen	equ	14	*dc.l	���b�N�^���b�N��������t�@�C���o�C�g��
 *$fffd	*error=send_process(my_id.w ,your_id.w ,command.w ,u_buff ,u_length)
 *$fffe	*time=time_process()
 *$ffff	*void change_process()
-*�������������^�������������ł͂����̏������[�`����ύX�ł��܂���B
-*�����̓����̂R�͕ʂ̈Ӗ��Ŏg�p����Ă��܂��B���ݏ�������Ă��܂���
-*�V�X�e���ŃT�|�[�g�\��Ȃ̂Ŏg�p���Ȃ��ŉ������B
-*$fff8=open(id=d0.w)			d0.w�̃X���b�h���I�[�v�����ꂽ�B
-*$fff9=kill(id=d0.w)			d0.w�̃X���b�h���������ꂽ�B
-*$ffff=change(id=d0.w)			d0.w�̃X���b�h�ɐ؂�ւ����B
-*���̏����͂n�r����Ă΂��̂ŁA�X�[�p�[�o�C�U�[��Ԃł��B
-*���̏����ł͑S���W�X�^�ۑ����Ȃ���΂Ȃ炸�A�n�r�R�[���͂ł��܂���B
-*rts�Ń��^�[�����ĉ�����
+*ｉｎｔｖｃｓ／ｉｎｔｖｃｇではこれらの処理ルーチンを変更できません。
+*これらの内次の３つは別の意味で使用されています。現在処理されていませんが
+*システムでサポート予定なので使用しないで下さい。
+*$fff8=open(id=d0.w)			d0.wのスレッドがオープンされた。
+*$fff9=kill(id=d0.w)			d0.wのスレッドが消去された。
+*$ffff=change(id=d0.w)			d0.wのスレッドに切り替えた。
+*この処理はＯＳから呼ばれるので、スーパーバイザー状態です。
+*この処理では全レジスタ保存しなければならず、ＯＳコールはできません。
+*rtsでリターンして下さい
 
 *$fff8	id=open_pr(name,counter.w ,usp ,ssp ,sr.w ,pc ,buff,sleep_time)
-*	�o�b�N�O�����h�^�X�N�Ƃ��ēo�^���܂��B�r�k�d�d�o��ԂɂȂ�܂�
-*	���^�[���l�̓X���b�h�h�c�łO���畽�s���s�\�ȃX���b�h���|�P�܂ł̒l
-*	name	�X���b�h�̖��O��\�킷�P�T�����ȓ��̕�����œ������O���N������
-*		����΃G���[�ƂȂ�܂�
-*	counter	�o�b�N�O�����h�^�X�N�̎��s�Ԋu�̐�������܂�
-*		2~255�i����ɂP����s���邩�H 0,1��2�Ƃ��Ĉ����j
-*	usp	���[�U�[�v���O�����p�X�^�b�N�����l
-*	ssp	�n�r�A�a�h�n�r�y�ъ��荞�݊֌W�p�X�^�b�N�����l�i�U�j�o�C�g�v�j
-*	sr	���[�U�[�v���O�����N�����̂e�k�f���W�X�^�i�O�^���Q�O�O�O�j
-*	pc	���[�U�[�v���O�����̎��s�擪�Ԓn�i��������o�b�N�O�����h
-*		�^�X�N�Ƃ��ăX�^�[�g����B�j
-*	buff	�^�X�N�ԒʐM�̂��߂̃o�b�t�@
-*	sleep_time �҂����ԃ~���b�w��̃����O�l�i�O�ŉi�v�ɂr�k�d�d�o�j
+*	バックグランドタスクとして登録します。ＳＬＥＥＰ状態になります
+*	リターン値はスレッドＩＤで０から平行実行可能なスレッド数−１までの値
+*	name	スレッドの名前を表わす１５文字以内の文字列で同じ名前が起動中で
+*		あればエラーとなります
+*	counter	バックグランドタスクの実行間隔の制御をします
+*		2~255（何回に１回実行するか？ 0,1は2として扱う）
+*	usp	ユーザープログラム用スタック初期値
+*	ssp	ＯＳ、ＢＩＯＳ及び割り込み関係用スタック初期値（６Ｋバイト要）
+*	sr	ユーザープログラム起動時のＦＬＧレジスタ（０／＄２０００）
+*	pc	ユーザープログラムの実行先頭番地（ここからバックグランド
+*		タスクとしてスタートする。）
+*	buff	タスク間通信のためのバッファ
+*	sleep_time 待ち時間ミリ秒指定のロング値（０で永久にＳＬＥＥＰ）
 *buff:
-*	dc.l	length		*�f�[�^�p�o�b�t�@�̃o�C�g��
-*	dc.l	buffer addres	*�f�[�^�p�o�b�t�@�A�h���X
-*	dc.w	command		*�R�}���h�p�o�b�t�@�G���A
-*	dc.w	id		*�|�P�ŒʐM���i����̂h�c�p�G���A�j
-*	���̑��̃��W�X�^�͑S�ĂO�ŃX�^�[�g����
-*	���̂悤�ɂ��ăo�b�N�O�����h�^�X�N�Ƃ��ēo�^���ꂽ�X���b�h�́Akeeppr
-*	�n�r�R�[���ɂ��I�����Akill_pr �����R�[���ɂ��X���b�h�e�[�u������
-*	�폜���ꃁ�����[����������B
-*	���Ȃ킿keeppr���Ă��܂����v���Z�X�́A�I���������ꍇ�A�I�[�v�������t�@
-*	�C���͎����ŃN���[�Y���āA�������g��kill_pr���邱�Ƃɂ��A�v���Z�X
-*	�S�̂��I�������A�������[���������邱�ƂɂȂ�܂��B
-*	�v���Z�X���ł������̃X���b�h���I�[�v�����ē��삵����ŁAexit��exit2
-*	�ŏI�����Ă��܂��ꍇ�́A�v���Z�X���ŃI�[�v�������X���b�h�݂̂�kill_pr
-*	���ďI�����ĉ������B���C���̃X���b�h��kill_pr�����ꍇ�A���̌�̓����
-*	�ۏ؂���܂���B
+*	dc.l	length		*データ用バッファのバイト数
+*	dc.l	buffer addres	*データ用バッファアドレス
+*	dc.w	command		*コマンド用バッファエリア
+*	dc.w	id		*−１で通信許可（相手のＩＤ用エリア）
+*	その他のレジスタは全て０でスタートする
+*	このようにしてバックグランドタスクとして登録されたスレッドは、keeppr
+*	ＯＳコールにより終了し、kill_pr ｏｓコールによりスレッドテーブルから
+*	削除されメモリーも解放される。
+*	すなわちkeepprしてしまったプロセスは、終了したい場合、オープンしたファ
+*	イルは自分でクローズして、自分自身をkill_prすることにより、プロセス
+*	全体を終了させ、メモリーも解放されることになります。
+*	プロセス内でいくつかのスレッドをオープンして動作した後で、exitやexit2
+*	で終了してしまう場合は、プロセス内でオープンしたスレッドのみをkill_pr
+*	して終了して下さい。メインのスレッドをkill_prした場合、その後の動作は
+*	保証されません。
 *	name_exist	=-27
 *	process_over	=-29
 *
 *$fff9	*error=kill_pr()
-*	�������g���폜���܂��A�풓�I�������v���Z�X�̏ꍇ�����o�r�o�Q�h�c������
-*	�X���b�h�͑S�č폜����A�m�ۂ��Ă����������[���������܂��B
-*	�����ŃI�[�v�������t�@�C���͑S�ăN���[�Y���ď����������x�N�^�[��������
-*	�߂�����Ŏ��s���ĉ������B�V�X�e���ł̓X���b�h�̍폜�ƁA�������[�̉��
-*	�ȊO�͍s�Ȃ��܂���B
-*	�����ȊO���폜�������ꍇ�́Asend_pr()�ɂ�肋�������R�}���h�𑗂��ĉ�����
-*	��Fsend_pr(�����̂h�c.w�A�폜�������h�c.w�A$fff9.w,0,0)
+*	自分自身を削除します、常駐終了したプロセスの場合同じＰＳＰ＿ＩＤを持つ
+*	スレッドは全て削除され、確保していたメモリーも解放されます。
+*	自分でオープンしたファイルは全てクローズして書き換えたベクター等も元に
+*	戻した後で実行して下さい。システムではスレッドの削除と、メモリーの解放
+*	以外は行ないません。
+*	自分以外を削除したい場合は、send_pr()によりｋｉｌｌコマンドを送って下さい
+*	例：send_pr(自分のＩＤ.w、削除したいＩＤ.w、$fff9.w,0,0)
 *
 *
 *$fffa	*id=get_pr(id.w ,buff)
-*	�w��h�c�̃X���b�h�Ǘ��������������ɃR�s�[���܂�
-*	�h�c�Ƃ��ā|�P���w�肵��buff+96����X���b�h�̖��O���w�肵�ăR�[�������
-*	���^�[���l�Ƃ��Ăh�c�ԍ����킩��Abuff�ɂ͊Ǘ���񂪃R�s�[����܂��B
-*	�h�c�Ƃ��ā|�Q���w�肷��ƁA�����̊Ǘ����Ƃh�c���Ԃ�܂��B
+*	指定ＩＤのスレッド管理情報をｂｕｆｆにコピーします
+*	ＩＤとして−１を指定してbuff+96からスレッドの名前を指定してコールすると
+*	リターン値としてＩＤ番号がわかり、buffには管理情報がコピーされます。
+*	ＩＤとして−２を指定すると、自分の管理情報とＩＤが返ります。
 *	id_error	=$ffff00??	??=max id
 *	name_not_found	=-1
 *	ok		=$000000??	??=id
-*	���������͂P�P�U�o�C�g�K�v�ŁA���̓��e�͎��̒ʂ�ł��B
-*	dc.l next_ptr	(�I���͐擪�ɂȂ���)
+*	ｂｕｆｆは１１６バイト必要で、その内容は次の通りです。
+*	dc.l next_ptr	(終わりは先頭につながる)
 *	dc.b wait_flg	nomal=0 / wait=$ff
-*	dc.b counter ���荞�݂̂��тɌ��Z�����(0�Ŏ��̃X���b�h�ցj
-*	dc.b max counter �p���[�N
-*	dc.b doscmd+1 �p���[�N
-*	dc.l psp_id	�v���Z�X�h�c(0�Ŗ��g�p�̃X���b�h�j
+*	dc.b counter 割り込みのたびに減算される(0で次のスレッドへ）
+*	dc.b max counter 用ワーク
+*	dc.b doscmd+1 用ワーク
+*	dc.l psp_id	プロセスＩＤ(0で未使用のスレッド）
 *	dc.l	usp
 *	dc.l	d0,d1,d2,d3,d4,d5,d6,d7
 *	dc.l	a0,a1,a2,a3,a4,a5,a6
@@ -1032,112 +1032,112 @@ locklen	equ	14	*dc.l	���b�N�^���b�N��������t�@�C���o�C�g��
 *	dc.l	indosp
 *	dc.l	buff
 *	ds.b	16('name',0)	*offset 96
-*	dc.l	0	�����������Ԏc��i�~���b�j
+*	dc.l	0	ｗａｉｔ時間残り（ミリ秒）
 
-*�Ǘ��̈���̎��̂W�o�C�g�͓]������Ȃ�
-*	dc.l	memory �Ǘ�start
-*	dc.l	memory �Ǘ�end
+*管理領域内の次の８バイトは転送されない
+*	dc.l	memory 管理start
+*	dc.l	memory 管理end
 *
 *$fffb	*error=suspend_pr(id.w)
-*	�w��̃X���b�h�h�c�������I�ɂr�k�d�d�o��Ԃɂ��܂��B
-*	send_pr�ŋN�����܂łr�k�d�d�o���܂��B
+*	指定のスレッドＩＤを強制的にＳＬＥＥＰ状態にします。
+*	send_prで起こすまでＳＬＥＥＰします。
 *	self error	=-1
 *	id error	=$ffff00?? ??=max id
 *	ok		=0
 *
 *$fffc	*timer=sleep_pr(time)
-*	�r�k�d�d�o��Ԃɓ���܂��B
-*	count���҂����ԃ~���b�w��̃����O�l�i�O�ŉi�v�ɂr�k�d�d�o�j
-*	send_pr�ɂ��N�����ꂽ�ꍇ�͎c�莞�Ԃ��~���b�ŕԂ�܂��B�O�̏ꍇ
-*	�͉i�v�r�k�d�d�o��Ԃ���N�����ꂽ���ƂɂȂ�܂��B
+*	ＳＬＥＥＰ状態に入ります。
+*	count＝待ち時間ミリ秒指定のロング値（０で永久にＳＬＥＥＰ）
+*	send_prにより起こされた場合は残り時間がミリ秒で返ります。０の場合
+*	は永久ＳＬＥＥＰ状態から起こされたことになります。
 
-*	�����^�[���l���|�P�̏ꍇ
-*	�҂����Ԃ��o�߂��Ď����ŋN�����ꍇ�́|�P���Ԃ�A�o�b�t�@�̓��e��
-*	�ω����܂���B
+*	＊リターン値が−１の場合
+*	待ち時間が経過して自分で起きた場合は−１が返り、バッファの内容は
+*	変化しません。
 
-*	�����^�[���l���|�Q�̏ꍇ
-*	�҂����Ԃ��o�߂�����suspend_pr�Ŏ~�߂��Ă�������send_pr�ŋN������
-*	���ꍇ�́|�Q���Ԃ�A�o�b�t�@�̓��e��send_pr�ɂ��ω����܂��B
+*	＊リターン値が−２の場合
+*	待ち時間が経過したがsuspend_prで止められていたためsend_prで起こされ
+*	た場合は−２が返り、バッファの内容はsend_prにより変化します。
 
-*	�����^�[���l���|�P��|�Q�łȂ��ꍇ
-*	�c�莞�Ԃ��~���b�ŕԂ�܂��B�o�b�t�@�̓��e��send_pr�ɂ��ω����܂��B
+*	＊リターン値が−１や−２でない場合
+*	残り時間がミリ秒で返ります。バッファの内容はsend_prにより変化します。
 
-*	send_pr�̃R�}���h��$fffb�̏ꍇ�A�o�b�t�@�͕ω����܂���
-*	����ȊO�̏ꍇ�̓o�b�t�@�Ɏ��̂悤�ɐݒ肳��܂��B
-*buff:	dc.l	length		*�f�[�^�p�o�b�t�@�ɏ������܂ꂽ�o�C�g��
-*	dc.l	buffer addres	*�f�[�^�p�o�b�t�@�A�h���X�i�ω����Ȃ��j
-*	dc.w	command		*�R�}���h�ԍ�
-*	dc.w	id		*�N�����Ă��ꂽ�X���b�h�̂h�c
+*	send_prのコマンドが$fffbの場合、バッファは変化しません
+*	それ以外の場合はバッファに次のように設定されます。
+*buff:	dc.l	length		*データ用バッファに書き込まれたバイト数
+*	dc.l	buffer addres	*データ用バッファアドレス（変化しない）
+*	dc.w	command		*コマンド番号
+*	dc.w	id		*起こしてくれたスレッドのＩＤ
 
-*	�o�b�t�@�̓��e���������Ă���o�b�t�@�̃A�h���X�ƒ�����ݒ肵�āA�h�c
-*	�̂Ƃ�����|�P�ɃZ�b�g���ĉ������B�h�c���|�P�ɂ��邱�Ƃɂ��A����
-*	�X���b�h����̒ʐM�������邱�ƂɂȂ�܂��B
-*	sleep_pr���Ă��鎞�łȂ��Ă��Asend_pr�ɂ��f�[�^��������ꍇ��
-*	����܂��A���̏ꍇsleep_pr����Ƃ����ɋN������A�ݒ肵���҂����Ԃ�
-*	���^�[���l�Ƃ��ĕԂ�܂��B
+*	バッファの内容を処理してからバッファのアドレスと長さを設定して、ＩＤ
+*	のところを−１にセットして下さい。ＩＤを−１にすることにより、他の
+*	スレッドからの通信を許可することになります。
+*	sleep_prしている時でなくても、send_prによりデータが送られる場合が
+*	あります、その場合sleep_prするとすぐに起こされ、設定した待ち時間が
+*	リターン値として返ります。
 *
 *$fffd	*error=send_pr(my_id.w ,your_id.w ,command.w ,u_buff ,u_length)
-*	���[�U�[���荞�݃��[�`��������ł����������ł��܂�
-*	my_id�͎����̂h�c�ł��Byour_id�͋N���������X���b�h�̂h�c�ł��B
-*	command�͒ʐM�̓��e��\�킷�P�U�r�b�g�̒l�ŃV�X�e���Ō��߂��Ă���
-*	�ȊO�͂��ꂼ��̃X���b�h�ԂŌ��߂��Ă�����̂Ƃ��܂��B
+*	ユーザー割り込みルーチン内からでもｃａｌｌできます
+*	my_idは自分のＩＤです。your_idは起こしたいスレッドのＩＤです。
+*	commandは通信の内容を表わす１６ビットの値でシステムで決められている
+*	以外はそれぞれのスレッド間で決められているものとします。
 
-*	�V�X�e���\��R�}���h��$FF??�ł��茻�ݑ��݂���͎̂��̒ʂ�ŁA�S��
-*	�f�[�^�ʐM�p�o�b�t�@�͎g�p���܂���Bu_length�͂O���w�肵�ĉ������B
-*	$fff9	�X���b�h����������悤�v������
-*	$fffb	�����r�k�d�d�o��Ԃ���N���������i�o�b�t�@�͑S�ĕω����Ȃ��j
-*	$fffc	�r�k�d�d�o�ɓ���悤�v������i�N�����ꂽ�����̃R�}���h�Ȃ�
-*		�����ɂh�c���|�P�ɂ��Ăr�k�d�d�o�ɓ��邱�ƁB�ʏ�r�k�d�d�o
-*		���Ȃ��Ńo�b�t�@���Ď����Ă���ꍇ�L���H�j
-*	$ffff	����͉������Ȃ��ėǂ����Ǐ����͏I������̂����邽�߂̃R�}���h
-*		-28���Ԃ�΂܂������ł��Ă��Ȃ�����\�킵�܂�
+*	システム予約コマンドは$FF??であり現在存在するのは次の通りで、全て
+*	データ通信用バッファは使用しません。u_lengthは０を指定して下さい。
+*	$fff9	スレッドを消去するよう要求する
+*	$fffb	強制ＳＬＥＥＰ状態から起こすだけ（バッファは全て変化しない）
+*	$fffc	ＳＬＥＥＰに入るよう要求する（起こされた時このコマンドなら
+*		すぐにＩＤを−１にしてＳＬＥＥＰに入ること。通常ＳＬＥＥＰ
+*		しないでバッファを監視している場合有効？）
+*	$ffff	相手は何もしなくて良いけど処理は終わったのか見るためのコマンド
+*		-28が返ればまだ処理できていない事を表わします
 
-*	���̃X���b�h�̒ʐM�p�o�b�t�@���������݉\�ł���΁i�o�b�t�@���̂h�c
-*	���|�P�Ȃ�΁j�l�x�Q�h�c�ƃR�}���h���Z�b�g���Au_buff����̃f�[�^��
-*	u_length�����o�b�t�@�A�h���X�ɏ������݁Au_length���Z�b�g���܂��B
-*	���̃X���b�h���r�k�d�d�o���ł���΋N�����܂��B
+*	そのスレッドの通信用バッファが書き込み可能であれば（バッファ内のＩＤ
+*	が−１ならば）ＭＹ＿ＩＤとコマンドをセットし、u_buffからのデータを
+*	u_lengthだけバッファアドレスに書き込み、u_lengthをセットします。
+*	そのスレッドがＳＬＥＥＰ中であれば起こします。
 
-*	$fffb�̃R�}���h�͓��ꏈ������w��̃X���b�h���N���������ŁA�o�b�t�@��
-*	�h�c���|�P�łȂ��Ă��ǂ����A���̑��̃o�b�t�@���g�p���܂���B
+*	$fffbのコマンドは特殊処理され指定のスレッドを起こすだけで、バッファの
+*	ＩＤが−１でなくても良いし、その他のバッファも使用しません。
 
-*	u_length��buff��length���傫���ꍇ�A���邢�͏������ݕs�̏ꍇ
-*	�G���[�ƂȂ�܂��B
+*	u_lengthがbuffのlengthより大きい場合、あるいは書き込み不可の場合
+*	エラーとなります。
 *	id error	=$ffff00?? ??=max id
 *	length error	=$80?????? ??????=max length
-*	�������݃G���[	= -28
+*	書き込みエラー	= -28
 *
 *$fffe	*time=time_pr()
-*	���݂̃^�C�}�[�̃J�E���^�[�l��Ԃ��܂��B���������l�ł������𒴂����
-*	�O�ɖ߂�܂��̂ŁA���̂܂ܑO�̒l�Ƃ̈����Z�Ŏ��Ԃ��킩��܂��B
-*	�P�~���b�P�ʂ̃J�E���^�[�ł��B
+*	現在のタイマーのカウンター値を返します。ｌｏｎｇ値でｍａｘを超えると
+*	０に戻りますので、そのまま前の値との引き算で時間がわかります。
+*	１ミリ秒単位のカウンターです。
 
 *$ffff	*void change_pr()
-*	�o�b�N�O�����h�^�X�N�̎����̎��s���Ԃ�������܂�
-*	���̃^�X�N�ɐ؂�ς��܂��B
+*	バックグランドタスクの自分の実行時間を放棄します
+*	次のタスクに切り変わります。
 *----------------------------------------------------------------------------
-*�o�b�N�O�����h�^�X�N�̊Ǘ��e�[�u��
+*バックグランドタスクの管理テーブル
 *
-*���荞�݂����邽�тɑS�ẴJ�E���^�[�����Z����O�ɂȂ����珈������邪�A
-*���[�U�[��ԂłȂ��ꍇ�͐؂�ς��Ȃ��A�n�r�����ɂ��鎞�͂n�r����Ԃ鎞��
-*�؂�ς��B�n�r�����ł��P���������������R�[���Ő؂�ւ��Ă���Ƃ��낪����B
-*�X�[�p�[�o�C�U�[��Ԃłc�n�r�R�[�����g��Ȃ��v���O�������s���́A��ΐ؂��
-*���Ȃ��̂ŁA���ӂ���ƂƂ��ɁA����������ŗ��p���邱�ƁB
+*割り込みがくるたびに全てのカウンターが減算され０になったら処理されるが、
+*ユーザー状態でない場合は切り変わらない、ＯＳ内部にいる時はＯＳから返る時に
+*切り変わる。ＯＳ内部でも１部ｃｈａｎｇｅコールで切り替えているところがある。
+*スーパーバイザー状態でＤＯＳコールを使わないプログラム実行中は、絶対切り変
+*わらないので、注意するとともに、理解した上で利用すること。
 *max_pro:
-*	dc.w	32-1		�X���b�h�������|�P�̒l
+*	dc.w	32-1		スレッドｍａｘ−１の値
 *cnt_pro:
-*	dc.w	0		�N�����̃X���b�h���|�P�̒l
+*	dc.w	0		起動中のスレッド数−１の値
 *process_adr:
-*	dc.l	process_tbl	�X���b�h�e�[�u���̐擪�A�h���X
+*	dc.l	process_tbl	スレッドテーブルの先頭アドレス
 *cur_process:
-*	dc.l	process_tbl	���ݎ��s���̃X���b�h�e�[�u���A�h���X
+*	dc.l	process_tbl	現在実行中のスレッドテーブルアドレス
 *
 *process_tbl:
-pro_nxt	equ	0	*dc.l next_ptr	(�I���͐擪�ɂȂ���)
+pro_nxt	equ	0	*dc.l next_ptr	(終わりは先頭につながる)
 pro_flg	equ	4	*dc.b wait_flg	nomal=0 / wait=$ff
-pro_cnt	equ	5	*dc.b counter ���荞�݂̂��тɌ��Z�����(0�Ŏ��̃X���b�h�ցj
-pro_max	equ	6	*dc.b max counter �p���[�N
-pro_cmd	equ	7	*dc.b doscmd+1 �p���[�N
-pro_id	equ	8	*dc.l psp_id	�v���Z�X�h�c(0�Ŗ��g�p�̃X���b�h�j
+pro_cnt	equ	5	*dc.b counter 割り込みのたびに減算される(0で次のスレッドへ）
+pro_max	equ	6	*dc.b max counter 用ワーク
+pro_cmd	equ	7	*dc.b doscmd+1 用ワーク
+pro_id	equ	8	*dc.l psp_id	プロセスＩＤ(0で未使用のスレッド）
 pro_usp	equ	12	*dc.l	usp
 pro_d70	equ	16	*dc.l	d0,d1,d2,d3,d4,d5,d6,d7
 pro_a60	equ	48	*dc.l	a0,a1,a2,a3,a4,a5,a6
@@ -1148,10 +1148,10 @@ pro_dsf	equ	86	*dc.w	indosf
 pro_dsp	equ	88	*dc.l	indosp
 pro_buf	equ	92	*dc.l	buff
 pro_nam	equ	96	*ds.b	16('name',0)
-pro_wct	equ	112	*dc.l	0�@�r�k�d�d�o���Ԏc��i�~���b�j
-pro_mst	equ	116	*dc.l	memory �Ǘ�start
-pro_med	equ	120	*dc.l	memory �Ǘ�end
+pro_wct	equ	112	*dc.l	0　ＳＬＥＥＰ時間残り（ミリ秒）
+pro_mst	equ	116	*dc.l	memory 管理start
+pro_med	equ	120	*dc.l	memory 管理end
 pro_len	equ	124	*
-*���̑��Ɋe�v���Z�X�̂���������pspext /pspctc /psperr
-* /pspt10 /pspt11 /pspt12 /pspt13 /pspt14���g�p����
+*この他に各プロセスのｐｓｐ内のpspext /pspctc /psperr
+* /pspt10 /pspt11 /pspt12 /pspt13 /pspt14も使用する
 

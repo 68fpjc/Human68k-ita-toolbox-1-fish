@@ -38,30 +38,30 @@ print_alias_value:
 		rts
 ****************************************************************
 *  Name
-*       alias - •Ê–¼‚Ì•\¦‚Æ’è‹`
+*       alias - åˆ¥åã®è¡¨ç¤ºã¨å®šç¾©
 *
 *  Synopsis
 *       alias
-*            ’è‹`‚³‚ê‚Ä‚¢‚é‚·‚×‚Ä‚Ì•Ê–¼‚Æ‚»‚ê‚ç‚Ì’è‹`‚ğ•\¦‚·‚é
+*            å®šç¾©ã•ã‚Œã¦ã„ã‚‹ã™ã¹ã¦ã®åˆ¥åã¨ãã‚Œã‚‰ã®å®šç¾©ã‚’è¡¨ç¤ºã™ã‚‹
 *
 *       alias pattern
-*            pattern ‚Éˆê’v‚·‚é •Ê–¼‚Ì“à—e‚ğ•\¦‚·‚é
+*            pattern ã«ä¸€è‡´ã™ã‚‹ åˆ¥åã®å†…å®¹ã‚’è¡¨ç¤ºã™ã‚‹
 *
 *       alias name wordlist
-*            wordlist ‚Ì•Ê–¼‚Æ‚µ‚Ä name ‚ğ’è‹`‚·‚é
+*            wordlist ã®åˆ¥åã¨ã—ã¦ name ã‚’å®šç¾©ã™ã‚‹
 ****************************************************************
 .xdef cmd_alias
 
 cmd_alias:
-		move.w	d0,d1			* D1.W : ˆø”‚Ì”
-		beq	print_all_alias		* ˆø”‚ª–³‚¢‚È‚ç•Ê–¼‚ÌƒŠƒXƒg‚ğ•\¦
+		move.w	d0,d1			* D1.W : å¼•æ•°ã®æ•°
+		beq	print_all_alias		* å¼•æ•°ãŒç„¡ã„ãªã‚‰åˆ¥åã®ãƒªã‚¹ãƒˆã‚’è¡¨ç¤º
 
 		movea.l	a0,a2
 		bsr	for1str
 		exg	a0,a2			* A0 : name   A2 : wordlist
 		bsr	strip_quotes
 		subq.w	#1,d1
-		beq	print_one_alias		* ˆø”‚ª 1‚Â‚È‚ç‚»‚Ì•Ê–¼‚Ì“à—e‚ğ•\¦
+		beq	print_one_alias		* å¼•æ•°ãŒ 1ã¤ãªã‚‰ãã®åˆ¥åã®å†…å®¹ã‚’è¡¨ç¤º
 
 		lea	word_alias,a1
 		bsr	strcmp
@@ -120,8 +120,8 @@ no_space:
 .data
 
 word_colon:	dc.b	':',0
-msg_danger:	dc.b	'‚±‚Ì–¼‘O‚ğ•Ê–¼‚Æ‚·‚é‚Ì‚ÍŠëŒ¯‚Å‚·',0
-msg_no_space:	dc.b	'•Ê–¼‹L‰¯—Ìˆæ‚Ì—e—Ê‚ª‘«‚è‚Ü‚¹‚ñ',0
+msg_danger:	dc.b	'ã“ã®åå‰ã‚’åˆ¥åã¨ã™ã‚‹ã®ã¯å±é™ºã§ã™',0
+msg_no_space:	dc.b	'åˆ¥åè¨˜æ†¶é ˜åŸŸã®å®¹é‡ãŒè¶³ã‚Šã¾ã›ã‚“',0
 
 .end
 

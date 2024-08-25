@@ -1,7 +1,7 @@
 *************************************************
 *						*
 *   malloc Ext version Ver 0.10			*
-*   Copyright 1991 by ‚d‚˜‚”(T.Kawamoto)	*
+*   Copyright 1991 by ï¼¥ï½˜ï½”(T.Kawamoto)	*
 *						*
 *************************************************
 *						*
@@ -22,13 +22,13 @@
 *
 allocate_large_memory:
 * input
-*  d0	•K—v‚ÈƒoƒCƒgƒTƒCƒY
+*  d0	å¿…è¦ãªãƒã‚¤ãƒˆã‚µã‚¤ã‚º
 *  a5	pointer to local BSS
 * output
-*  d0	ƒAƒhƒŒƒX or -1
+*  d0	ã‚¢ãƒ‰ãƒ¬ã‚¹ or -1
 * destroy
-*  d1	ƒoƒCƒgƒTƒCƒY
-*  a4	lake head ‚Ö‚Ìƒ|ƒCƒ“ƒ^
+*  d1	ãƒã‚¤ãƒˆã‚µã‚¤ã‚º
+*  a4	lake head ã¸ã®ãƒã‚¤ãƒ³ã‚¿
 *
 	move.l	d0,d1
 	add.l	#head_pool+pool_buffer_head,d1

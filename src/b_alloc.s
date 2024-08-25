@@ -19,11 +19,11 @@
 
 ****************************************************************
 *  Name
-*       alloc - ƒƒ‚ƒŠg—pó‹µ‚ğ•ñ‚·‚é
+*       alloc - ãƒ¡ãƒ¢ãƒªä½¿ç”¨çŠ¶æ³ã‚’å ±å‘Šã™ã‚‹
 *
 *  Synopsis
 *       alloc
-*            ƒƒ‚ƒŠg—pó‹µ‚ğ•ñ‚·‚é
+*            ãƒ¡ãƒ¢ãƒªä½¿ç”¨çŠ¶æ³ã‚’å ±å‘Šã™ã‚‹
 ****************************************************************
 .xdef cmd_alloc
 
@@ -43,7 +43,7 @@ lake_entry:
 		beq	done
 
 		move.l	d0,a4
-		move.l	lake_size(a4),d7		*  D7 : ‚±‚Ì lake ‚ÌƒTƒCƒY
+		move.l	lake_size(a4),d7		*  D7 : ã“ã® lake ã®ã‚µã‚¤ã‚º
 		move.l	d7,d6
 		tst.w	head_pool+next_pool_offset(a4)
 		beq	pool_end
@@ -71,10 +71,10 @@ free_skip:
 		bra	pool_loop
 
 pool_end:
-		moveq	#0,d1				*  ‰E‹l‚ß‚Å
-		moveq	#' ',d2				*  pad‚ÍƒXƒy[ƒX‚Å
-		moveq	#10,d3				*  ­‚È‚­‚Æ‚à10•¶š‚Ì•‚É
-		moveq	#1,d4				*  ­‚È‚­‚Æ‚à1Œ…‚Ì”š‚ğ
+		moveq	#0,d1				*  å³è©°ã‚ã§
+		moveq	#' ',d2				*  padã¯ã‚¹ãƒšãƒ¼ã‚¹ã§
+		moveq	#10,d3				*  å°‘ãªãã¨ã‚‚10æ–‡å­—ã®å¹…ã«
+		moveq	#1,d4				*  å°‘ãªãã¨ã‚‚1æ¡ã®æ•°å­—ã‚’
 		move.l	d7,d0
 		bsr	printu
 		move.l	d6,d0
@@ -87,8 +87,8 @@ pool_end:
 		bsr	mulul
 		move.l	d7,d1
 		bsr	divul
-		moveq	#0,d1				*  ‰E‹l‚ß‚Å
-		moveq	#5,d3				*  ­‚È‚­‚Æ‚à 5•¶š‚Ì•‚É
+		moveq	#0,d1				*  å³è©°ã‚ã§
+		moveq	#5,d3				*  å°‘ãªãã¨ã‚‚ 5æ–‡å­—ã®å¹…ã«
 		bsr	printu
 		lea	msg_percent,a0
 		bsr	nputs
@@ -100,7 +100,7 @@ done:
 ****************************************************************
 .data
 
-msg_header:	dc.b	'    Šm•Û—Ê    g—p—Ê      ‹ó—Ê g—p—¦',0
+msg_header:	dc.b	'    ç¢ºä¿é‡    ä½¿ç”¨é‡      ç©ºé‡ ä½¿ç”¨ç‡',0
 msg_percent:	dc.b	'%',0
 
 .end

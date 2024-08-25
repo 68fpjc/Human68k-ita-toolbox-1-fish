@@ -107,11 +107,11 @@ puts:
 ****************************************************************
 .data
 
-msg_enter_key:		dc.b	'ƒL[‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢:',0
-msg_again:		dc.b	'‚à‚¤ˆê“x:',0
-msg_locked:		dc.b	'ƒƒbƒN‚µ‚Ü‚µ‚½',CR,LF,0
-msg_key:		dc.b	'ƒL[:',0
-msg_keys_are_different:	dc.b	'ƒL[‚ªˆá‚¢‚Ü‚·'
+msg_enter_key:		dc.b	'ã‚­ãƒ¼ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„:',0
+msg_again:		dc.b	'ã‚‚ã†ä¸€åº¦:',0
+msg_locked:		dc.b	'ãƒ­ãƒƒã‚¯ã—ã¾ã—ãŸ',CR,LF,0
+msg_key:		dc.b	'ã‚­ãƒ¼:',0
+msg_keys_are_different:	dc.b	'ã‚­ãƒ¼ãŒé•ã„ã¾ã™'
 str_newline:		dc.b	CR,LF,0
 ****************************************************************
 .bss

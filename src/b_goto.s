@@ -124,7 +124,7 @@ cant_from_terminal:
 		bra	command_error
 *****************************************************************
 search_label:
-		* D2 := ’T‚·ƒ‰ƒxƒ‹–¼‚Ì’·‚³
+		* D2 := æ¢ã™ãƒ©ãƒ™ãƒ«åã®é•·ã•
 		move.l	#MAXLABELLEN,d2
 		bsr	strlen
 		cmp.l	d2,d0
@@ -136,7 +136,7 @@ search_label_1:
 		movea.l	current_source(a5),a3
 		movea.l	SOURCE_TOP(a3),a0
 		movea.l	SOURCE_BOT(a3),a3
-		moveq	#0,d1				*  D1 : s”Ô†
+		moveq	#0,d1				*  D1 : è¡Œç•ªå·
 search_label_loop:
 search_label_skip_space:
 		cmpa.l	a3,a0
@@ -162,7 +162,7 @@ search_label_skip_space_1:
 		bne	search_label_continue
 
 		move.l	a2,d0
-		sub.l	a0,d0				*  D0 : ‚±‚Ìƒ‰ƒxƒ‹–¼‚Ì’·‚³
+		sub.l	a0,d0				*  D0 : ã“ã®ãƒ©ãƒ™ãƒ«åã®é•·ã•
 		cmp.l	#MAXLABELLEN,d0
 		bls	search_label_compare
 
@@ -194,8 +194,8 @@ label_not_found:
 
 .xdef msg_nolabel
 
-msg_nolabel:			dc.b	'ƒ‰ƒxƒ‹‚ª‚ ‚è‚Ü‚¹‚ñ',0
-msg_cant_from_terminal:		dc.b	'•W€“ü—Í‚©‚ç‚Í§Œä‚Å‚«‚Ü‚¹‚ñ',0
-msg_cannot_goto_on_terminal:	dc.b	'•W€“ü—Íƒ‚[ƒh‚Å‚Í goto ‚ÍÀs‚Å‚«‚Ü‚¹‚ñ',0
+msg_nolabel:			dc.b	'ãƒ©ãƒ™ãƒ«ãŒã‚ã‚Šã¾ã›ã‚“',0
+msg_cant_from_terminal:		dc.b	'æ¨™æº–å…¥åŠ›ã‹ã‚‰ã¯åˆ¶å¾¡ã§ãã¾ã›ã‚“',0
+msg_cannot_goto_on_terminal:	dc.b	'æ¨™æº–å…¥åŠ›ãƒ¢ãƒ¼ãƒ‰ã§ã¯ goto ã¯å®Ÿè¡Œã§ãã¾ã›ã‚“',0
 
 .end

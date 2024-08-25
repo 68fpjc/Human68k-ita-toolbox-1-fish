@@ -123,9 +123,9 @@ skip_space_return:
 
 msg_off:	dc.b	'off',NUL
 msg_on:		dc.b	'on',NUL
-msg_1:		dc.b	'verify ‚Í <',NUL
-msg_2:		dc.b	'> ‚Å‚·',CR,LF,NUL
-msg_bad_arg:	dc.b	'ƒpƒ‰ƒ|ƒ^‚ª–³Œø‚Å‚·',CR,LF
+msg_1:		dc.b	'verify ã¯ <',NUL
+msg_2:		dc.b	'> ã§ã™',CR,LF,NUL
+msg_bad_arg:	dc.b	'ãƒ‘ãƒ©ãƒ¡âˆ’ã‚¿ãŒç„¡åŠ¹ã§ã™',CR,LF
 
 .end start
 

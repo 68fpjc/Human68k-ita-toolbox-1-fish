@@ -305,47 +305,47 @@ perror_table_2:
 .xdef msg_too_many_args
 .xdef msg_too_long_word
 
-msg_usage:			dc.b	'g—p–@'
+msg_usage:			dc.b	'ä½¿ç”¨æ³•'
 msg_colon_blank:		dc.b	': ',0
-msg_bad_subscript:		dc.b	'“Yš‚Ì'
-msg_syntax_error:		dc.b	'\•¶‚ªŒë‚è‚Å‚·',0
-msg_bad_expression_syntax:	dc.b	'®‚ªŒë‚Á‚Ä‚¢‚Ü‚·',0
-msg_badly_formed_number:	dc.b	'”’l‚Ì‹L–@‚ª³‚µ‚­‚ ‚è‚Ü‚¹‚ñ',0
-msg_too_large_number:		dc.b	'”’l‚ª‘å‚«‰ß‚¬‚Ü‚·',0
-msg_subscript_out_of_range:	dc.b	'“Yš‚ª”ÍˆÍŠO‚Å‚·',0
-msg_undefined:			dc.b	'‚±‚Ì•Ï”‚Í’è‹`‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ',0
-msg_too_long_line:		dc.b	's‚ª'
-msg_too_long:			dc.b	'’·‰ß‚¬‚Ü‚·',0
-msg_too_long_word:		dc.b	'’PŒê‚ª’·‰ß‚¬‚Ü‚·',0
-msg_too_many_words:		dc.b	'’PŒê”‚ª‘½‰ß‚¬‚Ü‚·',0
-msg_too_deep_statement_nest:	dc.b	' ‚Ì“ü‚êq‚ª[‰ß‚¬‚Ü‚·',0
-msg_bad_arg:			dc.b	'ˆø”‚ª³‚µ‚­‚ ‚è‚Ü‚¹‚ñ',0
-msg_too_many_args:		dc.b	'ˆø”‚ª‘½‰ß‚¬‚Ü‚·',0
-msg_too_few_args:		dc.b	'ˆø”‚ª‘«‚è‚Ü‚¹‚ñ',0
-msg_no_close_brace:		dc.b	'} ‚ª‚ ‚è‚Ü‚¹‚ñ',0
-msg_no_match:			dc.b	'ƒ}ƒbƒ`‚·‚éƒtƒ@ƒCƒ‹‚âƒfƒBƒŒƒNƒgƒŠ‚ª‚ ‚è‚Ü‚¹‚ñ',0
-msg_dstack_not_deep:		dc.b	'ƒfƒBƒŒƒNƒgƒŠEƒXƒ^ƒbƒN‚Í‚»‚ñ‚È‚É[‚­‚ ‚è‚Ü‚¹‚ñ',0
-msg_bacause_of_no_memory:	dc.b	'ƒƒ‚ƒŠ•s‘«‚Ì‚½‚ß',0
-msg_insufficient_memory:	dc.b	'ƒƒ‚ƒŠ‚ª‘«‚è‚Ü‚¹‚ñ',0
-msg_cannot_run:			dc.b	'‚ğÀs‚Å‚«‚Ü‚¹‚ñ',0
+msg_bad_subscript:		dc.b	'æ·»å­—ã®'
+msg_syntax_error:		dc.b	'æ§‹æ–‡ãŒèª¤ã‚Šã§ã™',0
+msg_bad_expression_syntax:	dc.b	'å¼ãŒèª¤ã£ã¦ã„ã¾ã™',0
+msg_badly_formed_number:	dc.b	'æ•°å€¤ã®è¨˜æ³•ãŒæ­£ã—ãã‚ã‚Šã¾ã›ã‚“',0
+msg_too_large_number:		dc.b	'æ•°å€¤ãŒå¤§ãéãã¾ã™',0
+msg_subscript_out_of_range:	dc.b	'æ·»å­—ãŒç¯„å›²å¤–ã§ã™',0
+msg_undefined:			dc.b	'ã“ã®å¤‰æ•°ã¯å®šç¾©ã•ã‚Œã¦ã„ã¾ã›ã‚“',0
+msg_too_long_line:		dc.b	'è¡ŒãŒ'
+msg_too_long:			dc.b	'é•·éãã¾ã™',0
+msg_too_long_word:		dc.b	'å˜èªãŒé•·éãã¾ã™',0
+msg_too_many_words:		dc.b	'å˜èªæ•°ãŒå¤šéãã¾ã™',0
+msg_too_deep_statement_nest:	dc.b	' ã®å…¥ã‚Œå­ãŒæ·±éãã¾ã™',0
+msg_bad_arg:			dc.b	'å¼•æ•°ãŒæ­£ã—ãã‚ã‚Šã¾ã›ã‚“',0
+msg_too_many_args:		dc.b	'å¼•æ•°ãŒå¤šéãã¾ã™',0
+msg_too_few_args:		dc.b	'å¼•æ•°ãŒè¶³ã‚Šã¾ã›ã‚“',0
+msg_no_close_brace:		dc.b	'} ãŒã‚ã‚Šã¾ã›ã‚“',0
+msg_no_match:			dc.b	'ãƒãƒƒãƒã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã‚„ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒã‚ã‚Šã¾ã›ã‚“',0
+msg_dstack_not_deep:		dc.b	'ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ»ã‚¹ã‚¿ãƒƒã‚¯ã¯ãã‚“ãªã«æ·±ãã‚ã‚Šã¾ã›ã‚“',0
+msg_bacause_of_no_memory:	dc.b	'ãƒ¡ãƒ¢ãƒªä¸è¶³ã®ãŸã‚',0
+msg_insufficient_memory:	dc.b	'ãƒ¡ãƒ¢ãƒªãŒè¶³ã‚Šã¾ã›ã‚“',0
+msg_cannot_run:			dc.b	'ã‚’å®Ÿè¡Œã§ãã¾ã›ã‚“',0
 msg_err:			dc.b	'error',0
-msg_nofile:			dc.b	'‚±‚Ì‚æ‚¤‚Èƒtƒ@ƒCƒ‹‚Í‚ ‚è‚Ü‚¹‚ñ',0
-msg_nodir:			dc.b	'‚±‚Ì‚æ‚¤‚ÈƒfƒBƒŒƒNƒgƒŠ‚Í‚ ‚è‚Ü‚¹‚ñ',0
-msg_toomany_openfiles:		dc.b	'ƒtƒ@ƒCƒ‹‚ğ‚±‚êˆÈãƒI[ƒvƒ“‚Å‚«‚Ü‚¹‚ñ',0
-msg_is_dir_or_vol:		dc.b	'ƒfƒBƒŒƒNƒgƒŠ‚©ƒ{ƒŠƒ…[ƒ€Eƒ‰ƒxƒ‹‚Å‚·',0
-msg_bad_filename:		dc.b	'ƒtƒ@ƒCƒ‹–¼‚ª–³Œø‚Å‚·',0
-msg_bad_drive:			dc.b	'ƒhƒ‰ƒCƒu‚Ìw’è‚ª–³Œø‚Å‚·',0
-msg_current:			dc.b	'ƒJƒŒƒ“ƒgEƒfƒBƒŒƒNƒgƒŠ‚Å‚·‚Ì‚Åíœ‚Å‚«‚Ü‚¹‚ñ',0
-msg_write_disabled:		dc.b	'‘‚«‚İ‚ª‹–‰Â‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ',0
-msg_directory_exists:		dc.b	'‚·‚Å‚É‘¶İ‚µ‚Ä‚¢‚Ü‚·',0
-msg_not_empty:			dc.b	'‹ó‚Å‚È‚¢‚Ì‚Åíœ‚Å‚«‚Ü‚¹‚ñ',0
-msg_directory_full:		dc.b	'ƒfƒBƒŒƒNƒgƒŠ‚ª–”t‚Ì‚½‚ßì¬‚Å‚«‚Ü‚¹‚ñ',0
-msg_disk_full:			dc.b	'ƒfƒBƒXƒN‚ª–”t‚Ì‚½‚ßì¬‚Å‚«‚Ü‚¹‚ñ',0
-msg_bad_drivename:		dc.b	'ƒhƒ‰ƒCƒu–¼‚ª–³Œø‚Å‚·',0
-msg_no_drive:			dc.b	'ƒhƒ‰ƒCƒu‚ª‚ ‚è‚Ü‚¹‚ñ',0
-msg_no_media_in_drive:		dc.b	'ƒhƒ‰ƒCƒu‚ÉƒƒfƒBƒA‚ªƒZƒbƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ',0
-msg_media_set_miss:		dc.b	'ƒhƒ‰ƒCƒu‚ÉƒƒfƒBƒA‚ª³‚µ‚­ƒZƒbƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ',0
-msg_drive_not_ready:		dc.b	'ƒhƒ‰ƒCƒu‚Ì€”õ‚ª‚Å‚«‚Ä‚¢‚Ü‚¹‚ñ',0
-msg_write_protected:		dc.b	'ƒƒfƒBƒA‚ªƒvƒƒeƒNƒg‚³‚ê‚Ä‚¢‚Ü‚·',0
+msg_nofile:			dc.b	'ã“ã®ã‚ˆã†ãªãƒ•ã‚¡ã‚¤ãƒ«ã¯ã‚ã‚Šã¾ã›ã‚“',0
+msg_nodir:			dc.b	'ã“ã®ã‚ˆã†ãªãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¯ã‚ã‚Šã¾ã›ã‚“',0
+msg_toomany_openfiles:		dc.b	'ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã“ã‚Œä»¥ä¸Šã‚ªãƒ¼ãƒ—ãƒ³ã§ãã¾ã›ã‚“',0
+msg_is_dir_or_vol:		dc.b	'ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‹ãƒœãƒªãƒ¥ãƒ¼ãƒ ãƒ»ãƒ©ãƒ™ãƒ«ã§ã™',0
+msg_bad_filename:		dc.b	'ãƒ•ã‚¡ã‚¤ãƒ«åãŒç„¡åŠ¹ã§ã™',0
+msg_bad_drive:			dc.b	'ãƒ‰ãƒ©ã‚¤ãƒ–ã®æŒ‡å®šãŒç„¡åŠ¹ã§ã™',0
+msg_current:			dc.b	'ã‚«ãƒ¬ãƒ³ãƒˆãƒ»ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã§ã™ã®ã§å‰Šé™¤ã§ãã¾ã›ã‚“',0
+msg_write_disabled:		dc.b	'æ›¸ãè¾¼ã¿ãŒè¨±å¯ã•ã‚Œã¦ã„ã¾ã›ã‚“',0
+msg_directory_exists:		dc.b	'ã™ã§ã«å­˜åœ¨ã—ã¦ã„ã¾ã™',0
+msg_not_empty:			dc.b	'ç©ºã§ãªã„ã®ã§å‰Šé™¤ã§ãã¾ã›ã‚“',0
+msg_directory_full:		dc.b	'ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒæº€æ¯ã®ãŸã‚ä½œæˆã§ãã¾ã›ã‚“',0
+msg_disk_full:			dc.b	'ãƒ‡ã‚£ã‚¹ã‚¯ãŒæº€æ¯ã®ãŸã‚ä½œæˆã§ãã¾ã›ã‚“',0
+msg_bad_drivename:		dc.b	'ãƒ‰ãƒ©ã‚¤ãƒ–åãŒç„¡åŠ¹ã§ã™',0
+msg_no_drive:			dc.b	'ãƒ‰ãƒ©ã‚¤ãƒ–ãŒã‚ã‚Šã¾ã›ã‚“',0
+msg_no_media_in_drive:		dc.b	'ãƒ‰ãƒ©ã‚¤ãƒ–ã«ãƒ¡ãƒ‡ã‚£ã‚¢ãŒã‚»ãƒƒãƒˆã•ã‚Œã¦ã„ã¾ã›ã‚“',0
+msg_media_set_miss:		dc.b	'ãƒ‰ãƒ©ã‚¤ãƒ–ã«ãƒ¡ãƒ‡ã‚£ã‚¢ãŒæ­£ã—ãã‚»ãƒƒãƒˆã•ã‚Œã¦ã„ã¾ã›ã‚“',0
+msg_drive_not_ready:		dc.b	'ãƒ‰ãƒ©ã‚¤ãƒ–ã®æº–å‚™ãŒã§ãã¦ã„ã¾ã›ã‚“',0
+msg_write_protected:		dc.b	'ãƒ¡ãƒ‡ã‚£ã‚¢ãŒãƒ—ãƒ­ãƒ†ã‚¯ãƒˆã•ã‚Œã¦ã„ã¾ã™',0
 ****************************************************************
 .end

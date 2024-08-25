@@ -29,12 +29,12 @@ cmd_time:
 		tst.w	d0
 		bne	cmd_time_recurse
 
-		jmp	report_time			*  0 ‚Å‹A‚é
+		jmp	report_time			*  0 ã§å¸°ã‚‹
 
 cmd_time_recurse:
 		movea.l	a0,a1
 		moveq	#1,d1
-		jsr	DoSimpleCommand_recurse_2	*** Ä‹A ***
+		jsr	DoSimpleCommand_recurse_2	*** å†å¸° ***
 		moveq	#0,d0
 		rts
 

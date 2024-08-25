@@ -150,7 +150,7 @@ del_errp:
 
 .data
 
-msg_confirm:	dc.b	'‚ğíœ‚µ‚Ü‚·‚©H ',0
+msg_confirm:	dc.b	'ã‚’å‰Šé™¤ã—ã¾ã™ã‹ï¼Ÿ ',0
 
 .end
 

@@ -81,16 +81,16 @@ auto_pathname = (((MAXPATH+1)+1)>>1<<1)
 * getline
 *
 * CALL
-*      A0     “ü—Íƒoƒbƒtƒ@‚Ìæ“ª
-*      D1.W   “ü—ÍÅ‘åƒoƒCƒg”iÅŒã‚ÌNUL•ª‚ÍŠ¨’è‚µ‚È‚¢j
-*      D2.B   1 ‚È‚ç‚ÎƒRƒƒ“ƒg‚ğíœ‚·‚é
-*      A1     ƒvƒƒ“ƒvƒgo—Íƒ‹[ƒ`ƒ“‚ÌƒGƒ“ƒgƒŠEƒAƒhƒŒƒX
-*      A2     •¨—s“ü—Íƒ‹[ƒ`ƒ“‚ÌƒGƒ“ƒgƒŠEƒAƒhƒŒƒX
-*      D7.L   (A2) ‚Ö‚Ìˆø” D0.L
+*      A0     å…¥åŠ›ãƒãƒƒãƒ•ã‚¡ã®å…ˆé ­
+*      D1.W   å…¥åŠ›æœ€å¤§ãƒã‚¤ãƒˆæ•°ï¼ˆæœ€å¾Œã®NULåˆ†ã¯å‹˜å®šã—ãªã„ï¼‰
+*      D2.B   1 ãªã‚‰ã°ã‚³ãƒ¡ãƒ³ãƒˆã‚’å‰Šé™¤ã™ã‚‹
+*      A1     ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆå‡ºåŠ›ãƒ«ãƒ¼ãƒãƒ³ã®ã‚¨ãƒ³ãƒˆãƒªãƒ»ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      A2     ç‰©ç†è¡Œå…¥åŠ›ãƒ«ãƒ¼ãƒãƒ³ã®ã‚¨ãƒ³ãƒˆãƒªãƒ»ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      D7.L   (A2) ã¸ã®å¼•æ•° D0.L
 *
 * RETURN
-*      D0.L   0:“ü—Í—L‚èC-1:EOFC1:“ü—ÍƒGƒ‰[
-*      D1.W   c‚è“ü—Í‰Â”\ƒoƒCƒg”iÅŒã‚ÌNUL•ª‚ÍŠ¨’è‚µ‚È‚¢j
+*      D0.L   0:å…¥åŠ›æœ‰ã‚Šï¼Œ-1:EOFï¼Œ1:å…¥åŠ›ã‚¨ãƒ©ãƒ¼
+*      D1.W   æ®‹ã‚Šå…¥åŠ›å¯èƒ½ãƒã‚¤ãƒˆæ•°ï¼ˆæœ€å¾Œã®NULåˆ†ã¯å‹˜å®šã—ãªã„ï¼‰
 *      CCR    TST.L D0
 *****************************************************************
 .xdef getline
@@ -99,20 +99,20 @@ getline:
 		movem.l	d3-d4/a0-a4,-(a7)
 getline_more:
 		**
-		**  ‚P•¨—s‚ğ“ü—Í‚·‚é
+		**  ï¼‘ç‰©ç†è¡Œã‚’å…¥åŠ›ã™ã‚‹
 		**
 		movea.l	a0,a4
 		move.l	d7,d0
 		jsr	(a2)
 		bne	getline_return
 
-		cmpa.l	a4,a0				* “ü—Í‚³‚ê‚½•¶š”‚ª0‚È‚ç‚Î
-		beq	getline_done			* I‚í‚è
+		cmpa.l	a4,a0				* å…¥åŠ›ã•ã‚ŒãŸæ–‡å­—æ•°ãŒ0ãªã‚‰ã°
+		beq	getline_done			* çµ‚ã‚ã‚Š
 
 		suba.l	a1,a1
 ****************
 		**
-		**  sŒp‘±‚ğƒ`ƒFƒbƒN‚·‚é
+		**  è¡Œç¶™ç¶šã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 		**
 		moveq	#0,d3
 		movea.l	a4,a3
@@ -174,10 +174,10 @@ getline_process_comment:
 		tst.b	d2
 		beq	getline_comment_cut_done
 		**
-		**  ƒRƒƒ“ƒg‚ğ’T‚·
+		**  ã‚³ãƒ¡ãƒ³ãƒˆã‚’æ¢ã™
 		**
-		moveq	#0,d3				* D3 : {}ƒŒƒxƒ‹
-		moveq	#0,d4				* D4 : ƒNƒI[ƒgEƒtƒ‰ƒO
+		moveq	#0,d3				* D3 : {}ãƒ¬ãƒ™ãƒ«
+		moveq	#0,d4				* D4 : ã‚¯ã‚ªãƒ¼ãƒˆãƒ»ãƒ•ãƒ©ã‚°
 find_comment_loop:
 		move.b	(a4)+,d0
 		beq	find_comment_break
@@ -245,7 +245,7 @@ find_comment_skip_one:
 		bne	find_comment_loop
 find_comment_break:
 		**
-		**  ƒRƒƒ“ƒg‚ğíœ‚·‚é
+		**  ã‚³ãƒ¡ãƒ³ãƒˆã‚’å‰Šé™¤ã™ã‚‹
 		**
 		clr.b	-(a4)
 		move.l	a0,d0
@@ -268,14 +268,14 @@ getline_over:
 * getline_phigical
 *
 * CALL
-*      A0     “ü—Íƒoƒbƒtƒ@‚Ìæ“ª
-*      A1     ƒvƒƒ“ƒvƒgo—Íƒ‹[ƒ`ƒ“‚ÌƒGƒ“ƒgƒŠEƒAƒhƒŒƒX
-*      D1.W   “ü—ÍÅ‘åƒoƒCƒg”iÅŒã‚ÌNUL•ª‚ÍŠ¨’è‚µ‚È‚¢j
+*      A0     å…¥åŠ›ãƒãƒƒãƒ•ã‚¡ã®å…ˆé ­
+*      A1     ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆå‡ºåŠ›ãƒ«ãƒ¼ãƒãƒ³ã®ã‚¨ãƒ³ãƒˆãƒªãƒ»ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      D1.W   å…¥åŠ›æœ€å¤§ãƒã‚¤ãƒˆæ•°ï¼ˆæœ€å¾Œã®NULåˆ†ã¯å‹˜å®šã—ãªã„ï¼‰
 *
 * RETURN
-*      A0     “ü—Í•¶š”•ªi‚Ş
-*      D0.L   0:“ü—Í—L‚èC-1:EOFC1:“ü—ÍƒGƒ‰[
-*      D1.W   c‚è“ü—Í‰Â”\ƒoƒCƒg”iÅŒã‚ÌNUL•ª‚ÍŠ¨’è‚µ‚È‚¢j
+*      A0     å…¥åŠ›æ–‡å­—æ•°åˆ†é€²ã‚€
+*      D0.L   0:å…¥åŠ›æœ‰ã‚Šï¼Œ-1:EOFï¼Œ1:å…¥åŠ›ã‚¨ãƒ©ãƒ¼
+*      D1.W   æ®‹ã‚Šå…¥åŠ›å¯èƒ½ãƒã‚¤ãƒˆæ•°ï¼ˆæœ€å¾Œã®NULåˆ†ã¯å‹˜å®šã—ãªã„ï¼‰
 *      CCR    TST.L D0
 *****************************************************************
 .xdef getline_phigical
@@ -482,8 +482,8 @@ getline_extended_ins_char:
 		movea.l	line_top(a6),a0
 		move.l	d0,-(a7)
 		move.l	nbytes(a6),d0
-		add.l	d0,a0				* A0 : s––
-		sub.l	cursor_ptr(a6),d0		* D0.L : ƒJ[ƒ\ƒ‹ˆÈ~‚ÌƒoƒCƒg”
+		add.l	d0,a0				* A0 : è¡Œæœ«
+		sub.l	cursor_ptr(a6),d0		* D0.L : ã‚«ãƒ¼ã‚½ãƒ«ä»¥é™ã®ãƒã‚¤ãƒˆæ•°
 		movea.l	a0,a1
 		subq.l	#1,a1
 		bsr	memmove_dec
@@ -494,7 +494,7 @@ getline_extended_ins_char:
 		addq.l	#1,nbytes(a6)
 		bra	getline_extended_loop
 ****************
-*  ^L : Ä•\¦
+*  ^L : å†è¡¨ç¤º
 getline_extended_redraw:
 		bsr	put_newline
 		movea.l	put_prompt_ptr(a6),a1
@@ -550,7 +550,7 @@ getline_extended_console_return:
 		unlk	a6
 		rts
 ****************
-*  ^U : s“ª‚©‚çƒJ[ƒ\ƒ‹’¼‘O‚Ü‚Åíœ
+*  ^U : è¡Œé ­ã‹ã‚‰ã‚«ãƒ¼ã‚½ãƒ«ç›´å‰ã¾ã§å‰Šé™¤
 getline_extended_kill:
 getline_extended_kill_loop:
 		tst.l	cursor_ptr(a6)
@@ -559,7 +559,7 @@ getline_extended_kill_loop:
 		bsr	erase_char
 		bra	getline_extended_kill_loop
 ****************
-*  ^W : ƒJ[ƒ\ƒ‹’¼‘O‚Ì1Œê‚ğíœ
+*  ^W : ã‚«ãƒ¼ã‚½ãƒ«ç›´å‰ã®1èªã‚’å‰Šé™¤
 getline_extended_werase:
 getline_extended_werase_1:
 		move.l	cursor_ptr(a6),d0
@@ -589,7 +589,7 @@ getline_extended_erase:
 		bsr	erase_char
 		bra	getline_extended_loop
 ****************
-*  ESC-ESC, ESC-^Z : ƒtƒ@ƒCƒ‹–¼Š®¬
+*  ESC-ESC, ESC-^Z : ãƒ•ã‚¡ã‚¤ãƒ«åå®Œæˆ
 getline_extended_filec:
 
 filec_name = -auto_pathname
@@ -597,15 +597,15 @@ filec_namebuf = filec_name-auto_pathname
 
 		link	a4,#filec_namebuf
 		movem.l	d2-d7/a2-a3,-(a7)
-		move.b	d0,d7			* D7.B : 0 ‚È‚ç‚ÎƒŠƒXƒg•\¦
+		move.b	d0,d7			* D7.B : 0 ãªã‚‰ã°ãƒªã‚¹ãƒˆè¡¨ç¤º
 		*
-		*  ƒJ[ƒ\ƒ‹‚ªs––‚É‚È‚¯‚ê‚Îƒ_ƒ
+		*  ã‚«ãƒ¼ã‚½ãƒ«ãŒè¡Œæœ«ã«ãªã‘ã‚Œã°ãƒ€ãƒ¡
 		*
 		move.l	cursor_ptr(a6),d6
 		cmp.l	nbytes(a6),d6
 		bne	filec_fail
 		*
-		*  ‘ÎÛ‚Ì’PŒê‚ğæ‚èo‚·
+		*  å¯¾è±¡ã®å˜èªã‚’å–ã‚Šå‡ºã™
 		*
 		movea.l	line_top(a6),a2
 filec_find_word_remember:
@@ -645,9 +645,9 @@ filec_find_word_done:
 		bsr	memmove_inc
 		clr.b	(a0)
 
-		moveq	#0,d5			* D5.W : ŒŸõ‚³‚ê‚½ƒGƒ“ƒgƒŠ”
+		moveq	#0,d5			* D5.W : æ¤œç´¢ã•ã‚ŒãŸã‚¨ãƒ³ãƒˆãƒªæ•°
 		*
-		*  ƒ†[ƒU–¼‚©H ƒtƒ@ƒCƒ‹–¼‚©H
+		*  ãƒ¦ãƒ¼ã‚¶åã‹ï¼Ÿ ãƒ•ã‚¡ã‚¤ãƒ«åã‹ï¼Ÿ
 		*
 		lea	filec_name(a4),a0
 		bsr	builtin_dir_match
@@ -657,22 +657,22 @@ filec_find_word_done:
 		bne	filec_not_builtin
 filec_builtin:
 		*
-		*  ‘g‚İ‚İƒRƒ}ƒ“ƒh‚ğŒŸõ‚·‚é
+		*  çµ„ã¿è¾¼ã¿ã‚³ãƒãƒ³ãƒ‰ã‚’æ¤œç´¢ã™ã‚‹
 		*
-		*       A0   : ŒŸõ‚·‚é•¶š—ñ‚ğŠi”[‚µ‚½ƒoƒbƒtƒ@‚ÌƒAƒhƒŒƒX
-		*       D0.L : ‰¼‘zƒfƒBƒŒƒNƒgƒŠ•”‚Ì’·‚³-1
-		*       D5.W : ŒŸõ‚³‚ê‚½ƒGƒ“ƒgƒŠ”i‚±‚±‚Å‚Í0j
-		*       D7.B : 0 ‚È‚ç‚ÎƒŠƒXƒg•\¦
+		*       A0   : æ¤œç´¢ã™ã‚‹æ–‡å­—åˆ—ã‚’æ ¼ç´ã—ãŸãƒãƒƒãƒ•ã‚¡ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+		*       D0.L : ä»®æƒ³ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªéƒ¨ã®é•·ã•-1
+		*       D5.W : æ¤œç´¢ã•ã‚ŒãŸã‚¨ãƒ³ãƒˆãƒªæ•°ï¼ˆã“ã“ã§ã¯0ï¼‰
+		*       D7.B : 0 ãªã‚‰ã°ãƒªã‚¹ãƒˆè¡¨ç¤º
 		*
 		addq.l	#1,d0
 		add.l	d0,a0
-		movea.l	a0,a1			* A1 : ”äŠr‚·‚é•¶š—ñ
+		movea.l	a0,a1			* A1 : æ¯”è¼ƒã™ã‚‹æ–‡å­—åˆ—
 		bsr	strlen
-		move.l	d0,d3			* D3.L : ”äŠr‚·‚é’·‚³
-		moveq	#0,d2			* D2.L : ŒŸõ‚³‚ê‚½ƒGƒ“ƒgƒŠ‚Ì–¼‘O‚ÌÅ‘å’·
-						*        (ƒŠƒXƒg•\¦‚Ì‚½‚ß)
-		lea	tmpargs,a3		* A3 : ŒŸõ‚³‚ê‚½–¼‘O‚ÌƒŠƒXƒg‚ğŠi”[‚·‚éƒoƒbƒtƒ@
-		move.w	#MAXWORDLISTSIZE,d4	* D4.W : (A3)‚Ì—e—Ê
+		move.l	d0,d3			* D3.L : æ¯”è¼ƒã™ã‚‹é•·ã•
+		moveq	#0,d2			* D2.L : æ¤œç´¢ã•ã‚ŒãŸã‚¨ãƒ³ãƒˆãƒªã®åå‰ã®æœ€å¤§é•·
+						*        (ãƒªã‚¹ãƒˆè¡¨ç¤ºã®ãŸã‚)
+		lea	tmpargs,a3		* A3 : æ¤œç´¢ã•ã‚ŒãŸåå‰ã®ãƒªã‚¹ãƒˆã‚’æ ¼ç´ã™ã‚‹ãƒãƒƒãƒ•ã‚¡
+		move.w	#MAXWORDLISTSIZE,d4	* D4.W : (A3)ã®å®¹é‡
 		lea	command_table,a0
 filec_builtin_loop:
 		tst.b	(a0)
@@ -701,23 +701,23 @@ filec_not_builtin:
 		bne	filec_file
 filec_username:
 		*
-		*  ƒ†[ƒU–¼‚ğŒŸõ‚·‚é
+		*  ãƒ¦ãƒ¼ã‚¶åã‚’æ¤œç´¢ã™ã‚‹
 		*
-		*       D5.W : ŒŸõ‚³‚ê‚½ƒGƒ“ƒgƒŠ”
-		*       D7.B : 0 ‚È‚ç‚ÎƒŠƒXƒg•\¦
+		*       D5.W : æ¤œç´¢ã•ã‚ŒãŸã‚¨ãƒ³ãƒˆãƒªæ•°
+		*       D7.B : 0 ãªã‚‰ã°ãƒªã‚¹ãƒˆè¡¨ç¤º
 		*
 		bsr	open_passwd
 		bmi	filec_username_done0
 
-		move.w	d0,d6			* D6.W : passwd ƒtƒ@ƒCƒ‹Eƒnƒ“ƒhƒ‹
+		move.w	d0,d6			* D6.W : passwd ãƒ•ã‚¡ã‚¤ãƒ«ãƒ»ãƒãƒ³ãƒ‰ãƒ«
 
 		lea	filec_name+1(a4),a0
 		bsr	strlen
-		move.l	d0,d3			* D3.L : ”äŠr‚·‚é’·‚³
-		moveq	#0,d2			* D2.L : ŒŸõ‚³‚ê‚½ƒGƒ“ƒgƒŠ‚Ì–¼‘O‚ÌÅ‘å’·
-						*        (ƒŠƒXƒg•\¦‚Ì‚½‚ß)
-		lea	tmpargs,a3		* A3 : ŒŸõ‚³‚ê‚½–¼‘O‚ÌƒŠƒXƒg‚ğŠi”[‚·‚éƒoƒbƒtƒ@
-		move.w	#MAXWORDLISTSIZE,d4	* D4.W : (A3)‚Ì—e—Ê
+		move.l	d0,d3			* D3.L : æ¯”è¼ƒã™ã‚‹é•·ã•
+		moveq	#0,d2			* D2.L : æ¤œç´¢ã•ã‚ŒãŸã‚¨ãƒ³ãƒˆãƒªã®åå‰ã®æœ€å¤§é•·
+						*        (ãƒªã‚¹ãƒˆè¡¨ç¤ºã®ãŸã‚)
+		lea	tmpargs,a3		* A3 : æ¤œç´¢ã•ã‚ŒãŸåå‰ã®ãƒªã‚¹ãƒˆã‚’æ ¼ç´ã™ã‚‹ãƒãƒƒãƒ•ã‚¡
+		move.w	#MAXWORDLISTSIZE,d4	* D4.W : (A3)ã®å®¹é‡
 filec_username_loop:
 		lea	congetbuf+2,a0
 		move.w	d6,d0
@@ -755,13 +755,13 @@ filec_username_done:
 		bsr	fclose
 filec_username_done0:
 		tst.b	d7
-		beq	filec_list		* ƒŠƒXƒg•\¦‚Ö
+		beq	filec_list		* ãƒªã‚¹ãƒˆè¡¨ç¤ºã¸
 
 		bra	fignore_ok
 ********************************
 filec_file:
 		*
-		*  ~‚ğ“WŠJc
+		*  ~ã‚’å±•é–‹â€¦
 		*
 		lea	filec_name(a4),a0
 		lea	filec_namebuf(a4),a1
@@ -773,28 +773,28 @@ filec_file:
 		tst.l	d0
 		bmi	filec_find_done
 		*
-		*  ƒtƒ@ƒCƒ‹–¼‚ğŒŸõ‚·‚é
+		*  ãƒ•ã‚¡ã‚¤ãƒ«åã‚’æ¤œç´¢ã™ã‚‹
 		*
-		*       D5.W : ŒŸõ‚³‚ê‚½ƒGƒ“ƒgƒŠ”i‚±‚±‚Å‚Í0j
-		*       D7.B : 0 ‚È‚ç‚ÎƒŠƒXƒg•\¦
+		*       D5.W : æ¤œç´¢ã•ã‚ŒãŸã‚¨ãƒ³ãƒˆãƒªæ•°ï¼ˆã“ã“ã§ã¯0ï¼‰
+		*       D7.B : 0 ãªã‚‰ã°ãƒªã‚¹ãƒˆè¡¨ç¤º
 		*
 		lea	filec_namebuf(a4),a0
-		bsr	includes_dos_wildcard	* Human68k ‚ÌƒƒCƒ‹ƒhƒJ[ƒh‚ğŠÜ‚ñ‚Å
-		bne	filec_find_done		* ‚¢‚é‚È‚ç‚Î–³Œø
+		bsr	includes_dos_wildcard	* Human68k ã®ãƒ¯ã‚¤ãƒ«ãƒ‰ã‚«ãƒ¼ãƒ‰ã‚’å«ã‚“ã§
+		bne	filec_find_done		* ã„ã‚‹ãªã‚‰ã°ç„¡åŠ¹
 
-		moveq	#'\',d0			* \ ‚ğ
+		moveq	#'\',d0			* \ ã‚’
 		move.l	a0,-(a7)
-		bsr	strchr			* ŠÜ‚ñ‚Å
+		bsr	strchr			* å«ã‚“ã§
 		movea.l	(a7)+,a0
-		bne	filec_find_done		* ‚¢‚é‚È‚ç‚Î–³Œø
+		bne	filec_find_done		* ã„ã‚‹ãªã‚‰ã°ç„¡åŠ¹
 
 		movem.l	d1,-(a7)
 		bsr	test_pathname		* D0-D3/A1-A3
 		movem.l	(a7)+,d1
 		bhi	filec_find_done
-						* A2 : ƒtƒ@ƒCƒ‹•”‚ÌƒAƒhƒŒƒX
-		* D2.L : ƒtƒ@ƒCƒ‹•”‚Ì’·‚³
-		* D3.L : Šg’£q•”‚Ì’·‚³
+						* A2 : ãƒ•ã‚¡ã‚¤ãƒ«éƒ¨ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+		* D2.L : ãƒ•ã‚¡ã‚¤ãƒ«éƒ¨ã®é•·ã•
+		* D3.L : æ‹¡å¼µå­éƒ¨ã®é•·ã•
 
 		bsr	test_directory
 		bne	filec_find_done
@@ -820,16 +820,16 @@ filec_file_5:
 		move.b	#'*',(a0)+
 filec_file_6:
 		clr.b	(a0)
-		add.l	d2,d3			* D3.L : tail•”‚Ì’·‚³
-		moveq	#0,d2			* D2.L : ŒŸõ‚³‚ê‚½ƒGƒ“ƒgƒŠ‚Ì–¼‘O‚ÌÅ‘å’·
-						*        (ƒŠƒXƒg•\¦‚Ì‚½‚ß)
-		lea	tmpargs,a3		* A3 : ŒŸõ‚³‚ê‚½–¼‘O‚ÌƒŠƒXƒg‚ğŠi”[‚·‚éƒoƒbƒtƒ@
-		move.w	#MAXWORDLISTSIZE,d4	* D4.W : (A3)‚Ì—e—Ê
+		add.l	d2,d3			* D3.L : tailéƒ¨ã®é•·ã•
+		moveq	#0,d2			* D2.L : æ¤œç´¢ã•ã‚ŒãŸã‚¨ãƒ³ãƒˆãƒªã®åå‰ã®æœ€å¤§é•·
+						*        (ãƒªã‚¹ãƒˆè¡¨ç¤ºã®ãŸã‚)
+		lea	tmpargs,a3		* A3 : æ¤œç´¢ã•ã‚ŒãŸåå‰ã®ãƒªã‚¹ãƒˆã‚’æ ¼ç´ã™ã‚‹ãƒãƒƒãƒ•ã‚¡
+		move.w	#MAXWORDLISTSIZE,d4	* D4.W : (A3)ã®å®¹é‡
 
 dir_buf = -(((53)+1)>>1<<1)
 
 		link	a6,#dir_buf
-		move.w	#$37,-(a7)		* ƒ{ƒŠƒ…[ƒ€Eƒ‰ƒxƒ‹ˆÈŠO‚Ì‘S‚Ä‚ğŒŸõ
+		move.w	#$37,-(a7)		* ãƒœãƒªãƒ¥ãƒ¼ãƒ ãƒ»ãƒ©ãƒ™ãƒ«ä»¥å¤–ã®å…¨ã¦ã‚’æ¤œç´¢
 		move.l	a1,-(a7)
 		pea	dir_buf(a6)
 		DOS	_FILES
@@ -882,34 +882,34 @@ filec_file_search_done:
 		bcs	filec_fail
 filec_find_done:
 		*
-		*       D2.W : ŒŸõ‚³‚ê‚½ƒGƒ“ƒgƒŠ‚Ì–¼‘O‚ÌÅ‘å’·
-		*       D3.L : ŒŸõğŒ‚Å‚ ‚é‚Æ‚±‚ë‚Ì’·‚³
-		*       D5.W : ŒŸõ‚³‚ê‚½ƒGƒ“ƒgƒŠ”
-		*       D7.B : 0 ‚È‚ç‚ÎƒŠƒXƒg•\¦
+		*       D2.W : æ¤œç´¢ã•ã‚ŒãŸã‚¨ãƒ³ãƒˆãƒªã®åå‰ã®æœ€å¤§é•·
+		*       D3.L : æ¤œç´¢æ¡ä»¶ã§ã‚ã‚‹ã¨ã“ã‚ã®é•·ã•
+		*       D5.W : æ¤œç´¢ã•ã‚ŒãŸã‚¨ãƒ³ãƒˆãƒªæ•°
+		*       D7.B : 0 ãªã‚‰ã°ãƒªã‚¹ãƒˆè¡¨ç¤º
 		*
 		tst.b	d7
-		beq	filec_list		* ƒŠƒXƒg•\¦‚Ö
+		beq	filec_list		* ãƒªã‚¹ãƒˆè¡¨ç¤ºã¸
 		*
-		*  fignore ‚ÉƒZƒbƒg‚³‚ê‚Ä‚¢‚éƒTƒtƒBƒbƒNƒX‚ğ‚ÂƒGƒ“ƒgƒŠ‚ğŠO‚·
+		*  fignore ã«ã‚»ãƒƒãƒˆã•ã‚Œã¦ã„ã‚‹ã‚µãƒ•ã‚£ãƒƒã‚¯ã‚¹ã‚’æŒã¤ã‚¨ãƒ³ãƒˆãƒªã‚’å¤–ã™
 		*
-		*       D3.L : ŒŸõğŒ‚Å‚ ‚é‚Æ‚±‚ë‚Ì’·‚³
-		*       D5.W : ŒŸõ‚³‚ê‚½ƒGƒ“ƒgƒŠ”
+		*       D3.L : æ¤œç´¢æ¡ä»¶ã§ã‚ã‚‹ã¨ã“ã‚ã®é•·ã•
+		*       D5.W : æ¤œç´¢ã•ã‚ŒãŸã‚¨ãƒ³ãƒˆãƒªæ•°
 		*
-		cmp.w	#1,d5			* ŒŸõ‚³‚ê‚½ƒGƒ“ƒgƒŠ‚ª
-		blo	filec_fail		* –³‚¯‚ê‚ÎƒGƒ‰[
-		beq	fignore_ok		* —B1ŒÂ‚È‚ç‚ÎAfignore ‚Í–³‹‚·‚é
+		cmp.w	#1,d5			* æ¤œç´¢ã•ã‚ŒãŸã‚¨ãƒ³ãƒˆãƒªãŒ
+		blo	filec_fail		* ç„¡ã‘ã‚Œã°ã‚¨ãƒ©ãƒ¼
+		beq	fignore_ok		* å”¯1å€‹ãªã‚‰ã°ã€fignore ã¯ç„¡è¦–ã™ã‚‹
 
-		lea	word_fignore,a0		* ƒVƒFƒ‹•Ï” fignore ‚ğ
-		bsr	find_shellvar		* ’T‚·
-		beq	fignore_ok		* ’è‹`‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î–³‹‚·‚é
+		lea	word_fignore,a0		* ã‚·ã‚§ãƒ«å¤‰æ•° fignore ã‚’
+		bsr	find_shellvar		* æ¢ã™
+		beq	fignore_ok		* å®šç¾©ã•ã‚Œã¦ã„ãªã‘ã‚Œã°ç„¡è¦–ã™ã‚‹
 
 		addq.l	#2,a0
-		move.w	(a0)+,d2		* D2.W : fignore ’PŒê”
+		move.w	(a0)+,d2		* D2.W : fignore å˜èªæ•°
 		bra	fignore_loop1_continue
 
 fignore_loop1:
 		bsr	strlen
-		move.l	d0,d7			* D7.L : $fignore[i] ‚Ì’·‚³
+		move.l	d0,d7			* D7.L : $fignore[i] ã®é•·ã•
 		movea.l	a0,a1			* A1 : $fignore[i]
 		lea	tmpargs,a0
 		move.w	d5,d4
@@ -918,25 +918,25 @@ fignore_loop1:
 fignore_loop2:
 		movea.l	a0,a3
 		bsr	strlen
-		sub.l	d7,d0			* $fignore[i] ‚æ‚è
-		blo	fignore_pass		* ’Z‚¢‚È‚çƒpƒX
+		sub.l	d7,d0			* $fignore[i] ã‚ˆã‚Š
+		blo	fignore_pass		* çŸ­ã„ãªã‚‰ãƒ‘ã‚¹
 
 		adda.l	d0,a0
 		move.l	d7,d0
 		movem.w	d1,-(a7)
 		move.b	flag_cifilec,d1
-		bsr	memxcmp			* ƒPƒc‚ªˆê’v
+		bsr	memxcmp			* ã‚±ãƒ„ãŒä¸€è‡´
 		movem.w	(a7)+,d1
-		bne	fignore_pass		* ‚µ‚È‚¢‚È‚çƒpƒX
+		bne	fignore_pass		* ã—ãªã„ãªã‚‰ãƒ‘ã‚¹
 
-		subq.w	#1,d5			* --(ƒGƒ“ƒgƒŠ”)
-		beq	filec_fail		* 1ŒÂ‚à–³‚­‚È‚Á‚½‚çAƒGƒ‰[
+		subq.w	#1,d5			* --(ã‚¨ãƒ³ãƒˆãƒªæ•°)
+		beq	filec_fail		* 1å€‹ã‚‚ç„¡ããªã£ãŸã‚‰ã€ã‚¨ãƒ©ãƒ¼
 
 		bsr	for1str
-		exg	a0,a1			* A0:$fignore[i], A1:Ÿ‚ÌƒGƒ“ƒgƒŠ
-		exg	a0,a3			* A0:’…–Ú’†‚ÌƒGƒ“ƒgƒŠ, A3:$fignore[i]
-		move.w	d4,d0			* D0:Ÿ‚©‚ç‚ÌƒGƒ“ƒgƒŠ”
-		bsr	copy_wordlist		* —v‚·‚é‚É’…–Ú’†‚ÌƒGƒ“ƒgƒŠ‚ğíœ‚·‚é
+		exg	a0,a1			* A0:$fignore[i], A1:æ¬¡ã®ã‚¨ãƒ³ãƒˆãƒª
+		exg	a0,a3			* A0:ç€ç›®ä¸­ã®ã‚¨ãƒ³ãƒˆãƒª, A3:$fignore[i]
+		move.w	d4,d0			* D0:æ¬¡ã‹ã‚‰ã®ã‚¨ãƒ³ãƒˆãƒªæ•°
+		bsr	copy_wordlist		* è¦ã™ã‚‹ã«ç€ç›®ä¸­ã®ã‚¨ãƒ³ãƒˆãƒªã‚’å‰Šé™¤ã™ã‚‹
 		movea.l	a3,a1			* A1:$fignore[i]
 		bra	fignore_loop2_continue
 
@@ -951,10 +951,10 @@ fignore_loop1_continue:
 		dbra	d2,fignore_loop1
 fignore_ok:
 		*
-		*  Å‰‚ÌB–†‚Å‚È‚¢•”•ª‚ğŠm’è‚·‚é
+		*  æœ€åˆã®æ›–æ˜§ã§ãªã„éƒ¨åˆ†ã‚’ç¢ºå®šã™ã‚‹
 		*
-		*       D3.L : ŒŸõğŒ‚Å‚ ‚é‚Æ‚±‚ë‚Ì’·‚³
-		*       D5.W : ŒŸõ‚³‚ê‚½ƒGƒ“ƒgƒŠ”
+		*       D3.L : æ¤œç´¢æ¡ä»¶ã§ã‚ã‚‹ã¨ã“ã‚ã®é•·ã•
+		*       D5.W : æ¤œç´¢ã•ã‚ŒãŸã‚¨ãƒ³ãƒˆãƒªæ•°
 		*
 		lea	tmpargs,a0
 		move.w	d5,d0
@@ -964,7 +964,7 @@ fignore_ok:
 		bsr	common_spell
 		move.w	(a7)+,d1
 		*
-		*  Š®¬•”•ª‚ğ‘}“ü‚·‚é
+		*  å®Œæˆéƒ¨åˆ†ã‚’æŒ¿å…¥ã™ã‚‹
 		*
 		sub.w	d0,d1
 		bcs	filec_file_over
@@ -991,25 +991,25 @@ filec_done:
 ***
 filec_list:
 		*
-		*  ƒŠƒXƒg•\¦
+		*  ãƒªã‚¹ãƒˆè¡¨ç¤º
 		*
-		*       D2.W : ŒŸõ‚³‚ê‚½ƒGƒ“ƒgƒŠ‚Ì–¼‘O‚ÌÅ‘å’·
-		*       D5.W : ŒŸõ‚³‚ê‚½ƒGƒ“ƒgƒŠ”
+		*       D2.W : æ¤œç´¢ã•ã‚ŒãŸã‚¨ãƒ³ãƒˆãƒªã®åå‰ã®æœ€å¤§é•·
+		*       D5.W : æ¤œç´¢ã•ã‚ŒãŸã‚¨ãƒ³ãƒˆãƒªæ•°
 		*
 		move.w	d5,d0
 		beq	filec_list_done
 
 		lea	tmpargs,a0
 		bsr	sort_wordlist
-		addq.w	#2,d2			* D2.W : 1€–Ú‚ÌŒ…”
+		addq.w	#2,d2			* D2.W : 1é …ç›®ã®æ¡æ•°
 		*
-		*  79(s‚ÌŒ…”-1)‚ğ1€–Ú‚ÌŒ…”‚ÅŠ„‚Á‚ÄA1s‚ ‚½‚è‚Ì€–Ú”‚ğb’è‚·‚é
+		*  79(è¡Œã®æ¡æ•°-1)ã‚’1é …ç›®ã®æ¡æ•°ã§å‰²ã£ã¦ã€1è¡Œã‚ãŸã‚Šã®é …ç›®æ•°ã‚’æš«å®šã™ã‚‹
 		*
 		moveq	#79,d3
-		divu	d2,d3			* D3.W : 79 / Œ…” = 1s‚Ì€–Ú”(b’è)
+		divu	d2,d3			* D3.W : 79 / æ¡æ•° = 1è¡Œã®é …ç›®æ•°(æš«å®š)
 		*
-		*  1€–Ú‚ÌŒ…”‚ª79‚ğ’´‚¦‚Ä‚¢‚éê‡‚É‚Í1s‚ ‚½‚è‚Ì€–Ú”‚Í0‚Æ‚È‚Á‚Ä
-		*  ‚µ‚Ü‚¤‚ªA‚»‚Ìê‡‚É‚Í1s‚É1€–Ú‚Æ‚·‚é
+		*  1é …ç›®ã®æ¡æ•°ãŒ79ã‚’è¶…ãˆã¦ã„ã‚‹å ´åˆã«ã¯1è¡Œã‚ãŸã‚Šã®é …ç›®æ•°ã¯0ã¨ãªã£ã¦
+		*  ã—ã¾ã†ãŒã€ãã®å ´åˆã«ã¯1è¡Œã«1é …ç›®ã¨ã™ã‚‹
 		*
 		tst.w	d3
 		bne	filec_list_width_ok
@@ -1017,25 +1017,25 @@ filec_list:
 		moveq	#1,d3
 filec_list_width_ok:
 		*
-		*  ‰½s‚É‚È‚é‚©‚ğ‹‚ß‚é
+		*  ä½•è¡Œã«ãªã‚‹ã‹ã‚’æ±‚ã‚ã‚‹
 		*
 		moveq	#0,d4
 		move.w	d5,d4
-		divu	d3,d4			* D4.W : ƒGƒ“ƒgƒŠ” / 1s‚Ì€–Ú” = s”
+		divu	d3,d4			* D4.W : ã‚¨ãƒ³ãƒˆãƒªæ•° / 1è¡Œã®é …ç›®æ•° = è¡Œæ•°
 		swap	d4
 		move.w	d4,d6
 		swap	d4
 		*
-		*  —]‚è‚ª‚È‚¯‚ê‚Î‚n‚j
+		*  ä½™ã‚ŠãŒãªã‘ã‚Œã°ï¼¯ï¼«
 		*
 		tst.w	d6
 		beq	filec_list_height_ok
 		*
-		*  —]‚è‚ª‚ ‚é --- s”‚Í‚³‚ç‚É1s‘½‚¢
+		*  ä½™ã‚ŠãŒã‚ã‚‹ --- è¡Œæ•°ã¯ã•ã‚‰ã«1è¡Œå¤šã„
 		*
 		addq.w	#1,d4
 		*
-		*  1s‘½‚­‚È‚Á‚½‚Ì‚ÅA1s‚Ì€–Ú”‚ğŒvZ‚µ’¼‚·
+		*  1è¡Œå¤šããªã£ãŸã®ã§ã€1è¡Œã®é …ç›®æ•°ã‚’è¨ˆç®—ã—ç›´ã™
 		*
 		moveq	#0,d3
 		move.w	d5,d3
@@ -1046,18 +1046,18 @@ filec_list_width_ok:
 		tst.w	d6
 		beq	filec_list_height_ok
 		*
-		*  —]‚è‚ª‚ ‚é --- 1s‚Ì€–Ú”‚Í‚³‚ç‚É1€–Ú‘½‚¢
-		*                 —]‚è(D6.W)‚Í1€–Ú‘½‚¢s”‚Å‚ ‚é
+		*  ä½™ã‚ŠãŒã‚ã‚‹ --- 1è¡Œã®é …ç›®æ•°ã¯ã•ã‚‰ã«1é …ç›®å¤šã„
+		*                 ä½™ã‚Š(D6.W)ã¯1é …ç›®å¤šã„è¡Œæ•°ã§ã‚ã‚‹
 		*
 		addq.w	#1,d3
 filec_list_height_ok:
 		lea	tmpargs,a0
-		movea.l	a0,a1			* A1:Å‰‚Ìs‚Ìæ“ª€–Ú
+		movea.l	a0,a1			* A1:æœ€åˆã®è¡Œã®å…ˆé ­é …ç›®
 filec_list_loop1:
 		bsr	put_newline
 		movea.l	a1,a0
 		bsr	for1str
-		exg	a0,a1			* A0:‚±‚Ìs‚Ìæ“ª€–Ú  A1:Ÿs‚Ìæ“ª€–Ú
+		exg	a0,a1			* A0:ã“ã®è¡Œã®å…ˆé ­é …ç›®  A1:æ¬¡è¡Œã®å…ˆé ­é …ç›®
 		move.w	d3,d7
 filec_list_loop2:
 		bsr	puts
@@ -1402,17 +1402,17 @@ yow:
 		movem.l	d0-d5/a0-a1,-(a7)
 		lea	word_yow,a0
 		bsr	find_shellvar
-		beq	yow_return		* yow ‚Í unset
+		beq	yow_return		* yow ã¯ unset
 
-		move.l	#1800,d4		* D4.L : ŠÔŠu(•b)  ƒfƒtƒHƒ‹ƒg=30•ª
+		move.l	#1800,d4		* D4.L : é–“éš”(ç§’)  ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ=30åˆ†
 		addq.l	#2,a0
 		move.w	(a0)+,d5		* D5.W : $#yow
 		beq	yow_interval_ok
 
 		bsr	for1str
 		bsr	atou
-		bmi	yow_interval_ok		* ”š‚Ån‚Ü‚Á‚Ä‚¢‚È‚¢ ; ŠÔŠu‚ÍƒfƒtƒHƒ‹ƒg
-		bne	yow_return		* ƒI[ƒo[ƒtƒ[ ; ŠÔŠu‚ğ–³ŒÀ‘å‚Æ‚İ‚È‚·
+		bmi	yow_interval_ok		* æ•°å­—ã§å§‹ã¾ã£ã¦ã„ãªã„ ; é–“éš”ã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ
+		bne	yow_return		* ã‚ªãƒ¼ãƒãƒ¼ãƒ•ãƒ­ãƒ¼ ; é–“éš”ã‚’ç„¡é™å¤§ã¨ã¿ãªã™
 
 		move.l	d1,d4
 		bsr	for1str
@@ -1444,7 +1444,7 @@ yow_file_ok:
 		lsl.l	#1,d0
 		swap	d0
 		bsr	fornstrs
-		moveq	#0,d0			* “Ç‚İ‚İƒ‚[ƒh
+		moveq	#0,d0			* èª­ã¿è¾¼ã¿ãƒ¢ãƒ¼ãƒ‰
 		bsr	fopen
 		move.l	d0,d2
 		bmi	yow_leave
@@ -1520,18 +1520,18 @@ yow_return:
 		movem.l	(a7)+,d0-d5/a0-a1
 		rts
 *****************************************************************
-* test_directory - ƒpƒX–¼‚ÌƒfƒBƒŒƒNƒgƒŠ‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚é
+* test_directory - ãƒ‘ã‚¹åã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒå­˜åœ¨ã™ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹
 *
 * CALL
-*      A0     ƒpƒX–¼
+*      A0     ãƒ‘ã‚¹å
 *
 * RETURN
-*      D0.L   ‘¶İ‚·‚é‚È‚ç‚Î0
+*      D0.L   å­˜åœ¨ã™ã‚‹ãªã‚‰ã°0
 *      CCR    TST.L D0
 *
 * NOTE
-*      / ‚Ì‚İ‚ª‹–‚³‚êA\ ‚Í‹–‚³‚È‚¢
-*      flag_cifilec(B) ‚ªŒø‚­
+*      / ã®ã¿ãŒè¨±ã•ã‚Œã€\ ã¯è¨±ã•ãªã„
+*      flag_cifilec(B) ãŒåŠ¹ã
 ****************************************************************
 filebuf = -54
 searchnamebuf = filebuf-(MAXPATH+1)
@@ -1574,21 +1574,21 @@ get_firstdir_root:
 get_firstdir_done:
 		clr.b	(a2)
 		lea	searchnamebuf(a6),a0
-		bsr	test_drive_path			* ƒhƒ‰ƒCƒu–¼‚Í—LŒø‚©
-		bne	test_directory_return		* –³Œø .. false
+		bsr	test_drive_path			* ãƒ‰ãƒ©ã‚¤ãƒ–åã¯æœ‰åŠ¹ã‹
+		bne	test_directory_return		* ç„¡åŠ¹ .. false
 test_directory_loop:
 		*
-		*  A2 : ŒŸõ–¼ƒoƒbƒtƒ@‚ÌƒPƒc
-		*  A3 : Œ»İ’…–Ú‚µ‚Ä‚¢‚éƒGƒŒƒƒ“ƒg‚Ìæ“ª
+		*  A2 : æ¤œç´¢åãƒãƒƒãƒ•ã‚¡ã®ã‚±ãƒ„
+		*  A3 : ç¾åœ¨ç€ç›®ã—ã¦ã„ã‚‹ã‚¨ãƒ¬ãƒ¡ãƒ³ãƒˆã®å…ˆé ­
 		*
-		movea.l	a3,a0				* Œ»İ’…–Ú‚µ‚Ä‚¢‚éƒGƒŒƒƒ“ƒg‚ÌŒã‚ë‚É
-		moveq	#'/',d0				* / ‚ª
-		bsr	strchr				* ‚ ‚é‚©H
-		beq	test_directory_true		* –³‚¢ .. true
+		movea.l	a3,a0				* ç¾åœ¨ç€ç›®ã—ã¦ã„ã‚‹ã‚¨ãƒ¬ãƒ¡ãƒ³ãƒˆã®å¾Œã‚ã«
+		moveq	#'/',d0				* / ãŒ
+		bsr	strchr				* ã‚ã‚‹ã‹ï¼Ÿ
+		beq	test_directory_true		* ç„¡ã„ .. true
 
 		move.l	a0,d2
-		sub.l	a3,d2				* D2.L : ƒGƒŒƒƒ“ƒg‚Ì’·‚³
-		move.w	#%010000,-(a7)			* ƒfƒBƒŒƒNƒgƒŠ‚Ì‚İ‚ğŒŸõ
+		sub.l	a3,d2				* D2.L : ã‚¨ãƒ¬ãƒ¡ãƒ³ãƒˆã®é•·ã•
+		move.w	#%010000,-(a7)			* ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ã¿ã‚’æ¤œç´¢
 		pea	searchnamebuf(a6)
 		pea	filebuf(a6)
 		movea.l	a2,a0
@@ -1598,7 +1598,7 @@ test_directory_loop:
 		lea	10(a7),a7
 test_directory_find_loop:
 		tst.l	d0
-		bmi	test_directory_return		* ƒGƒ“ƒgƒŠ‚ª–³‚¢ .. false
+		bmi	test_directory_return		* ã‚¨ãƒ³ãƒˆãƒªãŒç„¡ã„ .. false
 
 		lea	filebuf+30(a6),a0
 		movea.l	a3,a1
@@ -1640,7 +1640,7 @@ default_yow:		dc.b	'%'
 word_yow:		dc.b	'yow',0
 filec_separators:	dc.b	'"',"'",'^'
 word_separators:	dc.b	' ',HT,VT,CR,LF,FS,';&|<>()',0
-date_tbl:		dc.b	'“úŒ‰Î…–Ø‹à“yH'
+date_tbl:		dc.b	'æ—¥æœˆç«æ°´æœ¨é‡‘åœŸï¼Ÿ'
 
 .end
 

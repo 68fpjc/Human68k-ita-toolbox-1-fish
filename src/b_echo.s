@@ -2,7 +2,7 @@
 * This contains built-in command 'echo'.
 *
 * Itagaki Fumihiko 19-Jul-90  Create.
-* Itagaki Fumihiko 17-Aug-91  -e ‚ğ‰Á‚¦C–³Œø‚Èƒtƒ‰ƒOˆø”‚©‚ç’PŒê•À‚Ñ‚Æ‚·‚é‚æ‚¤‚É‚µ‚½D
+* Itagaki Fumihiko 17-Aug-91  -e ã‚’åŠ ãˆï¼Œç„¡åŠ¹ãªãƒ•ãƒ©ã‚°å¼•æ•°ã‹ã‚‰å˜èªä¸¦ã³ã¨ã™ã‚‹ã‚ˆã†ã«ã—ãŸï¼
 
 .xref puts
 .xref eputs
@@ -81,24 +81,24 @@ decode_opt_done0:
 		move.w	d0,d3
 		lea	funcs,a2
 		movea.l	(a2,d2.l),a1
-		bsr	echo			*  ’PŒê•À‚Ñ‚ğecho‚·‚é
+		bsr	echo			*  å˜èªä¸¦ã³ã‚’echoã™ã‚‹
 
-		btst	#0,d1			*  -n ‚ªw’è‚³‚ê‚Ä‚¢‚é‚È‚ç‚Î
-		bne	echo_done		*  Œˆ‚µ‚Ä‰üs‚µ‚È‚¢
+		btst	#0,d1			*  -n ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹ãªã‚‰ã°
+		bne	echo_done		*  æ±ºã—ã¦æ”¹è¡Œã—ãªã„
 
-		tst.w	d3			*  ’PŒê”‚Í 0 ‚©H
+		tst.w	d3			*  å˜èªæ•°ã¯ 0 ã‹ï¼Ÿ
 		bne	echo_newline_1
 	*
-	*  ’PŒê”‚Í 0 ‚Å‚ ‚é
-	*  -c ‚ªw’è‚³‚ê‚Ä‚¢‚é‚È‚ç‚Î‰üs‚µ‚È‚¢
+	*  å˜èªæ•°ã¯ 0 ã§ã‚ã‚‹
+	*  -c ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹ãªã‚‰ã°æ”¹è¡Œã—ãªã„
 	*
 		btst	#1,d1			*  -c ?
 		bra	echo_newline_2
 
 echo_newline_1:
 	*
-	*  ’PŒê”‚Í 0 ‚Å‚Í‚È‚¢
-	*  -e ‚ªw’è‚³‚êA‚©‚ÂA\c ‚ª‚ ‚Á‚½‚È‚ç‚Î‰üs‚µ‚È‚¢
+	*  å˜èªæ•°ã¯ 0 ã§ã¯ãªã„
+	*  -e ãŒæŒ‡å®šã•ã‚Œã€ã‹ã¤ã€\c ãŒã‚ã£ãŸãªã‚‰ã°æ”¹è¡Œã—ãªã„
 	*
 		btst	#3,d2			*  -e ?
 		beq	do_echo_newline

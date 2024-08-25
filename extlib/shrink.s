@@ -1,7 +1,7 @@
 *************************************************
 *						*
 *   malloc Ext version				*
-*   Copyright 1991 by ‚d‚˜‚”(T.Kawamoto)	*
+*   Copyright 1991 by ï¼¥ï½˜ï½”(T.Kawamoto)	*
 *						*
 *************************************************
 *						*
@@ -32,16 +32,16 @@
 free_lake:
 * input
 *  a5	pointer to local BSS
-*  a4	lake head ‚Ö‚Ìƒ|ƒCƒ“ƒ^
+*  a4	lake head ã¸ã®ãƒã‚¤ãƒ³ã‚¿
 * output
-*  d0	ƒGƒ‰[ƒR[ƒh
+*  d0	ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰
 * destroy
-*  d7	ƒ[ƒNƒŒƒWƒXƒ^
-*  a1	ƒ[ƒNƒ|ƒCƒ“ƒ^
-*  a4	lake head ‚Ö‚Ìƒ|ƒCƒ“ƒ^
+*  d7	ãƒ¯ãƒ¼ã‚¯ãƒ¬ã‚¸ã‚¹ã‚¿
+*  a1	ãƒ¯ãƒ¼ã‚¯ãƒã‚¤ãƒ³ã‚¿
+*  a4	lake head ã¸ã®ãƒã‚¤ãƒ³ã‚¿
 *
 	move.l	a4,d0
-	move.l	lake_top(a5),a4	* lake head ‚Ö‚Ìƒ|ƒCƒ“ƒ^
+	move.l	lake_top(a5),a4	* lake head ã¸ã®ãƒã‚¤ãƒ³ã‚¿
 	cmp.l	a4,d0
 	bne	lake_loop
 	move.l	next_lake_ptr(a4),lake_top(a5)
@@ -50,8 +50,8 @@ free_lake:
 lake_loop:
 	move.l	a4,a1
 	move.l	next_lake_ptr(a4),d7
-	beq	no_lake_error	* lake ‚ª‚È‚­‚È‚Á‚½
-	move.l	d7,a4		* lake head ‚Ö‚Ìƒ|ƒCƒ“ƒ^
+	beq	no_lake_error	* lake ãŒãªããªã£ãŸ
+	move.l	d7,a4		* lake head ã¸ã®ãƒã‚¤ãƒ³ã‚¿
 	cmp.l	a4,d0
 	bne	lake_loop
 	move.l	next_lake_ptr(a4),next_lake_ptr(a1)
@@ -71,31 +71,31 @@ no_lake_error:
 shrink_lake:
 * input
 *  a5	pointer to local BSS
-*  a4	lake head ‚Ö‚Ìƒ|ƒCƒ“ƒ^
+*  a4	lake head ã¸ã®ãƒã‚¤ãƒ³ã‚¿
 * output
-*  d0	ƒGƒ‰[ƒR[ƒh
+*  d0	ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰
 * destroy
-*  d7	ƒ[ƒNƒŒƒWƒXƒ^
-*  a1	ƒ[ƒNƒ|ƒCƒ“ƒ^
+*  d7	ãƒ¯ãƒ¼ã‚¯ãƒ¬ã‚¸ã‚¹ã‚¿
+*  a1	ãƒ¯ãƒ¼ã‚¯ãƒã‚¤ãƒ³ã‚¿
 *  a2	pointer to previous pool head
 *  a6	pointer to pool head
-*  a4	lake head ‚Ö‚Ìƒ|ƒCƒ“ƒ^
+*  a4	lake head ã¸ã®ãƒã‚¤ãƒ³ã‚¿
 *
 	move.l	lake_size(a4),d7
-	lea	-2(a4,d7.l),a6		* ÅŒã‚Ì dummy pool ‚Ö‚Ìƒ|ƒCƒ“ƒ^
-	bsr	is_previous_free	* ’¼‘O‚ª free H
-	bne	shrink_lake_do_nothing	* ‚Å‚È‚¯‚ê‚Î’ê‚³‚ç‚¢‚µ‚È‚¢
-	lea	lake_buffer_head(a4),a1	* pool ‚Ìˆê”Ôæ“ªƒAƒhƒŒƒX
-	cmp.l	a1,a2			* ’¼‘O‚ªˆê”Ôæ“ª‚È‚ç
-	beq	free_lake		* ‘S•”‚³‚ç‚¤
+	lea	-2(a4,d7.l),a6		* æœ€å¾Œã® dummy pool ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+	bsr	is_previous_free	* ç›´å‰ãŒ free ï¼Ÿ
+	bne	shrink_lake_do_nothing	* ã§ãªã‘ã‚Œã°åº•ã•ã‚‰ã„ã—ãªã„
+	lea	lake_buffer_head(a4),a1	* pool ã®ä¸€ç•ªå…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
+	cmp.l	a1,a2			* ç›´å‰ãŒä¸€ç•ªå…ˆé ­ãªã‚‰
+	beq	free_lake		* å…¨éƒ¨ã•ã‚‰ã†
 	move.l	a6,d7
 	sub.l	a2,d7
-	cmp.l	#$00001000,d7		* free ‚ÌƒTƒCƒY‚ª ‚S‚jbytes
-	bcs	shrink_lake_do_nothing	* –¢–‚È‚ç’ê‚³‚ç‚¢‚µ‚È‚¢
-	move.w	#0,next_pool_offset(a2)	* ÅŒã‚Ì free pool ‚ğ dummy ‚É‚µ‚Ä‚µ‚Ü‚¤
+	cmp.l	#$00001000,d7		* free ã®ã‚µã‚¤ã‚ºãŒ ï¼”ï¼«bytes
+	bcs	shrink_lake_do_nothing	* æœªæº€ãªã‚‰åº•ã•ã‚‰ã„ã—ãªã„
+	move.w	#0,next_pool_offset(a2)	* æœ€å¾Œã® free pool ã‚’ dummy ã«ã—ã¦ã—ã¾ã†
 	move.l	lake_size(a4),d0
 	sub.l	d7,d0
-	move.l	d0,lake_size(a4)	* lake ‚ğk¬
+	move.l	d0,lake_size(a4)	* lake ã‚’ç¸®å°
 	move.l	d0,-(sp)
 	move.l	a4,-(sp)
 	dc.w	$ff4a			* SETBLOCK

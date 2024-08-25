@@ -50,8 +50,8 @@ cmd_apply:
 		link	a6,#pad
 		sf	trace_mode(a6)
 		sf	prompt_mode(a6)
-		move.w	d0,d2				*  D2.W : ˆø”‚Ì”
-		moveq	#1,d3				*  D3.L : ƒRƒ}ƒ“ƒh‚ ‚½‚è‚Ìˆø”‚Ì”
+		move.w	d0,d2				*  D2.W : å¼•æ•°ã®æ•°
+		moveq	#1,d3				*  D3.L : ã‚³ãƒãƒ³ãƒ‰ã‚ãŸã‚Šã®å¼•æ•°ã®æ•°
 parse_option_loop:
 		subq.w	#1,d2
 		bcs	apply_too_few_args
@@ -68,7 +68,7 @@ parse_option_loop:
 		beq	option_p
 
 		subq.l	#1,a0
-		bsr	atou				*  D1.L <- ƒRƒ}ƒ“ƒh‚ ‚½‚è‚Ìˆø”‚Ì”
+		bsr	atou				*  D1.L <- ã‚³ãƒãƒ³ãƒ‰ã‚ãŸã‚Šã®å¼•æ•°ã®æ•°
 		bmi	apply_bad_arg
 
 		tst.b	(a0)+
@@ -116,13 +116,13 @@ parse_option_done:
 		bsr	alloc_new_argbuf
 		beq	cannot_apply
 
-		movea.l	a0,a3				*  A3 : ƒRƒ}ƒ“ƒh‚ÌƒAƒhƒŒƒX
+		movea.l	a0,a3				*  A3 : ã‚³ãƒãƒ³ãƒ‰ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
 		move.l	d1,d0
 		bsr	memmovi
 		movea.l	a3,a0
 		bsr	strlen
 		move.l	d0,command_len(a6)
-		lea	1(a0,d0.l),a2			*  A2 : ˆø”ƒ|ƒCƒ“ƒ^
+		lea	1(a0,d0.l),a2			*  A2 : å¼•æ•°ãƒã‚¤ãƒ³ã‚¿
 		move.w	d5,d2
 apply_loop:
 		tst.w	d2
@@ -200,7 +200,7 @@ not_prompt:
 		lea	tmpline(a5),a0
 		clr.b	d2
 		sf	d7
-		jsr	do_line_v			*!! Ä‹A !!*
+		jsr	do_line_v			*!! å†å¸° !!*
 		move.l	(a7)+,command_name(a5)
 		movem.l	(a7)+,d2-d3/a2-a3
 		bra	apply_loop
@@ -235,8 +235,8 @@ apply_too_long_line:
 ****************************************************************
 .data
 
-msg_usage:		dc.b	'[-tp] [-<N>] <ƒRƒ}ƒ“ƒhs> [ <’PŒê> ... ]',0
+msg_usage:		dc.b	'[-tp] [-<N>] <ã‚³ãƒãƒ³ãƒ‰è¡Œ> [ <å˜èª> ... ]',0
 msg_expect_1:		dc.b	"'",0
-msg_expect_2:		dc.b	"' ˆÈ~‚Ì’PŒê”‚ª”¼’[‚Å‚·",0
+msg_expect_2:		dc.b	"' ä»¥é™ã®å˜èªæ•°ãŒåŠç«¯ã§ã™",0
 
 .end

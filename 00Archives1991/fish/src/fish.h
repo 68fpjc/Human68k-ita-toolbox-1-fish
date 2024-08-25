@@ -1,16 +1,16 @@
-STACKSIZE	equ	4096-240	*  �X�^�b�N�̑傫��
+STACKSIZE	equ	4096-240	*  スタックの大きさ
 
-DSTACKSIZE	equ	1024		*  �f�B���N�g���E�X�^�b�N�̃f�t�H���g�̑傫��
-SHELLVARSIZE	equ	1024		*  �V�F���ϐ���Ԃ̃f�t�H���g�̑傫��
-ALIASSIZE	equ	512		*  �ʖ���Ԃ̃f�t�H���g�̑傫��
+DSTACKSIZE	equ	1024		*  ディレクトリ・スタックのデフォルトの大きさ
+SHELLVARSIZE	equ	1024		*  シェル変数空間のデフォルトの大きさ
+ALIASSIZE	equ	512		*  別名空間のデフォルトの大きさ
 
-MAXWORDLEN	equ	512		*  12�ȏ� MAXPATH�ȏ� 32767�ȉ�  csh��1024
-MAXWORDLISTSIZE	equ	4096		*  MAXWORDLEN�ȏ� (32767-6)/2=16380�ȉ�  UNIX��10240
-MAXLINELEN	equ	MAXWORDLISTSIZE	*  ��������ƍs�ƈ������тƂ̈ꎞ�̈�����p�ł���킯
-MAXWORDS	equ	1024		*  32766�ȉ�
-MAXSEARCHLEN	equ	31		*  ��������������̍ő咷
-MAXSUBSTLEN	equ	63		*  ����u��������̍ő咷
-MAXALIASLOOP	equ	20		*  �ʖ����[�v�̍Ő[  0�ȏ�65535�ȉ�  csh��20
+MAXWORDLEN	equ	512		*  12以上 MAXPATH以上 32767以下  cshは1024
+MAXWORDLISTSIZE	equ	4096		*  MAXWORDLEN以上 (32767-6)/2=16380以下  UNIXは10240
+MAXLINELEN	equ	MAXWORDLISTSIZE	*  こうすると行と引数並びとの一時領域を共用できるわけ
+MAXWORDS	equ	1024		*  32766以下
+MAXSEARCHLEN	equ	31		*  履歴検索文字列の最大長
+MAXSUBSTLEN	equ	63		*  履歴置換文字列の最大長
+MAXALIASLOOP	equ	20		*  別名ループの最深  0以上65535以下  cshは20
 
 MAXFILES = 1400				* maximum file directory entry
 DIRWORK = (MAXFILES+1)*32		* maximum file directory work size

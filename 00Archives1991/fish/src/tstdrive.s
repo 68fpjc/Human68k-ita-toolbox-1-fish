@@ -10,13 +10,13 @@
 .text
 
 *****************************************************************
-* test_drive - ƒhƒ‰ƒCƒu‚ğŒŸ¸‚·‚é
+* test_drive - ãƒ‰ãƒ©ã‚¤ãƒ–ã‚’æ¤œæŸ»ã™ã‚‹
 *
 * CALL
-*      D0.B   ƒhƒ‰ƒCƒu–¼
+*      D0.B   ãƒ‰ãƒ©ã‚¤ãƒ–å
 *
 * RETURN
-*      D0.L   ƒGƒ‰[EƒR[ƒh
+*      D0.L   ã‚¨ãƒ©ãƒ¼ãƒ»ã‚³ãƒ¼ãƒ‰
 *      CCR    TST.L D0
 *****************************************************************
 .xdef test_drive
@@ -26,20 +26,20 @@ test_drive:
 		move.l	#EBADDRVNAME,d2
 		bsr	toupper
 		sub.b	#'A',d0
-		blo	test_drive_done		* ƒhƒ‰ƒCƒu–¼‚ª–³Œø
+		blo	test_drive_done		* ãƒ‰ãƒ©ã‚¤ãƒ–åãŒç„¡åŠ¹
 
 		cmp.b	#'Z'-'A',d0
-		bhi	test_drive_done		* ƒhƒ‰ƒCƒu–¼‚ª–³Œø
+		bhi	test_drive_done		* ãƒ‰ãƒ©ã‚¤ãƒ–åãŒç„¡åŠ¹
 
 		moveq	#0,d1
-		move.b	d0,d1			* D1.W : ƒhƒ‰ƒCƒu”Ô†iA=0, B=1, ...)
+		move.b	d0,d1			* D1.W : ãƒ‰ãƒ©ã‚¤ãƒ–ç•ªå·ï¼ˆA=0, B=1, ...)
 		DOS	_CURDRV
 		move.w	d0,-(a7)
 		DOS	_CHGDRV
 		addq.l	#2,a7
 		move.l	#ENODRV,d2
 		cmp.w	d0,d1
-		bhs	test_drive_done		* ƒhƒ‰ƒCƒu‚ª–³‚¢
+		bhs	test_drive_done		* ãƒ‰ãƒ©ã‚¤ãƒ–ãŒç„¡ã„
 
 		move.w	d1,d0
 		addq.w	#1,d0
@@ -48,15 +48,15 @@ test_drive:
 		addq.l	#2,a7
 		move.l	#ENOMEDIA,d2
 		btst	#1,d0
-		beq	test_drive_done		* ƒƒfƒBƒA‚ª–³‚¢
+		beq	test_drive_done		* ãƒ¡ãƒ‡ã‚£ã‚¢ãŒç„¡ã„
 
 		move.l	#EBADMEDIA,d2
 		btst	#0,d0
-		bne	test_drive_done		* ƒƒfƒBƒAŒë‘}“ü
+		bne	test_drive_done		* ãƒ¡ãƒ‡ã‚£ã‚¢èª¤æŒ¿å…¥
 
 		move.l	#EDRVNOTREADY,d2
 		btst	#2,d0
-		bne	test_drive_done		* ƒhƒ‰ƒCƒuEƒmƒbƒgEƒŒƒfƒB
+		bne	test_drive_done		* ãƒ‰ãƒ©ã‚¤ãƒ–ãƒ»ãƒãƒƒãƒˆãƒ»ãƒ¬ãƒ‡ã‚£
 
 		moveq	#0,d2
 test_drive_done:
@@ -64,13 +64,13 @@ test_drive_done:
 		movem.l	(a7)+,d1-d2
 		rts
 *****************************************************************
-* test_drive_perror - ƒhƒ‰ƒCƒu‚ğŒŸ¸‚µAƒGƒ‰[‚È‚ç‚ÎƒƒbƒZ[ƒW‚ğ•\¦‚·‚é
+* test_drive_perror - ãƒ‰ãƒ©ã‚¤ãƒ–ã‚’æ¤œæŸ»ã—ã€ã‚¨ãƒ©ãƒ¼ãªã‚‰ã°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã™ã‚‹
 *
 * CALL
-*      D0.B   ƒhƒ‰ƒCƒu–¼
+*      D0.B   ãƒ‰ãƒ©ã‚¤ãƒ–å
 *
 * RETURN
-*      D0.L   ƒGƒ‰[EƒR[ƒh
+*      D0.L   ã‚¨ãƒ©ãƒ¼ãƒ»ã‚³ãƒ¼ãƒ‰
 *      CCR    TST.L D0
 *****************************************************************
 .xdef test_drive_perror
@@ -91,14 +91,14 @@ test_drive_perror_return:
 		tst.l	d0
 		rts
 *****************************************************************
-* test_drive_path - ƒpƒX–¼‚ªƒhƒ‰ƒCƒu–¼‚ğ‚Á‚Ä‚¢‚é‚È‚ç‚ÎA
-*                   ‚»‚Ìƒhƒ‰ƒCƒu‚ğŒŸ¸‚·‚é
+* test_drive_path - ãƒ‘ã‚¹åãŒãƒ‰ãƒ©ã‚¤ãƒ–åã‚’æŒã£ã¦ã„ã‚‹ãªã‚‰ã°ã€
+*                   ãã®ãƒ‰ãƒ©ã‚¤ãƒ–ã‚’æ¤œæŸ»ã™ã‚‹
 *
 * CALL
-*      A0     ƒpƒX–¼
+*      A0     ãƒ‘ã‚¹å
 *
 * RETURN
-*      D0.L   ƒGƒ‰[EƒR[ƒh
+*      D0.L   ã‚¨ãƒ©ãƒ¼ãƒ»ã‚³ãƒ¼ãƒ‰
 *      CCR    TST.L D0
 *****************************************************************
 .xdef test_drive_path
@@ -113,15 +113,15 @@ test_drive_pass:
 		moveq	#0,d0
 		rts
 *****************************************************************
-* test_drive_path_perror - ƒpƒX–¼‚ªƒhƒ‰ƒCƒu–¼‚ğ‚Á‚Ä‚¢‚é‚È‚ç‚ÎA
-*                          ‚»‚Ìƒhƒ‰ƒCƒu‚ğŒŸ¸‚µAƒGƒ‰[‚È‚ç‚Î
-*                          ƒƒbƒZ[ƒW‚ğ•\¦‚·‚é
+* test_drive_path_perror - ãƒ‘ã‚¹åãŒãƒ‰ãƒ©ã‚¤ãƒ–åã‚’æŒã£ã¦ã„ã‚‹ãªã‚‰ã°ã€
+*                          ãã®ãƒ‰ãƒ©ã‚¤ãƒ–ã‚’æ¤œæŸ»ã—ã€ã‚¨ãƒ©ãƒ¼ãªã‚‰ã°
+*                          ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã™ã‚‹
 *
 * CALL
-*      A0     ƒpƒX–¼
+*      A0     ãƒ‘ã‚¹å
 *
 * RETURN
-*      D0.L   ƒGƒ‰[EƒR[ƒh
+*      D0.L   ã‚¨ãƒ©ãƒ¼ãƒ»ã‚³ãƒ¼ãƒ‰
 *      CCR    TST.L D0
 *****************************************************************
 .xdef test_drive_path_perror

@@ -54,7 +54,7 @@ loop:
 		move.w	d0,argc
 		lea	simple_args,a0
 		bsr	copy_wordlist
-		bsr	DoSimpleCommand0	*** Ä‹A ***
+		bsr	DoSimpleCommand0	*** å†å¸° ***
 		movem.l	(a7)+,d0-d1/a1-a2
 continue:
 		dbra	d1,loop
@@ -75,7 +75,7 @@ cmd_repeat_usage:
 ****************
 .data
 
-msg_usage:	dc.b	'<‰ñ”> <ƒRƒ}ƒ“ƒh>',0
+msg_usage:	dc.b	'<å›æ•°> <ã‚³ãƒãƒ³ãƒ‰>',0
 
 .end
 

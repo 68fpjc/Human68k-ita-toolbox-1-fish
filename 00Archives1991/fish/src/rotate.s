@@ -4,26 +4,26 @@
 .text
 
 ****************************************************************
-* rotate - �z������񂷂�
+* rotate - 配列を巡回する
 *
 * CALL
-*      A0     ���񂳂���z��̐擪�A�h���X
-*      A1     �����擪�ƂȂ�v�f�̃A�h���X
-*      A2     ���񂳂���z��̍ŏI�A�h���X�{�P
+*      A0     巡回させる配列の先頭アドレス
+*      A1     巡回後先頭となる要素のアドレス
+*      A2     巡回させる配列の最終アドレス＋１
 *
 * RETURN
-*      �Ȃ�
+*      なし
 *****************************************************************
 .xdef rotate
 
 rotate:
-		bsr	reverse			* �O���𔽓]����
+		bsr	reverse			* 前半を反転する
 		exg	a0,a1
 		exg	a1,a2
-		bsr	reverse			* �㔼�𔽓]����
+		bsr	reverse			* 後半を反転する
 		exg	a0,a2
-		bsr	reverse			* �S�̂𔽓]����
-						* ����őO���ƌ㔼������ւ��̂��I
+		bsr	reverse			* 全体を反転する
+						* これで前半と後半が入れ替わるのだ！
 		exg	a1,a2
 		rts
 

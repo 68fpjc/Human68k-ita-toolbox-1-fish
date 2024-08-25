@@ -11,14 +11,14 @@
 .text
 
 *****************************************************************
-* scan_drive_name - ƒpƒX–¼‚©‚çƒhƒ‰ƒCƒu”Ô†‚ðŽæ‚èo‚·
+* scan_drive_name - ãƒ‘ã‚¹åã‹ã‚‰ãƒ‰ãƒ©ã‚¤ãƒ–ç•ªå·ã‚’å–ã‚Šå‡ºã™
 *
 * CALL
-*      A0     ƒpƒX–¼
+*      A0     ãƒ‘ã‚¹å
 *
 * RETURN
-*      D0.B   ‘å•¶Žš‚É‚µ‚½ƒhƒ‰ƒCƒu”Ô†i‚à‚µ‚ ‚ê‚Îj
-*      CCR    ƒhƒ‰ƒCƒu–¼‚ª‚ ‚ê‚Î Z
+*      D0.B   å¤§æ–‡å­—ã«ã—ãŸãƒ‰ãƒ©ã‚¤ãƒ–ç•ªå·ï¼ˆã‚‚ã—ã‚ã‚Œã°ï¼‰
+*      CCR    ãƒ‰ãƒ©ã‚¤ãƒ–åãŒã‚ã‚Œã° Z
 *****************************************************************
 .xdef scan_drive_name
 
@@ -38,14 +38,14 @@ scan_drive_name_none:
 		subq.b	#1,d0
 		rts
 *****************************************************************
-* make_sys_pathname - ƒVƒXƒeƒ€Eƒtƒ@ƒCƒ‹‚ÌƒpƒX–¼‚ð¶¬‚·‚é
+* make_sys_pathname - ã‚·ã‚¹ãƒ†ãƒ ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹åã‚’ç”Ÿæˆã™ã‚‹
 *
 * CALL
-*      A0     Œ‹‰Ê‚ðŠi”[‚·‚éƒoƒbƒtƒ@iMAXPATH+1ƒoƒCƒg•K—vj
-*      A1     $SYSROOT‰º‚ÌƒpƒX–¼
+*      A0     çµæžœã‚’æ ¼ç´ã™ã‚‹ãƒãƒƒãƒ•ã‚¡ï¼ˆMAXPATH+1ãƒã‚¤ãƒˆå¿…è¦ï¼‰
+*      A1     $SYSROOTä¸‹ã®ãƒ‘ã‚¹å
 *
 * RETURN
-*      CCR    ƒGƒ‰[‚È‚ç‚Î MI
+*      CCR    ã‚¨ãƒ©ãƒ¼ãªã‚‰ã° MI
 *****************************************************************
 .xdef make_sys_pathname
 

@@ -67,7 +67,7 @@ if_synerr:
 .data
 
 token_then:		dc.b	'then',0
-msg_synerror:		dc.b	'•¶–@‚ªˆá‚¢‚Ü‚·',0
+msg_synerror:		dc.b	'æ–‡æ³•ãŒé•ã„ã¾ã™',0
 
 .end
 

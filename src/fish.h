@@ -1,24 +1,24 @@
-REQUIRED_OSVER	equ	$200			*  2.00�ȍ~
+REQUIRED_OSVER	equ	$200			*  2.00以降
 
-EXTMALLOC	equ	1			*  0 = DOS MALLOC,  1 = Ext�� MALLOC
+EXTMALLOC	equ	1			*  0 = DOS MALLOC,  1 = Ext版 MALLOC
 
-STACKSIZE	equ	4096			*  �X�^�b�N�̑傫��
+STACKSIZE	equ	4096			*  スタックの大きさ
 
-MAXWORDLISTSIZE	equ	4096			*  MAXWORDLEN+1�ȏ� (32767-14)/2=16376�ȉ�  UNIX��10240
-MAXLINELEN	equ	MAXWORDLISTSIZE		*  ��������ƍs�ƈ������тƂ̈ꎞ�̈�����p�ł���킯
-MAXWORDS	equ	MAXWORDLISTSIZE/2	*  32766�ȉ�  csh�� 10240/6
-MAXWORDLEN	equ	1024			*  12�ȏ� MAXPATH�ȏ� 32766�ȉ� MAXWORDLISTSIZE-1�ȉ�  csh��1024
-MAXSEARCHLEN	equ	31			*  ��������������̗L���擪�������i�܂��͍ő啶�����j
-MAXSUBSTLEN	equ	63			*  ����u��������̍ő啶����
-MAXALIASLOOP	equ	20			*  �ʖ����[�v�̍ő��  0�ȏ�65535�ȉ�  csh��20
-MAXIFLEVEL	equ	65535			*  if �̃l�X�g�̍Ő[���x��  0�ȏ�65535�ȉ�  csh�͖������H
-MAXLOOPLEVEL	equ	31			*  while/foreach �̃l�X�g�̍ő��  0�ȏ�65535�ȉ�  csh�͖������H
-MAXSWITCHLEVEL	equ	65535			*  switch �̃l�X�g�̍Ő[  0�ȏ�65535�ȉ�  csh�͖������H
-MAXLABELLEN	equ	31			*  goto/onintr���x���̗L���擪������
-MAXFUNCNAMELEN	equ	31			*  �֐����̍ő咷
+MAXWORDLISTSIZE	equ	4096			*  MAXWORDLEN+1以上 (32767-14)/2=16376以下  UNIXは10240
+MAXLINELEN	equ	MAXWORDLISTSIZE		*  こうすると行と引数並びとの一時領域を共用できるわけ
+MAXWORDS	equ	MAXWORDLISTSIZE/2	*  32766以下  cshは 10240/6
+MAXWORDLEN	equ	1024			*  12以上 MAXPATH以上 32766以下 MAXWORDLISTSIZE-1以下  cshは1024
+MAXSEARCHLEN	equ	31			*  履歴検索文字列の有効先頭文字数（または最大文字数）
+MAXSUBSTLEN	equ	63			*  履歴置換文字列の最大文字数
+MAXALIASLOOP	equ	20			*  別名ループの最大回数  0以上65535以下  cshは20
+MAXIFLEVEL	equ	65535			*  if のネストの最深レベル  0以上65535以下  cshは無制限？
+MAXLOOPLEVEL	equ	31			*  while/foreach のネストの最大回数  0以上65535以下  cshは無制限？
+MAXSWITCHLEVEL	equ	65535			*  switch のネストの最深  0以上65535以下  cshは無制限？
+MAXLABELLEN	equ	31			*  goto/onintrラベルの有効先頭文字数
+MAXFUNCNAMELEN	equ	31			*  関数名の最大長
 
-DSTACKSIZE	equ	128			*  �f�B���N�g���E�X�^�b�N�̑傫��
+DSTACKSIZE	equ	128			*  ディレクトリ・スタックの大きさ
 
-RND_POOLSIZE	equ	61			*  �����v�[���T�C�Y
+RND_POOLSIZE	equ	61			*  乱数プールサイズ
 
 V9		equ	0

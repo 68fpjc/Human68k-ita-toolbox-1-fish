@@ -10,10 +10,10 @@
 *       history - print history list
 *
 *  Synopsis
-*       history [-hr] [s”]
+*       history [-hr] [è¡Œæ•°]
 *
-*       -h   s”Ô†–³‚µ‚Åo—Í‚·‚é
-*       -r   ‹t‡‚Éo—Í‚·‚é
+*       -h   è¡Œç•ªå·ç„¡ã—ã§å‡ºåŠ›ã™ã‚‹
+*       -r   é€†é †ã«å‡ºåŠ›ã™ã‚‹
 ****************************************************************
 
 itoawork  = -12
@@ -51,27 +51,27 @@ his_h:
 		bra	sw_lp1
 
 his_n:
-		cmp.w	#1,d0			* ˆø”‚ª
-		bhi	his_too_many_args	* ‚Q‚ÂˆÈã‚ ‚ê‚ÎƒGƒ‰[
-		blo	history_default		* ‚P‚Â‚à–³‚¯‚ê‚Î $history[1] ‚ğQÆ‚·‚é
+		cmp.w	#1,d0			* å¼•æ•°ãŒ
+		bhi	his_too_many_args	* ï¼’ã¤ä»¥ä¸Šã‚ã‚Œã°ã‚¨ãƒ©ãƒ¼
+		blo	history_default		* ï¼‘ã¤ã‚‚ç„¡ã‘ã‚Œã° $history[1] ã‚’å‚ç…§ã™ã‚‹
 
-		bsr	atou			* ”’l‚ğƒXƒLƒƒƒ“‚·‚é
-		tst.b	(a0)			* Å‰‚Ì”ñ”š‚ªNUL‚Å‚È‚¯‚ê‚Î
-		bne	his_bad_arg		* ƒGƒ‰[
+		bsr	atou			* æ•°å€¤ã‚’ã‚¹ã‚­ãƒ£ãƒ³ã™ã‚‹
+		tst.b	(a0)			* æœ€åˆã®éæ•°å­—ãŒNULã§ãªã‘ã‚Œã°
+		bne	his_bad_arg		* ã‚¨ãƒ©ãƒ¼
 
 		tst.l	d0
-		bmi	his_bad_arg		* ƒGƒ‰[
-		bne	history_all		* ƒI[ƒo[ƒtƒ[DD‘Ss‚ğ•\¦
+		bmi	his_bad_arg		* ã‚¨ãƒ©ãƒ¼
+		bne	history_all		* ã‚ªãƒ¼ãƒãƒ¼ãƒ•ãƒ­ãƒ¼ï¼ï¼å…¨è¡Œã‚’è¡¨ç¤º
 
 		bra	history_check_n
 
 history_default:
 		lea	word_history,a0
 		bsr	svartol
-		bmi	history_all		* ƒI[ƒo[ƒtƒ[DDD‘Ss‚ğ•\¦
+		bmi	history_all		* ã‚ªãƒ¼ãƒãƒ¼ãƒ•ãƒ­ãƒ¼ï¼ï¼ï¼å…¨è¡Œã‚’è¡¨ç¤º
 
 		cmp.l	#1,d0
-		bls	history_done		* $history[1] ‚Í’è‹`‚³‚ê‚Ä‚¢‚È‚¢
+		bls	history_done		* $history[1] ã¯å®šç¾©ã•ã‚Œã¦ã„ãªã„
 
 		cmp.l	#4,d0
 		beq	history_check_n
@@ -81,42 +81,42 @@ history_default:
 
 history_check_n:
 		move.l	d1,d0
-		cmp.l	his_nlines_now,d0	* Œ»İ‚Ìs”ˆÈ‰º‚È‚ç‚Î
-		bls	history_start		* ‚n‚j
+		cmp.l	his_nlines_now,d0	* ç¾åœ¨ã®è¡Œæ•°ä»¥ä¸‹ãªã‚‰ã°
+		bls	history_start		* ï¼¯ï¼«
 history_all:
-		move.l	his_nlines_now,d0	* D0‚ÉŒ»İ‚Ìs”‚ğƒZƒbƒg
+		move.l	his_nlines_now,d0	* D0ã«ç¾åœ¨ã®è¡Œæ•°ã‚’ã‚»ãƒƒãƒˆ
 history_start:
 		tst.l	d0
 		beq	history_done
 
-		move.l	his_toplineno,d1	* D1‚É‚Í
-		add.l	his_nlines_now,d1	*   ÅIs‚Ìs”Ô†{‚P‚ğƒZƒbƒg
+		move.l	his_toplineno,d1	* D1ã«ã¯
+		add.l	his_nlines_now,d1	*   æœ€çµ‚è¡Œã®è¡Œç•ªå·ï¼‹ï¼‘ã‚’ã‚»ãƒƒãƒˆ
 		movea.l	hiswork,a0
-		add.l	his_end,a0		* A0‚É‚ÍŒ»İ‚Ì—š—ğ‚Ì––’[‚ÌƒAƒhƒŒƒX‚Ìæ“ª‚©‚ç‚ÌƒIƒtƒZƒbƒg‚ğƒZƒbƒg
-		tst.w	d5			* ‹t‡‚©H
+		add.l	his_end,a0		* A0ã«ã¯ç¾åœ¨ã®å±¥æ­´ã®æœ«ç«¯ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã®å…ˆé ­ã‹ã‚‰ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’ã‚»ãƒƒãƒˆ
+		tst.w	d5			* é€†é †ã‹ï¼Ÿ
 		bne	history_reverse
 
-		* ³‡
+		* æ­£é †
 
-		sub.l	d0,d1			* D1‚É•\¦‚·‚éæ“ª‚Ìs‚Ìs”Ô†‚ğ‹‚ß‚é
+		sub.l	d0,d1			* D1ã«è¡¨ç¤ºã™ã‚‹å…ˆé ­ã®è¡Œã®è¡Œç•ªå·ã‚’æ±‚ã‚ã‚‹
 		bsr	backup_history
 prhist_for_loop:
-		tst.w	(a0)			* ‚±‚Ìs‚ÌƒoƒCƒg”
-		beq	history_done		* 0‚È‚ç‚¨‚µ‚Ü‚¢
+		tst.w	(a0)			* ã“ã®è¡Œã®ãƒã‚¤ãƒˆæ•°
+		beq	history_done		* 0ãªã‚‰ãŠã—ã¾ã„
 
-		bsr	prhist_1line		* ‚±‚Ìs‚ğ•\¦‚·‚é
-		adda.w	(a0),a0			* ƒ|ƒCƒ“ƒ^‚ğŸ‚Ìs‚ÉˆÚ“®@i³‚µ‚¢j
-		addq.l	#1,d1			* s”Ô†‚ğƒCƒ“ƒNƒŠƒƒ“ƒg
-		bra	prhist_for_loop		* ŒJ‚è•Ô‚·
+		bsr	prhist_1line		* ã“ã®è¡Œã‚’è¡¨ç¤ºã™ã‚‹
+		adda.w	(a0),a0			* ãƒã‚¤ãƒ³ã‚¿ã‚’æ¬¡ã®è¡Œã«ç§»å‹•ã€€ï¼ˆæ­£ã—ã„ï¼‰
+		addq.l	#1,d1			* è¡Œç•ªå·ã‚’ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆ
+		bra	prhist_for_loop		* ç¹°ã‚Šè¿”ã™
 
-		* ‹t‡
+		* é€†é †
 history_reverse:
 prhist_rev_loop:
-		suba.w	-2(a0),a0		* ƒ|ƒCƒ“ƒ^‚ğ‘O‚Ìs‚ÉˆÚ“®@i³‚µ‚¢j
-		subq.l	#1,d1			* s”Ô†‚ğƒfƒNƒŠƒƒ“ƒg
-		bsr	prhist_1line		* ‚±‚Ìs‚ğ•\¦‚·‚é
+		suba.w	-2(a0),a0		* ãƒã‚¤ãƒ³ã‚¿ã‚’å‰ã®è¡Œã«ç§»å‹•ã€€ï¼ˆæ­£ã—ã„ï¼‰
+		subq.l	#1,d1			* è¡Œç•ªå·ã‚’ãƒ‡ã‚¯ãƒªãƒ¡ãƒ³ãƒˆ
+		bsr	prhist_1line		* ã“ã®è¡Œã‚’è¡¨ç¤ºã™ã‚‹
 		subq.l	#1,d0
-		bne	prhist_rev_loop		* •\¦s”•ªŒJ‚è•Ô‚·
+		bne	prhist_rev_loop		* è¡¨ç¤ºè¡Œæ•°åˆ†ç¹°ã‚Šè¿”ã™
 history_done:
 		moveq	#0,d0
 history_return:
@@ -136,32 +136,32 @@ history_usage:
 ****************************************************************
 prhist_1line:
 		movem.l	d0-d3/a1,-(a7)
-		move.l	a0,-(a7)		* ƒAƒhƒŒƒX‚ğ‘Ò”ğ
-		tst.w	d4			* s”Ô†‚ğ•\¦‚µ‚È‚¢‚È‚ç‚Î
-		bne	prhist_1line_1		* s”Ô†•\¦‚ğƒXƒLƒbƒv
+		move.l	a0,-(a7)		* ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å¾…é¿
+		tst.w	d4			* è¡Œç•ªå·ã‚’è¡¨ç¤ºã—ãªã„ãªã‚‰ã°
+		bne	prhist_1line_1		* è¡Œç•ªå·è¡¨ç¤ºã‚’ã‚¹ã‚­ãƒƒãƒ—
 
-		move.l	d1,d0			* s”Ô†‚ğ
-		moveq	#6,d2			* ­‚È‚­‚Æ‚à‚UŒ…
-		moveq	#0,d3			* '0'–„‚ß–³‚µ‚Å
+		move.l	d1,d0			* è¡Œç•ªå·ã‚’
+		moveq	#6,d2			* å°‘ãªãã¨ã‚‚ï¼–æ¡
+		moveq	#0,d3			* '0'åŸ‹ã‚ç„¡ã—ã§
 		lea	puts(pc),a1
-		bsr	printu			* •\¦‚·‚é
-		bsr	put_tab			* ƒ^ƒu‚ğ•\¦‚·‚é
+		bsr	printu			* è¡¨ç¤ºã™ã‚‹
+		bsr	put_tab			* ã‚¿ãƒ–ã‚’è¡¨ç¤ºã™ã‚‹
 prhist_1line_1:
 		addq.l	#2,a0
-		move.w	(a0)+,d1		* ‚±‚Ìs‚ÌŒê”‚ğD1‚ÉƒZƒbƒg
-		beq	prhist_1line_done	* ‚O‚È‚ç‚¨‚µ‚Ü‚¢
+		move.w	(a0)+,d1		* ã“ã®è¡Œã®èªæ•°ã‚’D1ã«ã‚»ãƒƒãƒˆ
+		beq	prhist_1line_done	* ï¼ãªã‚‰ãŠã—ã¾ã„
 
 		subq.w	#1,d1
 		bra	prhist_1line_start
 prhist_1line_loop:
-		bsr	put_space		* ‹ó”’‚ğ•\¦‚·‚é
-		bsr	for1str			* Ÿ‚ÌŒê
+		bsr	put_space		* ç©ºç™½ã‚’è¡¨ç¤ºã™ã‚‹
+		bsr	for1str			* æ¬¡ã®èª
 prhist_1line_start:
-		bsr	cputs			* Œê‚ğ•\¦‚·‚é
+		bsr	cputs			* èªã‚’è¡¨ç¤ºã™ã‚‹
 		dbra	d1,prhist_1line_loop
 prhist_1line_done:
-		move.l	(a7)+,a0		* ƒAƒhƒŒƒX‚ğ–ß‚·
-		bsr	put_newline		* ‰üs‚·‚é
+		move.l	(a7)+,a0		* ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æˆ»ã™
+		bsr	put_newline		* æ”¹è¡Œã™ã‚‹
 		movem.l	(a7)+,d0-d3/a1
 		rts
 
@@ -177,13 +177,13 @@ prhist_1line_done:
 *      A0.L     address of the line
 *
 gethist:
-		movea.l	hiswork,a0		* —š—ğ‚Ìæ“ªs‚ÌƒAƒhƒŒƒX‚ğ
-		addq.l	#4,a0			* A0‚ÉƒZƒbƒg
-		sub.l	his_toplineno,d0	* æ“ª‚Ìs”Ô†‚ğˆø‚­
-		blo	return_1		* ‚»‚ê‚æ‚è‚àá‚¯‚ê‚ÎƒGƒ‰[
+		movea.l	hiswork,a0		* å±¥æ­´ã®å…ˆé ­è¡Œã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’
+		addq.l	#4,a0			* A0ã«ã‚»ãƒƒãƒˆ
+		sub.l	his_toplineno,d0	* å…ˆé ­ã®è¡Œç•ªå·ã‚’å¼•ã
+		blo	return_1		* ãã‚Œã‚ˆã‚Šã‚‚è‹¥ã‘ã‚Œã°ã‚¨ãƒ©ãƒ¼
 
-		bsr	forward_var		* D0si‚ß‚é
-		beq	return_1		* s‚ª–³‚¢‚È‚ç‚ÎƒGƒ‰[
+		bsr	forward_var		* D0è¡Œé€²ã‚ã‚‹
+		beq	return_1		* è¡ŒãŒç„¡ã„ãªã‚‰ã°ã‚¨ãƒ©ãƒ¼
 
 		moveq	#0,d0
 		rts
@@ -196,7 +196,7 @@ return_1:
 
 .data
 
-msg_usage:	dc.b	'[ -h ] [ -r ] [ <ƒCƒxƒ“ƒg”> ]',0
+msg_usage:	dc.b	'[ -h ] [ -r ] [ <ã‚¤ãƒ™ãƒ³ãƒˆæ•°> ]',0
 
 .end
 

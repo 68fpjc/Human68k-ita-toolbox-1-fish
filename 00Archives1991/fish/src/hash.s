@@ -42,7 +42,7 @@ hash:
 		movem.l	d1-d4/a0,-(a7)
 		moveq	#0,d2			* D2 : hashval
 		move.l	#4999,d3		* D3 : base
-		move.w	#7,d4			* 8•¶š‚Ü‚Å
+		move.w	#7,d4			* 8æ–‡å­—ã¾ã§
 hash_loop:
 		moveq	#0,d0
 		move.b	(a0)+,d0
@@ -89,7 +89,7 @@ rehash:
 		link	a6,#files_buf
 		movem.l	d0-d2/a0-a4,-(a7)
 	*
-	*  ƒnƒbƒVƒ…•\‚ğƒNƒŠƒA‚·‚é
+	*  ãƒãƒƒã‚·ãƒ¥è¡¨ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
 	*
 		lea	hash_table,a4
 		move.w	#1023,d0
@@ -97,7 +97,7 @@ rehash_clear_loop:
 		clr.b	(a4,d0.w)
 		dbra	d0,rehash_clear_loop
 	*
-	*  ƒVƒFƒ‹•Ï” path ‚ÌŠe—v‘f‚ª¦‚·ƒfƒBƒŒƒNƒgƒŠ‚Ì“à—e‚ğƒnƒbƒVƒ…‚·‚é
+	*  ã‚·ã‚§ãƒ«å¤‰æ•° path ã®å„è¦ç´ ãŒç¤ºã™ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®å†…å®¹ã‚’ãƒãƒƒã‚·ãƒ¥ã™ã‚‹
 	*
 		lea	word_path,a0
 		bsr	find_shellvar
@@ -106,8 +106,8 @@ rehash_clear_loop:
 		addq.l	#2,a0
 		move.w	(a0)+,d1			* D1.W : $#path
 		bsr	for1str
-		movea.l	a0,a1				* A1 : $path ƒ|ƒCƒ“ƒ^
-		moveq	#0,d2				* D2.B : ƒCƒ“ƒfƒbƒNƒX
+		movea.l	a0,a1				* A1 : $path ãƒã‚¤ãƒ³ã‚¿
+		moveq	#0,d2				* D2.B : ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 		bra	rehash_start
 
 rehash_loop:
@@ -129,7 +129,7 @@ rehash_real_directory:
 
 		movea.l	a1,a3
 
-		move.w	#$37,-(a7)		* ƒ{ƒŠƒ…[ƒ€Eƒ‰ƒxƒ‹ˆÈŠO
+		move.w	#$37,-(a7)		* ãƒœãƒªãƒ¥ãƒ¼ãƒ ãƒ»ãƒ©ãƒ™ãƒ«ä»¥å¤–
 		move.l	a0,-(a7)
 		pea	files_buf(a6)
 		DOS	_FILES
@@ -232,9 +232,9 @@ cmd_hashstat_done:
 ****************************************************************
 .data
 
-msg_hits:	dc.b	'ƒqƒbƒg ',0
-msg_misses:	dc.b	'‰ñ, ƒ~ƒX ',0
-msg_ratio:	dc.b	'‰ñ, ƒqƒbƒg—¦ ',0
+msg_hits:	dc.b	'ãƒ’ãƒƒãƒˆ ',0
+msg_misses:	dc.b	'å›, ãƒŸã‚¹ ',0
+msg_ratio:	dc.b	'å›, ãƒ’ãƒƒãƒˆç‡ ',0
 msg_percent:	dc.b	'%',0
 
 .end

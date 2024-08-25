@@ -86,10 +86,10 @@ getpass_done:
 ****************************************************************
 .data
 
-msg_enter_key:			dc.b	'ƒL[‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢:',0
-msg_again:			dc.b	CR,LF,'‚à‚¤ˆê“x:',0
-msg_keys_are_different:		dc.b	CR,LF,'ƒL[‚ªˆá‚¢‚Ü‚·',0
-msg_key:			dc.b	CR,LF,'ƒL[:',0
+msg_enter_key:			dc.b	'ã‚­ãƒ¼ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„:',0
+msg_again:			dc.b	CR,LF,'ã‚‚ã†ä¸€åº¦:',0
+msg_keys_are_different:		dc.b	CR,LF,'ã‚­ãƒ¼ãŒé•ã„ã¾ã™',0
+msg_key:			dc.b	CR,LF,'ã‚­ãƒ¼:',0
 
 .end
 

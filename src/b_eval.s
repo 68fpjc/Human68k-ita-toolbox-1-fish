@@ -23,7 +23,7 @@
 .xdef cmd_eval
 
 cmd_eval:
-		move.w	d0,d3				*  D3.W : ˆø”‚Ì”
+		move.w	d0,d3				*  D3.W : å¼•æ•°ã®æ•°
 		beq	return_0
 
 		moveq	#0,d2
@@ -40,7 +40,7 @@ build_line_loop:
 		clr.b	-1(a0)
 		movea.l	(a7)+,a0
 		sf	d0
-		jsr	do_line_substhist		*!! Ä‹A !!*
+		jsr	do_line_substhist		*!! å†å¸° !!*
 		jsr	free_current_argbuf
 return_0:
 		moveq	#0,d0

@@ -1,7 +1,7 @@
 *************************************************
 *						*
 *   malloc Ext version Ver 0.10			*
-*   Copyright 1991 by ‚d‚˜‚”(T.Kawamoto)	*
+*   Copyright 1991 by ï¼¥ï½˜ï½”(T.Kawamoto)	*
 *						*
 *************************************************
 *						*
@@ -18,34 +18,34 @@
 *
 		.offset	0
 *
-pool_head:			* Še pool ‚Ìæ“ª
-next_pool_offset:		* Ÿ‚Ì pool ‚Ö‚ÌƒIƒtƒZƒbƒg
-		ds.w	1	* •K‚¸ 2 ‚Ì”{”‚Å‚ ‚é
-				* 0 ‚È‚çI‚í‚è‚ğ•\‚í‚· dummy pool
-				* 2 ‚Í broken poolAŒ»İ‚ÍˆêØ¶¬‚µ‚È‚¢
-pool_buffer_head:		* 4 ˆÈã‚Í used pool ‚© free pool
-				*   ‚»‚Ì‹æ•Ê‚Í•Ê‚Ìƒ`ƒFƒCƒ“‚Å free ‚¾‚¯‚ğŒq‚®
-				*   ‚»‚ÌƒŠƒXƒg‚É‚È‚¯‚ê‚Î used ‚Å pool_buffer_head
-				*   ‚©‚ç next_pool_offset - 2 bytes g—p’†
-next_free_offset:		* free ‚Í next_free_offset ‚Åƒ`ƒFƒCƒ“‚·‚é
-		ds.w	1	* •K‚¸ 2 ‚Ì”{”‚Å‚ ‚é
-				* 0 ‚È‚çŸ‚Ì free pool ‚ª–³‚¢–‚ğ¦‚·
+pool_head:			* å„ pool ã®å…ˆé ­
+next_pool_offset:		* æ¬¡ã® pool ã¸ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+		ds.w	1	* å¿…ãš 2 ã®å€æ•°ã§ã‚ã‚‹
+				* 0 ãªã‚‰çµ‚ã‚ã‚Šã‚’è¡¨ã‚ã™ dummy pool
+				* 2 ã¯ broken poolã€ç¾åœ¨ã¯ä¸€åˆ‡ç”Ÿæˆã—ãªã„
+pool_buffer_head:		* 4 ä»¥ä¸Šã¯ used pool ã‹ free pool
+				*   ãã®åŒºåˆ¥ã¯åˆ¥ã®ãƒã‚§ã‚¤ãƒ³ã§ free ã ã‘ã‚’ç¹‹ã
+				*   ãã®ãƒªã‚¹ãƒˆã«ãªã‘ã‚Œã° used ã§ pool_buffer_head
+				*   ã‹ã‚‰ next_pool_offset - 2 bytes ä½¿ç”¨ä¸­
+next_free_offset:		* free ã¯ next_free_offset ã§ãƒã‚§ã‚¤ãƒ³ã™ã‚‹
+		ds.w	1	* å¿…ãš 2 ã®å€æ•°ã§ã‚ã‚‹
+				* 0 ãªã‚‰æ¬¡ã® free pool ãŒç„¡ã„äº‹ã‚’ç¤ºã™
 free_pool_buffer_head:
 *
 		.offset	0
 *
-lake_head:			* Še lake ‚Ìæ“ª
-lake_size:			* lake ‚ÌƒTƒCƒY
+lake_head:			* å„ lake ã®å…ˆé ­
+lake_size:			* lake ã®ã‚µã‚¤ã‚º
 		ds.l	1	*
-next_lake_ptr:			* Ÿ‚Ì lake ‚Ö‚Ìƒ|ƒCƒ“ƒ^
-		ds.l	1	* 0 ‚È‚çŸ‚Ì lake ‚Í–³‚µ
-head_pool:			* next_free_offset ‚ğŠi”[‚·‚éˆ×‚Ì free pool
+next_lake_ptr:			* æ¬¡ã® lake ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+		ds.l	1	* 0 ãªã‚‰æ¬¡ã® lake ã¯ç„¡ã—
+head_pool:			* next_free_offset ã‚’æ ¼ç´ã™ã‚‹ç‚ºã® free pool
 		ds.b	free_pool_buffer_head
-				* next_pool_offset ‚É‚Í’²“x free_pool_buffer_head ‚ª
-				* next_free_offset ‚É‚Í free pool ‚Ö
-				* ‚ÌƒIƒtƒZƒbƒg‚ª“ü‚é
-lake_buffer_head:		* ‚±‚±‚©‚çÀÛ‚Ì pool ‚Ìƒ`ƒFƒCƒ“‚ª“ü‚è
-				* ˆê”ÔÅŒã‚É‚Í dummy pool ‚ª“ü‚é
+				* next_pool_offset ã«ã¯èª¿åº¦ free_pool_buffer_head ãŒ
+				* next_free_offset ã«ã¯ free pool ã¸
+				* ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆãŒå…¥ã‚‹
+lake_buffer_head:		* ã“ã“ã‹ã‚‰å®Ÿéš›ã® pool ã®ãƒã‚§ã‚¤ãƒ³ãŒå…¥ã‚Š
+				* ä¸€ç•ªæœ€å¾Œã«ã¯ dummy pool ãŒå…¥ã‚‹
 *
 		.text
 *

@@ -1,10 +1,10 @@
-*  DOS _FILES ($FF4E), DOS _NFILES ($FF4F) �ł̎󂯓n���o�b�t�@�̍\��
+*  DOS _FILES ($FF4E), DOS _NFILES ($FF4F) での受け渡しバッファの構造
 
 ST__MODE	equ	0	*  ds.b 1		*
 ST__DRIVENO	equ	1	*  ds.w 1		*
 ST__DIRCLS	equ	2	*  ds.w 1		*
-ST__DIRFAT	equ	4	*  ds.w 1		* Human68k�����Ŏg�p
-ST__DIRSEC	equ	6	*  ds.w 1		* �󂷂�nfiles($FF4F)�ł��Ȃ��Ȃ�
+ST__DIRFAT	equ	4	*  ds.w 1		* Human68k内部で使用
+ST__DIRSEC	equ	6	*  ds.w 1		* 壊すとnfiles($FF4F)できなくなる
 ST__DIRPOS	equ	8	*  ds.w 1		*
 ST__FILENAME	equ	10	*  ds.b 8		*
 ST__EXT		equ	18	*  ds.b 3		*
@@ -16,7 +16,7 @@ ST_NAME		equ	30	*  ds.b 23	*  Packed Filename
 
 STATBUFSIZE	equ	54	*  53 Byte + Pad Byte
 
-*  ST_MODE �̃r�b�g
+*  ST_MODE のビット
 
 MODEBIT_RDO	equ	0			*  READ ONLY
 MODEBIT_HID	equ	1			*  HIDDEN
@@ -37,7 +37,7 @@ MODEVAL_LNK	equ	$40			*  SYMBOLIC LINK (NOT STANDARD)
 MODEVAL_EXE	equ	$80			*  EXECUTABLE (NOT STANDARD)
 MODEVAL_ALL	equ	$FF			*  ALL
 
-*  DOS _DSKFRE �ł̎󂯓n���o�b�t�@�̍\��
+*  DOS _DSKFRE での受け渡しバッファの構造
 
 DF_AVAILCLUST	equ	0	*  ds.w 1	*  Number of available clusters
 DF_TOTALCLUST	equ	2	*  ds.w 1	*  Number of total clusters

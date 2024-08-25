@@ -1,12 +1,12 @@
-�� make -n | itash
+■ make -n | itash
 
-�� �g�ݍ��݃R�}���h�Ɠ����̊O���R�}���h��
-	�f�B���N�g����t����
-	�g���q��t����
+■ 組み込みコマンドと同名の外部コマンドは
+	ディレクトリを付ける
+	拡張子を付ける
 	alias notbuiltin '`which -O \!:1` \!:2*'
-	�啶���Ń^�C�v����
+	大文字でタイプする
 
-�� home �̓h���C�u�����܂ރ��[�g�f�B���N�g������̐�΃p�X�Ƃ��邱�ƁB�����Ȃ��ƁA
+■ home はドライブ名を含むルートディレクトリからの絶対パスとすること。さもないと、
 
 	% set home=/home
 	% cd
@@ -17,28 +17,28 @@
 	~
 	%
 
-�� #! make -f �Ƃ���΁A�������� make -f mf1 ; make -f mf2 �Ƃ��Ȃ��Ă� mf1 ; mf2 �ł���
+■ #! make -f とすれば、いちいち make -f mf1 ; make -f mf2 としなくても mf1 ; mf2 でいい
 
-�� ��
+■ 式
 
 	~ == A:/usr2/ita
 
-   �̓G���[�ł���B~ ���P�����Z�q�ɂȂ邽�߂ł���B
+   はエラーである。~ が単項演算子になるためである。
 
 	~/ == A:/usr2/ita/
 
-   �Ə����΂n�j
+   と書けばＯＫ
 
-��  �R�}���h�u���� ` ���܂ރR�}���h�����s����ɂ�
+■  コマンド置換で ` を含むコマンドを実行するには
 	set accent=\`
 	emacs `grep -l ${accent}echo *.c`
-    �̂悤�ɂ���Ηǂ��B
+    のようにすれば良い。
 
-��  $path �̒��ɐ�΃p�X�łȂ����̂�����Ȃ�΁A����͊m���Ƀn�b�V��������ቺ�����A
-    �R�}���h�����Ɏ��Ԃ������邱�ƂɂȂ�B
+■  $path の中に絶対パスでないものがあるならば、それは確実にハッシュ効率を低下させ、
+    コマンド検索に時間がかかることになる。
 
-��  �J�����g�f�B���N�g���� ~~ �Ƃ����f�B���N�g���������āA���̒��ɂ���R�}���h��
-    ���s�������Ƃ��A~~/command �Ƃ���Ƒg�ݍ��݃R�}���h����������Ă��܂��̂ŁA
-    ./~~/command �Ƃ���B�t�@�C���������@�\�ɂ����Ă����l�B
+■  カレントディレクトリに ~~ というディレクトリがあって、その中にあるコマンドを
+    実行したいとき、~~/command とすると組み込みコマンドが検索されてしまうので、
+    ./~~/command とする。ファイル名完成機能においても同様。
 
 

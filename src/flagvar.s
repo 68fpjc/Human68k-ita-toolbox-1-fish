@@ -33,25 +33,25 @@
 .text
 
 ****************************************************************
-* set_flagvar  ƒtƒ‰ƒO•Ï”–¼‚©‚Ç‚¤‚©‚ğ’²‚×C‚à‚µ‚»‚¤‚È‚ç‚Î
-*              ƒtƒ‰ƒOEƒf[ƒ^‚É’l‚ğƒZƒbƒg‚·‚éD
+* set_flagvar  ãƒ•ãƒ©ã‚°å¤‰æ•°åã‹ã©ã†ã‹ã‚’èª¿ã¹ï¼Œã‚‚ã—ãã†ãªã‚‰ã°
+*              ãƒ•ãƒ©ã‚°ãƒ»ãƒ‡ãƒ¼ã‚¿ã«å€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ï¼
 *
 * CALL
-*      D0.B   0:unset, ”ñ0:set
-*      A0     •Ï”–¼
-*      A1     set ‚Ì‚Æ‚«A’l‚ÌƒAƒhƒŒƒX
-*      D1.W   set ‚Ì‚Æ‚«A’l‚Ì—v‘f”
+*      D0.B   0:unset, é0:set
+*      A0     å¤‰æ•°å
+*      A1     set ã®ã¨ãã€å€¤ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      D1.W   set ã®ã¨ãã€å€¤ã®è¦ç´ æ•°
 *
 * RETURN
-*      D0.L   ”ñ0 ‚È‚ç set/unset ‚µ‚½D
+*      D0.L   é0 ãªã‚‰ set/unset ã—ãŸï¼
 *      CCR    TST.L D0
 ****************************************************************
 .xdef set_flagvar
 
 set_flagvar:
 		movem.l	d2-d3/a0-a4,-(a7)
-		move.b	d0,d2				*  D2.B : set(”ñ0) or unset(0)
-		movea.l	a1,a2				*  A2 : ’l‚ÌƒAƒhƒŒƒX
+		move.b	d0,d2				*  D2.B : set(é0) or unset(0)
+		movea.l	a1,a2				*  A2 : å€¤ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
 		lea	flagvar_table,a3
 		movea.l	a3,a4
 find_flagvar:
@@ -71,10 +71,10 @@ find_flagvar:
 		bra	find_flagvar
 
 flagvar_found:
-		movea.l	a2,a0				*  A0 : ’l‚ÌƒAƒhƒŒƒX
+		movea.l	a2,a0				*  A0 : å€¤ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
 		move.w	d3,d0
 		bclr	#15,d0
-		lea	(a5,d0.w),a2			*  A2 : ƒtƒ‰ƒOƒAƒhƒŒƒX
+		lea	(a5,d0.w),a2			*  A2 : ãƒ•ãƒ©ã‚°ã‚¢ãƒ‰ãƒ¬ã‚¹
 		tst.b	d2
 		beq	set_flagvar_set			*  unset ... 0
 
@@ -108,7 +108,7 @@ set_flagvar_return:
 		movem.l	(a7)+,d2-d3/a0-a4
 		rts
 ****************************************************************
-* clear_flagvars  ƒtƒ‰ƒO•Ï”‚Å§Œä‚³‚ê‚éƒtƒ‰ƒO‚ğ‚·‚×‚ÄƒNƒŠƒA‚·‚é
+* clear_flagvars  ãƒ•ãƒ©ã‚°å¤‰æ•°ã§åˆ¶å¾¡ã•ã‚Œã‚‹ãƒ•ãƒ©ã‚°ã‚’ã™ã¹ã¦ã‚¯ãƒªã‚¢ã™ã‚‹
 *
 * CALL
 *      none

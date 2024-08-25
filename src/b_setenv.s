@@ -36,27 +36,27 @@
 .xdef cmd_setenv
 
 cmd_setenv:
-		tst.w	d0				*  ˆø”‚ª‚È‚¯‚ê‚Î
-		beq	printenv			*  ŠÂ‹«•Ï”‚ğ•\¦‚·‚é
+		tst.w	d0				*  å¼•æ•°ãŒãªã‘ã‚Œã°
+		beq	printenv			*  ç’°å¢ƒå¤‰æ•°ã‚’è¡¨ç¤ºã™ã‚‹
 
 		lea	str_nul,a1
 		subq.w	#2,d0
 		bcs	cmd_setenv_set
-		bhi	too_many_args			*  ƒGƒ‰[
+		bhi	too_many_args			*  ã‚¨ãƒ©ãƒ¼
 
-		movea.l	a0,a2				*  A2 : •Ï”–¼
+		movea.l	a0,a2				*  A2 : å¤‰æ•°å
 		bsr	strfor1
-		movea.l	a0,a1				*  A1 : ’l
-		moveq	#1,d0				*  1’PŒê‚ğ
-		movea.l	tmpargs(a5),a0			*  tmpargs ‚É
-		bsr	expand_wordlist			*  ’uŠ·“WŠJ‚·‚é
+		movea.l	a0,a1				*  A1 : å€¤
+		moveq	#1,d0				*  1å˜èªã‚’
+		movea.l	tmpargs(a5),a0			*  tmpargs ã«
+		bsr	expand_wordlist			*  ç½®æ›å±•é–‹ã™ã‚‹
 		bmi	cmd_setenv_return
 
-		exg	a0,a1				*  A0 : ’uŠ·“WŠJ‘OCA1 : ’uŠ·“WŠJŒã
+		exg	a0,a1				*  A0 : ç½®æ›å±•é–‹å‰ï¼ŒA1 : ç½®æ›å±•é–‹å¾Œ
 		subq.w	#1,d0
 		bne	ambiguous
 
-		movea.l	a2,a0				*  A0 : •Ï”–¼
+		movea.l	a2,a0				*  A0 : å¤‰æ•°å
 cmd_setenv_set:
 		bsr	strip_quotes
 		move.l	a0,-(a7)
@@ -68,10 +68,10 @@ cmd_setenv_set:
 		bsr	fish_setenv
 		beq	cmd_setenv_fail
 .if 0
-	*  ‚±‚ê‚Í‚â‚ß‚½
+	*  ã“ã‚Œã¯ã‚„ã‚ãŸ
 		*
-		*  ŠÂ‹«•Ï” path ‚ªÄİ’è‚³‚ê‚½‚Ì‚È‚ç‚Î
-		*  ƒVƒFƒ‹•Ï” path ‚àÄİ’è‚µ‚Ä rehash ‚·‚é
+		*  ç’°å¢ƒå¤‰æ•° path ãŒå†è¨­å®šã•ã‚ŒãŸã®ãªã‚‰ã°
+		*  ã‚·ã‚§ãƒ«å¤‰æ•° path ã‚‚å†è¨­å®šã—ã¦ rehash ã™ã‚‹
 		*
 		lea	word_path,a1
 		bsr	strcmp

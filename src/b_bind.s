@@ -103,14 +103,14 @@ X_QUIT_HISTORY				equ	59
 .text
 
 ****************************************************************
-* keymap_index - ƒL[Eƒ}ƒbƒv‚ÌƒCƒ“ƒfƒbƒNƒX‚ğŒvZ‚·‚é
+* keymap_index - ã‚­ãƒ¼ãƒ»ãƒãƒƒãƒ—ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’è¨ˆç®—ã™ã‚‹
 *
 * CALL
-*      D1.B   ƒ}ƒbƒv”Ô† (0 .. 2)
-*      D2.B   ƒL[EƒR[ƒh (0 .. 127)
+*      D1.B   ãƒãƒƒãƒ—ç•ªå· (0 .. 2)
+*      D2.B   ã‚­ãƒ¼ãƒ»ã‚³ãƒ¼ãƒ‰ (0 .. 127)
 *
 * RETURN
-*      D0.L   ƒCƒ“ƒfƒbƒNƒX
+*      D0.L   ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 ****************************************************************
 keymap_index:
 		moveq	#0,d0
@@ -119,14 +119,14 @@ keymap_index:
 		or.b	d2,d0
 		rts
 ****************************************************************
-* funcno - ƒL[‚ÉƒoƒCƒ“ƒh‚³‚ê‚Ä‚¢‚é‹@”\”Ô†‚ğ“¾‚é
+* funcno - ã‚­ãƒ¼ã«ãƒã‚¤ãƒ³ãƒ‰ã•ã‚Œã¦ã„ã‚‹æ©Ÿèƒ½ç•ªå·ã‚’å¾—ã‚‹
 *
 * CALL
-*      D1.B   ƒ}ƒbƒv”Ô† (0 .. 2)
-*      D2.B   ƒL[EƒR[ƒh (0 .. 127)
+*      D1.B   ãƒãƒƒãƒ—ç•ªå· (0 .. 2)
+*      D2.B   ã‚­ãƒ¼ãƒ»ã‚³ãƒ¼ãƒ‰ (0 .. 127)
 *
 * RETURN
-*      D0.L   ‹@”\”Ô†
+*      D0.L   æ©Ÿèƒ½ç•ªå·
 ****************************************************************
 funcno:
 		move.l	a0,-(a7)
@@ -141,12 +141,12 @@ funcno:
 * do_bind
 *
 * CALL
-*      D1.B   ƒ}ƒbƒv”Ô† (0 - 2)
-*      D2.B   ƒL[EƒR[ƒh ($00 - $7F)
-*      D3.B   ƒtƒ@ƒ“ƒNƒVƒ‡ƒ“”Ô† (0 - 21)
+*      D1.B   ãƒãƒƒãƒ—ç•ªå· (0 - 2)
+*      D2.B   ã‚­ãƒ¼ãƒ»ã‚³ãƒ¼ãƒ‰ ($00 - $7F)
+*      D3.B   ãƒ•ã‚¡ãƒ³ã‚¯ã‚·ãƒ§ãƒ³ç•ªå· (0 - 21)
 *
 * RETURN
-*      D0.L   ”j‰ó
+*      D0.L   ç ´å£Š
 *****************************************************************
 do_bind:
 		move.l	a0,-(a7)
@@ -208,11 +208,11 @@ init_key_done:
 		movem.l	(a7)+,d0-d3/a0
 		rts
 ****************************************************************
-* print_bind - ƒL[‚ÉƒoƒCƒ“ƒh‚³‚ê‚Ä‚¢‚é‹@”\‚ğ•\¦‚·‚é
+* print_bind - ã‚­ãƒ¼ã«ãƒã‚¤ãƒ³ãƒ‰ã•ã‚Œã¦ã„ã‚‹æ©Ÿèƒ½ã‚’è¡¨ç¤ºã™ã‚‹
 *
 * CALL
-*      D1.B   ƒ}ƒbƒv”Ô† (0 .. 2)
-*      D2.B   ƒL[EƒR[ƒh (0 .. 127)
+*      D1.B   ãƒãƒƒãƒ—ç•ªå· (0 .. 2)
+*      D2.B   ã‚­ãƒ¼ãƒ»ã‚³ãƒ¼ãƒ‰ (0 .. 127)
 *
 * RETURN
 *      D0.L   0
@@ -253,14 +253,14 @@ put_funcname:
 		bsr	puts
 		bra	put_space
 ****************************************************************
-* print_all_bind - Œ»İ‚Ì‚·‚×‚Ä‚ÌƒoƒCƒ“ƒh‚ğ•\¦‚·‚é
+* print_all_bind - ç¾åœ¨ã®ã™ã¹ã¦ã®ãƒã‚¤ãƒ³ãƒ‰ã‚’è¡¨ç¤ºã™ã‚‹
 *
 * CALL
-*      D0.B   0 ‚È‚ç‚ÎAself-insert ‚Æ error ‚ğœŠO‚·‚é
+*      D0.B   0 ãªã‚‰ã°ã€self-insert ã¨ error ã‚’é™¤å¤–ã™ã‚‹
 *
 * RETURN
 *      D0.L   0
-*      ‚»‚Ì‘¼‚Í”j‰ó
+*      ãã®ä»–ã¯ç ´å£Š
 ****************************************************************
 cmd_bind_a:
 		subq.w	#1,d4
@@ -299,30 +299,30 @@ print_all_bind_continue:
 		rts
 ****************************************************************
 *  Name
-*       bind - ƒL[EƒoƒCƒ“ƒh‚Ì•\¦‚Æİ’è
+*       bind - ã‚­ãƒ¼ãƒ»ãƒã‚¤ãƒ³ãƒ‰ã®è¡¨ç¤ºã¨è¨­å®š
 *
 *  Synopsis
 *       bind -d
 *       bind default
-*            ƒfƒtƒHƒ‹ƒg‚ÌƒL[EƒoƒCƒ“ƒh‚É‚·‚é
+*            ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚­ãƒ¼ãƒ»ãƒã‚¤ãƒ³ãƒ‰ã«ã™ã‚‹
 *
 *       bind [ -a ]
-*            Œ»İ‚Ì‚·‚×‚Ä‚ÌƒL[EƒoƒCƒ“ƒh‚ğ•\¦‚·‚é
+*            ç¾åœ¨ã®ã™ã¹ã¦ã®ã‚­ãƒ¼ãƒ»ãƒã‚¤ãƒ³ãƒ‰ã‚’è¡¨ç¤ºã™ã‚‹
 *
 *       bind [ [prefix]-{1|2} ] key
-*            key ‚ÉƒoƒCƒ“ƒh‚³‚ê‚Ä‚¢‚é‹@”\‚ğ•\¦‚·‚é
+*            key ã«ãƒã‚¤ãƒ³ãƒ‰ã•ã‚Œã¦ã„ã‚‹æ©Ÿèƒ½ã‚’è¡¨ç¤ºã™ã‚‹
 *
 *       bind [ [prefix]-{1|2} ] key function
-*            key ‚É function ‚ğƒoƒCƒ“ƒh‚·‚é
+*            key ã« function ã‚’ãƒã‚¤ãƒ³ãƒ‰ã™ã‚‹
 *
 *       bind [ [prefix]-{1|2} ] key macro string
-*            key ‚É ƒ}ƒNƒ string ‚ğƒoƒCƒ“ƒh‚·‚é
+*            key ã« ãƒã‚¯ãƒ­ string ã‚’ãƒã‚¤ãƒ³ãƒ‰ã™ã‚‹
 ****************************************************************
 .xdef cmd_bind
 
 cmd_bind:
-		move.w	d0,d4				*  D4.W : ˆø”‚Ì”
-		beq	print_all_bind			*  ˆø”‚ª–³‚¢‚È‚çŒ»İ‚Ì‚·‚×‚Ä‚ÌƒoƒCƒ“ƒh‚ğ•\¦
+		move.w	d0,d4				*  D4.W : å¼•æ•°ã®æ•°
+		beq	print_all_bind			*  å¼•æ•°ãŒç„¡ã„ãªã‚‰ç¾åœ¨ã®ã™ã¹ã¦ã®ãƒã‚¤ãƒ³ãƒ‰ã‚’è¡¨ç¤º
 
 		lea	str_option_a,a1
 		bsr	strcmp
@@ -337,9 +337,9 @@ cmd_bind:
 		beq	cmd_bind_default
 cmd_bind_1:
 		*
-		*  ƒ}ƒbƒv”Ô†‚ğŒˆ’è‚·‚é
+		*  ãƒãƒƒãƒ—ç•ªå·ã‚’æ±ºå®šã™ã‚‹
 		*
-		moveq	#0,d1				*  D1.L : ƒ}ƒbƒv”Ô†
+		moveq	#0,d1				*  D1.L : ãƒãƒƒãƒ—ç•ªå·
 
 		lea	word_prefix_1,a1
 		moveq	#6,d0
@@ -369,7 +369,7 @@ cmd_bind_not_prefix_:
 		beq	bind_bad_arg
 mapno_ok:
 		*
-		*  ƒL[EƒR[ƒh‚ğ“¾‚é
+		*  ã‚­ãƒ¼ãƒ»ã‚³ãƒ¼ãƒ‰ã‚’å¾—ã‚‹
 		*
 		movea.l	a0,a1
 		bsr	strfor1
@@ -397,27 +397,27 @@ keycode_ok:
 		tst.b	(a0)+
 		bne	bind_bad_arg
 
-		move.b	d0,d2				*  D2.B : ƒL[EƒR[ƒh
+		move.b	d0,d2				*  D2.B : ã‚­ãƒ¼ãƒ»ã‚³ãƒ¼ãƒ‰
 		*
-		*  ˆø”‚ª‚à‚¤–³‚¢‚È‚çA‚»‚ÌƒL[‚ÌƒoƒCƒ“ƒh‚ğ•\¦
+		*  å¼•æ•°ãŒã‚‚ã†ç„¡ã„ãªã‚‰ã€ãã®ã‚­ãƒ¼ã®ãƒã‚¤ãƒ³ãƒ‰ã‚’è¡¨ç¤º
 		*
 		subq.w	#1,d4
 		beq	print_bind
 		*
-		*  c‚è‚Ìˆø”‚ğoƒRƒ}ƒ“ƒh’uŠ·Cƒtƒ@ƒCƒ‹–¼“WŠJp‚·‚é
+		*  æ®‹ã‚Šã®å¼•æ•°ã‚’ï½›ã‚³ãƒãƒ³ãƒ‰ç½®æ›ï¼Œãƒ•ã‚¡ã‚¤ãƒ«åå±•é–‹ï½ã™ã‚‹
 		*
 		move.w	d4,d0
 		lea	simple_args(a5),a0
 		bsr	expand_wordlist
 		bmi	cmd_bind_return
 
-		move.w	d0,d4				*  ’uŠ·E“WŠJŒã‚Ìˆø”‚Ì”‚ª
-		subq.w	#1,d4				*  1‚Â
-		bcs	bind_bad_arg			*  ‚à–³‚¢‚È‚ç‚ÎAƒGƒ‰[
+		move.w	d0,d4				*  ç½®æ›ãƒ»å±•é–‹å¾Œã®å¼•æ•°ã®æ•°ãŒ
+		subq.w	#1,d4				*  1ã¤
+		bcs	bind_bad_arg			*  ã‚‚ç„¡ã„ãªã‚‰ã°ã€ã‚¨ãƒ©ãƒ¼
 		*
-		*  ƒtƒ@ƒ“ƒNƒVƒ‡ƒ“”Ô†‚ğ“¾‚é
+		*  ãƒ•ã‚¡ãƒ³ã‚¯ã‚·ãƒ§ãƒ³ç•ªå·ã‚’å¾—ã‚‹
 		*
-		moveq	#-1,d3				*  D3.B ‚Éƒtƒ@ƒ“ƒNƒVƒ‡ƒ“”Ô†‚ğ‹‚ß‚é
+		moveq	#-1,d3				*  D3.B ã«ãƒ•ã‚¡ãƒ³ã‚¯ã‚·ãƒ§ãƒ³ç•ªå·ã‚’æ±‚ã‚ã‚‹
 		lea	key_function_word_table,a2
 bind_find_func:
 		tst.w	(a2)
@@ -434,7 +434,7 @@ bind_find_func:
 		bsr	keymap_index
 		lsl.l	#2,d0
 		lea	keymacromap(a5),a2
-		adda.l	d0,a2				*  A2 : keymacromapƒ|ƒCƒ“ƒ^
+		adda.l	d0,a2				*  A2 : keymacromapãƒã‚¤ãƒ³ã‚¿
 		cmp.b	#X_MACRO,d3
 		bne	bind_normal_func
 		*
@@ -443,7 +443,7 @@ bind_find_func:
 		blo	missing_macro_string
 		bhi	too_many_macro_string
 		*
-		bsr	strfor1				*  A0 : ƒ}ƒNƒ•¶š—ñ‚Ìæ“ªƒAƒhƒŒƒX
+		bsr	strfor1				*  A0 : ãƒã‚¯ãƒ­æ–‡å­—åˆ—ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
 		bsr	strdup
 		beq	insufficient_memory
 
@@ -703,21 +703,21 @@ initial_bindings:
 			dc.b	2,'X'-'@',X_EXG_POINT_AND_MARK
 			dc.b	-1
 
-msg_follows_macro:	dc.b	'macro ‚É‘±‚­',0
-msg_bad_funcname:	dc.b	'‚±‚Ì‚æ‚¤‚È–¼‘O‚Ì‹@”\‚Í‚ ‚è‚Ü‚¹‚ñ',0
+msg_follows_macro:	dc.b	'macro ã«ç¶šã',0
+msg_bad_funcname:	dc.b	'ã“ã®ã‚ˆã†ãªåå‰ã®æ©Ÿèƒ½ã¯ã‚ã‚Šã¾ã›ã‚“',0
 
 msg_usage_of_bind:
 		dc.b	'     bind [-a]',CR,LF
-		dc.b	'          Œ»İ‚ÌƒL[EƒoƒCƒ“ƒh‚ğ•\¦‚·‚é',CR,LF,LF
+		dc.b	'          ç¾åœ¨ã®ã‚­ãƒ¼ãƒ»ãƒã‚¤ãƒ³ãƒ‰ã‚’è¡¨ç¤ºã™ã‚‹',CR,LF,LF
 		dc.b	'     bind -d',CR,LF
 		dc.b	'     bind default',CR,LF
-		dc.b	'          ƒfƒtƒHƒ‹ƒg‚ÌƒL[EƒoƒCƒ“ƒh‚É–ß‚·',CR,LF,LF
-		dc.b	'     bind [[prefix]-{1|2}] <ƒL[>',CR,LF
-		dc.b	'          <ƒL[>‚ÉƒoƒCƒ“ƒh‚³‚ê‚Ä‚¢‚é‹@”\‚ğ•\¦‚·‚é',CR,LF,LF
-		dc.b	'     bind [[prefix]-{1|2}] <ƒL[> <‹@”\>',CR,LF
-		dc.b	'          <ƒL[>‚É<‹@”\>‚ğƒoƒCƒ“ƒh‚·‚é',CR,LF,LF
-		dc.b	'     bind [[prefix]-{1|2}] <ƒL[> macro <•¶š—ñ>',CR,LF
-		dc.b	'          <ƒL[>‚É<•¶š—ñ>‚ğƒoƒCƒ“ƒh‚·‚é',0
+		dc.b	'          ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚­ãƒ¼ãƒ»ãƒã‚¤ãƒ³ãƒ‰ã«æˆ»ã™',CR,LF,LF
+		dc.b	'     bind [[prefix]-{1|2}] <ã‚­ãƒ¼>',CR,LF
+		dc.b	'          <ã‚­ãƒ¼>ã«ãƒã‚¤ãƒ³ãƒ‰ã•ã‚Œã¦ã„ã‚‹æ©Ÿèƒ½ã‚’è¡¨ç¤ºã™ã‚‹',CR,LF,LF
+		dc.b	'     bind [[prefix]-{1|2}] <ã‚­ãƒ¼> <æ©Ÿèƒ½>',CR,LF
+		dc.b	'          <ã‚­ãƒ¼>ã«<æ©Ÿèƒ½>ã‚’ãƒã‚¤ãƒ³ãƒ‰ã™ã‚‹',CR,LF,LF
+		dc.b	'     bind [[prefix]-{1|2}] <ã‚­ãƒ¼> macro <æ–‡å­—åˆ—>',CR,LF
+		dc.b	'          <ã‚­ãƒ¼>ã«<æ–‡å­—åˆ—>ã‚’ãƒã‚¤ãƒ³ãƒ‰ã™ã‚‹',0
 
 str_option_a:		dc.b	'-a',0
 str_option_d:		dc.b	'-d',0

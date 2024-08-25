@@ -21,23 +21,23 @@ main()
 	      break;
 	  if (offset == 100)
 	    {
-	      printf("‚±‚êˆÈãŠm•Û‚Ío—ˆ‚Ü‚¹‚ñB\n");
+	      printf("ã“ã‚Œä»¥ä¸Šç¢ºä¿ã¯å‡ºæ¥ã¾ã›ã‚“ã€‚\n");
 	      continue;
 	    }
-	  printf("‰½ƒoƒCƒgŠm•Û‚µ‚Ü‚·‚©H ");
+	  printf("ä½•ãƒã‚¤ãƒˆç¢ºä¿ã—ã¾ã™ã‹ï¼Ÿ ");
 	  scanf("%d", &bytes);
 	  ret = malloc(bytes);
-	  printf("ƒŠƒ^[ƒ“ƒR[ƒh %8X\n", ret);
+	  printf("ãƒªã‚¿ãƒ¼ãƒ³ã‚³ãƒ¼ãƒ‰ %8X\n", ret);
 	  if (ret > 0)
 	    buf[offset] = ret;
 	  break;
 
 	case 'f':
 	case 'F':
-	  printf("‰½”Ô‚ğŠJ•ú‚µ‚Ü‚·‚©H ");
+	  printf("ä½•ç•ªã‚’é–‹æ”¾ã—ã¾ã™ã‹ï¼Ÿ ");
 	  scanf("%d", &offset);
 	  if (0 <= offset && offset < 100 && buf[offset])
-	    printf("ƒŠƒ^[ƒ“ƒR[ƒh %8X\n", mfree(buf[offset]));
+	    printf("ãƒªã‚¿ãƒ¼ãƒ³ã‚³ãƒ¼ãƒ‰ %8X\n", mfree(buf[offset]));
 	  buf[offset] = 0;
 	  break;
 

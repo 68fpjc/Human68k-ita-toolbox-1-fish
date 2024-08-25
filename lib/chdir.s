@@ -36,9 +36,9 @@ chdir:
 
 		jsr	toupper
 		sub.b	#'A',d0
-		move.w	d0,d1				*  D1.W : 移動先ドライブ番号
+		move.w	d0,d1				*  D1.W : 遘ｻ蜍募�医ラ繝ｩ繧､繝也分蜿ｷ
 		DOS	_CURDRV
-		move.w	d0,d2				*  D2.W : 現在のドライブ番号
+		move.w	d0,d2				*  D2.W : 迴ｾ蝨ｨ縺ｮ繝峨Λ繧､繝也分蜿ｷ
 		move.w	d1,-(a7)
 		DOS	_CHGDRV
 		addq.l	#2,a7

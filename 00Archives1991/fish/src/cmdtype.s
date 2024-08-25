@@ -44,11 +44,11 @@ filebuf		= -60+nfiles
 file_name	= -280+filebuf
 
 cmd_type:
-		move.w	d0,d5				* ˆø”‚ª–³‚¯‚ê‚Î
-		beq	too_few_args			* ƒGƒ‰[
+		move.w	d0,d5				* å¼•æ•°ãŒç„¡ã‘ã‚Œã°
+		beq	too_few_args			* ã‚¨ãƒ©ãƒ¼
 
 		link	a6,#file_name
-		subq.w	#1,d5				* D5 ‚Íƒ‹[ƒvEƒJƒEƒ“ƒ^
+		subq.w	#1,d5				* D5 ã¯ãƒ«ãƒ¼ãƒ—ãƒ»ã‚«ã‚¦ãƒ³ã‚¿
 		movea.l	a0,a4
 		clr.w	print_flag(a6)
 		cmp.w	#1,d0
@@ -94,17 +94,17 @@ type_pr_ok_1:
 		tst.l	nfiles(a6)
 		bne	globbed_files_loop
 		*
-		*  files ‚Å‚PŒÂ‚àŒŸõ‚³‚ê‚È‚©‚Á‚½
+		*  files ã§ï¼‘å€‹ã‚‚æ¤œç´¢ã•ã‚Œãªã‹ã£ãŸ
 		*
-		move.w	#$3f,-(a7)			* ‘S‚Ä‚Ìƒ‚[ƒh‚ÌƒGƒ“ƒgƒŠ‚ğ
+		move.w	#$3f,-(a7)			* å…¨ã¦ã®ãƒ¢ãƒ¼ãƒ‰ã®ã‚¨ãƒ³ãƒˆãƒªã‚’
 		pea	file_name(a6)
 		pea	filebuf(a6)
-		DOS	_FILES				* ŒŸõ‚µ‚Ä‚İ‚é
+		DOS	_FILES				* æ¤œç´¢ã—ã¦ã¿ã‚‹
 		lea	10(a7),a7
 		tst.l	d0
-		bpl	one_arg_done			* Œ©‚Â‚©‚Á‚½‚È‚ç‚Î–³‹‚·‚é
+		bpl	one_arg_done			* è¦‹ã¤ã‹ã£ãŸãªã‚‰ã°ç„¡è¦–ã™ã‚‹
 		*
-		*  ƒfƒoƒCƒX–¼‚ğ’²‚×‚Ä‚İ‚é
+		*  ãƒ‡ãƒã‚¤ã‚¹åã‚’èª¿ã¹ã¦ã¿ã‚‹
 		*
 		move.l	#1,nfiles(a6)
 		movea.l	work_area,a2
@@ -182,7 +182,7 @@ one_file_loop:
 		bmi	one_file_done
 		beq	one_file_done
 
-		subq.w	#1,d0		* MAXLINELEN‚Í16bitˆÈ“à‚¾‚©‚çD0‚à•K‚¸16bitˆÈ“à‚È‚Ì‚¾
+		subq.w	#1,d0		* MAXLINELENã¯16bitä»¥å†…ã ã‹ã‚‰D0ã‚‚å¿…ãš16bitä»¥å†…ãªã®ã 
 		movea.l	a0,a1
 		moveq	#0,d3
 one_file_find_eot:

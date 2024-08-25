@@ -36,7 +36,7 @@
 *
 *  OPERATORS
 *
-*  Œ‹‡•ûŒü
+*  çµåˆæ–¹å‘
 *     <-          + E     - E     ~ E     ! E
 *     ->          E1 * E2     E1 / E2     E1 % E2
 *     ->          E1 + E2     E1 - E2
@@ -126,17 +126,17 @@ termsize equ MAXWORDLEN*2+1
 .text
 
 ****************************************************************
-* expression - ®‚ğ•]‰¿‚µCŒ‹‰Ê‚Ì”’l‚ğ“¾‚é
+* expression - å¼ã‚’è©•ä¾¡ã—ï¼Œçµæœã®æ•°å€¤ã‚’å¾—ã‚‹
 *
 * CALL
-*      A0     ®‚Ì’PŒê•À‚Ñ‚Ìæ“ªƒAƒhƒŒƒX
-*      D7.W   ®‚Ì’PŒê”
+*      A0     å¼ã®å˜èªä¸¦ã³ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      D7.W   å¼ã®å˜èªæ•°
 *
 * RETURN
-*      A0     c‚Á‚½’PŒê•À‚Ñ‚Ìæ“ªƒAƒhƒŒƒX
-*      D0.L   ƒGƒ‰[‚ª–³‚¯‚ê‚Î 0D‚³‚à‚È‚­‚Î 1
-*      D1.L   ®‚Ì’l
-*      D7.W   c‚Á‚½’PŒê‚Ì”
+*      A0     æ®‹ã£ãŸå˜èªä¸¦ã³ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      D0.L   ã‚¨ãƒ©ãƒ¼ãŒç„¡ã‘ã‚Œã° 0ï¼ã•ã‚‚ãªãã° 1
+*      D1.L   å¼ã®å€¤
+*      D7.W   æ®‹ã£ãŸå˜èªã®æ•°
 *      CCR    TST.L D0
 ****************************************************************
 .xdef expression
@@ -160,20 +160,20 @@ expression_return:
 		movem.l	(a7)+,d2-d6/a1-a4
 		rts
 ****************************************************************
-* subexpression - ®‚ğ•]‰¿‚·‚é
+* subexpression - å¼ã‚’è©•ä¾¡ã™ã‚‹
 *
 * CALL
-*      A0     ®‚Ì’PŒê•À‚Ñ‚Ìæ“ªƒAƒhƒŒƒX
-*      A1     ®‚Ì’l‚ğŠi”[‚·‚éƒoƒbƒtƒ@‚ÌƒAƒhƒŒƒX
-*      D6.B   ƒRƒ“ƒfƒBƒVƒ‡ƒ“
-*      D7.W   ®‚Ì’PŒê”
+*      A0     å¼ã®å˜èªä¸¦ã³ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      A1     å¼ã®å€¤ã‚’æ ¼ç´ã™ã‚‹ãƒãƒƒãƒ•ã‚¡ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      D6.B   ã‚³ãƒ³ãƒ‡ã‚£ã‚·ãƒ§ãƒ³
+*      D7.W   å¼ã®å˜èªæ•°
 *
 * RETURN
-*      A0     c‚Á‚½’PŒê•À‚Ñ‚Ìæ“ªƒAƒhƒŒƒX
-*      D0.L   ƒGƒ‰[‚ª–³‚¯‚ê‚Î 0D‚³‚à‚È‚­‚Î 1
-*      D7.W   c‚Á‚½’PŒê‚Ì”
+*      A0     æ®‹ã£ãŸå˜èªä¸¦ã³ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      D0.L   ã‚¨ãƒ©ãƒ¼ãŒç„¡ã‘ã‚Œã° 0ï¼ã•ã‚‚ãªãã° 1
+*      D7.W   æ®‹ã£ãŸå˜èªã®æ•°
 *      CCR    TST.L D0
-*      D2-D6/A2-A3  ”j‰ó
+*      D2-D6/A2-A3  ç ´å£Š
 ****************************************************************
 subexpression:
 		moveq	#0,d5
@@ -185,9 +185,9 @@ comma_loop:
 		cmp.b	#OP_COMMA,d5
 		bne	success
 
-		bsr	next_token			*  ‰‰Zq‚ğƒXƒLƒbƒv‚·‚é
+		bsr	next_token			*  æ¼”ç®—å­ã‚’ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹
 
-		bsr	triterm				*  ‰E€‚ğ“¾‚é
+		bsr	triterm				*  å³é …ã‚’å¾—ã‚‹
 		bne	return
 
 		bra	comma_loop
@@ -199,34 +199,34 @@ triterm:
 		cmp.b	#OP_QUESTION,d5
 		bne	success
 
-		bsr	next_token			*  ‰‰Zq ? ‚ğƒXƒLƒbƒv‚·‚é
+		bsr	next_token			*  æ¼”ç®—å­ ? ã‚’ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹
 
 		tst.b	d6
 		beq	triterm_ignore
 
-		bsr	expr_atoi2			*  ğŒ€‚ğ”’l‚É•ÏŠ·‚·‚é
+		bsr	expr_atoi2			*  æ¡ä»¶é …ã‚’æ•°å€¤ã«å¤‰æ›ã™ã‚‹
 		bne	return
 
-		tst.l	d1				*  ğŒ€‚Í^‚©‹U‚©
+		tst.l	d1				*  æ¡ä»¶é …ã¯çœŸã‹å½ã‹
 		beq	triterm_false
-	*  ^
-		bsr	triterm				*  ‘æˆê€‚ğ“¾‚é
+	*  çœŸ
+		bsr	triterm				*  ç¬¬ä¸€é …ã‚’å¾—ã‚‹
 		bne	return
 
 		bsr	triterm_skip_colon
 		bne	return
 
-		bra	triterm_skip_term		*  ‘æ“ñ€‚ğƒXƒLƒbƒv‚·‚é
+		bra	triterm_skip_term		*  ç¬¬äºŒé …ã‚’ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹
 
 triterm_false:
-	*  ‹U
-		bsr	triterm_skip_term		*  ‘æˆê€‚ğƒXƒLƒbƒv‚·‚é
+	*  å½
+		bsr	triterm_skip_term		*  ç¬¬ä¸€é …ã‚’ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹
 		bne	return
 triterm_false_1:
 		bsr	triterm_skip_colon
 		bne	return
 
-		bra	triterm				*  ‘æ“ñ€‚ğ“¾‚é
+		bra	triterm				*  ç¬¬äºŒé …ã‚’å¾—ã‚‹
 
 
 triterm_ignore:
@@ -240,7 +240,7 @@ triterm_skip_colon:
 		cmp.b	#OP_COLON,d5
 		bne	expression_syntax_error_near
 
-		bsr	next_token			*  ‰‰Zq : ‚ğƒXƒLƒbƒv‚·‚é
+		bsr	next_token			*  æ¼”ç®—å­ : ã‚’ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹
 		bra	success
 
 
@@ -250,7 +250,7 @@ triterm_skip_term:
 		bne	triterm_skip_term_return
 
 		sf	d6
-		bsr	triterm				*  €‚ğƒXƒLƒbƒv‚·‚é
+		bsr	triterm				*  é …ã‚’ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹
 		bsr	free_term
 triterm_skip_term_return:
 		movem.l	(a7)+,d1/d6/a1
@@ -873,7 +873,7 @@ primary_file_mode_directory:
 			jsr	drvchkp
 			bmi	primary_file_mode_directory_false
 
-			move.w	#MODEVAL_ALL,-(a7)		*  ‚·‚×‚Ä‚ÌƒGƒ“ƒgƒŠ‚ğŒŸõ‚·‚é
+			move.w	#MODEVAL_ALL,-(a7)		*  ã™ã¹ã¦ã®ã‚¨ãƒ³ãƒˆãƒªã‚’æ¤œç´¢ã™ã‚‹
 			move.l	a0,-(a7)
 			pea	tmpstatbuf
 			DOS	_FILES
@@ -888,7 +888,7 @@ primary_file_mode_directory_false:
 			bra	store_0
 
 primary_file_mode_directory_true:
-			st	tmpstatbuf+ST_MODE	*  $FF ‚ğ’u‚­ ... MODEBIT_DIR ‚ª—§‚Â
+			st	tmpstatbuf+ST_MODE	*  $FF ã‚’ç½®ã ... MODEBIT_DIR ãŒç«‹ã¤
 primary_file_mode_directory_1:
 			movem.l	(a7)+,a0-a3
 			btst.b	#MODEBIT_DIR,tmpstatbuf+ST_MODE
@@ -1190,37 +1190,37 @@ next_token:
 * dual_term
 *
 * CALL
-*      A0     ®‚Ì’PŒê•À‚Ñi‰E€j
-*      A1     ¶€
-*      A2     €‚ğ“¾‚éƒTƒuƒ‹[ƒ`ƒ“‚ÌƒGƒ“ƒgƒŠEƒAƒhƒŒƒX
+*      A0     å¼ã®å˜èªä¸¦ã³ï¼ˆå³é …ï¼‰
+*      A1     å·¦é …
+*      A2     é …ã‚’å¾—ã‚‹ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ã®ã‚¨ãƒ³ãƒˆãƒªãƒ»ã‚¢ãƒ‰ãƒ¬ã‚¹
 *
 * RETURN
-*      A0     i‚Ş
-*      A1     •Û‘¶
-*      D0.L   ƒGƒ‰[
-*      D1.L   ¶€‚Ì’l
-*      D2.L   ‰E€‚Ì’l
-*      D6.L   Ÿ‚Ì‰‰Zq‚ÌƒR[ƒh
+*      A0     é€²ã‚€
+*      A1     ä¿å­˜
+*      D0.L   ã‚¨ãƒ©ãƒ¼
+*      D1.L   å·¦é …ã®å€¤
+*      D2.L   å³é …ã®å€¤
+*      D6.L   æ¬¡ã®æ¼”ç®—å­ã®ã‚³ãƒ¼ãƒ‰
 *      CCR    TST.L D0
-*      ‚»‚Ì‘¼‚Í”j‰ó
+*      ãã®ä»–ã¯ç ´å£Š
 ****************************************************************
 dual_term:
 		tst.b	d6
 		beq	dual_term_false
 
-		bsr	expr_atoi2			*  ¶€‚ğ”’l‚É•ÏŠ·‚·‚é
+		bsr	expr_atoi2			*  å·¦é …ã‚’æ•°å€¤ã«å¤‰æ›ã™ã‚‹
 		bne	return
 
-		bsr	next_token			*  ‰‰Zq‚ğƒXƒLƒbƒv‚·‚é
+		bsr	next_token			*  æ¼”ç®—å­ã‚’ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹
 
 		movem.l	d1/a1,-(a7)
 		bsr	alloc_term
 		bne	dual_term_return
 
-		jsr	(a2)				*  ‰E€‚ğ“¾‚é
+		jsr	(a2)				*  å³é …ã‚’å¾—ã‚‹
 		bne	dual_term_done
 
-		bsr	expr_atoi2			*  ‰E€‚ğ”’l‚É•ÏŠ·‚·‚é
+		bsr	expr_atoi2			*  å³é …ã‚’æ•°å€¤ã«å¤‰æ›ã™ã‚‹
 		bne	dual_term_done
 
 		move.l	d1,d2
@@ -1232,17 +1232,17 @@ dual_term_return:
 		rts
 
 dual_term_false:
-		bsr	next_token			*  ‰‰Zq‚ğƒXƒLƒbƒv‚·‚é
-		jmp	(a2)				*  ‰E€‚ğ“¾‚é
+		bsr	next_token			*  æ¼”ç®—å­ã‚’ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹
+		jmp	(a2)				*  å³é …ã‚’å¾—ã‚‹
 ****************************************************************
 * expr_atoi
 *
 * CALL
-*      A1     ’PŒê
+*      A1     å˜èª
 *
 * RETURN
-*      D0.L   ƒGƒ‰[
-*      D1.L   ’PŒê‚Ì’l
+*      D0.L   ã‚¨ãƒ©ãƒ¼
+*      D1.L   å˜èªã®å€¤
 *      CCR    TST.L D0
 ****************************************************************
 .xdef expr_atoi
@@ -1405,7 +1405,7 @@ expr_itoa:
 		move.l	d1,d0
 		exg	a0,a1
 		move.l	d1,-(a7)
-		moveq	#0,d1				*  ³”‚É + ‚âƒXƒy[ƒX‚Í‚Â‚¯‚È‚¢
+		moveq	#0,d1				*  æ­£æ•°ã« + ã‚„ã‚¹ãƒšãƒ¼ã‚¹ã¯ã¤ã‘ãªã„
 		jsr	itoa
 		move.l	(a7)+,d1
 		exg	a0,a1
@@ -1509,7 +1509,7 @@ token_timeof:	dc.b	'timeof',0
 token_freeof:	dc.b	'freeof',0
 token_strlen:	dc.b	'strlen',0
 
-msg_divide_by_0:		dc.b	'0‚Å‚ÌœZ‚Ü‚½‚Íè—]‚ª‚ ‚è‚Ü‚·',0
-msg_cannot_eval_expression:	dc.b	'®‚ğ•]‰¿‚Å‚«‚Ü‚¹‚ñ',0
+msg_divide_by_0:		dc.b	'0ã§ã®é™¤ç®—ã¾ãŸã¯å‰°ä½™ãŒã‚ã‚Šã¾ã™',0
+msg_cannot_eval_expression:	dc.b	'å¼ã‚’è©•ä¾¡ã§ãã¾ã›ã‚“',0
 
 .end

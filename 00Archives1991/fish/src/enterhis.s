@@ -4,11 +4,11 @@
 .text
 
 *****************************************************************
-* enter_history - ’PŒê•À‚Ñ‚ğ—š—ğƒŠƒXƒg‚É“o˜^‚·‚é
+* enter_history - å˜èªä¸¦ã³ã‚’å±¥æ­´ãƒªã‚¹ãƒˆã«ç™»éŒ²ã™ã‚‹
 *
 * CALL
-*      A0     ’PŒê•À‚Ñ‚Ìæ“ªƒAƒhƒŒƒX
-*      D0.W   ’PŒê”
+*      A0     å˜èªä¸¦ã³ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      D0.W   å˜èªæ•°
 *
 * RETURN
 *      none
@@ -17,10 +17,10 @@
 
 enter_history:
 		movem.l	d0-d5/a0-a2,-(a7)
-		move.w	d0,d5			* D5.W : ’PŒê”
+		move.w	d0,d5			* D5.W : å˜èªæ•°
 		beq	enter_history_return
 
-		movea.l	a0,a2			* A2 : ’PŒê•À‚Ñ‚Ìæ“ªƒAƒhƒŒƒX
+		movea.l	a0,a2			* A2 : å˜èªä¸¦ã³ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
 		move.l	his_nlines_now,d0
 		addq.l	#1,d0
 		move.l	d0,his_nlines_now
@@ -38,17 +38,17 @@ his_add_ok:
 		movea.l	a2,a0
 		move.w	d5,d0
 		bsr	wordlistlen
-		move.l	d0,d4			* D4.L = Œê•À‚Ñ‚ÌƒoƒCƒg”
+		move.l	d0,d4			* D4.L = èªä¸¦ã³ã®ãƒã‚¤ãƒˆæ•°
 		bsr	calc_var_size
-		move.l	d0,d3			* D3.L = ‚±‚Ìs‚Ìè‚ß‚éƒoƒCƒg”
+		move.l	d0,d3			* D3.L = ã“ã®è¡Œã®å ã‚ã‚‹ãƒã‚¤ãƒˆæ•°
 		movea.l	hiswork,a0
 		move.l	a0,d1
-		add.l	(a0),d1			* D1 = —š—ğƒoƒbƒtƒ@‚Ì––”ö
+		add.l	(a0),d1			* D1 = å±¥æ­´ãƒãƒƒãƒ•ã‚¡ã®æœ«å°¾
 		move.l	a0,d2
-		add.l	his_end,d2		* D2 = Œ»İ‚Ì—š—ğ‚Ì––”ö
+		add.l	his_end,d2		* D2 = ç¾åœ¨ã®å±¥æ­´ã®æœ«å°¾
 		add.l	d2,d0
-		addq.l	#2,d0			* D0 = ’Ç‰ÁŒã‚Ì––”ö+I’[ƒ}[ƒN2B•ª
-		sub.l	d0,d1			* D1 = —]—T
+		addq.l	#2,d0			* D0 = è¿½åŠ å¾Œã®æœ«å°¾+çµ‚ç«¯ãƒãƒ¼ã‚¯2Båˆ†
+		sub.l	d0,d1			* D1 = ä½™è£•
 		bcc	his_add
 
 		neg.l	d1
@@ -60,7 +60,7 @@ his_del_loop:
 		move.w	(a0),d0
 		beq	enter_history_return		* Shuck!
 
-		adda.l	d0,a0				* ƒ|ƒCƒ“ƒ^‚ğŸ‚Ìs‚ÉˆÚ“®
+		adda.l	d0,a0				* ãƒã‚¤ãƒ³ã‚¿ã‚’æ¬¡ã®è¡Œã«ç§»å‹•
 		sub.l	d0,d1
 		bcc	his_del_loop
 
@@ -111,7 +111,7 @@ forward_var_loop:
 		move.w	(a0),d1
 		beq	forward_var_done
 
-		adda.w	d1,a0			* ƒ|ƒCƒ“ƒ^‚ğŸ‚Ìs‚ÉˆÚ“®@i³‚µ‚¢j
+		adda.w	d1,a0			* ãƒã‚¤ãƒ³ã‚¿ã‚’æ¬¡ã®è¡Œã«ç§»å‹•ã€€ï¼ˆæ­£ã—ã„ï¼‰
 		subq.l	#1,d0
 		bne	forward_var_loop
 forward_var_done:

@@ -6,34 +6,34 @@
 .xref suffix
 
 ****************************************************************
-* split_pathname - �p�X���𕪊�����
+* split_pathname - パス名を分割する
 *
 * CALL
-*      A0     �p�X���̐擪�A�h���X
+*      A0     パス名の先頭アドレス
 *
 * RETURN
-*      A1     �f�B���N�g�����̃A�h���X
-*      A2     �t�@�C�����̃A�h���X
-*      A3     �g���q���̃A�h���X�i�e.�f�̈ʒu�D�e.�f��������΍Ō�� NUL ���w���j
-*      D0.L   �h���C�u�{�f�B���N�g�����̒����i�Ō�́e/�f�̕����܂ށj
-*      D1.L   �f�B���N�g�����̒����i�Ō�́e/�f�̕����܂ށj
-*      D2.L   �t�@�C�����i�T�t�B�b�N�X���͊܂܂Ȃ��j�̒���
-*      D3.L   �T�t�B�b�N�X���̒����i�e.�f�̕����܂ށj
+*      A1     ディレクトリ部のアドレス
+*      A2     ファイル部のアドレス
+*      A3     拡張子部のアドレス（‘.’の位置．‘.’が無ければ最後の NUL を指す）
+*      D0.L   ドライブ＋ディレクトリ部の長さ（最後の‘/’の分を含む）
+*      D1.L   ディレクトリ部の長さ（最後の‘/’の分を含む）
+*      D2.L   ファイル部（サフィックス部は含まない）の長さ
+*      D3.L   サフィックス部の長さ（‘.’の分を含む）
 *****************************************************************
 .xdef split_pathname
 
 split_pathname:
-	*  A2 �Ƀt�@�C�����̐擪�A�h���X
-	*  D0 �Ƀh���C�u�{�f�B���N�g�����̒����i�Ō�� / �̕����܂ށj�𓾂�
+	*  A2 にファイル部の先頭アドレス
+	*  D0 にドライブ＋ディレクトリ部の長さ（最後の / の分を含む）を得る
 
 		jsr	headtail
-		movea.l	a1,a2			*  A2   : �t�@�C�����̐擪�A�h���X
+		movea.l	a1,a2			*  A2   : ファイル部の先頭アドレス
 
-	*  A1 �Ƀf�B���N�g�����̐擪�A�h���X
-	*  D1 �Ƀf�B���N�g�����̒����i�Ō�� / �̕����܂ށj�𓾂�
+	*  A1 にディレクトリ部の先頭アドレス
+	*  D1 にディレクトリ部の長さ（最後の / の分を含む）を得る
 
 		movea.l	a0,a1
-		movem.l	d0/a0,-(a7)		*  D0 �� A0 ���Z�[�u����
+		movem.l	d0/a0,-(a7)		*  D0 と A0 をセーブする
 		move.l	d0,d1
 		cmp.l	#2,d1
 		blo	split_pathname_1
@@ -46,13 +46,13 @@ split_pathname:
 split_pathname_1:
 		movea.l	a2,a0
 		jsr	suffix
-		movea.l	a0,a3			*  A3   : �T�t�B�b�N�X���̃A�h���X�i�e.�f����j
+		movea.l	a0,a3			*  A3   : サフィックス部のアドレス（‘.’から）
 		jsr	strlen
-		move.l	d0,d3			*  D3.L : �T�t�B�b�N�X���̒����i�e.�f���܂ށj
+		move.l	d0,d3			*  D3.L : サフィックス部の長さ（‘.’を含む）
 		move.l	a3,d2
-		sub.l	a2,d2			*  D2.L : �t�@�C�����̒����i�T�t�B�b�N�X���͊܂܂Ȃ��j
+		sub.l	a2,d2			*  D2.L : ファイル部の長さ（サフィックス部は含まない）
 split_pathname_return:
-		movem.l	(a7)+,d0/a0		*  D0 �� A0 �����߂�
+		movem.l	(a7)+,d0/a0		*  D0 と A0 を取り戻す
 		rts
 
 .end

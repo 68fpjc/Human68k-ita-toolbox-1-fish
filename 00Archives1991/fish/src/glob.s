@@ -49,16 +49,16 @@ get_1char:
 get_1char_done:
 		rts
 ****************************************************************
-* get_firstdir - �t�@�C��������A�h���C�u�L�q�q�i��������΁j��
-*                ���[�g�E�f�B���N�g���i��������΁j�����o���D
+* get_firstdir - ファイル名から、ドライブ記述子（もしあれば）と
+*                ルート・ディレクトリ（もしあれば）を取り出す．
 *
 * CALL
 *      A0     filename (may be contains \)
 *      A1     buffer
 *
 * RETURN
-*      A0     ����
-*      (A1)   ���o����������
+*      A0     続き
+*      (A1)   取り出した文字列
 ****************************************************************
 get_firstdir:
 		movem.l	d0-d1/a1-a2,-(a7)
@@ -101,16 +101,16 @@ get_firstdir_done:
 		movem.l	(a7)+,d0-d1/a1-a2
 		rts
 ****************************************************************
-* get_subdir - pathname �̍ŏ��̃f�B���N�g���������o���B
+* get_subdir - pathname の最初のディレクトリ名を取り出す。
 *
 * CALL
 *      A0     pathname
 *      A1     buffer
 *
 * RETURN
-*      A0     ���� / \/ \\ ���邢�� NUL ���w��
-*      (A1)   �ŏ��̃f�B���N�g�����i������ / \/ \\ �͊܂܂Ȃ��j
-*      D0.B   �j��
+*      A0     次の / \/ \\ あるいは NUL を指す
+*      (A1)   最初のディレクトリ名（末尾の / \/ \\ は含まない）
+*      D0.B   破壊
 ****************************************************************
 get_subdir:
 		movem.l	d1/a1,-(a7)
@@ -158,44 +158,44 @@ get_subdir_done:
 * globsub
 *
 * CALL
-*      (pathname_buf)  ��������f�B���N�g���̃p�X���DMAXPATH+1�o�C�g���K�v
-*      A2     ��������t�@�C�����imay be contains \�j
-*      D2.W   �ċA�̐[���D�ŏ���0
-*      A3     �K�������t�@�C�������i�[����o�b�t�@���w��
-*      D3.W   �W�J������̌��x
-*      D4.W   �o�b�t�@�̗e��
+*      (pathname_buf)  検索するディレクトリのパス名．MAXPATH+1バイトが必要
+*      A2     検索するファイル名（may be contains \）
+*      D2.W   再帰の深さ．最初は0
+*      A3     適合したファイル名を格納するバッファを指す
+*      D3.W   展開する個数の限度
+*      D4.W   バッファの容量
 *
 * RETURN
-*      D0.L   �����Ȃ�ΐ���D
-*                  0: �p�X���̃f�B���N�g�����[�߂��邩�Chead����MAXHEAD�����𒴂��Ă���
-*                  1: �ő�ꐔ�𒴂���
-*                  2: �o�b�t�@�̗e�ʂ�����Ȃ�
-*                  4: ���̑��̃G���[�B�i] ���Ȃ��Ȃǁj���b�Z�[�W���\�������B
+*      D0.L   負数ならば正常．
+*                  0: パス名のディレクトリが深過ぎるか，head部がMAXHEAD文字を超えている
+*                  1: 最大語数を超えた
+*                  2: バッファの容量が足りない
+*                  4: その他のエラー。（] がないなど）メッセージが表示される。
 *
-*      D1.W   �K��������������������
-*             D1>D3 �ƂȂ����� D0.L �� 1 ���Z�b�g���ď����𒆎~����
+*      D1.W   適合した数だけ増加する
+*             D1>D3 となったら D0.L に 1 をセットして処理を中止する
 *
-*      D4.W   �o�b�t�@�ɒǉ�������������������
-*             ����Ȃ��Ȃ����� D0.L �� 2 ���Z�b�g���ď����𒆎~����
+*      D4.W   バッファに追加した分だけ減少する
+*             足りなくなったら D0.L に 2 をセットして処理を中止する
 *
-*      A3     �o�b�t�@�̎��̊i�[�ʒu
+*      A3     バッファの次の格納位置
 *
-*      A0, A1, A2     �j��
+*      A0, A1, A2     破壊
 *
 * NOTE
-*      33��߂܂ōċA����D�X�^�b�N�ɒ��ӁI
+*      33回めまで再帰する．スタックに注意！
 *
-*      �Q�l�܂łɏ����Ă����ƁCHuman68k�ł́C��΃p�X���̃f�B���N�g����
-*      �i�h���C�u���͊܂܂Ȃ��D�ŏ��� / ����Ō�� / �܂Łj�̒����́C
-*      �ő�64�����Ƃ�������������D
-*      �Ƃ������Ƃ́C���[�g�E�f�B���N�g����1���Ƃ���ƁC�T�u�E�f�B���N�g����
-*      31���܂ł��������D�i32�����ƁC�����t�@�C�������L�q�ł��Ȃ��j
-*      ���������āC32��̃f�B���N�g��������1��̃t�@�C�������C���Ȃ킿�C33��
-*      �̍ċA�ŏ[���Ȕ��ł���D
+*      参考までに書いておくと，Human68kでは，絶対パス名のディレクトリ部
+*      （ドライブ名は含まない．最初の / から最後の / まで）の長さは，
+*      最大64文字という制限がある．
+*      ということは，ルート・ディレクトリを1世とすると，サブ・ディレクトリは
+*      31世までしか無い．（32世だと，続くファイル名を記述できない）
+*      したがって，32回のディレクトリ検索と1回のファイル検索，すなわち，33回
+*      の再帰で充分な筈である．
 *
-*      �Ȃ��C��΃p�X�͐������ł����Ă��C���΃p�X���Ɛ����𒴂���ꍇ������
-*      ���C����͔F�߂��C���΃p�X�ł����Ă���΃p�X�̐��������̂܂ܓK�p����
-*      ���Ƃɂ����D�i�X�^�b�N��o�b�t�@��ÓI�Ɉ��S�Ɋm�ۂ��邽�߁j
+*      なお，絶対パスは制限内であっても，相対パスだと制限を超える場合もある
+*      が，それは認めず，相対パスであっても絶対パスの制限をそのまま適用する
+*      ことにした．（スタックやバッファを静的に安全に確保するため）
 ****************************************************************
 curdot  = -4
 dirbot  = curdot-4
@@ -205,7 +205,7 @@ globsub:
 		link	a6,#filebuf
 		move.l	a2,curdot(a6)
 		lea	pathname_buf,a0
-		move.w	#$37,-(a7)		* �{�����[���E���x���ȊO�̑S�Ă�����
+		move.w	#$37,-(a7)		* ボリューム・ラベル以外の全てを検索
 		move.l	a0,-(a7)
 		pea	filebuf(a6)
 		bsr	strbot
@@ -225,12 +225,12 @@ globsub_loop:
 		movea.l	a0,a2
 		lea	filebuf+30(a6),a0
 
-		* �������ꂽ�G���g���� . �Ŏn�܂��Ă��Ȃ���΁A�悵�B
+		* 検索されたエントリが . で始まっていなければ、よし。
 		cmpi.b	#'.',(a0)
 		bne	globsub_compare
 
-		* . �Ŏn�܂�G���g�����A
-		* ���������� . �܂��� \. �Ŏn�܂��Ă���Ȃ�΁A�悵�B
+		* . で始まるエントリも、
+		* 検索文字列が . または \. で始まっているならば、よし。
 		cmpi.b	#'.',(a1)
 		beq	globsub_compare
 
@@ -271,7 +271,7 @@ globsub_find_more:
 		cmp.l	#MAXHEAD,d0
 		bhi	globsub_error0
 
-		bsr	globsub				***!! �ċA !!***
+		bsr	globsub				***!! 再帰 !!***
 		subq.w	#1,d2
 		tst.l	d0
 		bpl	globsub_nomore
@@ -286,7 +286,7 @@ globsub_terminal:
 
 		lea	pathname_buf,a0
 		bsr	strlen
-		sub.w	d0,d4		* D0.L��MAXPATH�𒴂��Ȃ����DMAXPATH��32767�ȉ��̔�
+		sub.w	d0,d4		* D0.LはMAXPATHを超えない筈．MAXPATHは32767以下の筈
 		bcs	globsub_buffer_full
 
 		movea.l	a0,a1
@@ -295,7 +295,7 @@ globsub_terminal:
 		movea.l	a0,a3
 		lea	filebuf+30(a6),a0
 		bsr	strlen
-		addq.w	#1,d0		* D0.L��MAXTAIL�𒴂��Ȃ����DMAXTAIL��22�̔�
+		addq.w	#1,d0		* D0.LはMAXTAILを超えない筈．MAXTAILは22の筈
 		sub.w	d0,d4
 		bcs	globsub_buffer_full
 
@@ -326,24 +326,24 @@ globsub_error4:
 * glob - evaluate filename with wildcard
 *
 * CALL
-*      A0     ���C���h�E�J�[�h���܂ރt�@�C�����D', " and/or \ �ɂ��N�I�[�g����
-*      A1     �K�������t�@�C�������i�[����o�b�t�@���w��
-*      D0.W   �W�J������̌��x
-*      D1.W   �o�b�t�@�̗e��
+*      A0     ワイルド・カードを含むファイル名．', " and/or \ によるクオートが可
+*      A1     適合したファイル名を格納するバッファを指す
+*      D0.W   展開する個数の限度
+*      D1.W   バッファの容量
 *
 * RETURN
-*      A1     �o�b�t�@�̎��̊i�[�ʒu
+*      A1     バッファの次の格納位置
 *
-*      D0.L   �����Ȃ�ΐ����D���ʃ��[�h�͓K���������D
-*             �����Ȃ�΃G���[�D
-*                  -1  �K��������̂̌������x�𒴂���
-*                  -2  �o�b�t�@�̗e�ʂ𒴂���
-*                  -4  ���̑��̃G���[�D���b�Z�[�W���\�������D
-*                           �p�X���̃f�B���N�g�����[�߂���C
-*                           �p�X����head����MAXHEAD�����𒴂����C
+*      D0.L   正数ならば成功．下位ワードは適合した数．
+*             負数ならばエラー．
+*                  -1  適合するものの個数が限度を超えた
+*                  -2  バッファの容量を超えた
+*                  -4  その他のエラー．メッセージが表示される．
+*                           パス名のディレクトリが深過ぎる，
+*                           パス名のhead部がMAXHEAD文字を超えた，
 *
-*      D1.L   ���ʃ��[�h�͎c��o�b�t�@�e��
-*             ��ʃ��[�h�͔j��
+*      D1.L   下位ワードは残りバッファ容量
+*             上位ワードは破壊
 *
 *      CCR    TST.L D0
 *****************************************************************
@@ -351,14 +351,14 @@ globsub_error4:
 
 glob:
 		movem.l	d2-d5/a0/a2-a4,-(a7)
-		move.w	d0,d3			* D3.W : �ő�W�J��
-		move.w	d1,d4			* D4.W : �o�b�t�@�e��
+		move.w	d0,d3			* D3.W : 最大展開個数
+		move.w	d1,d4			* D4.W : バッファ容量
 		move.w	d1,d5
-		movea.l	a1,a4			* A4 : �W�J�o�b�t�@�̐擪
-		movea.l	a1,a3			* A3 : �W�J�o�b�t�@
+		movea.l	a1,a4			* A4 : 展開バッファの先頭
+		movea.l	a1,a3			* A3 : 展開バッファ
 		lea	tmpword1,a1
-		bsr	escape_quoted		* A1 : �N�I�[�g���G�X�P�[�v�ɑウ������������
-		moveq	#0,d1			* D1.W : �K���������𓾂�
+		bsr	escape_quoted		* A1 : クオートをエスケープに代えた検索文字列
+		moveq	#0,d1			* D1.W : 適合した個数を得る
 
 		exg	a0,a1
 		bsr	builtin_dir_match
@@ -366,7 +366,7 @@ glob:
 		beq	glob_real
 
 		move.l	d0,d2
-		addq.l	#1,d2			* D2 : �R�s�[���鉼�z�f�B���N�g�����̒���
+		addq.l	#1,d2			* D2 : コピーする仮想ディレクトリ部の長さ
 		cmpi.b	#'\',(a1,d0.l)
 		bne	glob_1
 
@@ -380,8 +380,8 @@ glob_1:
 ****************
 glob_builtin:
 		move.l	a0,-(a7)
-		movea.l	a1,a2			* A2 : ���z�f�B���N�g����
-		lea	1(a2,d0.l),a1		* A1 : ��r�p�^�[��
+		movea.l	a1,a2			* A2 : 仮想ディレクトリ部
+		lea	1(a2,d0.l),a1		* A1 : 比較パターン
 		lea	command_table,a0
 glob_builtin_loop:
 		moveq	#-1,d0
@@ -436,8 +436,8 @@ glob_builtin_nomore:
 		bra	glob_done
 ****************
 glob_real:
-		exg	a0,a2			* A2 : ���̌���������
-		movea.l	a1,a0			* A0 : �N�I�[�g���G�X�P�[�v�ɑウ������������
+		exg	a0,a2			* A2 : 元の検索文字列
+		movea.l	a1,a0			* A0 : クオートをエスケープに代えた検索文字列
 		lea	pathname_buf,a1
 		bsr	get_firstdir
 		exg	a0,a2
@@ -474,20 +474,20 @@ glob_error:
 		neg.l	d0
 		bra	glob_done
 ****************************************************************
-* glob_wordlist - �������т̊e��ɂ��ăt�@�C�����W�J������
-*                 ���łɃN�I�[�g���O���Ă��܂�
+* glob_wordlist - 引数並びの各語についてファイル名展開をする
+*                 ついでにクオートも外してしまう
 *
 * CALL
-*      A0     �i�[�̈�̐擪�D�������тƏd�Ȃ��Ă��Ă��ǂ��D
-*      A1     �������т̐擪
-*      D0.W   �ꐔ
+*      A0     格納領域の先頭．引数並びと重なっていても良い．
+*      A1     引数並びの先頭
+*      D0.W   語数
 *
 * RETURN
-*      D0.L   �����Ȃ�ΐ����D���ʃ��[�h�͓W�J��̌ꐔ
-*             �����Ȃ�΃G���[
+*      D0.L   正数ならば成功．下位ワードは展開後の語数
+*             負数ならばエラー
 *
-*      (tmpline)   �j�󂳂��
-*      (A0)   �j��
+*      (tmpline)   破壊される
+*      (A0)   破壊
 *
 *      CCR    TST.L D0
 ****************************************************************
@@ -495,9 +495,9 @@ glob_error:
 
 glob_wordlist:
 		movem.l	d1-d4/a0-a2,-(a7)
-		move.w	#MAXWORDLISTSIZE,d1	* D1 : �ő啶����
-		move.w	d0,d2			* D2 : �����J�E���^
-		moveq	#0,d3			* D3 : �W�J��̌ꐔ
+		move.w	#MAXWORDLISTSIZE,d1	* D1 : 最大文字数
+		move.w	d0,d2			* D2 : 引数カウンタ
+		moveq	#0,d3			* D3 : 展開後の語数
 		moveq	#0,d4			* D4 : glob status
 		tst.b	flag_nonomatch
 		beq	glob_wordlist_1
@@ -505,8 +505,8 @@ glob_wordlist:
 		moveq	#-1,d4
 glob_wordlist_1:
 		move.l	a0,-(a7)
-		lea	tmpline,a0		* �ꎞ�̈��
-		bsr	copy_wordlist		* �������т���U�R�s�[���Ă�����\�[�X�Ƃ���
+		lea	tmpline,a0		* 一時領域に
+		bsr	copy_wordlist		* 引数並びを一旦コピーしてこれをソースとする
 		movea.l	(a7)+,a1
 		bra	glob_wordlist_continue
 

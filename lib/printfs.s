@@ -6,30 +6,30 @@
 .text
 
 ****************************************************************
-* printfs - ������������ɏ]���ďo�͂���
+* printfs - 文字列を書式に従って出力する
 *
 * CALL
-*      A0     �o�͂��镶����̐擪�A�h���X
-*      A1     �����̏o�͂��s�Ȃ��T�u�E���[�`���̃G���g���[�E�A�h���X
-*             �����R�[�h��D0.B�ɗ^���Ă��̃T�u�E���[�`�����Ăяo���D
-*             ���ׂẴ��W�X�^��ۑ�������̂łȂ���΂Ȃ�Ȃ��D
-*      D1.L   bit 0 : 0=�E�l��  1=���l��
-*      D2.B   �E�l�߂̂Ƃ��A�����̌��Ԃ𖄂߂镶���R�[�h
-*      D3.L   �ŏ��t�B�[���h���i�o�C�g���j
-*      D4.L   �ő�o�͕����i�o�C�g�j��
+*      A0     出力する文字列の先頭アドレス
+*      A1     文字の出力を行なうサブ・ルーチンのエントリー・アドレス
+*             文字コードをD0.Bに与えてこのサブ・ルーチンを呼び出す．
+*             すべてのレジスタを保存するものでなければならない．
+*      D1.L   bit 0 : 0=右詰め  1=左詰め
+*      D2.B   右詰めのとき、左側の隙間を埋める文字コード
+*      D3.L   最小フィールド幅（バイト数）
+*      D4.L   最大出力文字（バイト）数
 *
 * RETURN
-*      D0.L   �o�͂��������i�o�C�g�j��
+*      D0.L   出力した文字（バイト）数
 *
 * NOTE
-*      �V�t�gJIS�����͍l�����Ȃ�
+*      シフトJIS文字は考慮しない
 *****************************************************************
 .xdef printfs
 
 printfs:
 		movem.l	d1-d5/a0,-(a7)
 	*
-	*  D4.L := min(strlen(s), D4.L);	/*  D4.L : �����񂩂�o�͂���o�C�g��  */
+	*  D4.L := min(strlen(s), D4.L);	/*  D4.L : 文字列から出力するバイト数  */
 	*
 		jsr	strlen
 		cmp.l	d0,d4
@@ -39,7 +39,7 @@ printfs:
 strlen_ok:
 	*
 	*  D3.L -= D4.L;
-	*  if (D3.L < 0) D6.L = 0;		/*  D3.L : pad����ׂ��o�C�g�� */
+	*  if (D3.L < 0) D6.L = 0;		/*  D3.L : padするべきバイト数 */
 	*
 		sub.l	d4,d3
 		bcc	padlen_ok
@@ -47,13 +47,13 @@ strlen_ok:
 		moveq	#0,d3
 padlen_ok:
 		move.l	d4,d5
-		add.l	d3,d5			*  D5.L : �o�͂��鑍������
+		add.l	d3,d5			*  D5.L : 出力する総文字数
 	*
-	*  ������pad����
+	*  左側をpadする
 	*
 		bsr	pad
 	*
-	*  ��������o�͂���
+	*  文字列を出力する
 	*
 		bra	string_low_continue
 
@@ -69,21 +69,21 @@ string_low_continue:
 		dbra	d4,string_high_loop
 string_done:
 	*
-	*  �E����pad����
+	*  右側をpadする
 	*
-		bchg	#0,d1			*  pad�����𔽓]
-		moveq	#' ',d2			*  �E����pad�����͕K����
+		bchg	#0,d1			*  pad方向を反転
+		moveq	#' ',d2			*  右側のpad文字は必ず空白
 		bsr	pad
 	*
-	*  return �o�̓o�C�g��
+	*  return 出力バイト数
 	*
 		move.l	d5,d0
 		movem.l	(a7)+,d1-d5/a0
 		rts
 ****************
 pad:
-		btst	#0,d1			*  pad�������Ⴄ�Ȃ��
-		bne	pad_return		*  pad���Ȃ�
+		btst	#0,d1			*  pad方向が違うならば
+		bne	pad_return		*  padしない
 
 		move.b	d2,d0
 		bra	pad_low_continue

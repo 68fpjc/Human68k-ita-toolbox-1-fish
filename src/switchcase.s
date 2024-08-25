@@ -19,7 +19,7 @@
 .xref word_switch
 .xref tmpword1
 
-.xref switch_status	* -1:caseÆ‡’†, 0:’Êíó‘Ô, 1:endswŒŸõ’†
+.xref switch_status	* -1:caseç…§åˆä¸­, 0:é€šå¸¸çŠ¶æ…‹, 1:endswæ¤œç´¢ä¸­
 .xref switch_level
 .xref switch_string
 .xref exitflag
@@ -164,6 +164,6 @@ cmd_breaksw:
 ****************************************************************
 .data
 
-msg_missing_string:	dc.b	'•¶š—ñ‚ª‚ ‚è‚Ü‚¹‚ñ',0
+msg_missing_string:	dc.b	'æ–‡å­—åˆ—ãŒã‚ã‚Šã¾ã›ã‚“',0
 
 .end

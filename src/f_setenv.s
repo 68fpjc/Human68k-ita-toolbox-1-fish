@@ -15,29 +15,29 @@
 .text
 
 *****************************************************************
-* fish_setenv - FISH �̊��ϐ����Z�b�g����
+* fish_setenv - FISH の環境変数をセットする
 *
 * CALL
-*      A0     �ϐ����̐擪�A�h���X
-*      A1     �l�̕�����̐擪�A�h���X
+*      A0     変数名の先頭アドレス
+*      A1     値の文字列の先頭アドレス
 *
 * RETURN
-*      D0.L   �Z�b�g�����ϐ��̐擪�A�h���X�D
-*             ������������������Ȃ����߃Z�b�g�ł��Ȃ������Ȃ�� 0�D
+*      D0.L   セットした変数の先頭アドレス．
+*             ただしメモリが足りないためセットできなかったならば 0．
 *      CCR    TST.L D0
 *
 * NOTE
-*      �Z�b�g����l�̌���т̃A�h���X���ϐ��̌��݂̒l��
-*      �ꕔ�ʂł���Ƃ��ɂ��A���������삷��B
+*      セットする値の語並びのアドレスが変数の現在の値の
+*      一部位であるときにも、正しく動作する。
 *****************************************************************
 .xdef fish_setenv
 
 fish_setenv:
 		movem.l	d1-d2/a0-a4,-(a7)
-		moveq	#1,d1				*  D1.W : �P�ꐔ = 1
-		movea.l	a1,a2				*  A2 : �l
-		movea.l	a0,a1				*  A1 : �ϐ���
-		bsr	allocvar			*  A3 : �V�ϐ��̃A�h���X
+		moveq	#1,d1				*  D1.W : 単語数 = 1
+		movea.l	a1,a2				*  A2 : 値
+		movea.l	a0,a1				*  A1 : 変数名
+		bsr	allocvar			*  A3 : 新変数のアドレス
 		beq	fish_setenv_no_space
 
 		movea.l	a1,a0

@@ -30,17 +30,17 @@ cmd_screen:
 		move.w	d0,d5
 		and.w	d3,d0
 		and.w	d4,d0
-		not.w	d0				* cmp.l #-1,d0 ‚Ì‘ã‚í‚è
-		beq	screen_end			* ‚·‚×‚Ä‚ª -1 i–³w’èj
+		not.w	d0				* cmp.l #-1,d0 ã®ä»£ã‚ã‚Š
+		beq	screen_end			* ã™ã¹ã¦ãŒ -1 ï¼ˆç„¡æŒ‡å®šï¼‰
 ********************************
-		moveq	#1,d1				* Äİ’èƒtƒ‰ƒO ‚ğ ON ‚É‚µ‚Ä‚¨‚­
+		moveq	#1,d1				* å†è¨­å®šãƒ•ãƒ©ã‚° ã‚’ ON ã«ã—ã¦ãŠã
 		cmp.w	#-1,d3
-		beq	get_current			* width ‚Í–³w’è
+		beq	get_current			* width ã¯ç„¡æŒ‡å®š
 
 		cmp.w	#-1,d4
-		beq	get_current			* graphicmode ‚Í–³w’è
+		beq	get_current			* graphicmode ã¯ç„¡æŒ‡å®š
 		*
-		*  width ‚Æ graphicmode ‚Ì—¼•û‚ªw’è—L‚è
+		*  width ã¨ graphicmode ã®ä¸¡æ–¹ãŒæŒ‡å®šæœ‰ã‚Š
 		*
 		move.w	d4,d2
 		tst.w	d3
@@ -50,71 +50,71 @@ cmd_screen:
 ****************
 get_current:
 		*
-		*  width ‚Æ graphicmode ‚Ì­‚È‚­‚Æ‚à‚Ç‚¿‚ç‚©‚Í–³w’è
+		*  width ã¨ graphicmode ã®å°‘ãªãã¨ã‚‚ã©ã¡ã‚‰ã‹ã¯ç„¡æŒ‡å®š
 		*
 		move.w	#-1,-(a7)
 		move.w	#16,-(a7)
 		DOS	_CONCTRL
 		addq.l	#4,a7
-		move.w	d0,d2				* Œ»İ‚Ìƒ‚[ƒh‚ğ D2 ‚É
+		move.w	d0,d2				* ç¾åœ¨ã®ãƒ¢ãƒ¼ãƒ‰ã‚’ D2 ã«
 		cmp.w	#-1,d3
-		bne	width_specified			* width ‚Íw’è—L‚è
+		bne	width_specified			* width ã¯æŒ‡å®šæœ‰ã‚Š
 
 		cmp.w	#-1,d4
-		bne	graphicmode_specified		* graphicmode ‚Íw’è—L‚è
+		bne	graphicmode_specified		* graphicmode ã¯æŒ‡å®šæœ‰ã‚Š
 		*
-		* width ‚à graphicmode ‚à•ÏX‚µ‚È‚¢
+		* width ã‚‚ graphicmode ã‚‚å¤‰æ›´ã—ãªã„
 		*
-		clr.w	d1				* Äİ’èƒtƒ‰ƒO OFF
+		clr.w	d1				* å†è¨­å®šãƒ•ãƒ©ã‚° OFF
 		bra	width_and_graphicmode_ok
 ****************
 graphicmode_specified:
 		*
-		* width ‚ğ•Ï‚¦‚¸‚É graphicmode ‚ğw’è’l‚É•ÏX‚·‚é
+		* width ã‚’å¤‰ãˆãšã« graphicmode ã‚’æŒ‡å®šå€¤ã«å¤‰æ›´ã™ã‚‹
 		*
 		cmp.w	#2,d2
 		blo	change_graphicmode_on_width_0
 
-		move.w	d4,d2				* Œ»İ‚Ì width ‚Í 1 ‚Å‚ ‚é‚©‚ç
-		bra	change_graphicmode_on_width_1	* ƒ‚[ƒh‚Í 2 + graphicmode ‚Æ‚·‚é
+		move.w	d4,d2				* ç¾åœ¨ã® width ã¯ 1 ã§ã‚ã‚‹ã‹ã‚‰
+		bra	change_graphicmode_on_width_1	* ãƒ¢ãƒ¼ãƒ‰ã¯ 2 + graphicmode ã¨ã™ã‚‹
 
 change_graphicmode_on_width_0:
-		cmp.w	#2,d4				* Œ»İ‚Ì width ‚Í 0 ‚Å‚ ‚é‚©‚ç
-		bhs	error				* 2 ˆÈã‚Ì graphicmode ‚ÍƒGƒ‰[
+		cmp.w	#2,d4				* ç¾åœ¨ã® width ã¯ 0 ã§ã‚ã‚‹ã‹ã‚‰
+		bhs	error				* 2 ä»¥ä¸Šã® graphicmode ã¯ã‚¨ãƒ©ãƒ¼
 
 		move.w	d4,d2
-		bra	width_and_graphicmode_ok	* ƒ‚[ƒh‚Í graphicmode ‚Æ‚·‚é
+		bra	width_and_graphicmode_ok	* ãƒ¢ãƒ¼ãƒ‰ã¯ graphicmode ã¨ã™ã‚‹
 ****************
 width_specified:
 		*
-		*  graphicmode ‚ğ•Ï‚¦‚¸‚É width ‚ğw’è’l‚É•ÏX
+		*  graphicmode ã‚’å¤‰ãˆãšã« width ã‚’æŒ‡å®šå€¤ã«å¤‰æ›´
 		*
 		tst.w	d3
 		beq	change_width_to_0
 
 change_width_to_1:
 		*
-		* graphicmode ‚ğ•Ï‚¦‚¸‚É width ‚ğ 1 ‚É•ÏX
+		* graphicmode ã‚’å¤‰ãˆãšã« width ã‚’ 1 ã«å¤‰æ›´
 		*
-		cmp.w	#2,d2				* Œ»İ‚Ìƒ‚[ƒh‚ª 2 ˆÈã‚È‚ç‚Î
-		bhs	width_and_graphicmode_ok	* ‚»‚Ì‚Ü‚Ü‚Å OK
+		cmp.w	#2,d2				* ç¾åœ¨ã®ãƒ¢ãƒ¼ãƒ‰ãŒ 2 ä»¥ä¸Šãªã‚‰ã°
+		bhs	width_and_graphicmode_ok	* ãã®ã¾ã¾ã§ OK
 
 change_graphicmode_on_width_1:
-		add.w	#2,d2				* ƒ‚[ƒh‚É 2 ‚ğ‰Á‚¦‚é
+		add.w	#2,d2				* ãƒ¢ãƒ¼ãƒ‰ã« 2 ã‚’åŠ ãˆã‚‹
 		bra	width_and_graphicmode_ok
 
 change_width_to_0:
 		*
-		* graphicmode ‚ğ•Ï‚¦‚¸‚É width ‚ğ 0 ‚É•ÏX
+		* graphicmode ã‚’å¤‰ãˆãšã« width ã‚’ 0 ã«å¤‰æ›´
 		*
-		cmp.w	#2,d2				* Œ»İ‚Ìƒ‚[ƒh‚ª 0 ‚© 1 ‚È‚ç‚Î
-		blo	width_and_graphicmode_ok	* ‚»‚Ì‚Ü‚Ü‚Å OK
+		cmp.w	#2,d2				* ç¾åœ¨ã®ãƒ¢ãƒ¼ãƒ‰ãŒ 0 ã‹ 1 ãªã‚‰ã°
+		blo	width_and_graphicmode_ok	* ãã®ã¾ã¾ã§ OK
 
-		sub.w	#2,d2				* 2 ‚È‚ç‚Î 0 ‚ÉA3 ‚È‚ç‚Î 1 ‚ÉA
+		sub.w	#2,d2				* 2 ãªã‚‰ã° 0 ã«ã€3 ãªã‚‰ã° 1 ã«ã€
 		cmp.w	#2,d2
 		blo	width_and_graphicmode_ok
 
-		moveq	#1,d2				* 4 ˆÈã‚È‚ç‚Î 1 ‚É‚·‚é
+		moveq	#1,d2				* 4 ä»¥ä¸Šãªã‚‰ã° 1 ã«ã™ã‚‹
 ****************
 width_and_graphicmode_ok:
 		cmp.w	#-1,d5
@@ -126,8 +126,8 @@ width_and_graphicmode_ok:
 		cmp.w	#2,d2
 		bne	all_fixed
 check_graphic:
-		btst	#0,d5			* ƒ‚[ƒh‚ª 0 ‚Ü‚½‚Í 2 ‚Å‚ ‚éê‡A
-		bne	error			* displaymode ‚É 1 ‚Ü‚½‚Í 3 ‚ğw’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢
+		btst	#0,d5			* ãƒ¢ãƒ¼ãƒ‰ãŒ 0 ã¾ãŸã¯ 2 ã§ã‚ã‚‹å ´åˆã€
+		bne	error			* displaymode ã« 1 ã¾ãŸã¯ 3 ã‚’æŒ‡å®šã™ã‚‹ã“ã¨ã¯ã§ããªã„
 all_fixed:
 		tst.w	d1
 		beq	change_displaymode
@@ -245,7 +245,7 @@ getarg_done:
 
 .data
 
-msg_bad_arg:	dc.b	'ƒpƒ‰ƒ|ƒ^‚ª–³Œø‚Å‚·',CR,LF
+msg_bad_arg:	dc.b	'ãƒ‘ãƒ©ãƒ¡âˆ’ã‚¿ãŒç„¡åŠ¹ã§ã™',CR,LF
 
 .end cmd_screen
 

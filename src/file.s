@@ -48,14 +48,14 @@ tfopenx_fail:
 		moveq	#ENOFILE,d0
 		bra	tfopenx_return
 *****************************************************************
-* create_normal_file - ’Êí‚Ìƒtƒ@ƒCƒ‹‚ð¶¬‚·‚é
+* create_normal_file - é€šå¸¸ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç”Ÿæˆã™ã‚‹
 *
 * CALL
-*      A0     ¶¬‚·‚éƒtƒ@ƒCƒ‹‚ÌƒpƒX–¼
+*      A0     ç”Ÿæˆã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹å
 *
 * RETRUN
-*      D0.L   •‰: ƒGƒ‰[EƒR[ƒh
-*             ³: ‰ºˆÊƒ[ƒh‚ªAì¬‚µ‚ÄƒI[ƒvƒ“‚³‚ê‚½ƒtƒ@ƒCƒ‹Eƒnƒ“ƒhƒ‹‚ðŽ¦‚·
+*      D0.L   è² : ã‚¨ãƒ©ãƒ¼ãƒ»ã‚³ãƒ¼ãƒ‰
+*             æ­£: ä¸‹ä½ãƒ¯ãƒ¼ãƒ‰ãŒã€ä½œæˆã—ã¦ã‚ªãƒ¼ãƒ—ãƒ³ã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ãƒ»ãƒãƒ³ãƒ‰ãƒ«ã‚’ç¤ºã™
 *
 *      CCR    TST.L D0
 *****************************************************************
@@ -122,13 +122,13 @@ fclosexp_done:
 
 redirect:
 		subq.l	#4,a7
-		move.w	d0,-(a7)		* ƒŠƒ_ƒCƒŒƒNƒg‚³‚ê‚éfd‚Ì
-		DOS	_DUP			* ƒRƒs[‚ð
-		move.l	d0,2(a7)		* Žæ‚Á‚Ä‚¨‚­
+		move.w	d0,-(a7)		* ãƒªãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆã•ã‚Œã‚‹fdã®
+		DOS	_DUP			* ã‚³ãƒ”ãƒ¼ã‚’
+		move.l	d0,2(a7)		* å–ã£ã¦ãŠã
 		bmi	cannot_redirect
 
-		move.w	d1,-(a7)		* ƒŠƒ_ƒCƒŒƒNƒgæ‚ÉƒŠƒ_ƒCƒŒƒNƒg‚·‚éƒtƒ@ƒCƒ‹‚ð
-		DOS	_DUP2			* ƒRƒs[‚·‚é
+		move.w	d1,-(a7)		* ãƒªãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆå…ˆã«ãƒªãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’
+		DOS	_DUP2			* ã‚³ãƒ”ãƒ¼ã™ã‚‹
 		addq.l	#2,a7
 cannot_redirect:
 		addq.l	#2,a7
@@ -152,14 +152,14 @@ unredirect_return:
 		move.l	(a7)+,d1
 		rts
 *****************************************************************
-* fskip_space - ƒtƒ@ƒCƒ‹‚Ì‹ó”’‚ð“Ç‚Ý”ò‚Î‚·
+* fskip_space - ãƒ•ã‚¡ã‚¤ãƒ«ã®ç©ºç™½ã‚’èª­ã¿é£›ã°ã™
 *
 * CALL
-*      D0.W   ƒtƒ@ƒCƒ‹Eƒnƒ“ƒhƒ‹
+*      D0.W   ãƒ•ã‚¡ã‚¤ãƒ«ãƒ»ãƒãƒ³ãƒ‰ãƒ«
 *
 * RETURN
-*      D0.L   •‰: ƒGƒ‰[EƒR[ƒh‚ ‚é‚¢‚Í EOF
-*             ³: Å‰ºˆÊƒoƒCƒg‚ÍÅ‰‚Ì‹ó”’ˆÈŠO‚Ì•¶Žši‚Ü‚½‚ÍLFj
+*      D0.L   è² : ã‚¨ãƒ©ãƒ¼ãƒ»ã‚³ãƒ¼ãƒ‰ã‚ã‚‹ã„ã¯ EOF
+*             æ­£: æœ€ä¸‹ä½ãƒã‚¤ãƒˆã¯æœ€åˆã®ç©ºç™½ä»¥å¤–ã®æ–‡å­—ï¼ˆã¾ãŸã¯LFï¼‰
 *
 *      CCR    TST.L D0
 *****************************************************************

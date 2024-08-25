@@ -18,9 +18,9 @@ Header_ID	equ	$100+(header_id-header_top)
 .text
 *****************************************************************
 header_top:
-header_dataP:	dc.l	0		* $f0(PDB) : ©•ª‚Ìƒf[ƒ^‚ÌƒAƒhƒŒƒX
-header_codeP:	dc.l	0		* $f4(PDB) : ©•ª‚ÌƒR[ƒh‚ÌƒAƒhƒŒƒX
-header_stackP:	dc.l	0		* $f8(PDB) : ©•ª‚ÌƒXƒ^ƒbƒN‚ÌƒAƒhƒŒƒX
+header_dataP:	dc.l	0		* $f0(PDB) : è‡ªåˆ†ã®ãƒ‡ãƒ¼ã‚¿ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+header_codeP:	dc.l	0		* $f4(PDB) : è‡ªåˆ†ã®ã‚³ãƒ¼ãƒ‰ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+header_stackP:	dc.l	0		* $f8(PDB) : è‡ªåˆ†ã®ã‚¹ã‚¿ãƒƒã‚¯ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
 header_id:	dc.b	"FISH - Fumihiko Itagaki's shell - Version  0.8 ",0
 *****************************************************************
 		dc.b	'Copyright(C)1991-93 by Itagaki Fumihiko',0
@@ -31,28 +31,28 @@ start:
 		dc.b	'#HUPAIR',0
 start1:
 	**
-	**  OSƒo[ƒWƒ‡ƒ“‚ğƒ`ƒFƒbƒN‚·‚é
+	**  OSãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 	**
 		DOS	_VERNUM
 		cmp.w	#REQUIRED_OSVER,d0
 		lea	msg_dos_error(pc),a4
 		bcs	error
 	**
-	**  ƒ‹[ƒgEƒVƒFƒ‹‚ğ’T‚·
+	**  ãƒ«ãƒ¼ãƒˆãƒ»ã‚·ã‚§ãƒ«ã‚’æ¢ã™
 	**
-		lea	own_stack(pc),a7		*  ƒXƒ^ƒbƒN‚ğ©•ª‚Ì‰º‚Éİ’è‚·‚é
+		lea	own_stack(pc),a7		*  ã‚¹ã‚¿ãƒƒã‚¯ã‚’è‡ªåˆ†ã®ä¸‹ã«è¨­å®šã™ã‚‹
 		clr.l	-(a7)
-		DOS	_SUPER				*  ƒX[ƒp[ƒoƒCƒUEƒ‚[ƒh‚ÉØ‚èŠ·‚¦‚é
-		move.l	d0,(a7)				*  ‘O‚ÌSSP‚Ì’l‚ğƒZ[ƒu
-		lea	CurrentMCB(pc),a0		*  Œ»ƒvƒƒZƒX‚ÌMCBƒ|ƒCƒ“ƒ^
+		DOS	_SUPER				*  ã‚¹ãƒ¼ãƒ‘ãƒ¼ãƒã‚¤ã‚¶ãƒ»ãƒ¢ãƒ¼ãƒ‰ã«åˆ‡ã‚Šæ›ãˆã‚‹
+		move.l	d0,(a7)				*  å‰ã®SSPã®å€¤ã‚’ã‚»ãƒ¼ãƒ–
+		lea	CurrentMCB(pc),a0		*  ç¾ãƒ—ãƒ­ã‚»ã‚¹ã®MCBãƒã‚¤ãƒ³ã‚¿
 search_real_shell:
-		move.l	MCB_allocater(a0),d0		*  ‚±‚ÌƒuƒƒbƒN‚ğŠm•Û‚µ‚½ƒvƒƒZƒX‚ÌMCBƒ|ƒCƒ“ƒ^
-		beq	no_real_shell			*  e‚Í‚¢‚È‚¢
+		move.l	MCB_allocater(a0),d0		*  ã“ã®ãƒ–ãƒ­ãƒƒã‚¯ã‚’ç¢ºä¿ã—ãŸãƒ—ãƒ­ã‚»ã‚¹ã®MCBãƒã‚¤ãƒ³ã‚¿
+		beq	no_real_shell			*  è¦ªã¯ã„ãªã„
 
 		move.l	d0,d1
 		rol.l	#8,d1
 		tst.b	d1
-		bne	no_real_shell			*  e‚Í‚¢‚È‚¢
+		bne	no_real_shell			*  è¦ªã¯ã„ãªã„
 
 		movea.l	d0,a0
 		lea	Header_ID(a0),a2
@@ -61,39 +61,39 @@ search_real_shell:
 idcheck_loop:
 		cmpm.b	(a2)+,(a3)+
 		dbne	d0,idcheck_loop
-		bne	search_real_shell		*  ƒVƒFƒ‹‚Å‚Í‚È‚¢
+		bne	search_real_shell		*  ã‚·ã‚§ãƒ«ã§ã¯ãªã„
 
 		move.l	Header_CodeP(a0),d0
-		beq	search_real_shell		*  HHƒR[ƒh‚ğw‚µ‚Ä‚¢‚È‚¢
+		beq	search_real_shell		*  ï¼Ÿï¼Ÿã‚³ãƒ¼ãƒ‰ã‚’æŒ‡ã—ã¦ã„ãªã„
 
-		bra	search_real_shell_done		*  ƒ‹[ƒgEƒVƒFƒ‹‚ªŒ©‚Â‚©‚Á‚½
-							*  D0.L : ƒvƒƒOƒ‰ƒ€EƒR[ƒh‚ÌƒAƒhƒŒƒX
+		bra	search_real_shell_done		*  ãƒ«ãƒ¼ãƒˆãƒ»ã‚·ã‚§ãƒ«ãŒè¦‹ã¤ã‹ã£ãŸ
+							*  D0.L : ãƒ—ãƒ­ã‚°ãƒ©ãƒ ãƒ»ã‚³ãƒ¼ãƒ‰ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
 
 no_real_shell:
-		moveq	#0,d0				*  ƒ‹[ƒgEƒVƒFƒ‹‚ÍŒ©‚Â‚©‚ç‚È‚©‚Á‚½
+		moveq	#0,d0				*  ãƒ«ãƒ¼ãƒˆãƒ»ã‚·ã‚§ãƒ«ã¯è¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸ
 							*  D0.L : 0
 search_real_shell_done:
-		move.l	(a7),d1				*  D1.L = ‘O‚ÌSSP‚Ì’l
-		move.l	d0,(a7)				*  D0.L ‚ğƒZ[ƒu
+		move.l	(a7),d1				*  D1.L = å‰ã®SSPã®å€¤
+		move.l	d0,(a7)				*  D0.L ã‚’ã‚»ãƒ¼ãƒ–
 ****************
-* ³‚µ‚­‚Í‚±‚¤‚·‚é
+* æ­£ã—ãã¯ã“ã†ã™ã‚‹
 *		movea.l	usp,a0
 *		addq.l	#4,a0
 *		movea.l	a0,usp
 ****************
 		move.l	d1,-(a7)
-		DOS	_SUPER				*  ƒ†[ƒUEƒ‚[ƒh‚É–ß‚·
+		DOS	_SUPER				*  ãƒ¦ãƒ¼ã‚¶ãƒ»ãƒ¢ãƒ¼ãƒ‰ã«æˆ»ã™
 ****************
-*ã‚Å‚â‚Á‚Ä‚¢‚È‚¢‚©‚ç‚µ‚È‚¢
+*ä¸Šã§ã‚„ã£ã¦ã„ãªã„ã‹ã‚‰ã—ãªã„
 *		addq.l	#4,sp
 ****************
 	**
-	**  ƒXƒ^ƒbƒNEƒ|ƒCƒ“ƒ^‚ğİ’è‚µ‚Ä
-	**  Œ»ƒvƒƒZƒX‚Ìƒƒ‚ƒŠ‚ğƒXƒ^ƒbƒN‚Ì‘å‚«‚³‚ÉØ‚è‹l‚ß‚é
+	**  ã‚¹ã‚¿ãƒƒã‚¯ãƒ»ãƒã‚¤ãƒ³ã‚¿ã‚’è¨­å®šã—ã¦
+	**  ç¾ãƒ—ãƒ­ã‚»ã‚¹ã®ãƒ¡ãƒ¢ãƒªã‚’ã‚¹ã‚¿ãƒƒã‚¯ã®å¤§ãã•ã«åˆ‡ã‚Šè©°ã‚ã‚‹
 	**
-		movea.l	(a7)+,a2			*  A2 : ƒ‹[ƒgEƒVƒFƒ‹‚ÌƒR[ƒhEƒAƒhƒŒƒX
-		lea	header_id+STACKSIZE,a7		*  ©•ª‚ÌƒXƒ^ƒbƒN‚ğİ’è‚·‚é
-		move.l	a7,header_stackP		*  $f8(PDB) ‚É©•ª‚ÌƒXƒ^ƒbƒN‚ÌƒAƒhƒŒƒX‚ğƒZƒbƒg
+		movea.l	(a7)+,a2			*  A2 : ãƒ«ãƒ¼ãƒˆãƒ»ã‚·ã‚§ãƒ«ã®ã‚³ãƒ¼ãƒ‰ãƒ»ã‚¢ãƒ‰ãƒ¬ã‚¹
+		lea	header_id+STACKSIZE,a7		*  è‡ªåˆ†ã®ã‚¹ã‚¿ãƒƒã‚¯ã‚’è¨­å®šã™ã‚‹
+		move.l	a7,header_stackP		*  $f8(PDB) ã«è‡ªåˆ†ã®ã‚¹ã‚¿ãƒƒã‚¯ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ã‚»ãƒƒãƒˆ
 		movea.l	a7,a1
 		lea	CurrentPDB(pc),a0
 		suba.l	a0,a1
@@ -105,15 +105,15 @@ search_real_shell_done:
 		cmpa.l	#0,a2
 		bne	no_load_go
 	**
-	**  ƒ‹[ƒgEƒVƒFƒ‹‚Í‚¢‚È‚¢ .. ©•ª‚ªƒ‹[ƒgEƒVƒFƒ‹‚É‚È‚é
+	**  ãƒ«ãƒ¼ãƒˆãƒ»ã‚·ã‚§ãƒ«ã¯ã„ãªã„ .. è‡ªåˆ†ãŒãƒ«ãƒ¼ãƒˆãƒ»ã‚·ã‚§ãƒ«ã«ãªã‚‹
 	**
 		*
-		*  Å‘åƒƒ‚ƒŠ‚ğŠm•Û
+		*  æœ€å¤§ãƒ¡ãƒ¢ãƒªã‚’ç¢ºä¿
 		*
 		move.l	#$00ffffff,-(a7)
 		DOS	_MALLOC
 		sub.l	#$81000000,d0
-		move.l	d0,d1				*  D1.L : Šm•Û—Ê
+		move.l	d0,d1				*  D1.L : ç¢ºä¿é‡
 		move.l	d1,(a7)
 		DOS	_MALLOC
 		addq.l	#4,a7
@@ -121,9 +121,9 @@ search_real_shell_done:
 		bmi	mem_error
 
 		movea.l	d0,a2
-		add.l	d1,d0				*  D0.L : Šm•Û‚µ‚½ƒuƒƒbƒN‚ÌŸ‚ÌƒAƒhƒŒƒX
+		add.l	d1,d0				*  D0.L : ç¢ºä¿ã—ãŸãƒ–ãƒ­ãƒƒã‚¯ã®æ¬¡ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
 		*
-		*  Œ»ƒRƒ}ƒ“ƒh‚ÌƒpƒX–¼‚ğpathname‚ÉƒZƒbƒg
+		*  ç¾ã‚³ãƒãƒ³ãƒ‰ã®ãƒ‘ã‚¹åã‚’pathnameã«ã‚»ãƒƒãƒˆ
 		*
 		lea	pathname(pc),a0
 		lea	CurrentMCB+MCB_dirname(pc),a1
@@ -131,7 +131,7 @@ search_real_shell_done:
 		lea	CurrentMCB+MCB_filename(pc),a1
 		bsr	stpcpy
 		*
-		*  ƒR[ƒh‚ğƒ[ƒh
+		*  ã‚³ãƒ¼ãƒ‰ã‚’ãƒ­ãƒ¼ãƒ‰
 		*
 		move.l	d0,-(a7)			*  bottom address
 		move.l	a2,-(a7)			*  load address
@@ -144,9 +144,9 @@ search_real_shell_done:
 		lea	msg_load_error(pc),a4
 		bmi	error
 		*
-		*  ƒƒ‚ƒŠ‚ğØ‚è‹l‚ß‚é
+		*  ãƒ¡ãƒ¢ãƒªã‚’åˆ‡ã‚Šè©°ã‚ã‚‹
 		*
-		move.l	4(a2),d0			*  4(texttop) : Ø‚è‹l‚ß‚é‘å‚«‚³
+		move.l	4(a2),d0			*  4(texttop) : åˆ‡ã‚Šè©°ã‚ã‚‹å¤§ãã•
 		addq.l	#1,d0
 		bclr	#0,d0
 		move.l	d0,-(a7)
@@ -154,24 +154,24 @@ search_real_shell_done:
 		DOS	_SETBLOCK
 		addq.l	#8,a7
 
-		move.l	(a2),d0				*  0(texttop) : qƒVƒFƒ‹–ˆ‚Ìƒf[ƒ^‚ÌƒAƒhƒŒƒX
+		move.l	(a2),d0				*  0(texttop) : å­ã‚·ã‚§ãƒ«æ¯ã®ãƒ‡ãƒ¼ã‚¿ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
 		bra	run
 
 no_load_go:
 	**
-	**  ƒ‹[ƒgEƒVƒFƒ‹‚ª‚¢‚é .. ƒf[ƒ^‘Ş”ğ—Ìˆæ‚Ì‚İ‚ğŠm•Û‚·‚é
+	**  ãƒ«ãƒ¼ãƒˆãƒ»ã‚·ã‚§ãƒ«ãŒã„ã‚‹ .. ãƒ‡ãƒ¼ã‚¿é€€é¿é ˜åŸŸã®ã¿ã‚’ç¢ºä¿ã™ã‚‹
 	**
-		move.l	12(a2),-(a7)			*  12(texttop) : qƒVƒFƒ‹–ˆ‚Ìƒf[ƒ^‚Ì‘å‚«‚³‚¾‚¯
-		DOS	_MALLOC				*  ƒƒ‚ƒŠ‚ğŠm•Û
+		move.l	12(a2),-(a7)			*  12(texttop) : å­ã‚·ã‚§ãƒ«æ¯ã®ãƒ‡ãƒ¼ã‚¿ã®å¤§ãã•ã ã‘
+		DOS	_MALLOC				*  ãƒ¡ãƒ¢ãƒªã‚’ç¢ºä¿
 		addq.l	#4,a7
 		tst.l	d0
 		bmi	mem_error
 run:
 	**
-	**  ÀsŠJn
+	**  å®Ÿè¡Œé–‹å§‹
 	**
-		move.l	d0,header_dataP			*  $f0(PDB) ‚É©•ª‚Ìƒf[ƒ^‚ÌƒAƒhƒŒƒX‚ğƒZƒbƒg
-		move.l	a2,header_codeP			*  $f4(PDB) ‚É©•ª‚ÌƒR[ƒh‚ÌƒAƒhƒŒƒX‚ğƒZƒbƒg
+		move.l	d0,header_dataP			*  $f0(PDB) ã«è‡ªåˆ†ã®ãƒ‡ãƒ¼ã‚¿ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ã‚»ãƒƒãƒˆ
+		move.l	a2,header_codeP			*  $f4(PDB) ã«è‡ªåˆ†ã®ã‚³ãƒ¼ãƒ‰ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ã‚»ãƒƒãƒˆ
 		jmp	16(a2)
 *****************************************************************
 mem_error:
@@ -197,9 +197,9 @@ stpcpy:
 		rts
 
 *****************************************************************
-msg_mem_error:	dc.b	20,'ƒƒ‚ƒŠ‚ª‘«‚è‚Ü‚¹‚ñ',CR,LF
-msg_dos_error:	dc.b	40,'ƒo[ƒWƒ‡ƒ“2.00ˆÈ~‚ÌHuman68k‚ª•K—v‚Å‚·',CR,LF
-msg_load_error:	dc.b	38,'ƒVƒFƒ‹‚Ì–{‘Ì‚ğƒ[ƒh‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½',CR,LF
+msg_mem_error:	dc.b	20,'ãƒ¡ãƒ¢ãƒªãŒè¶³ã‚Šã¾ã›ã‚“',CR,LF
+msg_dos_error:	dc.b	40,'ãƒãƒ¼ã‚¸ãƒ§ãƒ³2.00ä»¥é™ã®Human68kãŒå¿…è¦ã§ã™',CR,LF
+msg_load_error:	dc.b	38,'ã‚·ã‚§ãƒ«ã®æœ¬ä½“ã‚’ãƒ­ãƒ¼ãƒ‰ã§ãã¾ã›ã‚“ã§ã—ãŸ',CR,LF
 *****************************************************************
 
 *****************************************************************

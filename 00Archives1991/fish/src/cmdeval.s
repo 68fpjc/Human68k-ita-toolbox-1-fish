@@ -27,11 +27,11 @@
 .xdef cmd_eval
 
 cmd_eval:
-		move.w	d0,d1			* D1.W : ˆø”‚Ì”
+		move.w	d0,d1			* D1.W : å¼•æ•°ã®æ•°
 		beq	return_0
 
-		moveq	#0,d2			* D2.W : ¶¬‚³‚ê‚½’PŒê•À‚Ñ‚ÌŒê”
-		moveq	#0,d3			* D3.W : ¶¬‚³‚ê‚½’PŒê•À‚Ñ‚Ì’·‚³
+		moveq	#0,d2			* D2.W : ç”Ÿæˆã•ã‚ŒãŸå˜èªä¸¦ã³ã®èªæ•°
+		moveq	#0,d3			* D3.W : ç”Ÿæˆã•ã‚ŒãŸå˜èªä¸¦ã³ã®é•·ã•
 		lea	line,a2
 		bra	continue
 
@@ -61,7 +61,7 @@ continue:
 
 		lea	line,a0
 		move.w	d2,d0
-		bsr	do_line		*!! Ä‹A !!*
+		bsr	do_line		*!! å†å¸° !!*
 return_0:
 		moveq	#0,d0
 		rts

@@ -12,8 +12,8 @@
 
 .data
 
-msg_login:	dc.b	'ƒƒOƒCƒ“–¼: ',0
-msg_password:	dc.b	'ƒpƒXƒ[ƒh: ',0
+msg_login:	dc.b	'ãƒ­ã‚°ã‚¤ãƒ³å: ',0
+msg_password:	dc.b	'ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰: ',0
 
 .bss
 

@@ -38,7 +38,7 @@ print_name_is:
 		rts
 ****************************************************************
 *  Name
-*       which - ƒRƒ}ƒ“ƒh‚ÌÀ‘Ì‚ğ•\¦‚·‚é
+*       which - ã‚³ãƒãƒ³ãƒ‰ã®å®Ÿä½“ã‚’è¡¨ç¤ºã™ã‚‹
 *
 *  Synopsis
 *       which [ -o | -O ] command ...
@@ -131,8 +131,8 @@ not_found:
 		beq	put_pathlist
 
 		addq.l	#2,a0
-		move.w	(a0)+,d0			* D0.W : $path ‚Ì—v‘f”
-		bsr	for1str				* A0 : $path[1] ‚ÌƒAƒhƒŒƒX
+		move.w	(a0)+,d0			* D0.W : $path ã®è¦ç´ æ•°
+		bsr	for1str				* A0 : $path[1] ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
 put_pathlist:
 		bsr	print_var_value
 		lea	msg_not_found_in,a0
@@ -159,14 +159,14 @@ which_too_few_args:
 
 .data
 
-msg_usage:		dc.b	'[ -o | -O ] <ƒRƒ}ƒ“ƒh–¼> ...',CR,LF
-			dc.b	'    -o   •Ê–¼‚ÍÆ‡‚µ‚È‚¢',CR,LF
-			dc.b	'    -O   •Ê–¼‚Æ‘g‚İ‚İƒRƒ}ƒ“ƒh‚ÍÆ‡‚µ‚È‚¢',0
-msg_is:			dc.b	' ‚Í',0
-msg_aliased:		dc.b	' ‚Ì•Ê–¼‚Å‚·',0
-msg_builtin:		dc.b	' fish ‚Ì‘g‚İ‚İƒRƒ}ƒ“ƒh‚Å‚·',0
-msg_not_found_in:	dc.b	' ‚Ì’†‚É'
-msg_not_found:		dc.b	'‚ ‚è‚Ü‚¹‚ñ',0
+msg_usage:		dc.b	'[ -o | -O ] <ã‚³ãƒãƒ³ãƒ‰å> ...',CR,LF
+			dc.b	'    -o   åˆ¥åã¯ç…§åˆã—ãªã„',CR,LF
+			dc.b	'    -O   åˆ¥åã¨çµ„ã¿è¾¼ã¿ã‚³ãƒãƒ³ãƒ‰ã¯ç…§åˆã—ãªã„',0
+msg_is:			dc.b	' ã¯',0
+msg_aliased:		dc.b	' ã®åˆ¥åã§ã™',0
+msg_builtin:		dc.b	' fish ã®çµ„ã¿è¾¼ã¿ã‚³ãƒãƒ³ãƒ‰ã§ã™',0
+msg_not_found_in:	dc.b	' ã®ä¸­ã«'
+msg_not_found:		dc.b	'ã‚ã‚Šã¾ã›ã‚“',0
 
 .end
 

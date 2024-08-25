@@ -1,81 +1,81 @@
-csh �ɂ����� fish �ɖ���
+csh にあって fish に無い
 
-	!#		����
-	&		�o�b�N�O���E���h�ł̃R�}���h�̎��s
-	%		�W���u�ԍ�
-	alloc		�g�ݍ��݃R�}���h
-	bg		�g�ݍ��݃R�}���h
-	chsh		�g�ݍ��݃R�}���h
-	exec		�g�ݍ��݃R�}���h
-	fg		�g�ݍ��݃R�}���h
-	jobs		�g�ݍ��݃R�}���h
-	kill		�g�ݍ��݃R�}���h
-	limit		�g�ݍ��݃R�}���h
-	login		�g�ݍ��݃R�}���h
-	logout		�g�ݍ��݃R�}���h
-	nice		�g�ݍ��݃R�}���h
-	nohup		�g�ݍ��݃R�}���h
-	notify		�g�ݍ��݃R�}���h
-	stop		�g�ݍ��݃R�}���h
-	suspend		�g�ݍ��݃R�}���h
-	umask		�g�ݍ��݃R�}���h
-	unlimit		�g�ݍ��݃R�}���h
-	wait		�g�ݍ��݃R�}���h
-	-r		���̉��Z�q
-	-x		���̉��Z�q
-	-o		���̉��Z�q
+	!#		履歴
+	&		バックグラウンドでのコマンドの実行
+	%		ジョブ番号
+	alloc		組み込みコマンド
+	bg		組み込みコマンド
+	chsh		組み込みコマンド
+	exec		組み込みコマンド
+	fg		組み込みコマンド
+	jobs		組み込みコマンド
+	kill		組み込みコマンド
+	limit		組み込みコマンド
+	login		組み込みコマンド
+	logout		組み込みコマンド
+	nice		組み込みコマンド
+	nohup		組み込みコマンド
+	notify		組み込みコマンド
+	stop		組み込みコマンド
+	suspend		組み込みコマンド
+	umask		組み込みコマンド
+	unlimit		組み込みコマンド
+	wait		組み込みコマンド
+	-r		式の演算子
+	-x		式の演算子
+	-o		式の演算子
 
-csh �ɂȂ��� fish �ɂ���
+csh になくて fish にある
 
-	lock		�g�ݍ��݃R�}���h
-	pwd		�g�ݍ��݃R�}���h
-	which		�g�ݍ��݃R�}���h
-	stdgets		�V�F���ϐ�
-	temp		�V�F���ϐ�
-	SHELL		���ϐ�
-	temp		���ϐ�
-	<<=		�g�ݍ��݃R�}���h @ �̑�����Z�q
-	>>=		�g�ݍ��݃R�}���h @ �̑�����Z�q
-	&=		�g�ݍ��݃R�}���h @ �̑�����Z�q
-	|=		�g�ݍ��݃R�}���h @ �̑�����Z�q
-	-a		���̉��Z�q
-	-h		���̉��Z�q
-	-s		���̉��Z�q
-	-v		���̉��Z�q
-	-E		���̉��Z�q
-	sizeof		���̉��Z�q
-	timeof		���̉��Z�q
-	freeof		���̉��Z�q
-	0ddd 0xddd	���̈ꎟ�q
-	:d		�u���C���q
-	:f		�u���C���q
-	:		�ʖ��u���}�~�@�\
-	~~		�g�ݍ��݃R�}���h�̉��z�f�B���N�g��
+	lock		組み込みコマンド
+	pwd		組み込みコマンド
+	which		組み込みコマンド
+	stdgets		シェル変数
+	temp		シェル変数
+	SHELL		環境変数
+	temp		環境変数
+	<<=		組み込みコマンド @ の代入演算子
+	>>=		組み込みコマンド @ の代入演算子
+	&=		組み込みコマンド @ の代入演算子
+	|=		組み込みコマンド @ の代入演算子
+	-a		式の演算子
+	-h		式の演算子
+	-s		式の演算子
+	-v		式の演算子
+	-E		式の演算子
+	sizeof		式の演算子
+	timeof		式の演算子
+	freeof		式の演算子
+	0ddd 0xddd	式の一次子
+	:d		置換修飾子
+	:f		置換修飾子
+	:		別名置換抑止機構
+	~~		組み込みコマンドの仮想ディレクトリ
 
-csh �ƈ���Ă���
+csh と違っている
 
-	path		���ϐ�		csh�ł� PATH
-	shell		�V�F���ϐ�		�����l�����ϐ� SHELL ���瓾�Ă���
-	<= >= <<= >>= &= |=			�P�̒P��Ƃ��Ĉ���
-	history		�V�F���ϐ�		�P�ɑg�ݍ��݃R�}���hhistory�̃f�t�H���g�Ƃ��ē���
+	path		環境変数		cshでは PATH
+	shell		シェル変数		初期値を環境変数 SHELL から得ている
+	<= >= <<= >>= &= |=			１つの単語として扱う
+	history		シェル変数		単に組み込みコマンドhistoryのデフォルトとして働く
 
-	�g�ݍ��݃R�}���h time ���T�u�V�F���ɂ�����
+	組み込みコマンド time がサブシェルにも効く
 
-	�g�ݍ��݃R�}���h repeat �� time �̈����ɃT�u�V�F���R�}���h���������Ƃ��ł���
+	組み込みコマンド repeat や time の引数にサブシェルコマンドを書くことができる
 
-	time�񍐂͋^���I�ł���
+	time報告は疑似的である
 
 	!{
-		csh �ł� ! �ɂȂ�
-		fish �ł̓G���[�ɂȂ�
+		csh では ! になる
+		fish ではエラーになる
 
 	!}
-		csh �ł� !} �ɂȂ�
-		fish �ł͒��O�̍s�� } ��������
+		csh では !} になる
+		fish では直前の行に } を加える
 
 	!{}
-		csh �ł� !} �ɂȂ�
-		fish �ł͒��O�̍s�ɂȂ�
+		csh では !} になる
+		fish では直前の行になる
 
 	!%
 
@@ -83,124 +83,124 @@ csh �ƈ���Ă���
 
 	!\
 
-	fish�ł̓��x���̌�ɕ���R�}���h�������Ă��ǂ�
+	fishではラベルの後に文やコマンドがあっても良い
 
-	�p�^�[���}�b�`���O���A�ׂ����Ƃ���ň���Ă���
+	パターンマッチングが、細かいところで違っている
 
-	csh �ł͉��Z�q�̌W�鍀�������ꍇ�A�W�鍀�� 0 �Ƃ݂Ȃ����Afish �ł̓G���[�ƂȂ�
+	csh では演算子の係る項が無い場合、係る項を 0 とみなすが、fish ではエラーとなる
 
-	csh �ł͍��E�ɍ��̖����� * ���񍀉��Z�� 0 * 0 �ł���ƌ��Ȃ����Afish �ł�
-	* �͈ꎟ�q�ł���ƌ��Ȃ��B
+	csh では左右に項の無い式 * も二項演算式 0 * 0 であると見なすが、fish では
+	* は一次子であると見なす。
 
-	csh �ł� % ���t�@�C���������@�\�̋�؂蕶���Ƃ��邪�A
-	fish �ł� % ���t�@�C�����̈ꕔ�ƌ��Ȃ�
+	csh では % もファイル名完成機能の区切り文字とするが、
+	fish では % もファイル名の一部と見なす
 
-	csh �ł� $var[0-x] �� Subscript out of range �����Afish �ł� Subscript syntax.
+	csh では $var[0-x] は Subscript out of range だが、fish では Subscript syntax.
 
-	�t�@�C�����W�J�ɂ����āAcsh �ł́A~ �Ŏn�܂�A���̂��Ƃɉp�召�����^�����^
-	'_'�^'-' �ō\������镶���񂪑����A���̂��Ƃɕ������������A�܂��� / ������
-	�ꍇ�ɁA����������[�U�̃��O�C�����Ƃ݂Ȃ��Bfish �ł́A~ �̂��Ƃɉp�������^
-	�����ō\������镶���񂪑����A���̂��Ƃɕ������������A�܂��� / ���邢�� \\
-	\/ �������ꍇ�ɁA����������[�U�̃��O�C�����Ƃ݂Ȃ��B
+	ファイル名展開において、csh では、~ で始まり、そのあとに英大小文字／数字／
+	'_'／'-' で構成される文字列が続き、そのあとに文字が無いか、または / が続く
+	場合に、文字列をユーザのログイン名とみなす。fish では、~ のあとに英小文字／
+	数字で構成される文字列が続き、そのあとに文字が無いか、または / あるいは \\
+	\/ が続く場合に、文字列をユーザのログイン名とみなす。
 
-	fish �ł̓t�@�C������ \\ �� \/ ���A/ �Ɠ����Ɉ����B�������t�@�C���������@�\
-	�ł� \ ���܂ރt�@�C�����͊��������Ȃ��B
+	fish ではファイル名の \\ と \/ を、/ と同等に扱う。ただしファイル名完成機能
+	では \ を含むファイル名は完成させない。
 
-	�V�F���ϐ����ɃV�t�g�i�h�r�Q�o�C�g�R�[�h���g�p�ł���B
+	シェル変数名にシフトＪＩＳ２バイトコードを使用できる。
 
-	csh �ł́A${ �� } �̊Ԃ� | & ; < > ( ) ������ƁA�������ȔF��������B
-	fish �ł� ${ �� } �̊Ԃ̕����͂ǂ�����ʂȈӖ��������Ȃ��B
-	${ ������q�ɂȂ��Ă��Ă����܂������B�i���S�ł͂Ȃ���������Ȃ��j
+	csh では、${ と } の間に | & ; < > ( ) があると、おかしな認識をする。
+	fish では ${ と } の間の文字はどれも特別な意味を持たない。
+	${ が入れ子になっていてもうまくいく。（完全ではないかもしれない）
 
-	set foo=(1 2 3) ; echo ${foo}x �́Acsh �ł� 1 2 3 x �����Afish �ł� 1 2 3x
+	set foo=(1 2 3) ; echo ${foo}x は、csh では 1 2 3 x だが、fish では 1 2 3x
 
-        csh �ł͕ϐ��u���̂����̂������͏C�����邱�Ƃ��ł��Ȃ����Afish �ł͂��̂悤��
-	�����͖����B
+        csh では変数置換のうちのいくつかは修飾することができないが、fish ではそのような
+	制限は無い。
 
-	csh �ł�1�̕ϐ��u���ɏC���q�͂P�����F�߂��Ȃ����Afish �ł͂����ł�
-	���ׂ邱�Ƃ��ł���B
+	csh では1つの変数置換に修飾子は１つしか認められないが、fish ではいくつでも
+	並べることができる。
 
-	fish �ł͕ϐ��u���� :s ���g�p�ł���
+	fish では変数置換に :s を使用できる
 
-	fish �ł� :s �C���̎d�l���C���g������
+	fish では :s 修飾の仕様を修正拡張した
 
-		fish �ł� :s �̋�؂蕶���ɃV�t�gJIS���g����悤�ɂ������A
-		���ʁA�c�O�Ȃ��� } �͎g�p�ł��Ȃ��悤�ɂ���
+		fish では :s の区切り文字にシフトJISを使えるようにしたが、
+		反面、残念ながら } は使用できないようにした
 
-		csh �ł� :gs/l/r/ �ŁA1�̒P��̒��� l �� 2��ȏ㌻���Ă��Ă��A1�̒P���
-		���ł͍ŏ��̕��������u�����Ȃ��Bfish �ł͂��ׂĒu������悤�ɂ����B
+		csh では :gs/l/r/ で、1つの単語の中に l が 2回以上現われていても、1つの単語の
+		中では最初の部分しか置換しない。fish ではすべて置換するようにした。
 
-		csh �ł� :s^l^r^ �� ^l^r^ �� l �� r �Ɋ܂܂�� \ �́A^ �܂��� \ ���G�X�P�[�v
-		���Ă�����́ir �ł͂���� & ���G�X�P�[�v���Ă�����́j�ȊO�̂��̂́A�폜����
-		�Ȃ��Bfish �ł͂��̂悤�ȍ����͔r�������B
+		csh では :s^l^r^ や ^l^r^ の l や r に含まれる \ は、^ または \ をエスケープ
+		しているもの（r ではさらに & をエスケープしているもの）以外のものは、削除され
+		ない。fish ではそのような混乱は排除した。
 
-		csh �ł� :s/l/r/ �� l �� r �̒����̏���� \ �������������ł��邪�Afish �ł�
-		\ ���܂߂��������Ӗ�����B
+		csh では :s/l/r/ の l や r の長さの上限は \ を除いた長さであるが、fish では
+		\ も含めた長さを意味する。
 
-		& �ɉ����� % ^ $ �����^�L���Ƃ���
+		& に加えて % ^ $ をメタ記号とした
 
-	csh �ł͗���u���ɂ����� g �t���̃p�X���C���q�͖��������
-	fish �ł̓p�X���C���q�͑S�P��ɓK�p���Aglobal �Ƃ����I�v�V�����͖���
+	csh では履歴置換において g 付きのパス名修飾子は無視される
+	fish ではパス名修飾子は全単語に適用し、global というオプションは無い
 
-	csh �ł� !% �� Bad ! arg selecter. �����Aitash �ł� % �Ŏn�܂�C�x���g��T��
+	csh では !% は Bad ! arg selecter. だが、itash では % で始まるイベントを探す
 
-	fish �ł� histchars �ɃV�t�g�i�h�r�������g����
+	fish では histchars にシフトＪＩＳ文字が使える
 
-	�V�F���ϐ� histchars ����`����Ă���Ƃ��Acsh �ł� $histchars[1] �̒l�� 2��������
-	�ł��ƕs�v�c�ȓ��������Bfish �ł́A���̂悤�ɖ��m�ɒ�`���Ă���B
-	�V�F���ϐ� histchars �̒P�ꐔ�� 0�ł���ꍇ��A$histchars[1] �̕������� 0������
-	����ꍇ�ɂ́A! �̑���� ^ �̑���������Ƃ���B�����Ȃ��� $histchars[1] �̍ŏ�
-	�̕����� ! �̑���ƂȂ�B����ɕ����������Ă���Ȃ�΁A2�����ڂ� ^ �̑���ƂȂ�
-	���A$histchars[1] �� 1���������ł���Ȃ�΁A^ �̑���͖����B
+	シェル変数 histchars が定義されているとき、csh では $histchars[1] の値が 2文字未満
+	でだと不思議な動作をする。fish では、次のように明確に定義している。
+	シェル変数 histchars の単語数が 0個である場合や、$histchars[1] の文字数が 0文字で
+	ある場合には、! の代わりも ^ の代わりも無しとする。さもなくば $histchars[1] の最初
+	の文字が ! の代わりとなる。さらに文字が続いているならば、2文字目が ^ の代わりとなる
+	が、$histchars[1] が 1文字だけであるならば、^ の代わりは無し。
 
-	set status=(1 2) ; echo $status �́Acsh �ł� 1 2 ���� fish �ł� 1 �ƂȂ�
+	set status=(1 2) ; echo $status は、csh では 1 2 だが fish では 1 となる
 
-	csh �ł́Aset �� @ �̍\���ɃG���[���������ꍇ�A�����R�}���h�E���X�g�͎��s����Ȃ�
-	���Afish �ł͂��̂悤�Ȃ��Ƃ͂Ȃ�
+	csh では、set や @ の構文にエラーがあった場合、続くコマンド・リストは実行されない
+	が、fish ではそのようなことはない
 
-	csh �ł� !?str? �� str �̗L���ő咷��30���������Afish ��31����
+	csh では !?str? の str の有効最大長は30文字だが、fish は31文字
 
-	�P��̃R�}���h�����s����Ƃ��Acsh �ł́A�܂��ŏ��̒P�ꂪ�g�ݍ��݃R�}���h����
-	���邩�ǂ����𒲂ׁA�g�ݍ��݃R�}���h�łȂ��Ȃ�΁A�ŏ��̒P��ɑ΂��ăR�}���h
-	�u���ƃt�@�C�����W�J���s���A���̌�G�X�P�[�v�ƃN�I�[�g���O���B���������āA��
-	���̒P�ꂪ \ " ' �ŃN�I�[�g����Ă���ꍇ�ɂ͑g�ݍ��݃R�}���h�Ƃ͔F�����Ȃ��B
-	�܂��A�R�}���h�u���œ�����R�}���h���őg�ݍ��݃R�}���h���N�����邱�Ƃ͂ł�
-	�Ȃ��Bfish �ł́A�܂��ŏ��̒P��ɑ΂��ăR�}���h�u���ƃt�@�C�����W�J���s���A
-	���̌�G�X�P�[�v�ƃN�I�[�g���O���B�������ē���ꂽ�R�}���h���ɑ΂��āA���ꂪ
-	�g�ݍ��݃R�}���h�ł��邩�ǂ����𒲂ׂ�̂ŁA�g�ݍ��݃R�}���h�����G�X�P�[�v��
-	�Ă����܂�Ȃ����A�R�}���h�u���œ�����R�}���h���őg�ݍ��݃R�}���h���N����
-	�邱�Ƃ��ł���B
+	単一のコマンドを実行するとき、csh では、まず最初の単語が組み込みコマンド名で
+	あるかどうかを調べ、組み込みコマンドでないならば、最初の単語に対してコマンド
+	置換とファイル名展開を行い、その後エスケープとクオートを外す。したがって、最
+	初の単語が \ " ' でクオートされている場合には組み込みコマンドとは認識しない。
+	また、コマンド置換で得られるコマンド名で組み込みコマンドを起動することはでき
+	ない。fish では、まず最初の単語に対してコマンド置換とファイル名展開を行い、
+	その後エスケープとクオートを外す。そうして得られたコマンド名に対して、それが
+	組み込みコマンドであるかどうかを調べるので、組み込みコマンド名をエスケープし
+	てもかまわないし、コマンド置換で得られるコマンド名で組み込みコマンドを起動す
+	ることもできる。
 
-	csh �� /bin\/* �����܂��W�J���Ă���Ȃ��Bfish �͓W�J����悤�ɂ����B
+	csh は /bin\/* をうまく展開してくれない。fish は展開するようにした。
 
-	-l name �ŁAname �� * �̂Ƃ��Acsh �� * �����Z�q�ł���Ɖ��߂��Ă��܂��A
-	Missing file name. �Ƃ����G���[�ƂȂ�Bfish �ł́A-l * �� 1�̈ꎟ�q�ł����
-	���߂���B
+	-l name で、name が * のとき、csh は * を演算子であると解釈してしまい、
+	Missing file name. というエラーとなる。fish では、-l * で 1つの一次子であると
+	解釈する。
 
-	fish �ł� $$ �͋^���I�ł���
+	fish では $$ は疑似的である
 
-	csh �ł� () �� Invalid null command. fish �ł͋���
+	csh では () は Invalid null command. fish では許す
 
-	csh �ł� () �̒��̃R�}���h�̕ʖ��u���͌��݂̃V�F�����s�����Afish �ł�
-	�T�u�V�F�����s��
+	csh では () の中のコマンドの別名置換は現在のシェルが行うが、fish では
+	サブシェルが行う
 
-	csh �ł̓p�C�v���C���̍Ō�̃R�}���h�ȊO�� fork �����B���Ȃ킿�g�ݍ���
-	�R�}���h�̓T�u�E�V�F���Ŏ��s�����Bfish �ł́A���Ƃ��g�ݍ��݃R�}���h��
-	�����Ă����݂̃V�F���Ŏ��s����Btime|more �̓���̈Ⴂ�͋����[���B
+	csh ではパイプラインの最後のコマンド以外は fork される。すなわち組み込み
+	コマンドはサブ・シェルで実行される。fish では、たとえ組み込みコマンドで
+	あっても現在のシェルで実行する。time|more の動作の違いは興味深い。
 
-	�e'�f��e"�f�ň͂܂ꂽ���ŁA���s�����̑O�Ɂe\�f��t����ƁAcsh �ł� CR
-	�ƂȂ邪 fish �ł� CR LF �ƂȂ�
+	‘'’や‘"’で囲まれた中で、改行文字の前に‘\’を付けると、csh では CR
+	となるが fish では CR LF となる
 
-	Human68k �ł̓t�@�C���E���[�h�Ɏ��s�\�r�b�g�������̂ŁAfish �ł�
-	#! �Ŏn�܂��Ă���t�@�C�����V�F���E�X�N���v�g�Ƃ��Ď��s�\�Ȃ��̂Ƃ���
+	Human68k ではファイル・モードに実行可能ビットが無いので、fish では
+	#! で始まっているファイルをシェル・スクリプトとして実行可能なものとする
 
-	Human68k �ł̓t�@�C���E���[�h�Ɏ��s�\�r�b�g�������̂ŁAfish �ł�
-	�t�@�C���������@�\�̃��X�g�\���� * �͕\�����Ȃ�
+	Human68k ではファイル・モードに実行可能ビットが無いので、fish では
+	ファイル名完成機能のリスト表示に * は表示しない
 
-	csh �ł� -n �ł͕ϐ��W�J�̒P��I���q�i[] �̒��j�͌������Ȃ��悤�����A
-	fish �ł͌�������悤�ɂ����B
+	csh では -n では変数展開の単語選択子（[] の中）は検査しないようだが、
+	fish では検査するようにした。
 
-	foo`echo " bar "`baz �́Acsh �ł� foobar baz �� 2��ɂȂ邪�A
-	fish �ł� foobarbaz �ɂȂ�
+	foo`echo " bar "`baz は、csh では foobar baz の 2語になるが、
+	fish では foobarbaz になる
 
 

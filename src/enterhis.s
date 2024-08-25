@@ -1,6 +1,6 @@
 * enterhis.s
 * Itagaki Fumihiko 29-Jul-90  Create.
-* Itagaki Fumihiko 19-Aug-91  ƒCƒxƒ“ƒg–ˆ‚É‚ğ‹L‰¯‚·‚é‚æ‚¤‚É‚µ‚½D
+* Itagaki Fumihiko 19-Aug-91  ã‚¤ãƒ™ãƒ³ãƒˆæ¯ã«æ™‚åˆ»ã‚’è¨˜æ†¶ã™ã‚‹ã‚ˆã†ã«ã—ãŸï¼
 
 .include doscall.h
 .include ../src/history.h
@@ -23,11 +23,11 @@
 .text
 
 *****************************************************************
-* enter_history - ’PŒê•À‚Ñ‚ğ—š—ğƒŠƒXƒg‚É“o˜^‚·‚é
+* enter_history - å˜èªä¸¦ã³ã‚’å±¥æ­´ãƒªã‚¹ãƒˆã«ç™»éŒ²ã™ã‚‹
 *
 * CALL
-*      A0     ’PŒê•À‚Ñ‚Ìæ“ªƒAƒhƒŒƒX
-*      D0.W   ’PŒê”
+*      A0     å˜èªä¸¦ã³ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      D0.W   å˜èªæ•°
 *
 * RETURN
 *      none
@@ -36,15 +36,15 @@
 
 enter_history:
 		movem.l	d0-d2/a0-a2,-(a7)
-		move.w	d0,d1				*  D1.W : ’PŒê”
-		beq	enter_history_return		*  ’PŒê”‚ª 0 ‚È‚ç‚Î“o˜^‚µ‚È‚¢
+		move.w	d0,d1				*  D1.W : å˜èªæ•°
+		beq	enter_history_return		*  å˜èªæ•°ãŒ 0 ãªã‚‰ã°ç™»éŒ²ã—ãªã„
 
 		bsr	delete_old_history
-		movea.l	a0,a1				*  A1 : ’PŒê•À‚Ñ‚Ìæ“ªƒAƒhƒŒƒX
+		movea.l	a0,a1				*  A1 : å˜èªä¸¦ã³ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
 		bsr	wordlistlen
-		move.l	d0,d2				*  D2.L : ’PŒê•À‚Ñ‚ÌƒoƒCƒg”
-		add.l	#HIST_BODY,d0			*  ‚±‚ÌƒCƒxƒ“ƒg‚É•K—v‚ÈƒoƒCƒg”‚ğ
-		bsr	xmalloc				*  Šm•Û‚·‚é
+		move.l	d0,d2				*  D2.L : å˜èªä¸¦ã³ã®ãƒã‚¤ãƒˆæ•°
+		add.l	#HIST_BODY,d0			*  ã“ã®ã‚¤ãƒ™ãƒ³ãƒˆã«å¿…è¦ãªãƒã‚¤ãƒˆæ•°ã‚’
+		bsr	xmalloc				*  ç¢ºä¿ã™ã‚‹
 		beq	no_space
 
 		movea.l	d0,a0
@@ -69,7 +69,7 @@ enter_history_2:
 		lea	HIST_BODY(a0),a0
 		move.l	d2,d0
 		bsr	memmovi
-		addq.l	#1,current_eventno(a5)		*  —š—ğƒCƒxƒ“ƒg”Ô†‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚é
+		addq.l	#1,current_eventno(a5)		*  å±¥æ­´ã‚¤ãƒ™ãƒ³ãƒˆç•ªå·ã‚’ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆã™ã‚‹
 enter_history_return:
 		movem.l	(a7)+,d0-d2/a0-a2
 		rts
@@ -99,14 +99,14 @@ delete_old_history_loop:
 		tst.b	keep_loop(a5)
 		beq	try_delete_history
 
-		move.l	HIST_EVENTNO(a2),d0		*  ‚±‚ÌƒCƒxƒ“ƒg‚Ì”Ô†‚ª
-		cmp.l	loop_top_eventno(a5),d0		*  ƒ‹[ƒvæ“ª‚ÌƒCƒxƒ“ƒg”Ô†‚Æ
-		beq	delete_old_history_done		*  ˆê’v‚µ‚½‚çI—¹‚·‚é
+		move.l	HIST_EVENTNO(a2),d0		*  ã“ã®ã‚¤ãƒ™ãƒ³ãƒˆã®ç•ªå·ãŒ
+		cmp.l	loop_top_eventno(a5),d0		*  ãƒ«ãƒ¼ãƒ—å…ˆé ­ã®ã‚¤ãƒ™ãƒ³ãƒˆç•ªå·ã¨
+		beq	delete_old_history_done		*  ä¸€è‡´ã—ãŸã‚‰çµ‚äº†ã™ã‚‹
 try_delete_history:
-		movea.l	HIST_NEXT(a2),a1		*  A1 : Ÿ‚ÌƒCƒxƒ“ƒg
-		move.l	current_eventno(a5),d0		*  iŒ»İ‚ÌƒCƒxƒ“ƒg”Ô†j
-		sub.l	HIST_REFNO(a2),d0		*    |iQÆƒJƒEƒ“ƒgj
-		cmp.l	d1,d0				*    † i$historyj H
+		movea.l	HIST_NEXT(a2),a1		*  A1 : æ¬¡ã®ã‚¤ãƒ™ãƒ³ãƒˆ
+		move.l	current_eventno(a5),d0		*  ï¼ˆç¾åœ¨ã®ã‚¤ãƒ™ãƒ³ãƒˆç•ªå·ï¼‰
+		sub.l	HIST_REFNO(a2),d0		*    âˆ’ï¼ˆå‚ç…§ã‚«ã‚¦ãƒ³ãƒˆï¼‰
+		cmp.l	d1,d0				*    â‰§ ï¼ˆ$historyï¼‰ ï¼Ÿ
 		blo	delete_old_history_next
 
 		movea.l	HIST_PREV(a2),a0
@@ -140,6 +140,6 @@ delete_old_history_done:
 ****************************************************************
 .data
 
-msg_cannot_enter_history:	dc.b	'—š—ğ“o˜^‚Å‚«‚Ü‚¹‚ñ',0
+msg_cannot_enter_history:	dc.b	'å±¥æ­´ç™»éŒ²ã§ãã¾ã›ã‚“',0
 ****************************************************************
 .end

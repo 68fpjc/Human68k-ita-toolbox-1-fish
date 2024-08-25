@@ -23,12 +23,12 @@ loop:
 		tst.l	d1
 		beq	done
 
-		tst.b	(a0)			* ‚à‚¤Œê‚ª–³‚¢‚È‚ç‚Î
-		beq	done			* ‚â‚ß‚é
+		tst.b	(a0)			* ã‚‚ã†èªãŒç„¡ã„ãªã‚‰ã°
+		beq	done			* ã‚„ã‚ã‚‹
 
 		bsr	find_space
-		subq.l	#1,d1			* n‰ñ
-		bra	loop			* ŒJ‚è•Ô‚·
+		subq.l	#1,d1			* nå›
+		bra	loop			* ç¹°ã‚Šè¿”ã™
 done:
 		move.l	(a7)+,d1
 		rts

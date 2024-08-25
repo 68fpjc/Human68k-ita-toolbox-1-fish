@@ -12,26 +12,26 @@
 .text
 
 *****************************************************************
-* fgetpwent - �p�X���[�h�E�t�@�C������1�G���g���𓾂�
+* fgetpwent - パスワード・ファイルから1エントリを得る
 *
 * CALL
-*      D0.W   �p�X���[�h�E�t�@�C���̃t�@�C���E�n���h��
-*             �i�s�̐擪���w���Ă��邱�Ɓj
+*      D0.W   パスワード・ファイルのファイル・ハンドル
+*             （行の先頭を指していること）
 *
-*      A0     pwd�\���̂̐擪�A�h���X
-*      A1     �s�ǂݍ��݃o�b�t�@�̐擪�A�h���X
-*      D1.L   �s�ǂݍ��݃o�b�t�@�̗e��
+*      A0     pwd構造体の先頭アドレス
+*      A1     行読み込みバッファの先頭アドレス
+*      D1.L   行読み込みバッファの容量
 *
 * RETURN
-*      D0.L   0 �Ȃ�ΐ����D�����Ȃ��΂����G���g���͂Ȃ��D
+*      D0.L   0 ならば成功．さもなくばもうエントリはない．
 *      CCR    TST.L D0
 *****************************************************************
 .xdef fgetpwent
 
 fgetpwent:
 		movem.l	d1-d5/a0-a3,-(a7)
-		move.w	d0,d3				*  D3.W : �t�@�C���E�n���h��
-		move.l	d1,d2				*  D2.L : �o�b�t�@�e��
+		move.w	d0,d3				*  D3.W : ファイル・ハンドル
+		move.l	d1,d2				*  D2.L : バッファ容量
 scan:
 		movea.l	a1,a2
 		move.l	d2,d4

@@ -1,6 +1,6 @@
 * getcwd.s
 * Itagaki Fumihiko 14-Jul-90  Create.
-* Itagaki Fumihiko 20-Aug-91  bsltosl ‚ğŒÄ‚Ô‚æ‚¤‚É‚µ‚½D
+* Itagaki Fumihiko 20-Aug-91  bsltosl ã‚’å‘¼ã¶ã‚ˆã†ã«ã—ãŸï¼
 
 .include doscall.h
 

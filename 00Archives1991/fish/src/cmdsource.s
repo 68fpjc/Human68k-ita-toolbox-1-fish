@@ -66,7 +66,7 @@ decode_opt_done:
 		tst.b	d1
 		bne	just_read_source
 
-		bsr	OpenLoadRun_source		***!! Ä‹A !!***
+		bsr	OpenLoadRun_source		***!! å†å¸° !!***
 		clr.b	exitflag
 		bra	cmd_source_success
 
@@ -121,7 +121,7 @@ cmd_source_usage:
 ****************************************************************
 .data
 
-msg_usage:	dc.b	'[ -h ] <ƒtƒ@ƒCƒ‹–¼>',0
+msg_usage:	dc.b	'[ -h ] <ãƒ•ã‚¡ã‚¤ãƒ«å>',0
 
 .end
 

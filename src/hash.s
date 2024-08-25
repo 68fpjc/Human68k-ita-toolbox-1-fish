@@ -53,7 +53,7 @@ hash:
 * NEW
 		movem.l	d1-d2/a0,-(a7)
 		moveq	#0,d1			* D1 : hashval
-		move.w	#7,d2			* 8•¶š‚Ü‚Å
+		move.w	#7,d2			* 8æ–‡å­—ã¾ã§
 hash_loop:
 		moveq	#0,d0
 		move.b	(a0)+,d0
@@ -80,7 +80,7 @@ hash_done:
 		movem.l	d1-d4/a0,-(a7)
 		moveq	#0,d2			* D2 : hashval
  		move.l	#4999,d3		* D3 : base
-		move.w	#7,d4			* 8•¶š‚Ü‚Å
+		move.w	#7,d4			* 8æ–‡å­—ã¾ã§
 hash_loop:
 		moveq	#0,d0
 		move.b	(a0)+,d0
@@ -134,7 +134,7 @@ rehash:
 		link	a6,#files_buf
 		movem.l	d0-d2/a0-a4,-(a7)
 	*
-	*  ƒnƒbƒVƒ…•\‚ğƒNƒŠƒA‚·‚é
+	*  ãƒãƒƒã‚·ãƒ¥è¡¨ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
 	*
 		lea	hash_table(a5),a4
 		move.w	#1023,d0
@@ -142,7 +142,7 @@ rehash_clear_loop:
 		clr.b	(a4,d0.w)
 		dbra	d0,rehash_clear_loop
 	*
-	*  ƒVƒFƒ‹•Ï” path ‚ÌŠe—v‘f‚ª¦‚·ƒfƒBƒŒƒNƒgƒŠ‚Ì“à—e‚ğƒnƒbƒVƒ…‚·‚é
+	*  ã‚·ã‚§ãƒ«å¤‰æ•° path ã®å„è¦ç´ ãŒç¤ºã™ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®å†…å®¹ã‚’ãƒãƒƒã‚·ãƒ¥ã™ã‚‹
 	*
 		lea	word_path,a0
 		bsr	find_shellvar
@@ -150,8 +150,8 @@ rehash_clear_loop:
 
 		bsr	get_var_value
 		move.w	d0,d1				*  D1.W : $#path
-		movea.l	a0,a1				*  A1 : $path ƒ|ƒCƒ“ƒ^
-		moveq	#0,d2				*  D2.B : ƒCƒ“ƒfƒbƒNƒX
+		movea.l	a0,a1				*  A1 : $path ãƒã‚¤ãƒ³ã‚¿
+		moveq	#0,d2				*  D2.B : ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 		bra	rehash_start
 
 rehash_loop:
@@ -175,7 +175,7 @@ rehash_loop:
 		bsr	cat_pathname
 		bmi	rehash_continue
 
-		*bclr	#31,d0	* D0.L:31 ‚Í 0 ‚É‚È‚Á‚Ä‚¢‚é‚Í‚¸
+		*bclr	#31,d0	* D0.L:31 ã¯ 0 ã«ãªã£ã¦ã„ã‚‹ã¯ãš
 		bsr	drvchkp
 		bmi	rehash_continue
 
@@ -195,7 +195,7 @@ rehash_real_directory_loop:
 		and.b	#MODEVAL_DIR|MODEVAL_VOL,d0
 		bne	rehash_real_directory_next
 
-		*  ‚±‚êˆÈã‚ÌŒŸ¸‚ÍA’x‚­‚È‚é‚Ì‚ÅA‚â‚ç‚È‚¢B
+		*  ã“ã‚Œä»¥ä¸Šã®æ¤œæŸ»ã¯ã€é…ããªã‚‹ã®ã§ã€ã‚„ã‚‰ãªã„ã€‚
 
 		lea	files_buf+ST_NAME(a6),a0
 		bsr	hash
@@ -262,10 +262,10 @@ cmd_hashstat:
 		tst.w	d0
 		bne	too_many_args
 
-		moveq	#0,d1				*  ‰E‹l‚ß‚Å
-		moveq	#' ',d2				*  pad‚Í‹ó”’‚Å
-		moveq	#1,d3				*  ­‚È‚­‚Æ‚à 1•¶š‚Ì•‚É
-		moveq	#1,d4				*  ­‚È‚­‚Æ‚à 1Œ…‚Ì”š‚ğ
+		moveq	#0,d1				*  å³è©°ã‚ã§
+		moveq	#' ',d2				*  padã¯ç©ºç™½ã§
+		moveq	#1,d3				*  å°‘ãªãã¨ã‚‚ 1æ–‡å­—ã®å¹…ã«
+		moveq	#1,d4				*  å°‘ãªãã¨ã‚‚ 1æ¡ã®æ•°å­—ã‚’
 		lea	msg_status,a0
 		bsr	puts
 		lea	msg_on,a0
@@ -295,7 +295,7 @@ put_status:
 		add.l	hash_misses(a5),d1
 		bsr	divul
 cmd_hashstat_2:
-		moveq	#0,d1				*  ‰E‹l‚ß‚Å
+		moveq	#0,d1				*  å³è©°ã‚ã§
 		bsr	printu
 		lea	msg_percent,a0
 		bsr	nputs
@@ -305,12 +305,12 @@ cmd_hashstat_done:
 ****************************************************************
 .data
 
-msg_status:	dc.b	'ó‘Ô: ',0
+msg_status:	dc.b	'çŠ¶æ…‹: ',0
 msg_on:		dc.b	'on',0
 msg_off:	dc.b	'off',0
-msg_hits:	dc.b	', ƒqƒbƒg: ',0
-msg_misses:	dc.b	'‰ñ, ƒ~ƒX: ',0
-msg_ratio:	dc.b	'‰ñ, ƒqƒbƒg—¦: ',0
+msg_hits:	dc.b	', ãƒ’ãƒƒãƒˆ: ',0
+msg_misses:	dc.b	'å›, ãƒŸã‚¹: ',0
+msg_ratio:	dc.b	'å›, ãƒ’ãƒƒãƒˆç‡: ',0
 msg_percent:	dc.b	'%',0
 
 .end

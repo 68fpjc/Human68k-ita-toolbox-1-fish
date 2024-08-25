@@ -25,20 +25,20 @@
 *      A0     dirname
 *
 * RETURN
-*      D0.L   ƒGƒ‰[‚È‚ç‚Î•‰”i‚n‚r‚ÌƒGƒ‰[ƒR[ƒhj
-*             w’è‚ÌƒfƒBƒŒƒNƒgƒŠ‚ÉˆÚ“®‚µ‚½‚È‚ç‚ÎA0
-*             ƒVƒFƒ‹•Ï”‚Å•â‚í‚ê‚½‚È‚ç‚ÎA1
+*      D0.L   ã‚¨ãƒ©ãƒ¼ãªã‚‰ã°è² æ•°ï¼ˆï¼¯ï¼³ã®ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ï¼‰
+*             æŒ‡å®šã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«ç§»å‹•ã—ãŸãªã‚‰ã°ã€0
+*             ã‚·ã‚§ãƒ«å¤‰æ•°ã§è£œã‚ã‚ŒãŸãªã‚‰ã°ã€1
 *      CCR    TST.L D0
 *****************************************************************
 .xdef chdirx
 
 chdirx:
 		movem.l	d1-d3/a0-a3,-(a7)
-		bsr	chdir			* ƒJƒŒƒ“ƒgEƒfƒBƒŒƒNƒgƒŠ‚ğ•ÏX‚·‚é
+		bsr	chdir			* ã‚«ãƒ¬ãƒ³ãƒˆãƒ»ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å¤‰æ›´ã™ã‚‹
 		bpl	done0
 
-		cmpi.b	#':',1(a0)		* ƒhƒ‰ƒCƒuw’è‚ª‚ ‚éê‡‚Í
-		beq	done			* cdpath‚ğŒŸõ‚µ‚È‚¢
+		cmpi.b	#':',1(a0)		* ãƒ‰ãƒ©ã‚¤ãƒ–æŒ‡å®šãŒã‚ã‚‹å ´åˆã¯
+		beq	done			* cdpathã‚’æ¤œç´¢ã—ãªã„
 
 		movea.l	a0,a1
 		cmpi.b	#'.',(a1)
@@ -63,9 +63,9 @@ chdirx_1:
 		beq	try_varname
 
 		addq.l	#2,a0
-		move.w	(a0)+,d1			* D1.W : cdpath ‚Ì’PŒê”
+		move.w	(a0)+,d1			* D1.W : cdpath ã®å˜èªæ•°
 		bsr	for1str
-		movea.l	a0,a1				* A1 : cdpath ‚Ì’PŒê•À‚Ñ
+		movea.l	a0,a1				* A1 : cdpath ã®å˜èªä¸¦ã³
 		lea	pathname_buf,a0
 		bra	try_cdpath_continue
 
@@ -85,7 +85,7 @@ try_varname:
 		beq	varname_fail
 
 		lea	2(a0),a0
-		move.w	(a0)+,d1		* D1.W : ’PŒê”  A0 : ’l
+		move.w	(a0)+,d1		* D1.W : å˜èªæ•°  A0 : å€¤
 		beq	varname_fail
 
 		bsr	for1str

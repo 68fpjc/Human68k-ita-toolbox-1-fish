@@ -59,11 +59,11 @@ OP_DECREMENT	equ	13
 
 ****************************************************************
 *  Name
-*       set - ƒVƒFƒ‹•Ï”‚Ì•\¦‚Æİ’è
+*       set - ã‚·ã‚§ãƒ«å¤‰æ•°ã®è¡¨ç¤ºã¨è¨­å®š
 *
 *  Synopsis
 *       set
-*            ’è‹`‚³‚ê‚Ä‚¢‚é‚·‚×‚Ä‚ÌƒVƒFƒ‹•Ï”‚Æ‚»‚ê‚ç‚Ì’l‚ğ•\¦‚·‚é
+*            å®šç¾©ã•ã‚Œã¦ã„ã‚‹ã™ã¹ã¦ã®ã‚·ã‚§ãƒ«å¤‰æ•°ã¨ãã‚Œã‚‰ã®å€¤ã‚’è¡¨ç¤ºã™ã‚‹
 *
 *       name
 *       name=
@@ -81,8 +81,8 @@ OP_DECREMENT	equ	13
 
 cmd_set:
 		lea	shellvar_top(a5),a3
-		move.w	d0,d7				*  ˆø”‚ª–³‚¢‚È‚ç
-		beq	printvar			*  ƒVƒFƒ‹•Ï”‚ÌƒŠƒXƒg‚ğ•\¦
+		move.w	d0,d7				*  å¼•æ•°ãŒç„¡ã„ãªã‚‰
+		beq	printvar			*  ã‚·ã‚§ãƒ«å¤‰æ•°ã®ãƒªã‚¹ãƒˆã‚’è¡¨ç¤º
 set_loop:
 		tst.w	d7
 		beq	return_0
@@ -90,7 +90,7 @@ set_loop:
 		bsr	scan_name_and_index
 		bne	return
 
-		sf	d3				*   D3 : ()ƒtƒ‰ƒO
+		sf	d3				*   D3 : ()ãƒ•ãƒ©ã‚°
 		cmpi.b	#'=',(a0)
 		bne	cmd_set_not_includes_equal
 
@@ -152,14 +152,14 @@ set_arg_word:
 		bsr	strfor1
 		subq.w	#1,d7
 set_value:
-		movea.l	a0,a4				*  A4 : Ÿ‚Ìˆø”‚ğw‚·ƒ|ƒCƒ“ƒ^
-		move.l	a1,d6				*  D6.L : “WŠJ‘O‚Ì’l‚ğw‚·ƒ|ƒCƒ“ƒ^
+		movea.l	a0,a4				*  A4 : æ¬¡ã®å¼•æ•°ã‚’æŒ‡ã™ãƒã‚¤ãƒ³ã‚¿
+		move.l	a1,d6				*  D6.L : å±•é–‹å‰ã®å€¤ã‚’æŒ‡ã™ãƒã‚¤ãƒ³ã‚¿
 		movea.l	tmpargs(a5),a0
 		bsr	expand_wordlist
 		bmi	return
 
 		movea.l	a0,a1				*  A1 : value wordlist
-		tst.l	d2				*  [index]Œ`®‚©H
+		tst.l	d2				*  [index]å½¢å¼ã‹ï¼Ÿ
 		bpl	do_set_a_element
 
 		tst.b	d3
@@ -175,11 +175,11 @@ do_set_one:
 		bra	cmd_set_next
 
 do_set_a_element:
-		cmp.w	#1,d0				*  [index]Œ`®‚È‚Ì‚É’PŒê”‚ª
-		bhi	set_ambiguous			*  ‚PŒÂ‚ğ’´‚¦‚é‚È‚çƒGƒ‰[
-		beq	do_set_a_element_1		*  ‚PŒÂ‚È‚ç‚Î‚n‚j
+		cmp.w	#1,d0				*  [index]å½¢å¼ãªã®ã«å˜èªæ•°ãŒ
+		bhi	set_ambiguous			*  ï¼‘å€‹ã‚’è¶…ãˆã‚‹ãªã‚‰ã‚¨ãƒ©ãƒ¼
+		beq	do_set_a_element_1		*  ï¼‘å€‹ãªã‚‰ã°ï¼¯ï¼«
 
-		clr.b	(a1)				*  0ŒÂ‚È‚ç‚Î "\0" ‚Æ‚·‚é
+		clr.b	(a1)				*  0å€‹ãªã‚‰ã° "\0" ã¨ã™ã‚‹
 do_set_a_element_1:
 		bsr	set_a_element
 cmd_set_next:
@@ -193,11 +193,11 @@ set_ambiguous:
 		bra	ambiguous
 ****************************************************************
 *  Name
-*       @ - ƒVƒFƒ‹•Ï”‚Ì•\¦‚Æİ’è
+*       @ - ã‚·ã‚§ãƒ«å¤‰æ•°ã®è¡¨ç¤ºã¨è¨­å®š
 *
 *  Synopsis
 *       @
-*            ’è‹`‚³‚ê‚Ä‚¢‚é‚·‚×‚Ä‚ÌƒVƒFƒ‹•Ï”‚Æ‚»‚ê‚ç‚Ì’l‚ğ•\¦‚·‚é
+*            å®šç¾©ã•ã‚Œã¦ã„ã‚‹ã™ã¹ã¦ã®ã‚·ã‚§ãƒ«å¤‰æ•°ã¨ãã‚Œã‚‰ã®å€¤ã‚’è¡¨ç¤ºã™ã‚‹
 *
 *       @ lvalue op expression
 *
@@ -218,14 +218,14 @@ set_ambiguous:
 *                 ^=
 *                 |=
 *
-*            op ‚Ì¶‰E‚É‚Í‹ó”’‚ª‚ ‚Á‚Ä‚à‚È‚­‚Ä‚à—Ç‚¢
+*            op ã®å·¦å³ã«ã¯ç©ºç™½ãŒã‚ã£ã¦ã‚‚ãªãã¦ã‚‚è‰¯ã„
 ****************************************************************
 .xdef cmd_set_expression
 
 cmd_set_expression:
 		lea	shellvar_top(a5),a3
-		move.w	d0,d7				*  ˆø”‚ª–³‚¢‚È‚ç
-		beq	printvar			*  ƒVƒFƒ‹•Ï”‚ÌƒŠƒXƒg‚ğ•\¦
+		move.w	d0,d7				*  å¼•æ•°ãŒç„¡ã„ãªã‚‰
+		beq	printvar			*  ã‚·ã‚§ãƒ«å¤‰æ•°ã®ãƒªã‚¹ãƒˆã‚’è¡¨ç¤º
 set_expression_loop:
 		moveq	#0,d0
 		tst.w	d7
@@ -234,10 +234,10 @@ set_expression_loop:
 		bsr	scan_name_and_index
 		bne	cmd_set_expression_return
 		*
-		*  A0   : ˆø”ƒ|ƒCƒ“ƒ^
-		*  D7.W : ˆø”ƒJƒEƒ“ƒ^
-		*  A2   : ¶•Ó•Ï”–¼
-		*  D2.L : ¶•Ó•Ï”‚Ì“Yš‚Ì’li[index]Œ`®‚Å–³‚¯‚ê‚Î-1j
+		*  A0   : å¼•æ•°ãƒã‚¤ãƒ³ã‚¿
+		*  D7.W : å¼•æ•°ã‚«ã‚¦ãƒ³ã‚¿
+		*  A2   : å·¦è¾ºå¤‰æ•°å
+		*  D2.L : å·¦è¾ºå¤‰æ•°ã®æ·»å­—ã®å€¤ï¼ˆ[index]å½¢å¼ã§ç„¡ã‘ã‚Œã°-1ï¼‰
 		*
 		bsr	scan_assign_operator
 		move.b	d0,d4
@@ -256,11 +256,11 @@ set_expression_op_ok:
 		clr.b	(a0)
 		movea.l	a3,a0
 		*
-		*  A0   : ˆø”ƒ|ƒCƒ“ƒ^
-		*  D7.W : ˆø”ƒJƒEƒ“ƒ^
-		*  A2   : ¶•Ó•Ï”–¼
-		*  D2.L : ¶•Ó•Ï”‚Ì“Yš‚Ì’li[index]Œ`®‚Å–³‚¯‚ê‚Î-1j
-		*  D4.B : ‰‰ZqƒR[ƒh
+		*  A0   : å¼•æ•°ãƒã‚¤ãƒ³ã‚¿
+		*  D7.W : å¼•æ•°ã‚«ã‚¦ãƒ³ã‚¿
+		*  A2   : å·¦è¾ºå¤‰æ•°å
+		*  D2.L : å·¦è¾ºå¤‰æ•°ã®æ·»å­—ã®å€¤ï¼ˆ[index]å½¢å¼ã§ç„¡ã‘ã‚Œã°-1ï¼‰
+		*  D4.B : æ¼”ç®—å­ã‚³ãƒ¼ãƒ‰
 		*
 		cmp.b	#OP_INCREMENT,d4
 		blo	set_expression_expression
@@ -284,15 +284,15 @@ set_expression_do_expression:
 		bne	cmd_set_expression_return
 ********************************
 set_expression_postcalc:
-		movea.l	a0,a4				*  A4 : Ÿ‚Ìˆø”
-		move.l	d1,d5				*  D5.L : ‰E•Ó’l
+		movea.l	a0,a4				*  A4 : æ¬¡ã®å¼•æ•°
+		move.l	d1,d5				*  D5.L : å³è¾ºå€¤
 		*
-		*  A4   : ˆø”ƒ|ƒCƒ“ƒ^
-		*  D7.W : ˆø”ƒJƒEƒ“ƒ^
-		*  A2   : ¶•Ó•Ï”–¼
-		*  D2.L : ¶•Ó•Ï”‚Ì“Yš‚Ì’li[index]Œ`®‚Å–³‚¯‚ê‚Î-1j
-		*  D4.B : ‰‰ZqƒR[ƒh
-		*  D5.L : ‰E•Ó’l
+		*  A4   : å¼•æ•°ãƒã‚¤ãƒ³ã‚¿
+		*  D7.W : å¼•æ•°ã‚«ã‚¦ãƒ³ã‚¿
+		*  A2   : å·¦è¾ºå¤‰æ•°å
+		*  D2.L : å·¦è¾ºå¤‰æ•°ã®æ·»å­—ã®å€¤ï¼ˆ[index]å½¢å¼ã§ç„¡ã‘ã‚Œã°-1ï¼‰
+		*  D4.B : æ¼”ç®—å­ã‚³ãƒ¼ãƒ‰
+		*  D5.L : å³è¾ºå€¤
 		*
 		subq.b	#OP_ASSIGN,d4
 		beq	set_expression_lvalue_ok
@@ -310,7 +310,7 @@ set_expression_postcalc:
 		moveq	#1,d0
 set_expression_check_nwords:
 		moveq	#0,d3
-		move.w	var_nwords(a0),d3		*  D3.L : ‚±‚Ì•Ï”‚Ì—v‘f”
+		move.w	var_nwords(a0),d3		*  D3.L : ã“ã®å¤‰æ•°ã®è¦ç´ æ•°
 		cmp.l	d3,d0
 		bgt	set_expression_lvalue_ok
 
@@ -382,13 +382,13 @@ magical_increment_ok:
 set_expression_lvalue_ok:
 		move.l	d5,d0
 		*
-		*  A4   : ˆø”ƒ|ƒCƒ“ƒ^
-		*  D7.W : ˆø”ƒJƒEƒ“ƒ^
-		*  A2   : ¶•Ó•Ï”–¼
-		*  D2.L : ¶•Ó•Ï”‚Ì“Yš‚Ì’li[index]Œ`®‚Å–³‚¯‚ê‚Î-1j
-		*  D0.L : ‰E•Ó’l
-		*  D4.B : ‰‰ZqƒR[ƒh
-		*  D1.L : ¶•Ó’l
+		*  A4   : å¼•æ•°ãƒã‚¤ãƒ³ã‚¿
+		*  D7.W : å¼•æ•°ã‚«ã‚¦ãƒ³ã‚¿
+		*  A2   : å·¦è¾ºå¤‰æ•°å
+		*  D2.L : å·¦è¾ºå¤‰æ•°ã®æ·»å­—ã®å€¤ï¼ˆ[index]å½¢å¼ã§ç„¡ã‘ã‚Œã°-1ï¼‰
+		*  D0.L : å³è¾ºå€¤
+		*  D4.B : æ¼”ç®—å­ã‚³ãƒ¼ãƒ‰
+		*  D1.L : å·¦è¾ºå€¤
 		*
 		lea	postcalc_jump_table,a0
 		moveq	#0,d3
@@ -449,11 +449,11 @@ postcalc_itoa:
 		lea	tmpword1,a1
 		bsr	expr_itoa
 		*
-		*  A4   : ˆø”ƒ|ƒCƒ“ƒ^
-		*  D7.W : ˆø”ƒJƒEƒ“ƒ^
-		*  A2   : ¶•Ó•Ï”–¼
-		*  D2.L : ¶•Ó•Ï”‚Ì“Yš‚Ì’li[index]Œ`®‚Å–³‚¯‚ê‚Î-1j
-		*  A1   : ’l‚ğ•\‚·•¶š—ñ‚ªŠi”[‚³‚ê‚Ä‚¢‚éƒoƒbƒtƒ@‚ÌƒAƒhƒŒƒX
+		*  A4   : å¼•æ•°ãƒã‚¤ãƒ³ã‚¿
+		*  D7.W : å¼•æ•°ã‚«ã‚¦ãƒ³ã‚¿
+		*  A2   : å·¦è¾ºå¤‰æ•°å
+		*  D2.L : å·¦è¾ºå¤‰æ•°ã®æ·»å­—ã®å€¤ï¼ˆ[index]å½¢å¼ã§ç„¡ã‘ã‚Œã°-1ï¼‰
+		*  A1   : å€¤ã‚’è¡¨ã™æ–‡å­—åˆ—ãŒæ ¼ç´ã•ã‚Œã¦ã„ã‚‹ãƒãƒƒãƒ•ã‚¡ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
 		*
 set_expression_do_set:
 		bsr	do_set_expression
@@ -463,14 +463,14 @@ cmd_set_expression_return:
 		rts
 ****************************************************************
 * CALL
-*      A0     ’PŒê
+*      A0     å˜èª
 *
 * RETURN
-*      A0     ’PŒê‚Ì‘±‚«
-*      A2     –¼‘O
-*      D0.L   ƒGƒ‰[‚ª–³‚¯‚ê‚Î0
-*      D1.L   ”j‰ó
-*      D2.L   “Yš‚Ì’li[index]Œ`®‚Å–³‚¯‚ê‚Î-1j
+*      A0     å˜èªã®ç¶šã
+*      A2     åå‰
+*      D0.L   ã‚¨ãƒ©ãƒ¼ãŒç„¡ã‘ã‚Œã°0
+*      D1.L   ç ´å£Š
+*      D2.L   æ·»å­—ã®å€¤ï¼ˆ[index]å½¢å¼ã§ç„¡ã‘ã‚Œã°-1ï¼‰
 *      CCR    TST.L D0
 ****************************************************************
 scan_name_and_index:
@@ -499,11 +499,11 @@ return:
 		rts
 ****************************************************************
 * CALL
-*      A0     •¶š—ñ
+*      A0     æ–‡å­—åˆ—
 *
 * RETURN
-*      D0.B   ‰‰ZqƒR[ƒh
-*      A3     ‰‰Zq‚ÌŸ‚ğw‚·
+*      D0.B   æ¼”ç®—å­ã‚³ãƒ¼ãƒ‰
+*      A3     æ¼”ç®—å­ã®æ¬¡ã‚’æŒ‡ã™
 ****************************************************************
 scan_assign_operator:
 		tst.b	(a0)
@@ -608,17 +608,17 @@ scan_assign_operator_return:
 ****************************************************************
 do_set_expression:
 		moveq	#1,d0
-		tst.l	d2				*  [index]Œ`®‚Å‚È‚¯‚ê‚Î
-		bmi	do_set				*  name ‚É A1 ‚ğİ’è‚·‚é
+		tst.l	d2				*  [index]å½¢å¼ã§ãªã‘ã‚Œã°
+		bmi	do_set				*  name ã« A1 ã‚’è¨­å®šã™ã‚‹
 ****************************************************************
 * CALL
-*      A1     ƒZƒbƒg‚·‚é’li•¶š—ñj
-*      A2     –¼‘O
-*      D2.L   “Yš‚Ì’li³”j
+*      A1     ã‚»ãƒƒãƒˆã™ã‚‹å€¤ï¼ˆæ–‡å­—åˆ—ï¼‰
+*      A2     åå‰
+*      D2.L   æ·»å­—ã®å€¤ï¼ˆæ­£æ•°ï¼‰
 *
 * RETURN
-*      D1-D3/A0-A1/A3     ”j‰ó
-*      D0.L   ƒGƒ‰[‚ª–³‚¯‚ê‚Î0
+*      D1-D3/A0-A1/A3     ç ´å£Š
+*      D0.L   ã‚¨ãƒ©ãƒ¼ãŒç„¡ã‘ã‚Œã°0
 *      CCR    TST.L D0
 ****************************************************************
 set_a_element:
@@ -630,17 +630,17 @@ set_a_element:
 		tst.l	d2
 		beq	subscript_out_of_range
 
-		movea.l	d0,a0				*  A0 : •Ï”‚Ìƒwƒbƒ_‚ÌƒAƒhƒŒƒX
+		movea.l	d0,a0				*  A0 : å¤‰æ•°ã®ãƒ˜ãƒƒãƒ€ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
 		moveq	#0,d3
-		move.w	var_nwords(a0),d3		*  D3.L : ‚±‚Ì•Ï”‚Ì—v‘f”
+		move.w	var_nwords(a0),d3		*  D3.L : ã“ã®å¤‰æ•°ã®è¦ç´ æ•°
 		cmp.l	d3,d2
 		bhi	subscript_out_of_range
 
 		lea	var_body(a0),a0
 		bsr	strfor1
-		movea.l	a0,a3				*  A3 : •Ï”‚Ì’l‚Ì’PŒê•À‚Ñ‚Ìæ“ªƒAƒhƒŒƒX
+		movea.l	a0,a3				*  A3 : å¤‰æ•°ã®å€¤ã®å˜èªä¸¦ã³ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
 		lea	tmpline(a5),a0
-		moveq	#0,d1				*  D1.W : —v‘f”Ô†ƒJƒEƒ“ƒ^
+		moveq	#0,d1				*  D1.W : è¦ç´ ç•ªå·ã‚«ã‚¦ãƒ³ã‚¿
 		bra	set_a_element_dup_continue
 
 set_a_element_dup_loop:
@@ -666,18 +666,18 @@ set_a_element_dup_continue:
 		lea	tmpline(a5),a1
 ****************************************************************
 * CALL
-*      A1     ƒZƒbƒg‚·‚é’li’PŒê•À‚Ñj
-*      A2     –¼‘O
-*      D0.L   ’PŒê”
+*      A1     ã‚»ãƒƒãƒˆã™ã‚‹å€¤ï¼ˆå˜èªä¸¦ã³ï¼‰
+*      A2     åå‰
+*      D0.L   å˜èªæ•°
 *
 * RETURN
-*      D1/A0     ”j‰ó
-*      D0.L   0:¬Œ÷  1:¸”s
+*      D1/A0     ç ´å£Š
+*      D0.L   0:æˆåŠŸ  1:å¤±æ•—
 *      CCR    TST.L D0
 ****************************************************************
 do_set:
 		movea.l	a2,a0
-		st	d1				*  export ‚·‚é
+		st	d1				*  export ã™ã‚‹
 		bra	set_shellvar
 ****************************************************************
 .data

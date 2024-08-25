@@ -15,14 +15,14 @@
 
 ****************************************************************
 *  Name
-*       shift - ƒVƒFƒ‹•Ï”‚ğƒVƒtƒg‚·‚é
+*       shift - ã‚·ã‚§ãƒ«å¤‰æ•°ã‚’ã‚·ãƒ•ãƒˆã™ã‚‹
 *
 *  Synopsis
 *       shift
-*            argv ‚ğƒVƒtƒg‚·‚é
+*            argv ã‚’ã‚·ãƒ•ãƒˆã™ã‚‹
 *
 *       shift var
-*            var ‚ğƒVƒtƒg‚·‚é
+*            var ã‚’ã‚·ãƒ•ãƒˆã™ã‚‹
 ****************************************************************
 .xdef cmd_shift
 
@@ -33,12 +33,12 @@ cmd_shift:
 
 		lea	word_argv,a0
 shift_var:
-		movea.l	a0,a2				* A2 : •Ï”–¼
+		movea.l	a0,a2				* A2 : å¤‰æ•°å
 		bsr	find_shellvar
-		exg	a0,a2				* A0 : •Ï”–¼   A2 : var ptr
+		exg	a0,a2				* A0 : å¤‰æ•°å   A2 : var ptr
 		beq	undefined
 
-		move.w	2(a2),d0			* D0.W : ‚±‚Ì•Ï”‚Ì—v‘f”
+		move.w	2(a2),d0			* D0.W : ã“ã®å¤‰æ•°ã®è¦ç´ æ•°
 		beq	no_more_words
 
 		exg	a0,a2
@@ -48,7 +48,7 @@ shift_var:
 		subq.w	#1,d0
 		movea.l	a0,a1
 		movea.l	a2,a0
-		moveq	#1,d1				* export ‚·‚é
+		moveq	#1,d1				* export ã™ã‚‹
 		bra	set_svar
 
 no_more_words:
@@ -57,7 +57,7 @@ no_more_words:
 ****************************************************************
 .data
 
-msg_no_more_words:	dc.b	'’PŒê‚Í‚à‚¤‚ ‚è‚Ü‚¹‚ñ',0
+msg_no_more_words:	dc.b	'å˜èªã¯ã‚‚ã†ã‚ã‚Šã¾ã›ã‚“',0
 
 .end
 

@@ -103,17 +103,17 @@ itoabuf = -12
 .text
 
 ****************************************************************
-* expression2 - Ž®‚ð•]‰¿‚·‚é
+* expression2 - å¼ã‚’è©•ä¾¡ã™ã‚‹
 *
 * CALL
-*      A0     Ž®‚Ì’PŒê•À‚Ñ‚Ìæ“ªƒAƒhƒŒƒX
-*      D7.W   Ž®‚Ì’PŒê”
+*      A0     å¼ã®å˜èªžä¸¦ã³ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      D7.W   å¼ã®å˜èªžæ•°
 *
 * RETURN
-*      A0     Žc‚Á‚½’PŒê•À‚Ñ‚Ìæ“ªƒAƒhƒŒƒX
-*      D0.L   ƒGƒ‰[‚ª–³‚¯‚ê‚Î 0D‚³‚à‚È‚­‚Î 1
-*      D1.L   Ž®‚Ì’l
-*      D7.W   Žc‚Á‚½’PŒê‚Ì”
+*      A0     æ®‹ã£ãŸå˜èªžä¸¦ã³ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      D0.L   ã‚¨ãƒ©ãƒ¼ãŒç„¡ã‘ã‚Œã° 0ï¼Žã•ã‚‚ãªãã° 1
+*      D1.L   å¼ã®å€¤
+*      D7.W   æ®‹ã£ãŸå˜èªžã®æ•°
 *      CCR    TST.L D0
 ****************************************************************
 .xdef expression2
@@ -127,18 +127,18 @@ expression2:
 		unlk	a6
 		rts
 ****************************************************************
-* expression - Ž®‚ð•]‰¿‚·‚é
+* expression - å¼ã‚’è©•ä¾¡ã™ã‚‹
 *
 * CALL
-*      A0     Ž®‚Ì’PŒê•À‚Ñ‚Ìæ“ªƒAƒhƒŒƒX
-*      A1     Ž®‚Ì’l‚ðŠi”[‚·‚éƒoƒbƒtƒ@‚ÌƒAƒhƒŒƒX
-*      D7.W   Ž®‚Ì’PŒê”
+*      A0     å¼ã®å˜èªžä¸¦ã³ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      A1     å¼ã®å€¤ã‚’æ ¼ç´ã™ã‚‹ãƒãƒƒãƒ•ã‚¡ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      D7.W   å¼ã®å˜èªžæ•°
 *
 * RETURN
-*      A0     Žc‚Á‚½’PŒê•À‚Ñ‚Ìæ“ªƒAƒhƒŒƒX
-*      D0.L   ƒGƒ‰[‚ª–³‚¯‚ê‚Î 0D‚³‚à‚È‚­‚Î 1
-*      D1.L   Ž®‚Ì’l
-*      D7.W   Žc‚Á‚½’PŒê‚Ì”
+*      A0     æ®‹ã£ãŸå˜èªžä¸¦ã³ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      D0.L   ã‚¨ãƒ©ãƒ¼ãŒç„¡ã‘ã‚Œã° 0ï¼Žã•ã‚‚ãªãã° 1
+*      D1.L   å¼ã®å€¤
+*      D7.W   æ®‹ã£ãŸå˜èªžã®æ•°
 *      CCR    TST.L D0
 ****************************************************************
 .xdef expression
@@ -162,20 +162,20 @@ expression_done:
 		unlk	a6
 		rts
 ****************************************************************
-* sub_expression - Ž®‚ð•]‰¿‚·‚é
+* sub_expression - å¼ã‚’è©•ä¾¡ã™ã‚‹
 *
 * CALL
-*      A0     Ž®‚Ì’PŒê•À‚Ñ‚Ìæ“ªƒAƒhƒŒƒX
-*      A1     Ž®‚Ì’l‚ðŠi”[‚·‚éƒoƒbƒtƒ@‚ÌƒAƒhƒŒƒX
-*      D6.B   ƒRƒ“ƒfƒBƒVƒ‡ƒ“iÅ‰‚Í 1j
-*      D7.W   Ž®‚Ì’PŒê”
+*      A0     å¼ã®å˜èªžä¸¦ã³ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      A1     å¼ã®å€¤ã‚’æ ¼ç´ã™ã‚‹ãƒãƒƒãƒ•ã‚¡ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      D6.B   ã‚³ãƒ³ãƒ‡ã‚£ã‚·ãƒ§ãƒ³ï¼ˆæœ€åˆã¯ 1ï¼‰
+*      D7.W   å¼ã®å˜èªžæ•°
 *
 * RETURN
-*      A0     Žc‚Á‚½’PŒê•À‚Ñ‚Ìæ“ªƒAƒhƒŒƒX
-*      D0.L   ƒGƒ‰[‚ª–³‚¯‚ê‚Î 0D‚³‚à‚È‚­‚Î 1
-*      D7.W   Žc‚Á‚½’PŒê‚Ì”
+*      A0     æ®‹ã£ãŸå˜èªžä¸¦ã³ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
+*      D0.L   ã‚¨ãƒ©ãƒ¼ãŒç„¡ã‘ã‚Œã° 0ï¼Žã•ã‚‚ãªãã° 1
+*      D7.W   æ®‹ã£ãŸå˜èªžã®æ•°
 *      CCR    TST.L D0
-*      D2-D6/A2-A3  ”j‰ó
+*      D2-D6/A2-A3  ç ´å£Š
 ****************************************************************
 sub_expression:
 		moveq	#0,d5
@@ -950,33 +950,33 @@ next_token:
 * dual_term
 *
 * CALL
-*      A0     Ž®‚Ì’PŒê•À‚Ñi‰E€j
-*      A1     ¶€
-*      A2     €‚ð“¾‚éƒTƒuƒ‹[ƒ`ƒ“‚ÌƒGƒ“ƒgƒŠEƒAƒhƒŒƒX
+*      A0     å¼ã®å˜èªžä¸¦ã³ï¼ˆå³é …ï¼‰
+*      A1     å·¦é …
+*      A2     é …ã‚’å¾—ã‚‹ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ã®ã‚¨ãƒ³ãƒˆãƒªãƒ»ã‚¢ãƒ‰ãƒ¬ã‚¹
 *
 * RETURN
-*      A0     i‚Þ
-*      A1     •Û‘¶
-*      D0.L   ƒGƒ‰[
-*      D1.L   ¶€‚Ì’l
-*      D2.L   ‰E€‚Ì’l
-*      D6.L   ŽŸ‚Ì‰‰ŽZŽq‚ÌƒR[ƒh
+*      A0     é€²ã‚€
+*      A1     ä¿å­˜
+*      D0.L   ã‚¨ãƒ©ãƒ¼
+*      D1.L   å·¦é …ã®å€¤
+*      D2.L   å³é …ã®å€¤
+*      D6.L   æ¬¡ã®æ¼”ç®—å­ã®ã‚³ãƒ¼ãƒ‰
 *      CCR    TST.L D0
-*      ‚»‚Ì‘¼‚Í”j‰ó
+*      ãã®ä»–ã¯ç ´å£Š
 ****************************************************************
 dual_term:
-		bsr	expr_atoi		* ¶€‚ð”’l‚É•ÏŠ·‚·‚é
+		bsr	expr_atoi		* å·¦é …ã‚’æ•°å€¤ã«å¤‰æ›ã™ã‚‹
 		bne	return
 
-		bsr	next_token		* ‰‰ŽZŽq‚ðƒXƒLƒbƒv‚·‚é
+		bsr	next_token		* æ¼”ç®—å­ã‚’ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹
 
 		movem.l	d1/a1,-(a7)
 		link	a6,#term
 		lea	term(a6),a1
-		jsr	(a2)			* ‰E€‚ð“¾‚é
+		jsr	(a2)			* å³é …ã‚’å¾—ã‚‹
 		bne	dual_term_2
 
-		bsr	expr_atoi		* ‰E€‚ð”’l‚É•ÏŠ·‚·‚é
+		bsr	expr_atoi		* å³é …ã‚’æ•°å€¤ã«å¤‰æ›ã™ã‚‹
 		bne	dual_term_2
 
 		move.l	d1,d2
@@ -989,11 +989,11 @@ dual_term_2:
 * expr_atoi
 *
 * CALL
-*      A1     ’PŒê
+*      A1     å˜èªž
 *
 * RETURN
-*      D0.L   ƒGƒ‰[
-*      D1.L   ’PŒê‚Ì’l
+*      D0.L   ã‚¨ãƒ©ãƒ¼
+*      D1.L   å˜èªžã®å€¤
 *      CCR    TST.L D0
 ****************************************************************
 .xdef expr_atoi
@@ -1190,9 +1190,9 @@ token_sizeof:	dc.b	'sizeof',0
 token_timeof:	dc.b	'timeof',0
 token_freeof:	dc.b	'freeof',0
 
-msg_bad_expression_syntax:	dc.b	'Ž®‚ªŒë‚Á‚Ä‚¢‚Ü‚·',0
-msg_divide_by_0:		dc.b	'Ž®‚Ì’†‚É 0 ‚É‚æ‚éœŽZ‚ª‚ ‚è‚Ü‚·',0
-msg_mod_by_0:			dc.b	'Ž®‚Ì’†‚É 0 ‚É‚æ‚éè—]‚ª‚ ‚è‚Ü‚·',0
+msg_bad_expression_syntax:	dc.b	'å¼ãŒèª¤ã£ã¦ã„ã¾ã™',0
+msg_divide_by_0:		dc.b	'å¼ã®ä¸­ã« 0 ã«ã‚ˆã‚‹é™¤ç®—ãŒã‚ã‚Šã¾ã™',0
+msg_mod_by_0:			dc.b	'å¼ã®ä¸­ã« 0 ã«ã‚ˆã‚‹å‰°ä½™ãŒã‚ã‚Šã¾ã™',0
 
 .end
 

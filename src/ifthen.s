@@ -25,18 +25,18 @@
 .text
 
 ****************************************************************
-* test_statement_paren - ƒXƒe[ƒgƒƒ“ƒg‚Ì ( ) ‚ğƒ`ƒFƒbƒN‚·‚é
+* test_statement_paren - ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã® ( ) ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 *
 * CALL
-*      A0       ’PŒê•À‚Ñ
-*      D0.W     ’PŒê”
+*      A0       å˜èªä¸¦ã³
+*      D0.W     å˜èªæ•°
 *
 * RETURN
-*      A0       ( ‚ÌŸ‚Ì’PŒê‚ğw‚·
-*      A1       ) ‚ÌŸ‚Ì’PŒê‚ğw‚·
-*      D0.W     ( ) ‚Ì’†‚Ì’PŒê”
-*      D1.W     A1ˆÈ~‚Ì’PŒê”
-*      CCR      ƒGƒ‰[‚È‚ç‚Î NZ
+*      A0       ( ã®æ¬¡ã®å˜èªã‚’æŒ‡ã™
+*      A1       ) ã®æ¬¡ã®å˜èªã‚’æŒ‡ã™
+*      D0.W     ( ) ã®ä¸­ã®å˜èªæ•°
+*      D1.W     A1ä»¥é™ã®å˜èªæ•°
+*      CCR      ã‚¨ãƒ©ãƒ¼ãªã‚‰ã° NZ
 ****************************************************************
 .xdef test_statement_paren
 
@@ -56,15 +56,15 @@ test_statement_paren:
 		beq	test_statement_paren_error
 
 		bsr	strfor1
-		exg	a0,a1				*  A1 : ) ‚ÌŸ‚Ì’PŒê
+		exg	a0,a1				*  A1 : ) ã®æ¬¡ã®å˜èª
 		subq.w	#1,d0
-		exg	d0,d1				*  D1 : A1 ˆÈ~‚Ì’PŒê”
+		exg	d0,d1				*  D1 : A1 ä»¥é™ã®å˜èªæ•°
 
 		sub.w	d1,d0
-		subq.w	#2,d0				*  D0 : ()‚Ì’†‚Ì’PŒê”
+		subq.w	#2,d0				*  D0 : ()ã®ä¸­ã®å˜èªæ•°
 		beq	test_statement_paren_error
 
-		bsr	strfor1				*  A0 : ( ‚ÌŸ‚Ì’PŒê
+		bsr	strfor1				*  A0 : ( ã®æ¬¡ã®å˜èª
 		cmp.w	d0,d0
 		rts
 
@@ -89,17 +89,17 @@ test_statement_paren_error:
 
 state_if:
 		movea.l	a1,a3
-		bsr	test_statement_paren		*  –ß‚è’lFA0/D0/A1/D1
+		bsr	test_statement_paren		*  æˆ»ã‚Šå€¤ï¼šA0/D0/A1/D1
 		bne	syntax_error
 
-		move.w	d1,d2				*  D2.W : ( ) ‚É‘±‚­’PŒê”
+		move.w	d1,d2				*  D2.W : ( ) ã«ç¶šãå˜èªæ•°
 		beq	empty_if
 
-		movea.l	a1,a2				*  A2 : ( ) ‚É‘±‚­’PŒê‚ğw‚·
-		movea.l	a0,a1				*  A1 : ( ‚ÌŸ‚Ì’PŒê‚ğw‚·
+		movea.l	a1,a2				*  A2 : ( ) ã«ç¶šãå˜èªã‚’æŒ‡ã™
+		movea.l	a0,a1				*  A1 : ( ã®æ¬¡ã®å˜èªã‚’æŒ‡ã™
 
-		tst.b	if_status(a5)			*  Œ»İ
-		bne	state_if_1			*  FALSEó‘Ô‚Å‚ ‚é
+		tst.b	if_status(a5)			*  ç¾åœ¨
+		bne	state_if_1			*  FALSEçŠ¶æ…‹ã§ã‚ã‚‹
 
 		movea.l	tmpargs(a5),a0
 		bsr	subst_var_wordlist
@@ -112,34 +112,34 @@ state_if:
 		tst.w	d7
 		bne	expression_syntax_error
 state_if_1:
-		move.w	d2,d7				*  D7.W : ( ) ‚É‘±‚­’PŒê”
-		movea.l	a2,a0				*  A0 : ( ) ‚É‘±‚­’PŒê‚ğw‚·
+		move.w	d2,d7				*  D7.W : ( ) ã«ç¶šãå˜èªæ•°
+		movea.l	a2,a0				*  A0 : ( ) ã«ç¶šãå˜èªã‚’æŒ‡ã™
 		lea	word_then,a1
 		bsr	strcmp
 		beq	state_if_then
 		*
-		*  then ‚Í–³‚¢
+		*  then ã¯ç„¡ã„
 		*
-		tst.b	if_status(a5)			*  Œ»İ
-		bne	state_if_recurse		*  FALSEó‘Ô‚Å‚ ‚é
+		tst.b	if_status(a5)			*  ç¾åœ¨
+		bne	state_if_recurse		*  FALSEçŠ¶æ…‹ã§ã‚ã‚‹
 
-		tst.l	d1				*  ®‚Ì’l‚ª
-		bne	state_if_recurse		*    ^
-		bra	success				*    ‹U
+		tst.l	d1				*  å¼ã®å€¤ãŒ
+		bne	state_if_recurse		*    çœŸ
+		bra	success				*    å½
 
 state_if_then:
 		*
-		*  then ‚ª‚ ‚é
+		*  then ãŒã‚ã‚‹
 		*
-		subq.w	#1,d7				*  then ‚ÌŒã‚É
-		bne	syntax_error			*  ‚Ü‚¾’PŒê‚ª‚ ‚é‚È‚çƒGƒ‰[
+		subq.w	#1,d7				*  then ã®å¾Œã«
+		bne	syntax_error			*  ã¾ã å˜èªãŒã‚ã‚‹ãªã‚‰ã‚¨ãƒ©ãƒ¼
 
-		tst.b	if_status(a5)			*  Œ»İ
-		bne	state_if_inc_level		*  FALSEó‘Ô‚Å‚ ‚é
+		tst.b	if_status(a5)			*  ç¾åœ¨
+		bne	state_if_inc_level		*  FALSEçŠ¶æ…‹ã§ã‚ã‚‹
 
 		clr.w	if_level(a5)
 		tst.l	d1
-		seq	if_status(a5)			*  if_status := ®‚Í0 ? -1 : 0
+		seq	if_status(a5)			*  if_status := å¼ã¯0 ? -1 : 0
 state_if_recurse:
 		move.w	d7,d0
 		movea.l	a3,a1
@@ -149,8 +149,8 @@ recurse:
 
 		exg	a0,a1
 		bsr	copy_wordlist
-		addq.l	#4,a7			**  –ß‚èƒAƒhƒŒƒX‚ğÌ‚Ä‚é **
-		jmp	do_line			**!! Ä‹A !!**
+		addq.l	#4,a7			**  æˆ»ã‚Šã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æ¨ã¦ã‚‹ **
+		jmp	do_line			**!! å†å¸° !!**
 
 
 state_if_inc_level:
@@ -201,7 +201,7 @@ clear_if_status:
 .data
 
 word_then:		dc.b	'then',0
-msg_empty_if:		dc.b	'then ‚Ü‚½‚ÍƒRƒ}ƒ“ƒh‚ª‚ ‚è‚Ü‚¹‚ñ',0
+msg_empty_if:		dc.b	'then ã¾ãŸã¯ã‚³ãƒãƒ³ãƒ‰ãŒã‚ã‚Šã¾ã›ã‚“',0
 
 .end
 

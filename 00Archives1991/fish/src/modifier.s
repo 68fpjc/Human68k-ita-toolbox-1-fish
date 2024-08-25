@@ -42,57 +42,57 @@ get_wordno_no_wordno:
 		moveq	#-2,d1
 		rts
 ****************************************************************
-* parse_word_selecter - �P��I���q����͂���
+* parse_word_selecter - 単語選択子を解析する
 *
 * CALL
-*      A0     ��͂��镶����̃A�h���X
+*      A0     解析する文字列のアドレス
 *
 * RETURN
-*      A0     ��͂��I�����ʒu��Ԃ�
-*      D0.L   �͈͂���ł��G���[�łȂ��P�[�X�Ȃ�� 0�A�����Ȃ��� 1
-*      D1.L   �n�_�P��ԍ�
-*      D2.L   �I�_�P��ԍ�
+*      A0     解析を終えた位置を返す
+*      D0.L   範囲が空でもエラーでないケースならば 0、さもなくば 1
+*      D1.L   始点単語番号
+*      D2.L   終点単語番号
 *      CCR    TST.L D0
 *
-*      D1.L �� D2.L �́A���Ȃ�ΒP��I���q�������Ă���P��ԍ��ł��邪�A
-*      �P��ԍ������l�ŋL�q����Ă���A���̒l�� MAXWORDS-1 �𒴂��Ă���
-*      �ꍇ�ɂ� MAXWORDS ��Ԃ��B
+*      D1.L と D2.L は、正ならば単語選択子が示している単語番号であるが、
+*      単語番号が数値で記述されており、その値が MAXWORDS-1 を超えている
+*      場合には MAXWORDS を返す。
 *
-*      ���Ȃ�Ύ��̒P��������B
-*             -1: �Ō�̒P��
-*             -2: �Ō��1�O�̒P��
-*             -3: ?str? �Ɉ�v�����P��
+*      負ならば次の単語を示す。
+*             -1: 最後の単語
+*             -2: 最後の1つ前の単語
+*             -3: ?str? に一致した単語
 *
 * DESCRIPTION
-*							�͈͂���Ȃ�c
-*	�Ȃ�		�ŏ�(0�Ԗ�)����Ō�܂�		�@�󕶎���
-*	:*		1�Ԗڂ���Ō�܂�		�@�󕶎���
-*	:*-*		1�Ԗڂ���Ō�܂�		�@�󕶎���
-*	:-*		�ŏ�(0�Ԗ�)����Ō�܂�		�@�󕶎���
-*	:<N>*		N�Ԗڂ���Ō�܂�		�@�󕶎���
-*	:<N>-*		N�Ԗڂ���Ō�܂�		�@�󕶎���
-*	:-		�ŏ�(0�Ԗ�)����Ō��1�O�܂�	�@�G���[
-*	:-<N>		�ŏ�(0�Ԗ�)����N�Ԗڂ܂�	�@�G���[
-*	:*-		1�Ԗڂ���Ō��1�O�܂�	�@�G���[
-*	:*-<M>		1�Ԗڂ���M�Ԗڂ܂�		�@�G���[
-*	:<N>		N�Ԗ�				�@�G���[
-*	:<N>-		N�Ԗڂ���Ō��1�O�܂�	�@�G���[
-*	:<N>-<M>	N�Ԗڂ���M�Ԗڂ܂�		�@�G���[
+*							範囲が空なら…
+*	なし		最初(0番目)から最後まで		　空文字列
+*	:*		1番目から最後まで		　空文字列
+*	:*-*		1番目から最後まで		　空文字列
+*	:-*		最初(0番目)から最後まで		　空文字列
+*	:<N>*		N番目から最後まで		　空文字列
+*	:<N>-*		N番目から最後まで		　空文字列
+*	:-		最初(0番目)から最後の1つ前まで	　エラー
+*	:-<N>		最初(0番目)からN番目まで	　エラー
+*	:*-		1番目から最後の1つ前まで	　エラー
+*	:*-<M>		1番目からM番目まで		　エラー
+*	:<N>		N番目				　エラー
+*	:<N>-		N番目から最後の1つ前まで	　エラー
+*	:<N>-<M>	N番目からM番目まで		　エラー
 *
 *	N,M:
-*		<n>	n�Ԗڂ̒P��		(n)
-*		^	1�Ԗڂ̒P��		(1)
-*		$	�Ō�̒P��		(-1)
-*		%	?str? �Ɉ�v�����P��	(-3)
+*		<n>	n番目の単語		(n)
+*		^	1番目の単語		(1)
+*		$	最後の単語		(-1)
+*		%	?str? に一致した単語	(-3)
 *
-*       �P��I���q�� ^, $, *, -, % �Ŏn�܂��Ă���ꍇ�ɂ�
-*       : �͏ȗ����邱�Ƃ��ł���
+*       単語選択子が ^, $, *, -, % で始まっている場合には
+*       : は省略することができる
 ****************************************************************
 .xdef parse_word_selecter
 
 parse_word_selecter:
-		moveq	#0,d1				* �n�_�P��ԍ� :=  0 : �ŏ�����
-		moveq	#-1,d2				* �I�_�P��ԍ� := -1 : �Ō�܂�
+		moveq	#0,d1				* 始点単語番号 :=  0 : 最初から
+		moveq	#-1,d2				* 終点単語番号 := -1 : 最後まで
 		moveq	#0,d0
 		move.b	(a0)+,d0
 		bsr	is_special_word_selecter
@@ -122,7 +122,7 @@ get_word_selecter:
 		cmp.b	#'-',d0
 		beq	get_wordno2
 
-		bsr	get_wordno			* �n�_�P��ԍ��𓾂�
+		bsr	get_wordno			* 始点単語番号を得る
 		move.b	(a0)+,d0
 		cmp.b	#'*',d0
 		beq	parse_word_selecter_done_0
@@ -130,12 +130,12 @@ get_word_selecter:
 		cmp.b	#'-',d0
 		beq	get_wordno2
 
-		move.l	d1,d2				* �I�_�P��ԍ� := �n�_�P��ԍ�
+		move.l	d1,d2				* 終点単語番号 := 始点単語番号
 		subq.l	#1,a0
 		bra	parse_word_selecter_done_1
 
 parse_word_selecter_asterisk:
-		moveq	#1,d1				* �n�_�P��ԍ� := 1�Ԗ�
+		moveq	#1,d1				* 始点単語番号 := 1番目
 		move.b	(a0)+,d0
 		cmp.b	#'-',d0
 		beq	get_wordno2
@@ -149,7 +149,7 @@ get_wordno2:
 		beq	parse_word_selecter_done_0
 
 		exg	d1,d2
-		bsr	get_wordno			* �I�_�P��ԍ��𓾂�
+		bsr	get_wordno			* 終点単語番号を得る
 		exg	d1,d2
 parse_word_selecter_done_1:
 		moveq	#1,d0
@@ -173,13 +173,13 @@ is_not_subst_separator:
 is_not_subst_separator_return:
 		rts
 ****************************************************************
-* check_modifier - �P��C���q���`�F�b�N����
+* check_modifier - 単語修飾子をチェックする
 *
 * CALL
-*      A0     �C���q���X�g�̐擪�A�h���X
+*      A0     修飾子リストの先頭アドレス
 *
 * RETURN
-*      A0     ���@�ȏC���q���X�g���т̎��̃A�h���X���w��
+*      A0     合法な修飾子リスト並びの次のアドレスを指す
 *      D0.L   bit 0   :q
 *             bit 1   :p
 *             bit 2   Bad substitute.
@@ -187,7 +187,7 @@ is_not_subst_separator_return:
 *
 * DESCRIPTION
 *
-*      �ȉ��̏C���q�̕��т�F�߂�
+*      以下の修飾子の並びを認める
 *		:h
 *		:t
 *		:r
@@ -272,39 +272,39 @@ set_modifier_p:
 		bset	#1,d1
 		bra	check_modifier_loop
 ****************************************************************
-* modify - �P����C������
+* modify - 単語を修飾する
 *
 * CALL
-*      A0     �P��̐擪�A�h���X�i���F���̗̈悪���ڏ�����������j
-*      A1     �C���q���X�g�̐擪�A�h���X
-*      D0.W   0 �ȊO�Ȃ�� :g �ȊO�𖳌��Ƃ���
+*      A0     単語の先頭アドレス（註：この領域が直接書き換えられる）
+*      A1     修飾子リストの先頭アドレス
+*      D0.W   0 以外ならば :g 以外を無効とする
 *
 * RETURN
-*      (A0).. �C�����ꂽ�P��
-*      D0.L   0 : ��薳��
+*      (A0).. 修飾された単語
+*      D0.L   0 : 問題無し
 *             1 : Modifier failed.
 *             2 : No prev lhs.
 *             3 : No prev sub.
-*      D1.L   ���̒P��ɑ΂��ėL���� :x ���������Ȃ�� 'x' �����Ȃ��� NUL
+*      D1.L   この単語に対して有効な :x があったならば 'x' さもなくば NUL
 *
 * DESCRIPTION
 *
-*	:h				�p�X���̃h���C�u�{�f�B���N�g�������i�Ō��/�͊܂܂Ȃ��j
-*	:t				�p�X���̃t�@�C�������i�g���q���܂ށj
-*	:r				�p�X���̍Ō�̊g���q�ȊO�̕���
-*	:e				�p�X���̍Ō�̊g���q�����i.�͊܂܂Ȃ��j
-*	:d				�p�X���̃h���C�u�������i:�͊܂܂Ȃ��j
-*	:f				�p�X���̃h���C�u���ȊO�̕���
-*	:s<c><str1><c><str2>[<c>]	str1 �� str2 �ɒu��������
-*	:gh				:h ��S�P��ɓK�p
-*	:gt				:t ��S�P��ɓK�p
-*	:gr				:r ��S�P��ɓK�p
-*	:ge				:e ��S�P��ɓK�p
-*	:gd				:d ��S�P��ɓK�p
-*	:gf				:f ��S�P��ɓK�p
-*	:gs<c><str1><c><str2>[<c>]	:s ��S�P��ɓK�p
+*	:h				パス名のドライブ＋ディレクトリ部分（最後の/は含まない）
+*	:t				パス名のファイル部分（拡張子を含む）
+*	:r				パス名の最後の拡張子以外の部分
+*	:e				パス名の最後の拡張子部分（.は含まない）
+*	:d				パス名のドライブ名部分（:は含まない）
+*	:f				パス名のドライブ名以外の部分
+*	:s<c><str1><c><str2>[<c>]	str1 を str2 に置き換える
+*	:gh				:h を全単語に適用
+*	:gt				:t を全単語に適用
+*	:gr				:r を全単語に適用
+*	:ge				:e を全単語に適用
+*	:gd				:d を全単語に適用
+*	:gf				:f を全単語に適用
+*	:gs<c><str1><c><str2>[<c>]	:s を全単語に適用
 *
-*      ��L�ȊO�̏C���q�͖�������̂ŗ\�߃`�F�b�N���Ă����K�v������
+*      上記以外の修飾子は無視するので予めチェックしておく必要がある
 *
 ****************************************************************
 .xdef modify
@@ -313,7 +313,7 @@ modify:
 		movem.l	d2-d5/a1-a5,-(a7)
 		movea.l	a1,a4
 		move.w	d0,d4
-		moveq	#0,d5			* D5 : :x�t���O
+		moveq	#0,d5			* D5 : :xフラグ
 modify_loop:
 		cmpi.b	#':',(a4)+
 		bne	modify_done
@@ -398,26 +398,26 @@ tmp_subst_str = tmp_search_str-(((MAXSUBSTLEN+1)+1)>>1<<1)
 
 		addq.l	#1,a4
 		exg	a0,a4
-		bsr	scan1char		* D0.W : ��؂蕶��
+		bsr	scan1char		* D0.W : 区切り文字
 		exg	a0,a4
 		bsr	is_not_subst_separator
-		beq	modify_done		* �G���[
+		beq	modify_done		* エラー
 
 		link	a6,#tmp_subst_str
 		exg	a0,a4
 		lea	tmp_search_str(a6),a1
 		moveq	#MAXSEARCHLEN+1,d1
 		bsr	scan_subst_str
-		move.l	d1,d2			* D2.L : MAXSEARCHLEN+1-����������̒���
+		move.l	d1,d2			* D2.L : MAXSEARCHLEN+1-検索文字列の長さ
 
 		lea	tmp_subst_str(a6),a1
 		moveq	#MAXSUBSTLEN+1,d1
 		bsr	scan_subst_str
-		move.l	d1,d3			* D3.L : MAXSUBSTLEN+1-�u��������̒���
-		beq	subst_done		* �G���[
+		move.l	d1,d3			* D3.L : MAXSUBSTLEN+1-置換文字列の長さ
+		beq	subst_done		* エラー
 
 		tst.l	d2
-		beq	subst_done		* �G���[
+		beq	subst_done		* エラー
 
 		cmp.w	#MAXSEARCHLEN+1,d2
 		beq	search_str_ok
@@ -439,21 +439,21 @@ search_str_ok:
 		move.l	d1,d0
 		exg	a0,a1
 		bsr	put_and_get_hist_search_str
-		exg	a0,a1			* A1 : ����������
-		move.l	d0,d1			* D1.L : ����������̒���
+		exg	a0,a1			* A1 : 検索文字列
+		move.l	d0,d1			* D1.L : 検索文字列の長さ
 		beq	no_prev_lhs
 
 		bsr	strmem
 		beq	subst_done
 
-		*  ���āA������������c�u�����˂΂Ȃ�܂��ȁc
-		movea.l	d0,a3			* A3 �͌������ꏊ
+		*  さて、見つけちゃった…置換せねばなるまいな…
+		movea.l	d0,a3			* A3 は見つけた場所
 
-		*  �u�������񂪉��o�C�g�ɂȂ邩�𒲂ׂ悤
-		*  �i& �������Ă��邩������Ȃ������₱�����j
-		moveq	#0,d3			* D3.L �ɒu��������̒��������߂�
-		movea.l	a2,a5			* A5 �͂��̃��[�v�ł̈ꎞ�|�C���^
-		move.l	d2,d4			* D4.L �͂��̃��[�v�ł̈ꎞ�J�E���^
+		*  置換文字列が何バイトになるかを調べよう
+		*  （& が入っているかもしれないからややこしい）
+		moveq	#0,d3			* D3.L に置換文字列の長さを求める
+		movea.l	a2,a5			* A5 はこのループでの一時ポインタ
+		move.l	d2,d4			* D4.L はこのループでの一時カウンタ
 subst_count_replace:
 		tst.l	d4
 		beq	subst_count_replace_done
@@ -496,13 +496,13 @@ subst_count_replace_ampersand:
 
 subst_count_replace_done:
 
-		*  ����ł́A�������������邱�ƂɂȂ�̂��H
+		*  それでは、何文字増加することになるのか？
 		move.l	d3,d4
-		sub.l	d1,d4			* D4.L : �������镶����
+		sub.l	d1,d4			* D4.L : 増加する文字数
 		bmi	subst_fat_ok
 		beq	subst_fat_ok
 
-		*  �����镪�������g�����炵�Ă����܂��傤
+		*  増える分だけ中身をずらしておきましょう
 		*    A3+D1 .. A3+D1+strlen(A3+D1)  ->  A3+D1+D4 .. A3+D1+strlen(A3+D1)+D4
 		movem.l	a0-a1,-(a7)
 		lea	(a3,d1.l),a0
@@ -513,7 +513,7 @@ subst_count_replace_done:
 		bsr	memmove_dec
 		movem.l	(a7)+,a0-a1
 subst_fat_ok:
-		*  ����ł͒u���������u���Ă䂫�܂��傤
+		*  それでは置換文字列を置いてゆきましょう
 		bra	subst_store_continue
 
 subst_store:
@@ -534,7 +534,7 @@ subst_store_stem:
 subst_store_continue:
 		dbra	d2,subst_store
 
-		*  D4.L �����Ȃ�� -D4.L �����󂢂Ă���̂ŁA�؂�l�߂�
+		*  D4.L が負ならば -D4.L 文字空いているので、切り詰める
 		tst.l	d4
 		bpl	subst_done
 

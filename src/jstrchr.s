@@ -7,27 +7,27 @@
 .text
 
 ****************************************************************
-* jstrchr - ƒVƒtƒgJISƒR[ƒh‚ðŠÜ‚Þ•¶Žš—ñ‚©‚ç•¶Žš‚ð’T‚µo‚·
+* jstrchr - ã‚·ãƒ•ãƒˆJISã‚³ãƒ¼ãƒ‰ã‚’å«ã‚€æ–‡å­—åˆ—ã‹ã‚‰æ–‡å­—ã‚’æŽ¢ã—å‡ºã™
 *
 * CALL
-*      A0     •¶Žš—ñ‚Ìæ“ªƒAƒhƒŒƒX
+*      A0     æ–‡å­—åˆ—ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
 *
-*      D0.W   ŒŸõ•¶Žš
-*             ƒVƒtƒgJISƒR[ƒh‚Ü‚½‚Í ANKƒR[ƒhiãˆÊƒoƒCƒg‚Í 0j
+*      D0.W   æ¤œç´¢æ–‡å­—
+*             ã‚·ãƒ•ãƒˆJISã‚³ãƒ¼ãƒ‰ã¾ãŸã¯ ANKã‚³ãƒ¼ãƒ‰ï¼ˆä¸Šä½ãƒã‚¤ãƒˆã¯ 0ï¼‰
 *
 * RETURN
-*      A0     Å‰‚ÉŒŸõ•¶Žš‚ªŒ»‚ê‚éˆÊ’u‚ðŽw‚·
-*             ŒŸõ•¶Žš‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡‚É‚ÍCÅŒã‚ÌNUL•¶Žš‚ðŽw‚·
+*      A0     æœ€åˆã«æ¤œç´¢æ–‡å­—ãŒç¾ã‚Œã‚‹ä½ç½®ã‚’æŒ‡ã™
+*             æ¤œç´¢æ–‡å­—ãŒè¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸå ´åˆã«ã¯ï¼Œæœ€å¾Œã®NULæ–‡å­—ã‚’æŒ‡ã™
 *
 *      CCR    TST.B (A0)
 *****************************************************************
 .xdef jstrchr
 
 jstrchr:
-		cmp.w	#$0040,d0			*  $40–¢–ž‚ÌƒR[ƒh‚ÍƒVƒtƒgJIS‚É–³‚¢‚Ì‚Å
+		cmp.w	#$0040,d0			*  $40æœªæº€ã®ã‚³ãƒ¼ãƒ‰ã¯ã‚·ãƒ•ãƒˆJISã«ç„¡ã„ã®ã§
 		bhs	jstrchr_1
 
-		jmp	strchr				*  strchr ‚Å[•ªBstrchr‚Ì•û‚ª‚¸‚Á‚Æ‘¬‚¢B
+		jmp	strchr				*  strchr ã§å……åˆ†ã€‚strchrã®æ–¹ãŒãšã£ã¨é€Ÿã„ã€‚
 
 jstrchr_1:
 		movem.l	d0-d1/a1,-(a7)

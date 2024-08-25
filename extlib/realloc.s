@@ -1,7 +1,7 @@
 *************************************************
 *						*
 *   malloc Ext version				*
-*   Copyright 1991 by ‚d‚˜‚”(T.Kawamoto)	*
+*   Copyright 1991 by ï¼¥ï½˜ï½”(T.Kawamoto)	*
 *						*
 *************************************************
 *						*
@@ -30,11 +30,11 @@
 realloc_memory_reg_saved:
 *
 * input
-*  d0	ƒAƒhƒŒƒX
-*  d1	ƒŠƒAƒƒbƒNƒTƒCƒY
+*  d0	ã‚¢ãƒ‰ãƒ¬ã‚¹
+*  d1	ãƒªã‚¢ãƒ­ãƒƒã‚¯ã‚µã‚¤ã‚º
 *  a5	pointer to local BSS
 * output
-*  d0	ƒAƒhƒŒƒX or -1
+*  d0	ã‚¢ãƒ‰ãƒ¬ã‚¹ or -1
 *
 	movem.l	d1-d7/a1-a4/a6,-(sp)
 	bsr	realloc_memory
@@ -44,55 +44,55 @@ realloc_memory_reg_saved:
 realloc_memory:
 *
 * input
-*  d0	ƒAƒhƒŒƒX
-*  d1	ƒŠƒAƒƒbƒNƒTƒCƒY
+*  d0	ã‚¢ãƒ‰ãƒ¬ã‚¹
+*  d1	ãƒªã‚¢ãƒ­ãƒƒã‚¯ã‚µã‚¤ã‚º
 *  a5	pointer to local BSS
 * output
-*  d0	ƒAƒhƒŒƒX or -1
+*  d0	ã‚¢ãƒ‰ãƒ¬ã‚¹ or -1
 * destroy
-*  d2	ƒ[ƒNƒŒƒWƒXƒ^
-*  d3	ƒ[ƒNƒŒƒWƒXƒ^
-*  d4	ƒ[ƒNƒŒƒWƒXƒ^
-*  d5	ƒ[ƒNƒŒƒWƒXƒ^
-*  d6	ƒIƒŠƒWƒiƒ‹ƒTƒCƒY
-*  d7	ƒ[ƒNƒŒƒWƒXƒ^
-*  a1	ƒ[ƒNƒ|ƒCƒ“ƒ^
-*  a2	ƒ[ƒNƒ|ƒCƒ“ƒ^
-*  a3	ƒIƒŠƒWƒiƒ‹ƒAƒhƒŒƒX
-*  a4	lake head ‚Ö‚Ìƒ|ƒCƒ“ƒ^
-*  a6	pool head ‚Ö‚Ìƒ|ƒCƒ“ƒ^
+*  d2	ãƒ¯ãƒ¼ã‚¯ãƒ¬ã‚¸ã‚¹ã‚¿
+*  d3	ãƒ¯ãƒ¼ã‚¯ãƒ¬ã‚¸ã‚¹ã‚¿
+*  d4	ãƒ¯ãƒ¼ã‚¯ãƒ¬ã‚¸ã‚¹ã‚¿
+*  d5	ãƒ¯ãƒ¼ã‚¯ãƒ¬ã‚¸ã‚¹ã‚¿
+*  d6	ã‚ªãƒªã‚¸ãƒŠãƒ«ã‚µã‚¤ã‚º
+*  d7	ãƒ¯ãƒ¼ã‚¯ãƒ¬ã‚¸ã‚¹ã‚¿
+*  a1	ãƒ¯ãƒ¼ã‚¯ãƒã‚¤ãƒ³ã‚¿
+*  a2	ãƒ¯ãƒ¼ã‚¯ãƒã‚¤ãƒ³ã‚¿
+*  a3	ã‚ªãƒªã‚¸ãƒŠãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹
+*  a4	lake head ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+*  a6	pool head ã¸ã®ãƒã‚¤ãƒ³ã‚¿
 *
-	subq.l	#2,d0			* ‚±‚±‚©‚ç free ‚µ‚½‚¢ size ‚ÌŒvZ
+	subq.l	#2,d0			* ã“ã“ã‹ã‚‰ free ã—ãŸã„ size ã®è¨ˆç®—
 	move.l	lake_top(a5),d7
 	bra	lake_entry
 lake_loop:
 	move.l	next_lake_ptr(a4),d7
 lake_entry:
-	beq	no_pool			* lake ‚ª‚È‚­‚È‚Á‚½
-	move.l	d7,a4			* lake head ‚Ö‚Ìƒ|ƒCƒ“ƒ^
+	beq	no_pool			* lake ãŒãªããªã£ãŸ
+	move.l	d7,a4			* lake head ã¸ã®ãƒã‚¤ãƒ³ã‚¿
 	add.l	#head_pool,d7
 	cmp.l	d0,d7
-	beq	realloc_lake		* large size ‚ÌƒŠƒAƒƒbƒN
+	beq	realloc_lake		* large size ã®ãƒªã‚¢ãƒ­ãƒƒã‚¯
 	tst.w	head_pool+next_pool_offset(a4)
-	beq	lake_loop		* large size ‚Ìê‡‚ÍAƒXƒLƒbƒv
-	cmp.l	d0,a4			* d0 pointer ‚ª lake ‚Ì”ÍˆÍ“à‚É‚ ‚é‚©‚Ç‚¤‚©H
-	bcc	lake_loop		* ‚È‚¢i‚»‚Ì‚Pj
+	beq	lake_loop		* large size ã®å ´åˆã¯ã€ã‚¹ã‚­ãƒƒãƒ—
+	cmp.l	d0,a4			* d0 pointer ãŒ lake ã®ç¯„å›²å†…ã«ã‚ã‚‹ã‹ã©ã†ã‹ï¼Ÿ
+	bcc	lake_loop		* ãªã„ï¼ˆãã®ï¼‘ï¼‰
 	move.l	lake_size(a4),d7
 	add.l	a4,d7
 	cmp.l	d7,d0
-	bcc	lake_loop		* ‚È‚¢i‚»‚Ì‚Qj
-	lea	head_pool(a4),a6	* ”ÍˆÍ“à‚È‚Ì‚ÅÚ‚µ‚­ pool ‚ğƒT[ƒ`
+	bcc	lake_loop		* ãªã„ï¼ˆãã®ï¼’ï¼‰
+	lea	head_pool(a4),a6	* ç¯„å›²å†…ãªã®ã§è©³ã—ã pool ã‚’ã‚µãƒ¼ãƒ
 pool_loop:
 	move.w	next_pool_offset(a6),d7
-	beq	no_pool			* pool ‚ª‚È‚­‚È‚Á‚½
+	beq	no_pool			* pool ãŒãªããªã£ãŸ
 	lea	(a6,d7.w),a6
 	cmp.l	a6,d0
-	bne	pool_loop		* ‚±‚Ì pool ‚©‚Ç‚¤‚©H
+	bne	pool_loop		* ã“ã® pool ã‹ã©ã†ã‹ï¼Ÿ
 *
-* ƒŠƒAƒƒbƒN‚µ‚½‚¢ pool ‚ÌˆÊ’u‚ªŒ©‚Â‚©‚Á‚½
+* ãƒªã‚¢ãƒ­ãƒƒã‚¯ã—ãŸã„ pool ã®ä½ç½®ãŒè¦‹ã¤ã‹ã£ãŸ
 *
-*  a6	ƒIƒŠƒWƒiƒ‹‚Ì pool ‚Ö‚Ìƒ|ƒCƒ“ƒ^
-*  d1	ƒŠƒAƒƒbƒN‚µ‚½‚¢ size
+*  a6	ã‚ªãƒªã‚¸ãƒŠãƒ«ã® pool ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+*  d1	ãƒªã‚¢ãƒ­ãƒƒã‚¯ã—ãŸã„ size
 *
 	clr.l	d6
 	move.w	next_pool_offset(a6),d6
@@ -100,10 +100,10 @@ pool_loop:
 	lea	2(a6),a3
 	bra	realloc_memory_body
 *
-* ƒŠƒAƒƒbƒN‚µ‚½‚¢ lake ‚ÌˆÊ’u‚ªŒ©‚Â‚©‚Á‚½
+* ãƒªã‚¢ãƒ­ãƒƒã‚¯ã—ãŸã„ lake ã®ä½ç½®ãŒè¦‹ã¤ã‹ã£ãŸ
 *
-*  a4	ƒIƒŠƒWƒiƒ‹‚Ì lake ‚Ö‚Ìƒ|ƒCƒ“ƒ^
-*  d1	ƒŠƒAƒƒbƒN‚µ‚½‚¢ size
+*  a4	ã‚ªãƒªã‚¸ãƒŠãƒ«ã® lake ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+*  d1	ãƒªã‚¢ãƒ­ãƒƒã‚¯ã—ãŸã„ size
 *
 realloc_lake:
 	move.l	lake_size(a4),d6
@@ -111,11 +111,11 @@ realloc_lake:
 	lea	head_pool+pool_buffer_head(a4),a3
 realloc_memory_body:
 *
-* ƒŠƒAƒƒbƒN‚ÌÀ‘Ì
+* ãƒªã‚¢ãƒ­ãƒƒã‚¯ã®å®Ÿä½“
 *
-*  a3	ƒIƒŠƒWƒiƒ‹‚Ì—Ìˆæ‚Ö‚Ìƒ|ƒCƒ“ƒ^
-*  d6	ƒIƒŠƒWƒiƒ‹ size
-*  d1	ƒŠƒAƒƒbƒN‚µ‚½‚¢ size
+*  a3	ã‚ªãƒªã‚¸ãƒŠãƒ«ã®é ˜åŸŸã¸ã®ãƒã‚¤ãƒ³ã‚¿
+*  d6	ã‚ªãƒªã‚¸ãƒŠãƒ« size
+*  d1	ãƒªã‚¢ãƒ­ãƒƒã‚¯ã—ãŸã„ size
 *
 	move.l	d1,d0
 	cmp.l	d6,d1
@@ -126,21 +126,21 @@ min_size_skip:
 	tst.l	d0
 	bmi	no_pool
 *
-*  a3	ƒIƒŠƒWƒiƒ‹‚Ì—Ìˆæ‚Ö‚Ìƒ|ƒCƒ“ƒ^
-*  d6	ƒIƒŠƒWƒiƒ‹ size ‚ÆƒŠƒAƒƒbƒN‚µ‚½‚¢ size ‚Ì‚¤‚¿¬‚³‚¢•û
-*  d0	ƒŠƒAƒƒbƒN‚µ‚½‚¢—Ìˆæ‚Ö‚Ìƒ|ƒCƒ“ƒ^
+*  a3	ã‚ªãƒªã‚¸ãƒŠãƒ«ã®é ˜åŸŸã¸ã®ãƒã‚¤ãƒ³ã‚¿
+*  d6	ã‚ªãƒªã‚¸ãƒŠãƒ« size ã¨ãƒªã‚¢ãƒ­ãƒƒã‚¯ã—ãŸã„ size ã®ã†ã¡å°ã•ã„æ–¹
+*  d0	ãƒªã‚¢ãƒ­ãƒƒã‚¯ã—ãŸã„é ˜åŸŸã¸ã®ãƒã‚¤ãƒ³ã‚¿
 *
 	move.l	a3,a1
 	move.l	d0,a2
 	move.l	a2,a3
 	move.l	a1,d0
-	btst.l	#1,d6			* ƒn[ƒtƒ[ƒh’PˆÊ‚ÌƒT
-	beq	half_skip		* ƒCƒY‚ÅŠï”‚Å‚ ‚é‚È‚ç
-	move.w	(a1)+,(a2)+		* ‹ô”‚É’²®‚µ‚Ä‚¨‚­
+	btst.l	#1,d6			* ãƒãƒ¼ãƒ•ãƒ¯ãƒ¼ãƒ‰å˜ä½ã®ã‚µ
+	beq	half_skip		* ã‚¤ã‚ºã§å¥‡æ•°ã§ã‚ã‚‹ãªã‚‰
+	move.w	(a1)+,(a2)+		* å¶æ•°ã«èª¿æ•´ã—ã¦ãŠã
 half_skip:
-	asr.l	#2,d6			* ƒƒ“ƒOƒ[ƒh’PˆÊƒTƒCƒY
-	tst.l	d6			* 0 ƒoƒCƒg‚È‚ç
-	beq	move_skip		* ƒXƒLƒbƒv    93/5/1
+	asr.l	#2,d6			* ãƒ­ãƒ³ã‚°ãƒ¯ãƒ¼ãƒ‰å˜ä½ã‚µã‚¤ã‚º
+	tst.l	d6			* 0 ãƒã‚¤ãƒˆãªã‚‰
+	beq	move_skip		* ã‚¹ã‚­ãƒƒãƒ—    93/5/1
 	subq.l	#1,d6
 move_loop:
 	move.l	(a1)+,(a2)+
@@ -157,13 +157,13 @@ move_skip:
 *
 no_pool:
 *
-* ÅŒã‚Ü‚ÅƒT[ƒ`I—¹
+* æœ€å¾Œã¾ã§ã‚µãƒ¼ãƒçµ‚äº†
 *
-*   ‚È‚©‚Á‚½‚Ì‚ÅƒGƒ‰[I—¹
+*   ãªã‹ã£ãŸã®ã§ã‚¨ãƒ©ãƒ¼çµ‚äº†
 *
 no_memory:
 *
-* ƒƒ‚ƒŠ‚ª‘«‚è‚È‚¢‚Ì‚ÅƒGƒ‰[I—¹
+* ãƒ¡ãƒ¢ãƒªãŒè¶³ã‚Šãªã„ã®ã§ã‚¨ãƒ©ãƒ¼çµ‚äº†
 *
 	moveq.l	#-1,d0
 	rts
