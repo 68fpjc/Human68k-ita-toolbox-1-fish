@@ -1,9 +1,11 @@
-#! A:/bin/MAKE.X -f
-#  Makefile for italib.l
+#  Makefile for ita.l
 
-AS	= A:\usr\pds\HAS.X -i $(INCLUDE)
-LIB	= A:\bin\LIB.X
-RM      = -rm -f
+AS = HAS060
+ASFLAGS = -m 68000 -i $(INCLUDE)
+AR = oar
+AR2 = LIB
+RM = -rm -f
+
 
 INCLUDE = ../include
 
@@ -21,33 +23,29 @@ OBJS = \
 	strfor1.o strforn.o stricmp.o strlen.o strmem.o strmove.o strspc.o \
 	suffix.o tfopen.o tolower.o toupper.o utoa.o utoao.o utoax.o
 
-define newline
-
-endef
-
 ###
 
-.PHONY : all install backup clean clobber
+.PHONY : all clean clobber
 
 %.o : %.s
-	$(AS) $<
+	$(AS) $(ASFLAGS) $<
+
+%.l : %.a
+	$(AR2) $@ $<
 
 ###
 
 all:: ita.l
 
-clobber::
-	$(RM) *.l *.o *.bak
+clean::
+	$(RM) ita.l
+
+clobber:: clean
+	$(RM) *.a *.o *.bak
 
 ###
 
-ita.l: $(OBJS)
-	@echo $@>@files
-	$(foreach i,$?,@echo $i>>@files$(newline))
-	$(LIB) -i @files
-	@$(RM) @files
-
-clean::
-	$(RM) ita.l
+ita.a : $(OBJS)
+	$(AR) $@ $?
 
 ###

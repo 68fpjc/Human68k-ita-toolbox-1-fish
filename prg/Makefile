@@ -1,18 +1,19 @@
-#! A:/bin/MAKE.X -f
 #  Makefile for fish.x
 
-#AS	= A:\bin\AS -i $(INCLUDE)
-AS	= A:\usr\pds\HAS -i $(INCLUDE)
-#LK	= A:\bin\LK -p -i
-LK	= A:\usr\pds\hlk -p ${@|basename}.map
-LIB	= A:\bin\LIB
-BIND	= A:\bin\BIND
-INSTALL = A:\usr\ita\cp -upv
-STRIP   = A:\usr\ita\strip
-CP      = A:\usr\ita\cp
-RM      = -A:\usr\ita\rm -f
+MAKE = make
 
-LKFLAG_STRIP = -x
+AS = HAS060
+ASFLAGS = -m 68000 -i $(INCLUDE)
+LD = hlk
+LDFLAGS	= -p$(@:.x=.map)
+LDFLAGS_STRIP = -x
+AR = oar
+AR2 = LIB
+BIND = BIND.X
+INSTALL = cp -upv
+STRIP = strip
+CP = cp
+RM = -rm -f
 
 VPATH   = ../src
 INCLUDE = ../include
@@ -51,7 +52,11 @@ OBJS_DIR_IO   = pathname.o stat.o
 
 .TERMINAL : *.h *.s
 
-%.o : %.s ; $(AS) $<
+%.o : %.s
+	$(AS) $(ASFLAGS) $<
+
+%.l : %.a
+	$(AR2) $@ $<
 
 ###
 
@@ -64,11 +69,11 @@ backup::
 clean::
 
 clobber::
-	$(RM) *.x *.l *.o *.map *.bak
+	$(RM) *.x *.l *.a *.o *.map *.bak
 
 ###
 
-fish.x: fishing.x fishbody.x
+fish.x : fishing.x fishbody.x
 	$(BIND) -O $@ fishing.x fishbody.x /A+SHR
 
 install::
@@ -78,15 +83,15 @@ clean::
 	$(RM) fish.x
 ###
 
-fishing.x: fish_loader.o
-	$(LK) $(LKFLAG_STRIP) -o $@ $<
+fishing.x : fish_loader.o
+	$(LD) $(LDFLAGS) $(LDFLAGS_STRIP) -o $@ $<
 
 clean::
 	$(RM) fishing.x fishing.map
 
 ###
 
-fishbody.x: fishg.x
+fishbody.x : fishg.x
 	$(CP) fishg.x $@
 	$(STRIP) $@
 
@@ -95,12 +100,17 @@ clean::
 
 ###
 
-fishg.x: $(FILES) $(EXTLIBS)
-	$(LK) -o $@ $(FILES) $(EXTLIBS)
+fishg.x : $(FILES) $(EXTLIBS)
+	$(LD) $(LDFLAGS) -o $@ $^
 	grep bsssize fishg.map
 
 clean::
 	$(RM) fishg.x fishg.map
+
+#
+
+$(EXTLIBS)::
+	cd $(@D); $(MAKE) $(@F)
 
 #
 fish_loader.o main.o b_ctty.o b_dirs.o b_eval.o b_source.o b_srand.o \
@@ -128,19 +138,19 @@ clean::
 	$(RM) *.o
 #
 
-misc.l     : $(OBJS_MISC)
-subst.l    : $(OBJS_SUBST)
-var.l      : $(OBJS_VAR)
-state.l    : $(OBJS_STATE)
-builtin1.l : $(OBJS_BUILTIN1)
-builtin2.l : $(OBJS_BUILTIN2)
-string.l   : $(OBJS_STRING)
-dir_io.l   : $(OBJS_DIR_IO)
+misc.a     : $(OBJS_MISC)
+subst.a    : $(OBJS_SUBST)
+var.a      : $(OBJS_VAR)
+state.a    : $(OBJS_STATE)
+builtin1.a : $(OBJS_BUILTIN1)
+builtin2.a : $(OBJS_BUILTIN2)
+string.a   : $(OBJS_STRING)
+dir_io.a   : $(OBJS_DIR_IO)
 
-misc.l subst.l var.l state.l builtin1.l builtin2.l string.l dir_io.l :
-	$(LIB) $@ $?
+misc.a subst.a var.a state.a builtin1.a builtin2.a string.a dir_io.a :
+	$(AR) $@ $?
 
 clean::
-	$(RM) *.l
+	$(RM) *.a
 
 ###
