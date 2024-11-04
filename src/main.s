@@ -117,6 +117,7 @@ PDB_stackPtr	equ	$f8
 .xref set_shellvar_nul
 .xref get_shellvar
 .xref get_var_value
+.xref freevar
 .xref dupvar
 .xref varsize
 .xref reset_cwd
@@ -4679,8 +4680,9 @@ check_executable_magic_error:
 init_env:
 		movem.l	d1/a0-a1,-(a7)
 		movea.l	a0,a1
-		lea	env_top(a5),a0
-		bsr	xfreep
+		movea.l	env_top(a5),a0
+		bsr	freevar
+		clr.l	env_top(a5)
 		cmpa.l	#-1,a1
 		beq	init_env_done
 
@@ -5898,7 +5900,7 @@ fish_author:	dc.b	'板垣 史彦 ( Itagaki Fumihiko )',0
 
 fish_version:	dc.b	'0',0		*  major version
 		dc.b	'8',0		*  minor version
-		dc.b	'1',0		*  patch level
+		dc.b	'2',0		*  patch level
 
 .even
 statement_table:
